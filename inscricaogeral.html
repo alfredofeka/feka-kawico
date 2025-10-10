@@ -5,88 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Formulário de Inscrição - FEKA KAWIÇO Cursos Técnicos</title>
 <style>
-body {
-  font-family: 'Segoe UI', sans-serif;
-  background: #f4f6f8;
-  margin: 0;
-  padding: 0;
-  color: #333;
-}
-
-header {
-  background: #003366;
-  color: white;
-  padding: 20px;
-  text-align: center;
-  font-size: 1.5em;
-  font-weight: bold;
-}
-
-form {
-  max-width: 600px;
-  margin: 40px auto;
-  background: white;
-  padding: 25px;
-  border-radius: 10px;
-  border: 2px solid #0055a5;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
-}
-
-label {
-  display: block;
-  margin-bottom: 8px;
-  font-weight: bold;
-  color: #003366;
-}
-
-input, select, textarea {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 15px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-button {
-  background: #ffcc00;
-  color: #003366;
-  border: none;
-  padding: 12px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-weight: bold;
-  transition: all 0.3s;
-}
-
-button:hover {
-  background: #ff9900;
-  transform: scale(1.03);
-}
-
-button:active {
-  background: #e68a00;
-  transform: scale(0.97);
-}
-
-.success-message {
-  background: #e0ffe0;
-  color: #006600;
-  border: 1px solid #00aa00;
-  padding: 10px;
-  text-align: center;
-  border-radius: 5px;
-  display: none;
-}
-
-.error-message {
-  background: #ffe0e0;
-  color: #a00000;
-  border: 1px solid #cc0000;
-  padding: 10px;
-  text-align: center;
-  border-radius: 5px;
-  display: none;
-}
+/* Mantive o teu estilo */
+body { font-family: 'Segoe UI', sans-serif; background: #f4f6f8; margin: 0; padding: 0; color: #333; }
+header { background: #003366; color: white; padding: 20px; text-align: center; font-size: 1.5em; font-weight: bold; }
+form { max-width: 600px; margin: 40px auto; background: white; padding: 25px; border-radius: 10px; border: 2px solid #0055a5; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+label { display: block; margin-bottom: 8px; font-weight: bold; color: #003366; }
+input, select, textarea { width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px; }
+button { background: #ffcc00; color: #003366; border: none; padding: 12px 20px; border-radius: 5px; cursor: pointer; font-weight: bold; transition: all 0.3s; }
+button:hover { background: #ff9900; transform: scale(1.03); }
+.success-message { background: #e0ffe0; color: #006600; border: 1px solid #00aa00; padding: 10px; text-align: center; border-radius: 5px; display: none; }
+.error-message { background: #ffe0e0; color: #a00000; border: 1px solid #cc0000; padding: 10px; text-align: center; border-radius: 5px; display: none; }
 </style>
 </head>
 <body>
@@ -96,19 +24,14 @@ button:active {
 <form id="inscricaoForm">
   <label>Nome Completo:</label>
   <input type="text" id="nome" required>
-
   <label>Data de Nascimento:</label>
   <input type="date" id="dataNascimento" required>
-
   <label>E-mail:</label>
   <input type="email" id="email" required>
-
   <label>Telefone:</label>
   <input type="text" id="telefone" required placeholder="+244 9XX XXX XXX">
-
   <label>Endereço:</label>
   <textarea id="endereco" rows="3" required></textarea>
-
   <label>Curso Pretendido:</label>
   <select id="curso" required>
     <option value="">Selecione...</option>
@@ -117,7 +40,6 @@ button:active {
     <option value="Soldador Profissional">Soldador Profissional</option>
     <option value="Gestão de Projectos Industriais">Gestão de Projectos Industriais</option>
   </select>
-
   <label>Nível:</label>
   <select id="nivel" required>
     <option value="">Selecione...</option>
@@ -126,7 +48,6 @@ button:active {
     <option value="Intermédio">Nível 3 - Intermédio</option>
     <option value="Avançado">Nível 4 - Avançado</option>
   </select>
-
   <label>Observações:</label>
   <textarea id="observacoes" rows="3"></textarea>
 
@@ -136,7 +57,7 @@ button:active {
 </form>
 
 <script>
-document.getElementById("inscricaoForm").addEventListener("submit", async (e) => {
+document.getElementById("inscricaoForm").addEventListener("submit", (e) => {
   e.preventDefault();
 
   const dados = {
@@ -151,25 +72,24 @@ document.getElementById("inscricaoForm").addEventListener("submit", async (e) =>
   };
 
   try {
-    const resposta = await fetch("http://127.0.0.1:5000/guardar", {
-      method: "POST",
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify(dados)
-    });
+    // Guardar localmente para login
+    let inscritos = JSON.parse(localStorage.getItem("inscritos") || "[]");
+    inscritos.push(dados);
+    localStorage.setItem("inscritos", JSON.stringify(inscritos));
 
-    if (resposta.ok) {
-      document.getElementById("successMsg").style.display = "block";
-      document.getElementById("errorMsg").style.display = "none";
-      e.target.reset();
-    } else {
-      throw new Error("Falha ao guardar");
-    }
+    document.getElementById("successMsg").style.display="block";
+    document.getElementById("errorMsg").style.display="none";
+    e.target.reset();
+
+    setTimeout(()=>{window.location.href="login.html";},1500);
+
   } catch {
-    document.getElementById("errorMsg").style.display = "block";
-    document.getElementById("successMsg").style.display = "none";
+    document.getElementById("errorMsg").style.display="block";
+    document.getElementById("successMsg").style.display="none";
   }
 });
 </script>
 
 </body>
 </html>
+
