@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Formulário de Inscrição - FEKA KAWIÇO Cursos Técnicos</title>
 <style>
-/* Mantive o teu estilo */
 body { font-family: 'Segoe UI', sans-serif; background: #f4f6f8; margin: 0; padding: 0; color: #333; }
 header { background: #003366; color: white; padding: 20px; text-align: center; font-size: 1.5em; font-weight: bold; }
 form { max-width: 600px; margin: 40px auto; background: white; padding: 25px; border-radius: 10px; border: 2px solid #0055a5; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
@@ -24,14 +23,22 @@ button:hover { background: #ff9900; transform: scale(1.03); }
 <form id="inscricaoForm">
   <label>Nome Completo:</label>
   <input type="text" id="nome" required>
+
   <label>Data de Nascimento:</label>
   <input type="date" id="dataNascimento" required>
+
   <label>E-mail:</label>
   <input type="email" id="email" required>
+
+  <label>Palavra-passe:</label>
+  <input type="password" id="password" placeholder="Escolha uma password" required>
+
   <label>Telefone:</label>
   <input type="text" id="telefone" required placeholder="+244 9XX XXX XXX">
+
   <label>Endereço:</label>
   <textarea id="endereco" rows="3" required></textarea>
+
   <label>Curso Pretendido:</label>
   <select id="curso" required>
     <option value="">Selecione...</option>
@@ -40,6 +47,7 @@ button:hover { background: #ff9900; transform: scale(1.03); }
     <option value="Soldador Profissional">Soldador Profissional</option>
     <option value="Gestão de Projectos Industriais">Gestão de Projectos Industriais</option>
   </select>
+
   <label>Nível:</label>
   <select id="nivel" required>
     <option value="">Selecione...</option>
@@ -48,6 +56,7 @@ button:hover { background: #ff9900; transform: scale(1.03); }
     <option value="Intermédio">Nível 3 - Intermédio</option>
     <option value="Avançado">Nível 4 - Avançado</option>
   </select>
+
   <label>Observações:</label>
   <textarea id="observacoes" rows="3"></textarea>
 
@@ -64,6 +73,7 @@ document.getElementById("inscricaoForm").addEventListener("submit", (e) => {
     nome: document.getElementById("nome").value,
     dataNascimento: document.getElementById("dataNascimento").value,
     email: document.getElementById("email").value,
+    password: document.getElementById("password").value, // password agora salva
     telefone: document.getElementById("telefone").value,
     endereco: document.getElementById("endereco").value,
     curso: document.getElementById("curso").value,
@@ -72,7 +82,6 @@ document.getElementById("inscricaoForm").addEventListener("submit", (e) => {
   };
 
   try {
-    // Guardar localmente para login
     let inscritos = JSON.parse(localStorage.getItem("inscritos") || "[]");
     inscritos.push(dados);
     localStorage.setItem("inscritos", JSON.stringify(inscritos));
@@ -81,7 +90,8 @@ document.getElementById("inscricaoForm").addEventListener("submit", (e) => {
     document.getElementById("errorMsg").style.display="none";
     e.target.reset();
 
-    setTimeout(()=>{window.location.href="login.html";},1500);
+    // Redireciona para login após 1.5s
+    setTimeout(()=>{ window.location.href="login.html"; },1500);
 
   } catch {
     document.getElementById("errorMsg").style.display="block";
