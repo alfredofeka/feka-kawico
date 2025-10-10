@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - ALFEKA Cursos Técnicos</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-blue: #004a80;
+      --secondary-blue: #007bff;
+      --text-dark: #333;
+      --success-green: #28a745;
+      --error-red: #dc3545;
+    }
+    *{margin:0; padding:0; box-sizing:border-box;}
+    body{
+      font-family:'Roboto',sans-serif;
+      background:linear-gradient(135deg,#004a80,#007bff);
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      min-height:100vh;
+      color:var(--text-dark);
+    }
+    .login-box{
+      background:#fff;
+      padding:40px 50px;
+      border-radius:12px;
+      box-shadow:0 10px 25px rgba(0,0,0,0.2);
+      max-width:420px;
+      width:100%;
+      text-align:center;
+    }
+    .login-box h1{
+      font-family:'Montserrat',sans-serif;
+      color:var(--primary-blue);
+      font-size:2em;
+      margin-bottom:15px;
+    }
+    .login-box input{
+      width:100%;
+      padding:12px 15px;
+      margin-bottom:20px;
+      border:1px solid #ccc;
+      border-radius:8px;
+      font-size:1em;
+    }
+    .btn{
+      width:100%;
+      background:var(--secondary-blue);
+      color:white;
+      padding:12px;
+      border:none;
+      border-radius:8px;
+      font-weight:bold;
+      cursor:pointer;
+      font-family:'Montserrat',sans-serif;
+      font-size:1em;
+      transition:0.3s;
+      margin-bottom:10px;
+    }
+    .btn:hover{background:#0056b3; transform:scale(1.02);}
+    .status-msg{margin-top:15px; font-weight:600;}
+    .back-link{margin-top:15px; display:block; color: var(--primary-blue); text-decoration:none; font-weight:600;}
+    .back-link:hover{color: var(--secondary-blue);}
+  </style>
+</head>
+<body>
+
+  <div class="login-box">
+    <h1>Entrar / Registar</h1>
+    <!-- Formulário Sign In -->
+    <form id="loginForm">
+      <input type="text" id="username" placeholder="Nome de utilizador" required>
+      <input type="password" id="password" placeholder="Palavra-passe" required>
+      <button type="submit" class="btn">Sign In</button>
+    </form>
+
+    <div id="status" class="status-msg"></div>
+
+    <!-- Botão Sign Up -->
+    <a href="inscricao.html" class="btn">Sign Up / Inscrever-se</a>
+
+    <a href="index.html" class="back-link">← Voltar ao site</a>
+  </div>
+
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', function(e){
+      e.preventDefault();
+      const user=document.getElementById('username').value.trim();
+      const pass=document.getElementById('password').value.trim();
+      const statusMsg=document.getElementById('status');
+
+      // Exemplo de utilizadores existentes
+      const validUsers=JSON.parse(localStorage.getItem('inscritos') || '[]')
+        .map(u => ({name:u.nome, username:u.email.split('@')[0], password:'1234'})); // senha padrão 1234
+
+      const match=validUsers.find(u=>u.username===user && u.password===pass);
+      if(match){
+        localStorage.setItem("user",JSON.stringify({name:match.name,username:match.username,logged:true}));
+        statusMsg.style.display='block';
+        statusMsg.style.color='var(--success-green)';
+        statusMsg.textContent="✅ Login bem-sucedido! A entrar...";
+        setTimeout(()=>{window.location.href="index.html";},1500);
+      } else {
+        statusMsg.style.display='block';
+        statusMsg.style.color='var(--error-red)';
+        statusMsg.textContent="❌ Utilizador não registado. Clique em Sign Up para se inscrever.";
+      }
+    });
+  </script>
+
+</body>
+</html>
+
+
+
+
