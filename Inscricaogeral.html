@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FEKA KAWIÇO — Inscrição & Validação</title>
+<style>
+  body { font-family:'Segoe UI', sans-serif; background:#f4f4f8; margin:0; padding:0; display:flex; justify-content:center; align-items:flex-start; min-height:100vh;}
+  .container { background:#fff; padding:30px; margin-top:50px; border-radius:12px; box-shadow:0 4px 16px rgba(0,0,0,0.15); max-width:500px; width:100%;}
+  h2 { text-align:center; color:#333; margin-bottom:20px;}
+  label { display:block; margin:10px 0 5px; color:#555;}
+  input, textarea { width:100%; padding:10px 12px; border-radius:8px; border:1px solid #ccc; margin-bottom:15px; font-size:14px;}
+  input[readonly] { background:#e9e9e9;}
+  button { width:100%; background:#4A90E2; color:#fff; padding:12px; border:none; border-radius:8px; font-size:16px; cursor:pointer; transition:all 0.3s ease;}
+  button:disabled { background:#9bbce4; cursor:not-allowed;}
+  button:hover:not(:disabled) { background:#357ABD; transform:translateY(-2px);}
+  .feedback { text-align:center; margin-top:15px; font-weight:bold;}
+  .progress { height:8px; width:100%; background:#ddd; border-radius:4px; overflow:hidden; margin-bottom:20px;}
+  .progress-bar { height:100%; width:0; background:#4A90E2; transition:width 0.3s ease;}
+  .foto-preview { display:block; margin:10px auto 15px; max-width:150px; max-height:150px; border-radius:50%; object-fit:cover; border:2px solid #4A90E2;}
+  .senha-regras { font-size:12px; color:#888; margin-top:-10px; margin-bottom:10px;}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h2>FEKA KAWIÇO — Inscrição & Validação</h2>
+
+  <div class="progress"><div class="progress-bar" id="progressBar"></div></div>
+
+  <form id="formCadastro">
+    <label for="nome">Nome Completo *</label>
+    <input type="text" id="nome" name="nome" required>
+
+    <label for="email">Email *</label>
+    <input type="email" id="email" name="email" required>
+
+    <label for="username">Username</label>
+    <input type="text" id="username" name="username" readonly>
+
+    <label for="cidade">Cidade *</label>
+    <input type="text" id="cidade" name="cidade" required>
+
+    <label for="password">Password *</label>
+    <input type="password" id="password" name="password" required>
+    <div class="senha-regras" id="senhaRegras">A password deve ter letras, números e não conter o seu nome.</div>
+
+    <label for="telefone">Telefone</label>
+    <input type="text" id="telefone" name="telefone">
+
+    <label for="observacoes">Observações</label>
+    <textarea id="observacoes" name="observacoes" rows="3"></textarea>
+
+    <label for="foto">Foto de Perfil</label>
+    <input type="file" id="foto" accept="image/*">
+    <img id="fotoPreview" class="foto-preview" src="" style="display:none;">
+
+    <button type="submit" id="submitBtn">Guardar & Validar</button>
+  </form>
+
+  <div class="feedback" id="feedback"></div>
+</div>
+
+<script>
+const form = document.getElementById('formCadastro');
+const feedback = document.getElementById('feedback');
+const progressBar = document.getElementById('progressBar');
+const submitBtn = document.getElementById('submitBtn');
+const fotoInput = document.getElementById('foto');
+const fotoPreview = document.getElementById('fotoPreview');
+const senhaInput = document.getElementById('password');
+const senhaRegras = document.getElementById('senhaRegras');
+const usernameInput = document.getElementById('username');
+
+// Função para carregar inscritos
+function getInscritos(){
+  return JSON.parse(localStorage.getItem('inscritos_feka')||'[]');
+}
+
+// Função para salvar inscritos
+function saveInscritos(list){
+  localStorage.setItem('inscritos_feka', JSON.stringify(list));
+}
+
+// Gerar username automático
+function gerarUsername(nome){
+  const base = nome.trim().split(' ')[0].toLowerCase();
+  const inscritos = getInscritos();
+  const existentes = inscritos.filter(u=>u.username && u.username.startsWith(base));
+  return existentes.length===0 ? base+'01' : base+String(existentes.length+1).padStart(2,'0');
+}
+
+// Pré-visualização da foto
+fotoInput.addEventListener('change', ()=>{
+  const file = fotoInput.files[0];
+  if(file){
+    const reader = new FileReader();
+    reader.onload = e => { fotoPreview.src=e.target.result; fotoPreview.style.display='block'; };
+    reader.readAsDataURL(file);
+  } else { fotoPreview.src=''; fotoPreview.style.display='none'; }
+});
+
+// Atualizar barra de progresso
+form.addEventListener('input', ()=>{
+  const total = form.querySelectorAll('input[required]').length;
+  let filled=0;
+  form.querySelectorAll('input[required]').forEach(i=>{if(i.value.trim()!=='') filled++;});
+  progressBar.style.width=`${(filled/total)*100}%`;
+});
+
+// Validação de password
+senhaInput.addEventListener('input', ()=>{
+  const val = senhaInput.value;
+  const nome = document.getElementById('nome').value.toLowerCase();
+  const valid = /[A-Za-z]/.test(val) && /\d/.test(val) && !val.toLowerCase().includes(nome.split(' ')[0]);
+  senhaRegras.style.color = valid?'green':'red';
+});
+
+// Atualizar username ao digitar nome
+document.getElementById('nome').addEventListener('input', ()=>{
+  const nome = document.getElementById('nome').value;
+  if(nome.trim()!=='') usernameInput.value = gerarUsername(nome);
+  else usernameInput.value='';
+});
+
+// Submit
+form.addEventListener('submit', e=>{
+  e.preventDefault();
+  feedback.textContent='A validar...'; feedback.style.color='#333';
+  submitBtn.disabled=true;
+
+  const nome = form.nome.value.trim();
+  const email = form.email.value.trim();
+  const username = usernameInput.value;
+  const cidade = form.cidade.value.trim();
+  const password = form.password.value;
+  const telefone = form.telefone.value.trim();
+  const observacoes = form.observacoes.value.trim();
+  const foto = fotoPreview.src || '';
+
+  const inscritos = getInscritos();
+
+  // Verificar duplicados
+  if(inscritos.some(u=>u.email===email)){
+    feedback.textContent='Email já registado.';
+    feedback.style.color='red'; submitBtn.disabled=false; return;
+  }
+  if(inscritos.some(u=>u.nome.toLowerCase()===nome.toLowerCase())){
+    feedback.textContent='Nome completo já registado.';
+    feedback.style.color='red'; submitBtn.disabled=false; return;
+  }
+
+  // Validar password
+  if(!(/[A-Za-z]/.test(password) && /\d/.test(password) && !password.toLowerCase().includes(nome.split(' ')[0].toLowerCase()))){
+    feedback.textContent='Password inválida.';
+    feedback.style.color='red'; submitBtn.disabled=false; return;
+  }
+
+  const novo = {nome,email,username,cidade,password,telefone,observacoes,foto,validado:true,ts:Date.now()};
+  inscritos.push(novo);
+  saveInscritos(inscritos);
+
+  feedback.textContent='Perfil validado com sucesso!'; feedback.style.color='green';
+
+  setTimeout(()=>{
+    window.location.href='index.html';
+  },1500);
+});
+</script>
+</body>
+</html>
