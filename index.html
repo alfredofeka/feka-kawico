@@ -37,7 +37,7 @@ nav ul li a {color:var(--text-light); text-decoration:none; font-weight:600; fon
 nav ul li a:hover {color: var(--secondary-blue);}
 
 /* Hero Slider */
-.hero {position:relative; height:80vh; overflow:hidden; display:flex; align-items:center; justify-content:center; color:var(--text-light);}
+.hero {position:relative; height:40vh; overflow:hidden; display:flex; align-items:center; justify-content:center; color:var(--text-light);}
 .hero-slide {position:absolute; top:0; left:0; width:100%; height:100%; background-size:cover; background-position:center; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; opacity:0; transition:opacity 1s;}
 .hero-slide.active {opacity:1;}
 .hero-slide h1 {font-family:'Montserrat',sans-serif; font-size:3em; margin-bottom:15px; text-shadow:0 2px 8px rgba(0,0,0,0.5);}
@@ -87,7 +87,7 @@ footer p {margin:5px 0;}
       <ul>
         <li><a href="index.html">Início</a></li>
         <li><a href="carreiras.html">Carreira</a></li>
-        <li><a href="cursos.html">Cursos</a></li>
+        <li><a href="index.html">Cursos</a></li>
         <li><a href="sobrenos.html">Sobre Nós</a></li>
         <li><a href="contato.html">Contato</a></li>
       </ul>
@@ -184,59 +184,108 @@ footer p {margin:5px 0;}
 </main>
 
 <div id="news-feed">
-<h2>Notícias & Artigos</h2>
-<div class="news-item">
-  <a href="noticia1.html">
-  <h4>Nova Norma EN1090</h4>
-<p>Aplicação prática e impactos no processo de fabricação.</p>
-  </a>
+  <h2>Notícias & Artigos</h2>
+  <div class="feed-wrapper">
+    <div class="news-item">
+      <a href="noticia1.html">
+        <h4>Nova Norma EN1090</h4>
+        <p>Aplicação prática e impactos no processo de fabricação.</p>
+      </a>
+    </div>
+
+    <div class="news-item">
+      <a href="noticia1.html">
+        <h4>Projeto Offshore em Angola</h4>
+        <p>Desafios e soluções para estruturas complexas.</p>
+      </a>
+    </div>
+
+    <div class="news-item">
+      <a href="noticia1.html">
+        <h4>Academia ALFEKA</h4>
+        <p>Workshops e treinamentos de excelência para estudantes.</p>
+      </a>
+    </div>
+
+    <div class="news-item">
+      <a href="noticia1.html">
+        <h4>Inspeção de Qualidade</h4>
+        <p>Melhores práticas em QA/QC para estruturas metálicas.</p>
+      </a>
+    </div>
+
+    <div class="news-item">
+      <a href="noticia1.html">
+        <h4>Novas Tecnologias CAD/BIM</h4>
+        <p>Integração de softwares modernos no dia a dia do projetista.</p>
+      </a>
+    </div>
+
+    <div class="news-item">
+      <a href="noticia1.html">
+        <h4>Projetos Sustentáveis</h4>
+        <p>Construção eficiente e ambientalmente correta.</p>
+      </a>
+    </div>
+
+    <div class="news-item">
+      <a href="noticia1.html">
+        <h4>Formação Profissional Avançada</h4>
+        <p>Capacitação contínua para engenheiros e técnicos.</p>
+      </a>
+    </div>
+  </div>
 </div>
 
-<div class="news-item">
- <a href="noticia1.html">
- <h4>Projeto Offshore em Angola</h4>
-<p>Desafios e soluções para estruturas complexas.</p>
-  </a>
-</div>
+<style>
+#news-feed {
+  position: fixed;
+  top: 100px;
+  right: 0;
+  width: 300px;
+  height: 80vh;
+  overflow: hidden; /* removemos o scroll normal */
+  background: #fff; /* fundo opaco */
+  box-shadow: -2px 4px 12px rgba(0,0,0,0.15);
+  border-radius: 12px 0 0 12px;
+  padding: 15px;
+}
 
-<div class="news-item">
-<a href="noticia1.html">
- <h4>Academia ALFEKA</h4>
-<p>Workshops e treinamentos de excelência para estudantes.</p>
-  </a>
-</div>
+#news-feed .feed-wrapper {
+  display: flex;
+  flex-direction: column;
+}
 
+#news-feed h2 {
+  text-align: center;
+  font-family: 'Montserrat', sans-serif;
+  color: var(--primary-blue);
+  margin-bottom: 15px;
+  background: #fff; /* garante que o título fique opaco */
+  padding: 5px 0;
+  z-index: 1;
+  position: relative;
+}
+</style>
 
-<div class="news-item">
-<a href="noticia1.html">
-<h4>Inspeção de Qualidade</h4>
-<p>Melhores práticas em QA/QC para estruturas metálicas.</p>
-  </a>
-</div>
+<script>
+// Scroll infinito contínuo da aba lateral
+const feedWrapper = document.querySelector('#news-feed .feed-wrapper');
+const feedItems = feedWrapper.innerHTML;
 
-<div class="news-item">
-<a href="noticia1.html">
-<h4>Novas Tecnologias CAD/BIM</h4><p>Integração de softwares modernos no dia a dia do projetista.</p>
-</a>
-</div>
+// duplicar conteúdo para loop
+feedWrapper.innerHTML += feedItems;
 
+let scrollPos = 0;
+function scrollFeed() {
+  scrollPos += 0.5; // velocidade do scroll
+  if(scrollPos >= feedWrapper.scrollHeight / 2) scrollPos = 0;
+  feedWrapper.style.transform = `translateY(-${scrollPos}px)`;
+  requestAnimationFrame(scrollFeed);
+}
+scrollFeed();
+</script>
 
-<div class="news-item">
-<a href="noticia1.html">
-<h4>Projetos Sustentáveis</h4>
-<p>Construção eficiente e ambientalmente correta.</p>
-</a>
-</div>
-
-<div class="news-item">
-<a href="noticia1.html">
-<h4>Formação Profissional Avançada</h4>
-<p>Capacitação contínua para engenheiros e técnicos.</p>
-</a>
-</div>
-
-
-</div>
 
 <footer>
   <div class="container">

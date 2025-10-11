@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FEKA KAWIÇO - Contato</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary-blue: #004a80;
+  --secondary-blue: #007bff;
+  --text-dark: #333;
+  --text-light: #f4f4f4;
+  --bg-light: #f9f9f9;
+  --bg-dark: #2c3e50;
+  --border-color: #ddd;
+  --hover-light: #e0f2f7;
+  --btn-bg: #007bff;
+  --btn-hover: #0056b3;
+  --btn-yellow: #f7d070;
+  --btn-yellow-hover: #e6c25a;
+  --sidebar-bg: #ffffff;
+  --sidebar-hover: #f0f4f8;
+}
+
+* {margin:0; padding:0; box-sizing:border-box;}
+body {font-family:'Roboto', sans-serif; line-height:1.6; color:var(--text-dark); background-color:var(--bg-light);}
+.container {max-width:1200px; margin:0 auto; padding:0 20px;}
+
+/* Header */
+header {background-color: var(--primary-blue); color: var(--text-light); padding:15px 0; box-shadow:0 2px 10px rgba(0,0,0,0.1);}
+header .container {display:flex; justify-content:space-between; align-items:center;}
+.logo {display:flex; align-items:center; gap:10px;}
+.logo img {height:50px;}
+.logo div {display:flex; flex-direction:column;}
+.logo h1 {font-family:'Montserrat', sans-serif; font-size:1.8em; font-weight:700; margin:0;}
+.logo span {font-size:0.9em; color:#cbd6e0;}
+nav ul {list-style:none; display:flex; align-items:center;}
+nav ul li {margin-left:28px;}
+nav ul li a {color:var(--text-light); text-decoration:none; font-weight:600; font-size:1.05em; transition: color 0.3s;}
+nav ul li a:hover {color: var(--secondary-blue);}
+
+/* Hero Banner */
+.hero {position:relative; height:40vh; overflow:hidden; display:flex; align-items:center; justify-content:center; text-align:center; color:#fff; background-image:url('https://picsum.photos/id/1031/1600/600'); background-size:cover; background-position:center;}
+.hero h1 {font-family:'Montserrat',sans-serif; font-size:2.8em; text-shadow:0 2px 8px rgba(0,0,0,0.5);}
+.hero p {font-size:1.2em; margin-top:15px; text-shadow:0 1px 5px rgba(0,0,0,0.5);}
+
+/* Contato Form */
+#contact {padding:80px 0; display:flex; flex-wrap:wrap; gap:40px; justify-content:center;}
+.contact-form, .contact-info {background:#fff; padding:30px; border-radius:12px; box-shadow:0 4px 15px rgba(0,0,0,0.1); flex:1; min-width:300px; max-width:500px;}
+.contact-form h2, .contact-info h2 {color:var(--primary-blue); margin-bottom:20px; font-family:'Montserrat',sans-serif;}
+.contact-form label {display:block; margin-bottom:5px; font-weight:600;}
+.contact-form input, .contact-form textarea {width:100%; padding:10px; margin-bottom:15px; border:1px solid var(--border-color); border-radius:8px; font-family:'Roboto',sans-serif;}
+.contact-form button {padding:12px 25px; background:var(--btn-yellow); color:var(--primary-blue); border:none; border-radius:8px; cursor:pointer; font-weight:600; transition:all 0.3s;}
+.contact-form button:hover {background:var(--btn-yellow-hover); transform:translateY(-2px);}
+
+/* Map */
+#map {width:100%; height:300px; border-radius:12px; margin-top:20px;}
+
+/* Knowledge Feed Lateral */
+#knowledge-feed {position:fixed; top:100px; right:0; width:320px; height:70vh; overflow:hidden; background:var(--sidebar-bg); box-shadow:-2px 4px 20px rgba(0,0,0,0.2); border-radius:12px 0 0 12px; padding:20px; display:flex; flex-direction:column;}
+#knowledge-feed h2 {text-align:center; font-family:'Montserrat', sans-serif; color:var(--primary-blue); margin-bottom:20px;}
+#knowledge-items {flex:1; overflow:hidden; position:relative;}
+.knowledge-item {margin-bottom:15px; padding:12px; border-radius:8px; background:#f9f9f9; transition:all 0.3s; cursor:pointer;}
+.knowledge-item:hover {background:var(--sidebar-hover); transform:translateX(-3px);}
+.knowledge-item h4 {font-size:1em; margin-bottom:5px; color:var(--primary-blue);}
+.knowledge-item p {font-size:0.9em; color:#555;}
+
+/* Footer */
+footer {background-color:var(--bg-dark); color:var(--text-light); text-align:center; padding:40px 20px;}
+footer p {margin:5px 0;}
+
+@media(max-width:1024px){#knowledge-feed{position:static;width:100%;height:auto;margin-top:40px;}}
+@media(max-width:768px){.hero h1{font-size:2em;} .hero p{font-size:1em;} #contact{flex-direction:column; align-items:center;}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <div class="logo">
+      <img src="FK.png" alt="FK Logo">
+      <div>
+        <h1>FEKA KAWIÇO</h1>
+        <span>Cursos Técnicos - A Terra Natural do Conhecimento</span>
+      </div>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Início</a></li>
+        <li><a href="carreiras.html">Carreira</a></li>
+        <li><a href="index.html">Cursos</a></li>
+        <li><a href="sobrenos.html">Sobre Nós</a></li>
+        <li><a href="contato.html">Contato</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<!-- Hero -->
+<section class="hero">
+  <div>
+    <h1>Fale Conosco</h1>
+    <p>Estamos prontos para ajudar você a crescer profissionalmente!</p>
+  </div>
+</section>
+
+<main class="container" id="contact">
+  <!-- Formulário de Contato -->
+  <div class="contact-form">
+    <h2>Envie sua Mensagem</h2>
+    <form onsubmit="alert('Formulário enviado com sucesso!'); return false;">
+      <label for="name">Nome</label>
+      <input type="text" id="name" name="name" required>
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" required>
+      <label for="subject">Assunto</label>
+      <input type="text" id="subject" name="subject" required>
+      <label for="message">Mensagem</label>
+      <textarea id="message" name="message" rows="5" required></textarea>
+      <button type="submit">Enviar Mensagem</button>
+    </form>
+    <div id="map">
+      <iframe 
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3979.811913245054!2d13.244320!3d-8.839987!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1a51f6e5e0f1f2d5%3A0x72e9a6f4b0d32d0!2sLuanda%2C%20Angola!5e0!3m2!1spt-PT!2sus!4v1700000000000!5m2!1spt-PT!2sus" 
+        width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+  </div>
+
+  <!-- Informações de Contato -->
+  <div class="contact-info">
+    <h2>Informações de Contato</h2>
+    <p><strong>Email:</strong> contato@feka-kawico.com</p>
+    <p><strong>Telefone / WhatsApp:</strong> +244 912 345 678</p>
+    <p><strong>Facebook:</strong> <a href="https://www.facebook.com/alfredofeka" target="_blank">FEKA KAWIÇO</a></p>
+    <p><strong>Endereço:</strong> Rua do Conhecimento, Luanda, Angola</p>
+
+    <h2>Perguntas Frequentes</h2>
+    <p><strong>Como posso me inscrever em um curso?</strong><br>Visite a página do curso desejado e clique em "Inscrever".</p>
+    <p><strong>Como acompanhar meu progresso?</strong><br>Entre na sua conta e veja os módulos concluídos.</p>
+    <p><strong>Suporte via WhatsApp?</strong><br>Envie uma mensagem para +244 912 345 678 para suporte instantâneo.</p>
+  </div>
+</main>
+
+<!-- Feed Conhecimento & Emprego -->
+<div id="knowledge-feed">
+  <h2>Conhecimento & Emprego</h2>
+  <div id="knowledge-items">
+    <div class="knowledge-item" onclick="window.location.href='cv.html'"><h4>Como fazer um CV</h4><p>Dicas práticas para destacar-se.</p></div>
+    <div class="knowledge-item" onclick="window.location.href='trabalhar_conta_propria.html'"><h4>Trabalhar por conta própria</h4><p>Como gerir sua própria carreira.</p></div>
+    <div class="knowledge-item" onclick="window.location.href='procurar_emprego.html'"><h4>Como procurar emprego</h4><p>Estratégias eficientes para conseguir oportunidades.</p></div>
+    <div class="knowledge-item" onclick="window.location.href='crescer_profissionalmente.html'"><h4>Como crescer profissionalmente</h4><p>Desenvolvimento e avanço na carreira.</p></div>
+    <div class="knowledge-item" onclick="window.location.href='dicas_profissionais.html'"><h4>5 dicas que elevam profissionalmente</h4><p>Conselhos práticos para alcançar excelência.</p></div>
+    <div class="knowledge-item" onclick="window.location.href='anuncios_emprego.html'"><h4>10 anúncios de emprego</h4><p>Oportunidades atuais no mercado.</p></div>
+  </div>
+</div>
+
+<footer>
+  <div class="container">
+    <p>&copy; 2025 FEKA KAWIÇO Cursos Técnicos. Todos os direitos reservados.</p>
+    <p>“A Terra Natural do Conhecimento” – Capacitando o futuro da engenharia.</p>
+  </div>
+</footer>
+
+<script>
+// Feed vertical automático
+const feed = document.getElementById('knowledge-items');
+let feedPos = 0;
+let direction = 1; // 1 = down, -1 = up
+
+function scrollFeed(){
+  const maxScroll = feed.scrollHeight - feed.clientHeight;
+  feedPos += direction * 1; // velocidade
+  if(feedPos >= maxScroll) direction = -1;
+  if(feedPos <= 0) direction = 1;
+  feed.scrollTop = feedPos;
+}
+setInterval(scrollFeed, 50);
+</script>
+
+</body>
+</html>
+
