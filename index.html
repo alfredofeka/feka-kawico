@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FEKA KAWIÇO - Cursos Técnicos</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary-blue: #004a80;
+  --secondary-blue: #007bff;
+  --text-dark: #333;
+  --text-light: #f4f4f4;
+  --bg-light: #f9f9f9;
+  --bg-dark: #2c3e50;
+  --border-color: #ddd;
+  --hover-light: #e0f2f7;
+  --btn-bg: #007bff;
+  --btn-hover: #0056b3;
+}
+
+* {margin:0; padding:0; box-sizing:border-box;}
+body {font-family:'Roboto', sans-serif; line-height:1.6; color:var(--text-dark); background-color:var(--bg-light);}
+.container {max-width:1200px; margin:0 auto; padding:0 20px;}
+
+/* Header */
+header {background-color: var(--primary-blue); color: var(--text-light); padding:15px 0; box-shadow:0 2px 10px rgba(0,0,0,0.1);}
+header .container {display:flex; justify-content:space-between; align-items:center;}
+.logo {display:flex; align-items:center; gap:10px;}
+.logo img {height:50px;}
+.logo div {display:flex; flex-direction:column;}
+.logo h1 {font-family:'Montserrat', sans-serif; font-size:1.8em; font-weight:700; margin:0;}
+.logo span {font-size:0.9em; color:#cbd6e0;}
+nav ul {list-style:none; display:flex; align-items:center;}
+nav ul li {margin-left:28px;}
+nav ul li a {color:var(--text-light); text-decoration:none; font-weight:600; font-size:1.05em; transition: color 0.3s;}
+nav ul li a:hover {color: var(--secondary-blue);}
+
+/* Hero Slider */
+.hero {position:relative; height:80vh; overflow:hidden; display:flex; align-items:center; justify-content:center; color:var(--text-light);}
+.hero-slide {position:absolute; top:0; left:0; width:100%; height:100%; background-size:cover; background-position:center; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; opacity:0; transition:opacity 1s;}
+.hero-slide.active {opacity:1;}
+.hero-slide h1 {font-family:'Montserrat',sans-serif; font-size:3em; margin-bottom:15px; text-shadow:0 2px 8px rgba(0,0,0,0.5);}
+.hero-slide p {font-size:1.2em; max-width:800px; margin:0 auto 20px; text-shadow:0 1px 5px rgba(0,0,0,0.5);}
+.hero-slide .hero-btn {padding:12px 25px; background:var(--btn-bg); color:#fff; border:none; border-radius:8px; cursor:pointer; font-weight:600; transition:all 0.3s;}
+.hero-slide .hero-btn:hover {background:var(--btn-hover); transform:translateY(-2px);}
+
+/* Courses Section */
+#cursos {padding:80px 0; display:flex; flex-wrap:wrap; justify-content:center; gap:30px;}
+.curso-card {background:#fff; border-radius:12px; overflow:hidden; width:280px; box-shadow:0 4px 15px rgba(0,0,0,0.1); transition:transform 0.3s; display:flex; flex-direction:column;}
+.curso-card:hover {transform:translateY(-5px);}
+.curso-card img {width:100%; height:180px; object-fit:cover;}
+.curso-card .card-body {padding:15px; flex:1; display:flex; flex-direction:column;}
+.curso-card h3 {font-family:'Montserrat', sans-serif; margin-bottom:10px; color:var(--primary-blue);}
+.curso-card p {flex:1; color:#555; font-size:0.95em; margin-bottom:15px;}
+.curso-card button {padding:10px; border:none; border-radius:8px; background:var(--btn-bg); color:#fff; font-weight:600; cursor:pointer; transition:all 0.3s;}
+.curso-card button:hover {background:var(--btn-hover); transform:translateY(-2px);}
+
+/* News Feed */
+#news-feed {position:fixed; top:100px; right:0; width:300px; height:80vh; overflow-y:auto; background:#fff; box-shadow:-2px 4px 12px rgba(0,0,0,0.15); border-radius:12px 0 0 12px; padding:15px;}
+#news-feed h2 {text-align:center; font-family:'Montserrat', sans-serif; color:var(--primary-blue); margin-bottom:15px;}
+.news-item {margin-bottom:15px; padding-bottom:10px; border-bottom:1px solid #eee;}
+.news-item:last-child {border-bottom:none;}
+.news-item h4 {font-size:1em; margin-bottom:5px;}
+.news-item p {font-size:0.9em; color:#555;}
+
+/* Footer */
+footer {background-color:var(--bg-dark); color:var(--text-light); text-align:center; padding:40px 20px;}
+footer p {margin:5px 0;}
+
+@media(max-width:1024px){#news-feed{position:static;width:100%;height:auto;margin-top:40px;}}
+@media(max-width:768px){.hero-slide h1{font-size:2em;}.hero-slide p{font-size:1em;} #cursos{flex-direction:column; align-items:center;}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <div class="logo">
+      <img src="FK.png" alt="FK Logo">
+      <div>
+        <h1>FEKA KAWIÇO</h1>
+        <span>Cursos Técnicos - A Terra Natural do Conhecimento</span>
+      </div>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Início</a></li>
+        <li><a href="carreiras.html">Carreira</a></li>
+        <li><a href="#cursos">Cursos</a></li>
+        <li><a href="#sobre">Sobre Nós</a></li>
+        <li><a href="#contato">Contato</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+
+  <div class="hero-slide active" style="background-image:url('https://picsum.photos/id/1015/1600/600');">
+    <h1>Conhecimento é Poder</h1>
+    <p>Capacite-se para alcançar excelência profissional em estruturas metálicas.</p>
+    <p>A disciplina molda a competência, a prática transforma em mestre.</p>
+    <a href="inscricao.html" class="hero-btn">Inscreva-se Agora</a>
+  </div>
+  <div class="hero-slide" style="background-image:url('https://picsum.photos/id/1016/1600/600');">
+    <h1>Excelência em Ação</h1>
+    <p>Aprenda com casos reais e domine o conhecimento aplicado.</p>
+    <p>Os detalhes fazem a diferença na execução profissional.</p>
+   <a href="cursos.html" class="hero-btn">Explorar Cursos</a>
+  </div>
+  <div class="hero-slide" style="background-image:url('https://picsum.photos/id/1018/1600/600');">
+    <h1>Aprender é Crescer</h1>
+    <p>Transforme teoria em prática e destaque-se no mercado.</p>
+    <p>Investir em si mesmo é o melhor retorno que existe.</p>
+    <a href="inscricao.html" class="hero-btn">Comece Hoje</a>
+  </div>
+  <div class="hero-slide" style="background-image:url('https://picsum.photos/id/1020/1600/600');">
+    <h1>Profissionalismo Constante</h1>
+    <p>Domine ferramentas modernas e processos de qualidade.</p>
+    <p>Consistência e precisão geram confiança no campo.</p>
+   <a href="cursos.html" class="hero-btn">Ver Cursos</a>
+  </div>
+  <div class="hero-slide" style="background-image:url('https://picsum.photos/id/1024/1600/600');">
+    <h1>O Futuro é Agora</h1>
+    <p>Prepare-se para liderar projetos complexos com segurança.</p>
+    <p>Cada passo de aprendizado aproxima você da maestria.</p>
+    <a href="jornada.html" class="hero-btn">Inicie sua Jornada</a>
+  </div>
+</section>
+
+<main class="container">
+  <section id="cursos">
+
+    <div class="curso-card">
+      <img src="https://picsum.photos/id/1012/400/180" alt="Curso de Desenhador">
+      <div class="card-body">
+        <h3>Desenhador / Projectista</h3>
+        <p>Aprenda a detalhar estruturas metálicas com CAD e Tekla.</p>
+        <a href="inscricao.html?curso=desenhador" class="btn btn-inscricao">Inscrever</a>
+      </div>
+    </div>
+    <div class="curso-card">
+      <img src="https://picsum.photos/id/1013/400/180" alt="Curso de Inglês">
+      <div class="card-body">
+        <h3>Inglês Técnico</h3>
+        <p>Domine termos técnicos e comunicação em engenharia internacional.</p>
+       <a href="inscricao.html?curso=ingles" class="btn btn-inscricao">Inscrever</a>
+      </div>
+    </div>
+    <div class="curso-card">
+      <img src="https://picsum.photos/id/1014/400/180" alt="Curso de Francês">
+      <div class="card-body">
+        <h3>Francês Técnico</h3>
+        <p>Comunique-se eficientemente em projetos internacionais.</p>
+        <a href="inscricao.html?curso=frances" class="btn btn-inscricao">Inscrever</a>
+      </div>
+    </div>
+    <div class="curso-card">
+      <img src="https://picsum.photos/id/1016/400/180" alt="QA & QC">
+      <div class="card-body">
+        <h3>Introdução a QA & QC</h3>
+        <p>Garanta qualidade na fabricação e inspeção de estruturas metálicas.</p>
+        <a href="inscricao.html?curso=qa-qc" class="btn btn-inscricao">Inscrever</a>
+      </div>
+    </div>
+    <div class="curso-card">
+      <img src="https://picsum.photos/id/1018/400/180" alt="Procurement">
+      <div class="card-body">
+        <h3>Procurement</h3>
+        <p>Gerencie materiais e logística para projetos industriais e offshore.</p>
+      <a href="inscricao.html?curso=procurement" class="btn btn-inscricao">Inscrever</a>
+      </div>
+    </div>
+    <div class="curso-card">
+      <img src="https://picsum.photos/id/1020/400/180" alt="Montagem de Estruturas">
+      <div class="card-body">
+        <h3>Montagem de Estruturas</h3>
+        <p>Aprenda técnicas de montagem seguras e eficientes em obra.</p>
+    <a href="inscricao.html?curso=montagem" class="btn btn-inscricao">Inscrever</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div id="news-feed">
+<h2>Notícias & Artigos</h2>
+<div class="news-item">
+  <a href="noticia1.html">
+  <h4>Nova Norma EN1090</h4>
+<p>Aplicação prática e impactos no processo de fabricação.</p>
+  </a>
+</div>
+
+<div class="news-item">
+ <a href="noticia1.html">
+ <h4>Projeto Offshore em Angola</h4>
+<p>Desafios e soluções para estruturas complexas.</p>
+  </a>
+</div>
+
+<div class="news-item">
+<a href="noticia1.html">
+ <h4>Academia ALFEKA</h4>
+<p>Workshops e treinamentos de excelência para estudantes.</p>
+  </a>
+</div>
+
+
+<div class="news-item">
+<a href="noticia1.html">
+<h4>Inspeção de Qualidade</h4>
+<p>Melhores práticas em QA/QC para estruturas metálicas.</p>
+  </a>
+</div>
+
+<div class="news-item">
+<a href="noticia1.html">
+<h4>Novas Tecnologias CAD/BIM</h4><p>Integração de softwares modernos no dia a dia do projetista.</p>
+</a>
+</div>
+
+
+<div class="news-item">
+<a href="noticia1.html">
+<h4>Projetos Sustentáveis</h4>
+<p>Construção eficiente e ambientalmente correta.</p>
+</a>
+</div>
+
+<div class="news-item">
+<a href="noticia1.html">
+<h4>Formação Profissional Avançada</h4>
+<p>Capacitação contínua para engenheiros e técnicos.</p>
+</a>
+</div>
+
+
+</div>
+
+<footer>
+  <div class="container">
+    <p>&copy; 2025 FEKA KAWIÇO Cursos Técnicos. Todos os direitos reservados.</p>
+    <p>“A Terra Natural do Conhecimento” – Capacitando o futuro da engenharia.</p>
+  </div>
+</footer>
+
+<script>
+// Hero slider automático
+const slides = document.querySelectorAll('.hero-slide');
+let currentSlide = 0;
+function showSlide(index) {
+  slides.forEach((slide,i)=>slide.classList.remove('active'));
+  slides[index].classList.add('active');
+}
+function nextSlide() {
+  currentSlide = (currentSlide+1)%slides.length;
+  showSlide(currentSlide);
+}
+setInterval(nextSlide, 5000);
+
+// Botões cursos responsivos
+document.querySelectorAll('.curso-card button').forEach(btn=>{
+  btn.addEventListener('click', ()=>alert('Funcionalidade de inscrição será implementada no backend.'));
+});
+</script>
+
+</body>
+</html>
+
+
