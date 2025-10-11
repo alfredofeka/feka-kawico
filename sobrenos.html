@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FEKA KAWIÇO - Sobre Nós</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary-blue: #004a80;
+  --secondary-blue: #007bff;
+  --text-dark: #333;
+  --text-light: #f4f4f4;
+  --bg-light: #f9f9f9;
+  --bg-dark: #2c3e50;
+  --border-color: #ddd;
+  --hover-light: #e0f2f7;
+  --btn-bg: #007bff;
+  --btn-hover: #0056b3;
+  --btn-yellow: #f7d070;
+  --btn-yellow-hover: #e6c25a;
+  --sidebar-bg: #ffffff;
+  --sidebar-hover: #f0f4f8;
+}
+
+* {margin:0; padding:0; box-sizing:border-box;}
+body {font-family:'Roboto', sans-serif; line-height:1.6; color:var(--text-dark); background-color:var(--bg-light);}
+.container {max-width:1200px; margin:0 auto; padding:0 20px;}
+
+/* Header */
+header {background-color: var(--primary-blue); color: var(--text-light); padding:15px 0; box-shadow:0 2px 10px rgba(0,0,0,0.1);}
+header .container {display:flex; justify-content:space-between; align-items:center;}
+.logo {display:flex; align-items:center; gap:10px;}
+.logo img {height:50px;}
+.logo div {display:flex; flex-direction:column;}
+.logo h1 {font-family:'Montserrat', sans-serif; font-size:1.8em; font-weight:700; margin:0;}
+.logo span {font-size:0.9em; color:#cbd6e0;}
+nav ul {list-style:none; display:flex; align-items:center;}
+nav ul li {margin-left:28px;}
+nav ul li a {color:var(--text-light); text-decoration:none; font-weight:600; font-size:1.05em; transition: color 0.3s;}
+nav ul li a:hover {color: var(--secondary-blue);}
+
+/* Hero Banner */
+.hero {
+  position:relative;
+  height:50vh;
+  background-image:url('https://picsum.photos/id/1052/1600/600');
+  background-size:cover;
+  background-position:center;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  color:#fff;
+  box-shadow:inset 0 0 0 1000px rgba(0,0,0,0.3);
+}
+.hero h1 {font-family:'Montserrat',sans-serif; font-size:3em; margin-bottom:15px; text-shadow:0 2px 8px rgba(0,0,0,0.5);}
+.hero p {font-size:1.3em; max-width:900px; margin:10px auto; text-shadow:0 1px 5px rgba(0,0,0,0.5);}
+.hero-btn {padding:12px 25px; background:var(--btn-yellow); color: var(--primary-blue); border:none; border-radius:8px; cursor:pointer; font-weight:600; transition:all 0.3s; margin-top:20px;}
+.hero-btn:hover {background:var(--btn-yellow-hover); transform:translateY(-2px);}
+
+/* Sobre Nós Conteúdo */
+#sobre-nos {padding:80px 0; display:flex; flex-direction:column; gap:60px;}
+.section {display:flex; flex-wrap:wrap; align-items:center; gap:40px;}
+.section img {flex:1; max-width:500px; border-radius:12px; box-shadow:0 6px 15px rgba(0,0,0,0.1);}
+.section .text {flex:1;}
+.section .text h2 {font-family:'Montserrat',sans-serif; font-size:2em; color:var(--primary-blue); margin-bottom:15px;}
+.section .text p {font-size:1.05em; color:#555; margin-bottom:10px; line-height:1.7;}
+.section .text button {padding:10px 20px; background:var(--btn-bg); color:#fff; border:none; border-radius:8px; cursor:pointer; font-weight:600; transition:all 0.3s; margin-top:15px;}
+.section .text button:hover {background:var(--btn-hover); transform:translateY(-2px);}
+
+/* Sidebar Conhecimento & Emprego */
+#knowledge-feed {
+    position:fixed;
+    top:100px;
+    right:0;
+    width:320px;
+    height:80vh;
+    overflow-y:auto;
+    background:var(--sidebar-bg);
+    box-shadow:-2px 4px 20px rgba(0,0,0,0.2);
+    border-radius:12px 0 0 12px;
+    padding:20px;
+    font-family:'Roboto', sans-serif;
+}
+#knowledge-feed h2 {text-align:center; font-family:'Montserrat', sans-serif; color:var(--primary-blue); margin-bottom:20px;}
+.knowledge-item {
+    margin-bottom:15px;
+    padding:12px;
+    border-radius:8px;
+    background:#f9f9f9;
+    transition:all 0.3s;
+    cursor:pointer;
+}
+.knowledge-item:hover {
+    background:var(--sidebar-hover);
+    transform:translateX(-3px);
+}
+.knowledge-item h4 {font-size:1em; margin-bottom:5px; color:var(--primary-blue);}
+.knowledge-item p {font-size:0.9em; color:#555;}
+
+/* Footer */
+footer {background-color:var(--bg-dark); color:var(--text-light); text-align:center; padding:40px 20px;}
+footer p {margin:5px 0;}
+
+@media(max-width:1024px){#knowledge-feed{position:static;width:100%;height:auto;margin-top:40px;}}
+@media(max-width:768px){.hero h1{font-size:2em;} .hero p{font-size:1em;} .section{flex-direction:column; text-align:center;} .section img{max-width:100%;}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <div class="logo">
+      <img src="FK.png" alt="FK Logo">
+      <div>
+        <h1>FEKA KAWIÇO</h1>
+        <span>Cursos Técnicos - A Terra Natural do Conhecimento</span>
+      </div>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Início</a></li>
+        <li><a href="carreira.html">Carreira</a></li>
+        <li><a href="sobrenos.html">Sobre Nós</a></li>
+        <li><a href="#contato">Contato</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <h1>Conhecimento, Propósito e Excelência</h1>
+  <p>Somos a ponte entre jovens talentos e carreiras de impacto, capacitando cada indivíduo a ser protagonista da sua história.</p>
+  <button class="hero-btn" onclick="window.location.href='carreira.html'">Descubra nossas Carreiras</button>
+</section>
+
+<main class="container" id="sobre-nos">
+  <div class="section">
+    <img src="https://picsum.photos/id/1060/500/350" alt="Missão e Valores">
+    <div class="text">
+      <h2>Missão e Valores</h2>
+      <p>Nossa missão é desenvolver profissionais altamente capacitados, promovendo ética, competência e inovação em cada etapa de aprendizagem.</p>
+      <p>Valorizamos disciplina, dedicação e a busca constante pelo crescimento pessoal e coletivo.</p>
+      <button onclick="window.location.href='valores.html'">Saiba Mais</button>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="text">
+      <h2>Visão</h2>
+      <p>Ser reconhecido como referência na formação técnica e profissional, impactando positivamente a vida de jovens, famílias e o desenvolvimento do país.</p>
+      <p>Cada carreira é um passo para construir um futuro de oportunidades e realizações.</p>
+      <button onclick="window.location.href='visao.html'">Saiba Mais</button>
+    </div>
+    <img src="https://picsum.photos/id/1061/500/350" alt="Visão da Instituição">
+  </div>
+
+  <div class="section">
+    <img src="https://picsum.photos/id/1062/500/350" alt="Nosso Propósito">
+    <div class="text">
+      <h2>Propósito</h2>
+      <p>Inspirar cada pessoa a descobrir sua força interior e construir uma carreira sólida, independente, e com impacto positivo no país e no mundo.</p>
+      <p>Acreditamos que a educação transforma vidas e gera oportunidades ilimitadas para aqueles que investem em si mesmos.</p>
+      <button onclick="window.location.href='proposito.html'">Saiba Mais</button>
+    </div>
+  </div>
+</main>
+
+<div id="knowledge-feed">
+  <h2>Conhecimento & Emprego</h2>
+  <div class="knowledge-item" onclick="window.location.href='cv.html'"><h4>Como fazer um CV</h4><p>Dicas práticas para destacar-se.</p></div>
+  <div class="knowledge-item" onclick="window.location.href='trabalhar_conta_propria.html'"><h4>Trabalhar por conta própria</h4><p>Como gerir sua própria carreira.</p></div>
+  <div class="knowledge-item" onclick="window.location.href='procurar_emprego.html'"><h4>Como procurar emprego</h4><p>Estratégias eficientes para conseguir oportunidades.</p></div>
+  <div class="knowledge-item" onclick="window.location.href='crescer_profissionalmente.html'"><h4>Como crescer profissionalmente</h4><p>Desenvolvimento e avanço na carreira.</p></div>
+  <div class="knowledge-item" onclick="window.location.href='dicas_profissionais.html'"><h4>5 dicas que elevam profissionalmente</h4><p>Conselhos práticos para alcançar excelência.</p></div>
+  <div class="knowledge-item" onclick="window.location.href='anuncios_emprego.html'"><h4>10 anúncios de emprego</h4><p>Oportunidades atuais no mercado.</p></div>
+</div>
+
+<footer>
+  <div class="container">
+    <p>&copy; 2025 FEKA KAWIÇO Cursos Técnicos. Todos os direitos reservados.</p>
+    <p>“A Terra Natural do Conhecimento” – Capacitando o futuro da engenharia.</p>
+  </div>
+</footer>
+
+</body>
+</html>
