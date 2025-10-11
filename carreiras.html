@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FEKA KAWIÇO - Carreiras Profissionais</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary-blue: #004a80;
+  --secondary-blue: #007bff;
+  --text-dark: #333;
+  --text-light: #f4f4f4;
+  --bg-light: #f9f9f9;
+  --bg-dark: #2c3e50;
+  --border-color: #ddd;
+  --hover-light: #e0f2f7;
+  --btn-bg: #007bff;
+  --btn-hover: #0056b3;
+  --btn-yellow: #f7d070;
+  --btn-yellow-hover: #e6c25a;
+  --sidebar-bg: #ffffff;
+  --sidebar-hover: #f0f4f8;
+}
+
+* {margin:0; padding:0; box-sizing:border-box;}
+body {font-family:'Roboto', sans-serif; line-height:1.6; color:var(--text-dark); background-color:var(--bg-light);}
+.container {max-width:1200px; margin:0 auto; padding:0 20px;}
+
+/* Header */
+header {background-color: var(--primary-blue); color: var(--text-light); padding:15px 0; box-shadow:0 2px 10px rgba(0,0,0,0.1);}
+header .container {display:flex; justify-content:space-between; align-items:center;}
+.logo {display:flex; align-items:center; gap:10px;}
+.logo img {height:50px;}
+.logo div {display:flex; flex-direction:column;}
+.logo h1 {font-family:'Montserrat', sans-serif; font-size:1.8em; font-weight:700; margin:0;}
+.logo span {font-size:0.9em; color:#cbd6e0;}
+nav ul {list-style:none; display:flex; align-items:center;}
+nav ul li {margin-left:28px;}
+nav ul li a {color:var(--text-light); text-decoration:none; font-weight:600; font-size:1.05em; transition: color 0.3s;}
+nav ul li a:hover {color: var(--secondary-blue);}
+
+/* Hero Slider */
+.hero {position:relative; height:60vh; overflow:hidden; display:flex; align-items:center; justify-content:center; color:var(--text-light);}
+.hero-slide {position:absolute; top:0; left:0; width:100%; height:100%; background-size:cover; background-position:center; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; opacity:0; transition:opacity 1s;}
+.hero-slide.active {opacity:1;}
+.hero-slide h1 {
+    font-family:'Montserrat',sans-serif;
+    font-size:2.5em;
+    margin-bottom:15px;
+    color: #fff; 
+    text-shadow:0 2px 8px rgba(0,0,0,0.5);
+}
+.hero-slide p {
+    font-size:1.2em;
+    max-width:800px;
+    margin:5px auto;
+    color: #fff;
+    text-shadow:0 1px 5px rgba(0,0,0,0.5);
+    display:none;
+}
+.hero-btn {
+    padding:12px 25px;
+    background:var(--btn-yellow);
+    color: var(--primary-blue);
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:600;
+    transition:all 0.3s;
+}
+.hero-btn:hover {background:var(--btn-yellow-hover); transform:translateY(-2px);}
+
+/* Carreiras Section */
+#carreiras {padding:80px 0; display:flex; flex-wrap:wrap; justify-content:center; gap:30px;}
+.carreira-card {background:#fff; border-radius:12px; overflow:hidden; width:280px; box-shadow:0 4px 15px rgba(0,0,0,0.1); transition:transform 0.3s; display:flex; flex-direction:column;}
+.carreira-card:hover {transform:translateY(-5px);}
+.carreira-card img {width:100%; height:180px; object-fit:cover; cursor:pointer;}
+.carreira-card .card-body {padding:15px; flex:1; display:flex; flex-direction:column;}
+.carreira-card h3 {font-family:'Montserrat', sans-serif; margin-bottom:10px; color:var(--primary-blue);}
+.carreira-card p {flex:1; color:#555; font-size:0.95em; margin-bottom:15px;}
+.carreira-card button {padding:10px; border:none; border-radius:8px; background:var(--btn-bg); color:#fff; font-weight:600; cursor:pointer; transition:all 0.3s;}
+.carreira-card button:hover {background:var(--btn-hover); transform:translateY(-2px);}
+
+/* Sidebar Conhecimento & Emprego */
+#knowledge-feed {
+    position:fixed;
+    top:100px;
+    right:0;
+    width:320px;
+    height:80vh;
+    overflow-y:auto;
+    background:var(--sidebar-bg);
+    box-shadow:-2px 4px 20px rgba(0,0,0,0.2);
+    border-radius:12px 0 0 12px;
+    padding:20px;
+    font-family:'Roboto', sans-serif;
+}
+#knowledge-feed h2 {text-align:center; font-family:'Montserrat', sans-serif; color:var(--primary-blue); margin-bottom:20px;}
+.knowledge-item {
+    margin-bottom:15px;
+    padding:12px;
+    border-radius:8px;
+    background:#f9f9f9;
+    transition:all 0.3s;
+    cursor:pointer;
+}
+.knowledge-item:hover {
+    background:var(--sidebar-hover);
+    transform:translateX(-3px);
+}
+.knowledge-item h4 {font-size:1em; margin-bottom:5px; color:var(--primary-blue);}
+.knowledge-item p {font-size:0.9em; color:#555;}
+
+/* Footer */
+footer {background-color:var(--bg-dark); color:var(--text-light); text-align:center; padding:40px 20px;}
+footer p {margin:5px 0;}
+
+@media(max-width:1024px){#knowledge-feed{position:static;width:100%;height:auto;margin-top:40px;}}
+@media(max-width:768px){.hero-slide h1{font-size:2em;}.hero-slide p{font-size:1em;} #carreiras{flex-direction:column; align-items:center;}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <div class="logo">
+      <img src="FK.png" alt="FK Logo">
+      <div>
+        <h1>FEKA KAWIÇO</h1>
+        <span>Cursos Técnicos - A Terra Natural do Conhecimento</span>
+      </div>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Início</a></li>
+        <li><a href="carreira.html">Carreira</a></li>
+        <li><a href="#carreiras">Cursos</a></li>
+        <li><a href="#sobre">Sobre Nós</a></li>
+        <li><a href="#contato">Contato</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <a href="sobre_carreira.html" class="hero-slide-link">
+    <div class="hero-slide active" style="background-image:url('https://picsum.photos/id/1015/1600/600');">
+      <h1>Comece Cedo, Cresça Sempre</h1>
+      <p class="slide-text">Invista em você desde jovem e conquiste seu espaço profissional.</p>
+      <p class="slide-text">Desenvolva competências sólidas e seja referência.</p>
+      <p class="slide-text">O futuro é construído agora.</p>
+      <p class="slide-text">Seja protagonista da sua carreira.</p>
+      <button class="hero-btn">Descubra sua Carreira</button>
+    </div>
+  </a>
+  <a href="profissionalismo.html" class="hero-slide-link">
+    <div class="hero-slide" style="background-image:url('https://picsum.photos/id/1016/1600/600');">
+      <h1>Profissionalismo é Poder</h1>
+      <p class="slide-text">Domine sua área de atuação e destaque-se no mercado.</p>
+      <p class="slide-text">Prática e conhecimento são aliados essenciais.</p>
+      <p class="slide-text">Aprender sempre, liderar com excelência.</p>
+      <p class="slide-text">Transforme esforço em reconhecimento.</p>
+      <button class="hero-btn">Descubra sua Carreira</button>
+    </div>
+  </a>
+  <!-- Adicione mais slides até 10 imagens -->
+</section>
+
+<main class="container">
+  <section id="carreiras">
+    <div class="carreira-card">
+      <img src="https://picsum.photos/id/1012/400/180" alt="Desenhador / Projectista" onclick="window.location.href='desenhador.html'">
+      <div class="card-body">
+        <h3>Desenhador / Projectista</h3>
+        <p>Aprenda a detalhar estruturas metálicas com CAD e Tekla.</p>
+        <button onclick="window.location.href='desenhador.html'">Saiba Mais</button>
+      </div>
+    </div>
+    <div class="carreira-card">
+      <img src="https://picsum.photos/id/1013/400/180" alt="Inglês Técnico" onclick="window.location.href='ingles.html'">
+      <div class="card-body">
+        <h3>Inglês Técnico</h3>
+        <p>Domine termos técnicos e comunicação em engenharia internacional.</p>
+        <button onclick="window.location.href='ingles.html'">Saiba Mais</button>
+      </div>
+    </div>
+    <div class="carreira-card">
+      <img src="https://picsum.photos/id/1014/400/180" alt="Francês Técnico" onclick="window.location.href='frances.html'">
+      <div class="card-body">
+        <h3>Francês Técnico</h3>
+        <p>Comunique-se eficientemente em projetos internacionais.</p>
+        <button onclick="window.location.href='frances.html'">Saiba Mais</button>
+      </div>
+    </div>
+    <div class="carreira-card">
+      <img src="https://picsum.photos/id/1016/400/180" alt="Introdução a QA & QC" onclick="window.location.href='qa_qc.html'">
+      <div class="card-body">
+        <h3>Introdução a QA & QC</h3>
+        <p>Garanta qualidade na fabricação e inspeção de estruturas metálicas.</p>
+        <button onclick="window.location.href='qa_qc.html'">Saiba Mais</button>
+      </div>
+    </div>
+    <div class="carreira-card">
+      <img src="https://picsum.photos/id/1018/400/180" alt="Procurement" onclick="window.location.href='procurement.html'">
+      <div class="card-body">
+        <h3>Procurement</h3>
+        <p>Gerencie materiais e logística para projetos industriais e offshore.</p>
+        <button onclick="window.location.href='procurement.html'">Saiba Mais</button>
+      </div>
+    </div>
+    <div class="carreira-card">
+      <img src="https://picsum.photos/id/1020/400/180" alt="Montagem de Estruturas" onclick="window.location.href='montagem.html'">
+      <div class="card-body">
+        <h3>Montagem de Estruturas</h3>
+        <p>Aprenda técnicas de montagem seguras e eficientes em obra.</p>
+        <button onclick="window.location.href='montagem.html'">Saiba Mais</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div id="knowledge-feed">
+  <h2>Conhecimento & Emprego</h2>
+  <div class="knowledge-item" onclick="window.location.href='cv.html'"><h4>Como fazer um CV</h4><p>Dicas práticas para destacar-se.</p></div>
+  <div class="knowledge-item" onclick="window.location.href='trabalhar_conta_propria.html'"><h4>Trabalhar por conta própria</h4><p>Como gerir sua própria carreira.</p></div>
+  <div class="knowledge-item" onclick="window.location.href='procurar_emprego.html'"><h4>Como procurar emprego</h4><p>Estratégias eficientes para conseguir oportunidades.</p></div>
+  <div class="knowledge-item" onclick="window.location.href='crescer_profissionalmente.html'"><h4>Como crescer profissionalmente</h4><p>Desenvolvimento e avanço na carreira.</p></div>
+  <div class="knowledge-item" onclick="window.location.href='dicas_profissionais.html'"><h4>5 dicas que elevam profissionalmente</h4><p>Conselhos práticos para alcançar excelência.</p></div>
+  <div class="knowledge-item" onclick="window.location.href='anuncios_emprego.html'"><h4>10 anúncios de emprego</h4><p>Oportunidades atuais no mercado.</p></div>
+</div>
+
+<footer>
+  <div class="container">
+    <p>&copy; 2025 FEKA KAWIÇO Cursos Técnicos. Todos os direitos reservados.</p>
+    <p>“A Terra Natural do Conhecimento” – Capacitando o futuro da engenharia.</p>
+  </div>
+</footer>
+
+<script>
+// Hero slider automático com rotação de frases
+const slides = document.querySelectorAll('.hero-slide');
+let currentSlide = 0;
+
+function showSlide(index){
+  slides.forEach((slide,i)=>{
+    slide.classList.remove('active');
+    const texts = slide.querySelectorAll('.slide-text');
+    texts.forEach(t=>t.style.display='none');
+  });
+  slides[index].classList.add('active');
+
+  const texts = slides[index].querySelectorAll('.slide-text');
+  texts.forEach((t,i)=>setTimeout(()=>{t.style.display='block'}, i*4000));
+}
+
+function nextSlide(){
+  currentSlide = (currentSlide+1)%slides.length;
+  showSlide(currentSlide);
+}
+
+setInterval(nextSlide, 15000); // cada slide 15 segundos
+showSlide(0);
+</script>
+
+</body>
+</html>
+
+
+
