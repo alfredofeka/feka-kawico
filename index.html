@@ -1,326 +1,672 @@
 <!DOCTYPE html>
 <html lang="pt-PT">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FEKA KAWIÇO - Cursos Técnicos</title>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
-<style>
-:root {
-  --primary-blue: #004a80;
-  --secondary-blue: #007bff;
-  --text-dark: #333;
-  --text-light: #f4f4f4;
-  --bg-light: #f9f9f9;
-  --bg-dark: #2c3e50;
-  --border-color: #ddd;
-  --hover-light: #e0f2f7;
-  --btn-bg: #007bff;
-  --btn-hover: #0056b3;
-}
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FEKA KAWIÇO - Cursos Técnicos</title>
+    <style>
+        /* Variáveis de Cor */
+        :root {
+            --primary-blue: #004a80;
+            --secondary-blue: #007bff;
+            --text-dark: #333;
+            --text-light: #f4f4f4;
+            --bg-light: #f9f9f9;
+            --bg-dark: #2c3e50;
+            --border-color: #ddd;
+            --hover-light: #e0f2f7;
+            --btn-bg: #007bff;
+            --btn-hover: #0056b3;
+        }
 
-* {margin:0; padding:0; box-sizing:border-box;}
-body {font-family:'Roboto', sans-serif; line-height:1.6; color:var(--text-dark); background-color:var(--bg-light);}
-.container {max-width:1200px; margin:0 auto; padding:0 20px;}
+        /* Reset e Base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-/* Header */
-header {background-color: var(--primary-blue); color: var(--text-light); padding:15px 0; box-shadow:0 2px 10px rgba(0,0,0,0.1);}
-header .container {display:flex; justify-content:space-between; align-items:center;}
-.logo {display:flex; align-items:center; gap:10px;}
-.logo img {height:50px;}
-.logo div {display:flex; flex-direction:column;}
-.logo h1 {font-family:'Montserrat', sans-serif; font-size:1.8em; font-weight:700; margin:0;}
-.logo span {font-size:0.9em; color:#cbd6e0;}
-nav ul {list-style:none; display:flex; align-items:center;}
-nav ul li {margin-left:28px;}
-nav ul li a {color:var(--text-light); text-decoration:none; font-weight:600; font-size:1.05em; transition: color 0.3s;}
-nav ul li a:hover {color: var(--secondary-blue);}
+        /* Fontes Padrão: Substituído 'Roboto' e 'Montserrat' por fontes de sistema para garantir offline */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background-color: var(--bg-light);
+        }
 
-/* Hero Slider */
-.hero {position:relative; height:40vh; overflow:hidden; display:flex; align-items:center; justify-content:center; color:var(--text-light);}
-.hero-slide {position:absolute; top:0; left:0; width:100%; height:100%; background-size:cover; background-position:center; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; opacity:0; transition:opacity 1s;}
-.hero-slide.active {opacity:1;}
-.hero-slide h1 {font-family:'Montserrat',sans-serif; font-size:3em; margin-bottom:15px; text-shadow:0 2px 8px rgba(0,0,0,0.5);}
-.hero-slide p {font-size:1.2em; max-width:800px; margin:0 auto 20px; text-shadow:0 1px 5px rgba(0,0,0,0.5);}
-.hero-slide .hero-btn {padding:12px 25px; background:var(--btn-bg); color:#fff; border:none; border-radius:8px; cursor:pointer; font-weight:600; transition:all 0.3s;}
-.hero-slide .hero-btn:hover {background:var(--btn-hover); transform:translateY(-2px);}
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
 
-/* Courses Section */
-#cursos {padding:80px 0; display:flex; flex-wrap:wrap; justify-content:center; gap:30px;}
-.curso-card {background:#fff; border-radius:12px; overflow:hidden; width:280px; box-shadow:0 4px 15px rgba(0,0,0,0.1); transition:transform 0.3s; display:flex; flex-direction:column;}
-.curso-card:hover {transform:translateY(-5px);}
-.curso-card img {width:100%; height:180px; object-fit:cover;}
-.curso-card .card-body {padding:15px; flex:1; display:flex; flex-direction:column;}
-.curso-card h3 {font-family:'Montserrat', sans-serif; margin-bottom:10px; color:var(--primary-blue);}
-.curso-card p {flex:1; color:#555; font-size:0.95em; margin-bottom:15px;}
-.curso-card button {padding:10px; border:none; border-radius:8px; background:var(--btn-bg); color:#fff; font-weight:600; cursor:pointer; transition:all 0.3s;}
-.curso-card button:hover {background:var(--btn-hover); transform:translateY(-2px);}
+        /* Header */
+        header {
+            background-color: var(--primary-blue);
+            color: var(--text-light);
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky; /* Sticky para melhor UX em mobile */
+            top: 0;
+            z-index: 1000;
+        }
 
-/* News Feed */
-#news-feed {position:fixed; top:100px; right:0; width:300px; height:80vh; overflow-y:auto; background:#fff; box-shadow:-2px 4px 12px rgba(0,0,0,0.15); border-radius:12px 0 0 12px; padding:15px;}
-#news-feed h2 {text-align:center; font-family:'Montserrat', sans-serif; color:var(--primary-blue); margin-bottom:15px;}
-.news-item {margin-bottom:15px; padding-bottom:10px; border-bottom:1px solid #eee;}
-.news-item:last-child {border-bottom:none;}
-.news-item h4 {font-size:1em; margin-bottom:5px;}
-.news-item p {font-size:0.9em; color:#555;}
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap; /* Permite que o logo e a nav quebrem a linha em telas pequenas */
+        }
 
-/* Footer */
-footer {background-color:var(--bg-dark); color:var(--text-light); text-align:center; padding:40px 20px;}
-footer p {margin:5px 0;}
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
 
-@media(max-width:1024px){#news-feed{position:static;width:100%;height:auto;margin-top:40px;}}
-@media(max-width:768px){.hero-slide h1{font-size:2em;}.hero-slide p{font-size:1em;} #cursos{flex-direction:column; align-items:center;}}
-</style>
+        /* Removida a imagem externa. É necessário ter a imagem localmente (FK.png) */
+        .logo img {
+            height: 50px;
+            /* Se for usar a imagem inline, descomente e ajuste */
+            /* Se a imagem for local, mantenha o caminho original: src="./FEKA KAWIÇO - Cursos Técnicos_files/FK.png" */
+        }
+
+        .logo div {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo h1 {
+            font-family: inherit; /* Usa a fonte do body */
+            font-size: 1.8em;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .logo span {
+            font-size: 0.9em;
+            color: #cbd6e0;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            align-items: center;
+            /* Adicionado flex-wrap para responsividade da navegação */
+            flex-wrap: wrap; 
+            justify-content: center; /* Centraliza em telas pequenas */
+        }
+
+        nav ul li {
+            margin-left: 20px; /* Reduzido o margin para telas menores */
+            margin-top: 5px; /* Adicionado para quebrar a linha no mobile */
+        }
+
+        nav ul li a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.05em;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: var(--secondary-blue);
+        }
+
+        /* Hero Slider */
+        .hero {
+            position: relative;
+            height: 40vh;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-light);
+        }
+
+        .hero-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 1s;
+        }
+
+        .hero-slide.active {
+            opacity: 1;
+        }
+
+        .hero-slide h1 {
+            font-family: inherit;
+            font-size: 3em;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero-slide p {
+            font-size: 1.2em;
+            max-width: 800px;
+            margin: 0 auto 20px;
+            text-shadow: 0 1px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero-slide .hero-btn {
+            padding: 12px 25px;
+            background: var(--btn-bg);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            text-decoration: none; /* Adicionado para ser um link */
+            transition: all 0.3s;
+        }
+
+        .hero-slide .hero-btn:hover {
+            background: var(--btn-hover);
+            transform: translateY(-2px);
+        }
+
+        /* Courses Section */
+        #cursos {
+            padding: 80px 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        .curso-card {
+            background: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            width: 100%; /* Default para mobile */
+            max-width: 320px; /* Limite em telas maiores */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .curso-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .curso-card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+
+        .curso-card .card-body {
+            padding: 15px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .curso-card h3 {
+            font-family: inherit;
+            margin-bottom: 10px;
+            color: var(--primary-blue);
+        }
+        
+        .curso-card .curso-link-titulo {
+            text-decoration: none;
+            color: var(--primary-blue);
+        }
+
+        .curso-card p {
+            flex: 1;
+            color: #555;
+            font-size: 0.95em;
+            margin-bottom: 15px;
+        }
+
+        .curso-card .btn-inscricao {
+            display: block;
+            text-align: center;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            background: var(--btn-bg);
+            color: #fff;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none; /* Adicionado para ser um link */
+            transition: all 0.3s;
+        }
+
+        .curso-card .btn-inscricao:hover {
+            background: var(--btn-hover);
+            transform: translateY(-2px);
+        }
+
+        /* News Feed (Lateral) */
+        #news-feed {
+            /* Fixado para desktop */
+            position: fixed;
+            top: 100px;
+            right: 0;
+            width: 300px;
+            height: 80vh;
+            overflow: hidden; /* Controla o scroll com JS */
+            background: #fff;
+            box-shadow: -2px 4px 12px rgba(0, 0, 0, 0.15);
+            border-radius: 12px 0 0 12px;
+            padding: 15px;
+            z-index: 999;
+        }
+        
+        #news-feed h2 {
+            text-align: center;
+            font-family: inherit;
+            color: var(--primary-blue);
+            margin-bottom: 15px;
+            background: #fff;
+            padding: 5px 0;
+            position: relative;
+            z-index: 10;
+        }
+
+        #news-feed .feed-wrapper {
+            display: flex;
+            flex-direction: column;
+            /* Área para o conteúdo de notícias */
+            position: relative;
+            height: calc(100% - 40px); /* 100% menos a altura do h2 */
+            overflow: hidden; /* Esconde o excesso para o loop */
+        }
+
+        .news-item {
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .news-item:last-child {
+            border-bottom: none;
+        }
+
+        .news-item a {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .news-item h4 {
+            font-size: 1em;
+            margin-bottom: 5px;
+            color: var(--primary-blue);
+        }
+
+        .news-item p {
+            font-size: 0.9em;
+            color: #555;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            text-align: center;
+            padding: 40px 20px;
+            /* Garantir que o footer não seja coberto pelo news feed no mobile */
+            position: relative;
+            z-index: 1; 
+        }
+
+        footer p {
+            margin: 5px 0;
+        }
+
+        /* Media Queries para Responsividade */
+        /* Tablet/Desktop Menor */
+        @media (max-width: 1024px) {
+            header .container {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            nav ul {
+                margin-top: 10px;
+                justify-content: center;
+            }
+
+            nav ul li {
+                margin: 5px 10px;
+            }
+
+            /* O News Feed se torna uma seção normal no final do conteúdo */
+            #news-feed {
+                position: static;
+                width: 100%;
+                height: auto;
+                margin-top: 40px;
+                border-radius: 0;
+                box-shadow: none;
+                border-top: 1px solid var(--border-color);
+                padding: 20px;
+            }
+
+            #news-feed .feed-wrapper {
+                 /* Em mobile/tablet, o feed-wrapper permite o scroll normal */
+                height: auto; 
+                overflow-y: visible;
+                transform: none !important; /* Desabilita a transformação JS em telas pequenas */
+            }
+
+            /* Adicionamos uma margem à esquerda do main para compensar a remoção do #news-feed fixo */
+            main.container {
+                margin-right: auto;
+            }
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .logo {
+                justify-content: center;
+                width: 100%;
+            }
+            
+            .logo h1 {
+                font-size: 1.5em;
+            }
+            
+            .logo span {
+                font-size: 0.8em;
+            }
+
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            nav ul li {
+                margin: 5px 0;
+            }
+
+            .hero {
+                height: 30vh;
+            }
+
+            .hero-slide h1 {
+                font-size: 2em;
+            }
+
+            .hero-slide p {
+                font-size: 1em;
+                margin: 0 auto 10px;
+                padding: 0 10px;
+            }
+
+            #cursos {
+                padding: 40px 0;
+            }
+
+            .curso-card {
+                max-width: 90%;
+            }
+        }
+    </style>
 </head>
 <body>
 
-<header>
-  <div class="container">
-    <div class="logo">
-      <img src="FK.png" alt="FK Logo">
-      <div>
-        <h1>FEKA KAWIÇO</h1>
-        <span>Cursos Técnicos - A Terra Natural do Conhecimento</span>
-      </div>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <img src="FK.png" alt="FK Logo">
+                <div>
+                    <h1>FEKA KAWIÇO</h1>
+                    <span>Cursos Técnicos - A Terra Natural do Conhecimento</span>
+                </div>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#inicio">Início</a></li> 
+                    <li><a href="#carreira">Carreira</a></li>
+                    <li><a href="#cursos">Cursos</a></li>
+                    <li><a href="#sobrenos">Sobre Nós</a></li>
+                    <li><a href="#contato">Contato</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero" id="inicio">
+        <div class="hero-slide" style="background-image:url(&#39;https://picsum.photos/id/1015/1600/600&#39;);">
+            <h1>Conhecimento é Poder</h1>
+            <p>Capacite-se para alcançar excelência profissional em estruturas metálicas.</p>
+            <p>A disciplina molda a competência, a prática transforma em mestre.</p>
+            <a href="#" class="hero-btn">Inscreva-se Agora</a> </div>
+        <div class="hero-slide" style="background-image:url(&#39;https://picsum.photos/id/1016/1600/600&#39;);">
+            <h1>Excelência em Ação</h1>
+            <p>Aprenda com casos reais e domine o conhecimento aplicado.</p>
+            <p>Os detalhes fazem a diferença na execução profissional.</p>
+            <a href="#cursos" class="hero-btn">Explorar Cursos</a>
+        </div>
+        <div class="hero-slide" style="background-image:url(&#39;https://picsum.photos/id/1018/1600/600&#39;);">
+            <h1>Aprender é Crescer</h1>
+            <p>Transforme teoria em prática e destaque-se no mercado.</p>
+            <p>Investir em si mesmo é o melhor retorno que existe.</p>
+            <a href="#" class="hero-btn">Comece Hoje</a>
+        </div>
+        <div class="hero-slide" style="background-image:url(&#39;https://picsum.photos/id/1020/1600/600&#39;);">
+            <h1>Profissionalismo Constante</h1>
+            <p>Domine ferramentas modernas e processos de qualidade.</p>
+            <p>Consistência e precisão geram confiança no campo.</p>
+            <a href="#cursos" class="hero-btn">Ver Cursos</a>
+        </div>
+        <div class="hero-slide active" style="background-image:url(&#39;https://picsum.photos/id/1024/1600/600&#39;);">
+            <h1>O Futuro é Agora</h1>
+            <p>Prepare-se para liderar projetos complexos com segurança.</p>
+            <p>Cada passo de aprendizado aproxima você da maestria.</p>
+            <a href="#" class="hero-btn">Inicie sua Jornada</a>
+        </div>
+    </section>
+
+    <main class="container">
+        <section id="cursos">
+
+            <div class="curso-card">
+                <a href="#" class="curso-link">
+                    <img src="Armz.RHS.png" alt="Curso de Desenhador projectista de estruturas metálicas">
+                </a>
+                <div class="card-body">
+                    <h3>
+                        <a href="Nivel-1DPM1.html" class="curso-link-titulo">Desenhador / Projectista</a>
+                    </h3>
+                    <p>Aprenda a detalhar estruturas metálicas com CAD e Tekla.</p>
+                    <a href="Nivel-1DPM1.html" class="btn btn-inscricao">Inscrever</a>
+                </div>
+            </div>
+
+            <div class="curso-card">
+                <img src="Ingles.png" alt="Curso de Inglês">
+                <div class="card-body">
+                    <h3>Inglês Técnico</h3>
+                    <p>Domine termos técnicos e comunicação em engenharia internacional.</p>
+                    <a href="#" class="btn btn-inscricao">Inscrever</a>
+                </div>
+            </div>
+            <div class="curso-card">
+                <img src="Frances.png" alt="Curso de Francês">
+                <div class="card-body">
+                    <h3>Francês Técnico</h3>
+                    <p>Comunique-se eficientemente em projetos internacionais.</p>
+                    <a href="#" class="btn btn-inscricao">Inscrever</a>
+                </div>
+            </div>
+            <div class="curso-card">
+                <img src="QA-QC.png" alt="QA &amp; QC">
+                <div class="card-body">
+                    <h3>Introdução a QA &amp; QC</h3>
+                    <p>Garanta qualidade na fabricação e inspeção de estruturas metálicas.</p>
+                    <a href="#" class="btn btn-inscricao">Inscrever</a>
+                </div>
+            </div>
+            <div class="curso-card">
+                <img src="Procuret.png" alt="Procurement">
+                <div class="card-body">
+                    <h3>Procurement</h3>
+                    <p>Gerencie materiais e logística para projetos industriais e offshore.</p>
+                    <a href="#" class="btn btn-inscricao">Inscrever</a>
+                </div>
+            </div>
+            <div class="curso-card">
+                <img src="Introdução a Robotica.png" alt="Introdução a Robótica">
+                <div class="card-body">
+                    <h3>Introdução a Robótica</h3>
+                    <p>Aprenda tecnica de robotica e programação industrial</p>
+                    <a href="#" class="btn btn-inscricao">Inscrever</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="news-feed">
+        <h2>Notícias &amp; Artigos</h2>
+        <div class="feed-wrapper" style="transform: translateY(0px);"> 
+            <div class="news-item">
+                <a href="#">
+                    <h4>Nova Norma EN1090</h4>
+                    <p>Aplicação prática e impactos no processo de fabricação.</p>
+                </a>
+            </div>
+            <div class="news-item">
+                <a href="#">
+                    <h4>Projeto Offshore em Angola</h4>
+                    <p>Desafios e soluções para estruturas complexas.</p>
+                </a>
+            </div>
+            <div class="news-item">
+                <a href="#">
+                    <h4>Academia ALFEKA</h4>
+                    <p>Workshops e treinamentos de excelência para estudantes.</p>
+                </a>
+            </div>
+            <div class="news-item">
+                <a href="#">
+                    <h4>Inspeção de Qualidade</h4>
+                    <p>Melhores práticas em QA/QC para estruturas metálicas.</p>
+                </a>
+            </div>
+            <div class="news-item">
+                <a href="#">
+                    <h4>Novas Tecnologias CAD/BIM</h4>
+                    <p>Integração de softwares modernos no dia a dia do projetista.</p>
+                </a>
+            </div>
+            <div class="news-item">
+                <a href="#">
+                    <h4>Projetos Sustentáveis</h4>
+                    <p>Construção eficiente e ambientalmente correta.</p>
+                </a>
+            </div>
+            <div class="news-item">
+                <a href="#">
+                    <h4>Formação Profissional Avançada</h4>
+                    <p>Capacitação contínua para engenheiros e técnicos.</p>
+                </a>
+            </div>
+            </div>
     </div>
-    <nav>
-      <ul>
-        <li><a href="index.html">Início</a></li>
-        <li><a href="carreiras.html">Carreira</a></li>
-        <li><a href="index.html">Cursos</a></li>
-        <li><a href="sobrenos.html">Sobre Nós</a></li>
-        <li><a href="contato.html">Contato</a></li>
-      </ul>
-    </nav>
-  </div>
-</header>
-
-<section class="hero">
-
-  <div class="hero-slide active" style="background-image:url('https://picsum.photos/id/1015/1600/600');">
-    <h1>Conhecimento é Poder</h1>
-    <p>Capacite-se para alcançar excelência profissional em estruturas metálicas.</p>
-    <p>A disciplina molda a competência, a prática transforma em mestre.</p>
-    <a href="inscricao.html" class="hero-btn">Inscreva-se Agora</a>
-  </div>
-  <div class="hero-slide" style="background-image:url('https://picsum.photos/id/1016/1600/600');">
-    <h1>Excelência em Ação</h1>
-    <p>Aprenda com casos reais e domine o conhecimento aplicado.</p>
-    <p>Os detalhes fazem a diferença na execução profissional.</p>
-   <a href="cursos.html" class="hero-btn">Explorar Cursos</a>
-  </div>
-  <div class="hero-slide" style="background-image:url('https://picsum.photos/id/1018/1600/600');">
-    <h1>Aprender é Crescer</h1>
-    <p>Transforme teoria em prática e destaque-se no mercado.</p>
-    <p>Investir em si mesmo é o melhor retorno que existe.</p>
-    <a href="inscricao.html" class="hero-btn">Comece Hoje</a>
-  </div>
-  <div class="hero-slide" style="background-image:url('https://picsum.photos/id/1020/1600/600');">
-    <h1>Profissionalismo Constante</h1>
-    <p>Domine ferramentas modernas e processos de qualidade.</p>
-    <p>Consistência e precisão geram confiança no campo.</p>
-   <a href="cursos.html" class="hero-btn">Ver Cursos</a>
-  </div>
-  <div class="hero-slide" style="background-image:url('https://picsum.photos/id/1024/1600/600');">
-    <h1>O Futuro é Agora</h1>
-    <p>Prepare-se para liderar projetos complexos com segurança.</p>
-    <p>Cada passo de aprendizado aproxima você da maestria.</p>
-    <a href="jornada.html" class="hero-btn">Inicie sua Jornada</a>
-  </div>
-</section>
-
-<main class="container">
-  <section id="cursos">
-
-<div class="curso-card">
-  <a href="Nivel-1DPM1.html" class="curso-link">
-    <img src="https://picsum.photos/id/1012/400/180" alt="Curso de Desenhador">
-  </a>
-  <div class="card-body">
-    <h3>
-      <a href="Nivel-1DPM1.html" class="curso-link-titulo">Desenhador / Projectista</a>
-    </h3>
-    <p>Aprenda a detalhar estruturas metálicas com CAD e Tekla.</p>
-    <a href="inscricao.html?curso=desenhador" class="btn btn-inscricao">Inscrever</a>
-  </div>
-</div>
-
-    </div>
-    <div class="curso-card">
-      <img src="https://picsum.photos/id/1013/400/180" alt="Curso de Inglês">
-      <div class="card-body">
-        <h3>Inglês Técnico</h3>
-        <p>Domine termos técnicos e comunicação em engenharia internacional.</p>
-       <a href="inscricao.html?curso=ingles" class="btn btn-inscricao">Inscrever</a>
-      </div>
-    </div>
-    <div class="curso-card">
-      <img src="https://picsum.photos/id/1014/400/180" alt="Curso de Francês">
-      <div class="card-body">
-        <h3>Francês Técnico</h3>
-        <p>Comunique-se eficientemente em projetos internacionais.</p>
-        <a href="inscricao.html?curso=frances" class="btn btn-inscricao">Inscrever</a>
-      </div>
-    </div>
-    <div class="curso-card">
-      <img src="https://picsum.photos/id/1016/400/180" alt="QA & QC">
-      <div class="card-body">
-        <h3>Introdução a QA & QC</h3>
-        <p>Garanta qualidade na fabricação e inspeção de estruturas metálicas.</p>
-        <a href="inscricao.html?curso=qa-qc" class="btn btn-inscricao">Inscrever</a>
-      </div>
-    </div>
-    <div class="curso-card">
-      <img src="https://picsum.photos/id/1018/400/180" alt="Procurement">
-      <div class="card-body">
-        <h3>Procurement</h3>
-        <p>Gerencie materiais e logística para projetos industriais e offshore.</p>
-      <a href="inscricao.html?curso=procurement" class="btn btn-inscricao">Inscrever</a>
-      </div>
-    </div>
-    <div class="curso-card">
-      <img src="https://picsum.photos/id/1020/400/180" alt="Montagem de Estruturas">
-      <div class="card-body">
-        <h3>Montagem de Estruturas</h3>
-        <p>Aprenda técnicas de montagem seguras e eficientes em obra.</p>
-    <a href="inscricao.html?curso=montagem" class="btn btn-inscricao">Inscrever</a>
-      </div>
-    </div>
-  </section>
-</main>
-
-<div id="news-feed">
-  <h2>Notícias & Artigos</h2>
-  <div class="feed-wrapper">
-    <div class="news-item">
-      <a href="noticia1.html">
-        <h4>Nova Norma EN1090</h4>
-        <p>Aplicação prática e impactos no processo de fabricação.</p>
-      </a>
-    </div>
-
-    <div class="news-item">
-      <a href="noticia1.html">
-        <h4>Projeto Offshore em Angola</h4>
-        <p>Desafios e soluções para estruturas complexas.</p>
-      </a>
-    </div>
-
-    <div class="news-item">
-      <a href="noticia1.html">
-        <h4>Academia ALFEKA</h4>
-        <p>Workshops e treinamentos de excelência para estudantes.</p>
-      </a>
-    </div>
-
-    <div class="news-item">
-      <a href="noticia1.html">
-        <h4>Inspeção de Qualidade</h4>
-        <p>Melhores práticas em QA/QC para estruturas metálicas.</p>
-      </a>
-    </div>
-
-    <div class="news-item">
-      <a href="noticia1.html">
-        <h4>Novas Tecnologias CAD/BIM</h4>
-        <p>Integração de softwares modernos no dia a dia do projetista.</p>
-      </a>
-    </div>
-
-    <div class="news-item">
-      <a href="noticia1.html">
-        <h4>Projetos Sustentáveis</h4>
-        <p>Construção eficiente e ambientalmente correta.</p>
-      </a>
-    </div>
-
-    <div class="news-item">
-      <a href="noticia1.html">
-        <h4>Formação Profissional Avançada</h4>
-        <p>Capacitação contínua para engenheiros e técnicos.</p>
-      </a>
-    </div>
-  </div>
-</div>
-
-<style>
-#news-feed {
-  position: fixed;
-  top: 100px;
-  right: 0;
-  width: 300px;
-  height: 80vh;
-  overflow: hidden; /* removemos o scroll normal */
-  background: #fff; /* fundo opaco */
-  box-shadow: -2px 4px 12px rgba(0,0,0,0.15);
-  border-radius: 12px 0 0 12px;
-  padding: 15px;
-}
-
-#news-feed .feed-wrapper {
-  display: flex;
-  flex-direction: column;
-}
-
-#news-feed h2 {
-  text-align: center;
-  font-family: 'Montserrat', sans-serif;
-  color: var(--primary-blue);
-  margin-bottom: 15px;
-  background: #fff; /* garante que o título fique opaco */
-  padding: 5px 0;
-  z-index: 1;
-  position: relative;
-}
-</style>
-
-<script>
-// Scroll infinito contínuo da aba lateral
-const feedWrapper = document.querySelector('#news-feed .feed-wrapper');
-const feedItems = feedWrapper.innerHTML;
-
-// duplicar conteúdo para loop
-feedWrapper.innerHTML += feedItems;
-
-let scrollPos = 0;
-function scrollFeed() {
-  scrollPos += 0.5; // velocidade do scroll
-  if(scrollPos >= feedWrapper.scrollHeight / 2) scrollPos = 0;
-  feedWrapper.style.transform = `translateY(-${scrollPos}px)`;
-  requestAnimationFrame(scrollFeed);
-}
-scrollFeed();
-</script>
 
 
-<footer>
-  <div class="container">
-    <p>&copy; 2025 FEKA KAWIÇO Cursos Técnicos. Todos os direitos reservados.</p>
-    <p>“A Terra Natural do Conhecimento” – Capacitando o futuro da engenharia.</p>
-  </div>
-</footer>
+    <footer>
+        <div class="container">
+            <p>© 2025 FEKA KAWIÇO Cursos Técnicos. Todos os direitos reservados.</p>
+            <p>“A Terra Natural do Conhecimento” – Capacitando o futuro da engenharia.</p>
+        </div>
+    </footer>
 
-<script>
-// Hero slider automático
-const slides = document.querySelectorAll('.hero-slide');
-let currentSlide = 0;
-function showSlide(index) {
-  slides.forEach((slide,i)=>slide.classList.remove('active'));
-  slides[index].classList.add('active');
-}
-function nextSlide() {
-  currentSlide = (currentSlide+1)%slides.length;
-  showSlide(currentSlide);
-}
-setInterval(nextSlide, 5000);
+    <script>
+        // Hero slider automático
+        const slides = document.querySelectorAll('.hero-slide');
+        let currentSlide = 0;
 
-// Botões cursos responsivos
-document.querySelectorAll('.curso-card button').forEach(btn=>{
-  btn.addEventListener('click', ()=>alert('Funcionalidade de inscrição será implementada no backend.'));
-});
-</script>
+        function showSlide(index) {
+            slides.forEach((slide, i) => slide.classList.remove('active'));
+            slides[index].classList.add('active');
+        }
 
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % slides.length;
+            showSlide(currentSlide);
+        }
+
+        // Inicia o slider
+        setInterval(nextSlide, 5000);
+
+        // Scroll infinito contínuo da aba lateral (apenas em desktop)
+        const newsFeed = document.getElementById('news-feed');
+        const feedWrapper = newsFeed.querySelector('.feed-wrapper');
+        
+        // Verifica se é desktop (para evitar conflito com o scroll nativo em mobile)
+        if (window.innerWidth > 1024) {
+            const feedItems = feedWrapper.innerHTML;
+            // duplicar conteúdo para loop
+            feedWrapper.innerHTML += feedItems;
+
+            let scrollPos = 0;
+            const scrollSpeed = 0.5; // velocidade do scroll
+
+            function scrollFeed() {
+                // Se a largura for maior que 1024px, executa o scroll infinito
+                if (window.innerWidth > 1024) {
+                    scrollPos += scrollSpeed;
+                    
+                    // Condição de reset: quando a posição do scroll ultrapassa metade da altura do conteúdo duplicado
+                    if (scrollPos >= feedWrapper.scrollHeight / 2) {
+                        scrollPos = 0;
+                    }
+                    
+                    feedWrapper.style.transform = `translateY(-${scrollPos}px)`;
+                    requestAnimationFrame(scrollFeed);
+                } else {
+                    // Se for mobile, garante que o scroll JS não interfira
+                    feedWrapper.style.transform = 'translateY(0px)';
+                }
+            }
+            // Inicia o loop de scroll apenas se for desktop
+            scrollFeed();
+        }
+
+
+        // Função para os botões de inscrição
+        document.querySelectorAll('.curso-card .btn-inscricao').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                alert('Funcionalidade de inscrição será implementada no backend. Redirecionando para a seção de Início.');
+                window.location.hash = '#inicio';
+            });
+        });
+
+        // Função para os links de navegação para a mesma página
+        document.querySelectorAll('nav ul li a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                const href = link.getAttribute('href');
+                if (href.startsWith('#')) {
+                    e.preventDefault();
+                    document.querySelector(href).scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
 </body>
 </html>
+```
+
+
 
 
