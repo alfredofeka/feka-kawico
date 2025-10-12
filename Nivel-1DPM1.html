@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>FEKA KAWIÇO – Desenhador Projectista Nível 1</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary-blue: #004a80;
+  --secondary-blue: #007bff;
+  --text-dark: #333;
+  --text-light: #f4f4f4;
+  --bg-light: #f9f9f9;
+  --bg-dark: #2c3e50;
+  --border-color: #ddd;
+  --hover-light: #e0f2f7;
+  --btn-bg: #007bff;
+  --btn-hover: #0056b3;
+}
+
+/* Reset básico */
+* {margin:0; padding:0; box-sizing:border-box;}
+body {
+  font-family:'Roboto', sans-serif;
+  background-color: var(--bg-light);
+  color: var(--text-dark);
+  line-height: 1.6;
+}
+
+/* Header */
+header {
+  background: var(--primary-blue);
+  color: var(--text-light);
+  padding: 15px 0;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+header .container {
+  max-width: 1200px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+}
+.logo {display: flex; align-items: center; gap: 10px;}
+.logo img {height: 50px;}
+.logo h1 {font-family:'Montserrat', sans-serif; font-size: 1.8em; font-weight: 700;}
+.logo span {font-size: 0.9em; color: #cbd6e0;}
+nav ul {list-style: none; display: flex; gap: 28px;}
+nav ul li a {
+  color: var(--text-light);
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s;
+}
+nav ul li a:hover {color: var(--secondary-blue);}
+
+/* Layout principal igual ao pedido */
+main.course-page {
+  display: flex;
+  gap: 30px;
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+.course-sidebar {
+  width: 320px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  padding: 20px;
+  height: fit-content;
+}
+.course-sidebar h2 {
+  font-family:'Montserrat', sans-serif;
+  color: var(--primary-blue);
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+/* week-card visual idêntico ao que pediu */
+.week-card {
+  background: var(--bg-light);
+  border-left: 5px solid var(--primary-blue);
+  border-radius: 10px;
+  padding: 12px 15px;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  transition: transform 0.2s;
+}
+.week-card:hover {transform: translateY(-3px);}
+.week-card h4 {color: var(--primary-blue); margin-bottom: 8px; font-size: 1em;}
+.week-card p {font-size: 0.92em; color: #555; margin-bottom: 10px;}
+.week-card a {
+  text-decoration: none;
+  color: var(--btn-bg);
+  font-weight: 600;
+  font-size: 0.9em;
+}
+.week-card a:hover {color: var(--btn-hover);}
+
+/* dias dentro da semana — lista compacta */
+.days-list {list-style:none; margin-top:8px; padding-left:0;}
+.days-list li {margin:6px 0;}
+.day-btn {
+  display:block;
+  width:100%;
+  text-align:left;
+  padding:8px 12px;
+  border-radius:6px;
+  background:transparent;
+  border:1px solid rgba(0,0,0,0.03);
+  cursor:pointer;
+  transition: background 0.15s, transform 0.12s;
+  font-size:0.95em;
+}
+.day-btn:hover {background:#eef7ff; transform:translateY(-1px);}
+.day-btn.active {background:var(--primary-blue); color:#fff;}
+
+/* Course Content */
+.course-content {
+  flex: 1;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  padding: 25px;
+  min-height: 420px;
+}
+.course-content h3 {
+  font-family: 'Montserrat', sans-serif;
+  color: var(--primary-blue);
+  margin-bottom: 12px;
+}
+.course-content p {
+  color: #555;
+  font-size: 1em;
+  margin-bottom: 12px;
+}
+.meta {
+  font-size:0.95em;
+  color:#666;
+  margin-bottom:14px;
+}
+
+/* Botões utilitários */
+.controls {
+  display:flex;
+  gap:10px;
+  margin-top:12px;
+}
+.btn {
+  padding:8px 12px;
+  border-radius:8px;
+  border:none;
+  cursor:pointer;
+  font-weight:600;
+}
+.btn-ghost {
+  background:transparent;
+  border:1px solid #ddd;
+  color:var(--text-dark);
+}
+.btn-primary {
+  background:var(--primary-blue);
+  color:#fff;
+}
+
+/* Footer */
+footer {
+  background-color: var(--bg-dark);
+  color: var(--text-light);
+  text-align: center;
+  padding: 40px 20px;
+  margin-top: 60px;
+}
+footer p {margin: 5px 0;}
+
+/* Responsividade */
+@media (max-width: 980px) {
+  main.course-page {flex-direction:column; padding: 0 16px; gap:20px;}
+  .course-sidebar {width:100%;}
+  .course-content {min-height:300px;}
+  header .container {padding:0 12px;}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <div class="logo" aria-hidden="false">
+      <img src="FK.png" alt="Logo FEKA KAWIÇO">
+      <div>
+        <h1>FEKA KAWIÇO</h1>
+        <span>Cursos Técnicos – A Terra Natural do Conhecimento</span>
+      </div>
+    </div>
+
+    <nav>
+      <ul>
+        <li><a href="index.html">Início</a></li>
+        <li><a href="carreiras.html">Carreira</a></li>
+        <li><a href="cursos.html">Cursos</a></li>
+        <li><a href="sobrenos.html">Sobre Nós</a></li>
+        <li><a href="contato.html">Contato</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main class="course-page container">
+
+  <!-- Painel lateral com semanas e dias -->
+  <aside class="course-sidebar" aria-label="Menu de semanas e dias">
+    <h2>Curso: Desenhador Projectista – Nível 1</h2>
+
+    <!-- Semana 1 -->
+    <div class="week-card" data-week="1">
+      <h4>Semana 1: Fundamentos de Construção Metálica</h4>
+      <p>Introdução às estruturas metálicas, normas e boas práticas de oficina.</p>
+      <ul class="days-list">
+        <li><button class="day-btn" data-id="w1d1">Dia 1 – Introdução à Construção Metálica</button></li>
+        <li><button class="day-btn" data-id="w1d2">Dia 2 – Perfis e Materiais</button></li>
+        <li><button class="day-btn" data-id="w1d3">Dia 3 – Noções de Desenho Técnico</button></li>
+        <li><button class="day-btn" data-id="w1d4">Dia 4 – Ferramentas CAD 2D</button></li>
+        <li><button class="day-btn" data-id="w1d5">Dia 5 – Exercício Prático</button></li>
+      </ul>
+    </div>
+
+    <!-- Semana 2 -->
+    <div class="week-card" data-week="2">
+      <h4>Semana 2: Materiais e Ligações</h4>
+      <p>Estudo dos aços estruturais e principais tipos de ligações.</p>
+      <ul class="days-list">
+        <li><button class="day-btn" data-id="w2d1">Dia 1 – Tipos de Aço</button></li>
+        <li><button class="day-btn" data-id="w2d2">Dia 2 – Propriedades Mecânicas</button></li>
+        <li><button class="day-btn" data-id="w2d3">Dia 3 – Ligações Aparafusadas</button></li>
+        <li><button class="day-btn" data-id="w2d4">Dia 4 – Ligações Soldadas</button></li>
+        <li><button class="day-btn" data-id="w2d5">Dia 5 – Exercício de Ligações</button></li>
+      </ul>
+    </div>
+
+    <!-- Semana 3 -->
+    <div class="week-card" data-week="3">
+      <h4>Semana 3: Leitura e Interpretação de Desenhos</h4>
+      <p>Representações gráficas, escalas e simbologia em desenho técnico.</p>
+      <ul class="days-list">
+        <li><button class="day-btn" data-id="w3d1">Dia 1 – Escalas e Projeções</button></li>
+        <li><button class="day-btn" data-id="w3d2">Dia 2 – Cotas e Tolerâncias</button></li>
+        <li><button class="day-btn" data-id="w3d3">Dia 3 – Cortes e Vistas</button></li>
+        <li><button class="day-btn" data-id="w3d4">Dia 4 – Símbolos e Notas Técnicas</button></li>
+        <li><button class="day-btn" data-id="w3d5">Dia 5 – Exercício de Interpretação</button></li>
+      </ul>
+    </div>
+
+    <!-- Semana 4 -->
+    <div class="week-card" data-week="4">
+      <h4>Semana 4: Modelação CAD 2D</h4>
+      <p>Desenho técnico digital com base em normas europeias e industriais.</p>
+      <ul class="days-list">
+        <li><button class="day-btn" data-id="w4d1">Dia 1 – Interface e Comandos Básicos</button></li>
+        <li><button class="day-btn" data-id="w4d2">Dia 2 – Layers e Templates</button></li>
+        <li><button class="day-btn" data-id="w4d3">Dia 3 – Cotagem e Hachuras</button></li>
+        <li><button class="day-btn" data-id="w4d4">Dia 4 – Geração de Pranchas</button></li>
+        <li><button class="day-btn" data-id="w4d5">Dia 5 – Exercício CAD Prático</button></li>
+      </ul>
+    </div>
+
+    <!-- Semana 5 -->
+    <div class="week-card" data-week="5">
+      <h4>Semana 5: Modelação 3D e Tekla</h4>
+      <p>Criação de modelos 3D e preparação de montagens para fabrico.</p>
+      <ul class="days-list">
+        <li><button class="day-btn" data-id="w5d1">Dia 1 – Noções de Modelação 3D</button></li>
+        <li><button class="day-btn" data-id="w5d2">Dia 2 – Parâmetros e Famílias</button></li>
+        <li><button class="day-btn" data-id="w5d3">Dia 3 – Extração de MTO</button></li>
+        <li><button class="day-btn" data-id="w5d4">Dia 4 – Preparação de Kits</button></li>
+        <li><button class="day-btn" data-id="w5d5">Dia 5 – Exercício Tekla Básico</button></li>
+      </ul>
+    </div>
+
+    <!-- Semana 6 -->
+    <div class="week-card" data-week="6">
+      <h4>Semana 6: Documentação e BOM</h4>
+      <p>Geração automática de listas de materiais e documentação.</p>
+      <ul class="days-list">
+        <li><button class="day-btn" data-id="w6d1">Dia 1 – BOM (Bill of Materials)</button></li>
+        <li><button class="day-btn" data-id="w6d2">Dia 2 – Controle de Revisões</button></li>
+        <li><button class="day-btn" data-id="w6d3">Dia 3 – Etiquetagem e Rastreabilidade</button></li>
+        <li><button class="day-btn" data-id="w6d4">Dia 4 – Geração de Relatórios</button></li>
+        <li><button class="day-btn" data-id="w6d5">Dia 5 – Exercício de Documentação</button></li>
+      </ul>
+    </div>
+
+    <!-- Semana 7 -->
+    <div class="week-card" data-week="7">
+      <h4>Semana 7: Prática Profissional</h4>
+      <p>Casos práticos de projeto real, revisão e correção técnica.</p>
+      <ul class="days-list">
+        <li><button class="day-btn" data-id="w7d1">Dia 1 – Trabalho em Fábrica</button></li>
+        <li><button class="day-btn" data-id="w7d2">Dia 2 – Conferência e QA</button></li>
+        <li><button class="day-btn" data-id="w7d3">Dia 3 – Interface com Montagem</button></li>
+        <li><button class="day-btn" data-id="w7d4">Dia 4 – Relatórios de Campo</button></li>
+        <li><button class="day-btn" data-id="w7d5">Dia 5 – Exercício Final de Campo</button></li>
+      </ul>
+    </div>
+
+    <!-- Semana 8 -->
+    <div class="week-card" data-week="8">
+      <h4>Semana 8: Avaliação Final e Apresentação</h4>
+      <p>Entrega de projeto final, discussão e plano de evolução.</p>
+      <ul class="days-list">
+        <li><button class="day-btn" data-id="w8d1">Dia 1 – Revisão Geral</button></li>
+        <li><button class="day-btn" data-id="w8d2">Dia 2 – Preparação Projeto Final</button></li>
+        <li><button class="day-btn" data-id="w8d3">Dia 3 – Ensaio de Apresentação</button></li>
+        <li><button class="day-btn" data-id="w8d4">Dia 4 – Avaliação Prática</button></li>
+        <li><button class="day-btn" data-id="w8d5">Dia 5 – Apresentação Final</button></li>
+      </ul>
+    </div>
+
+  </aside>
+
+  <!-- Área de conteúdo -->
+  <section class="course-content" aria-live="polite">
+    <h3 id="content-title">Bem-vindo ao Nível 1 – Desenhador Projectista</h3>
+    <div id="content-meta" class="meta">
+      Objetivo do nível: integrar o aluno no ambiente técnico da construção metálica, dominar ferramentas básicas de desenho e processos de produção.
+    </div>
+
+    <div id="content-body">
+      <p>
+        Este espaço mostrará a lição escolhida. Clique em um "Dia" no painel da esquerda para carregar o conteúdo da lição correspondente.
+      </p>
+
+      <p>
+        O curso está organizado em 8 semanas — cada semana com 5 dias de lição / exercícios práticos. Todo o conteúdo aparece aqui sem recarregar a página.
+      </p>
+    </div>
+
+    <div class="controls">
+      <button id="closeAll" class="btn btn-ghost">Fechar Tudo</button>
+      <button id="backHome" class="btn btn-primary" onclick="location.href='index.html'">Voltar ao Início</button>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <p>&copy; 2025 FEKA KAWIÇO Cursos Técnicos. Todos os direitos reservados.</p>
+  <p>“A Terra Natural do Conhecimento” – Capacitando o futuro da engenharia.</p>
+</footer>
+
+<script>
+/* Conteúdo de cada dia (preenchido com conteúdo realista e útil).
+   Mantive linguagem técnica e prática, conforme já trabalhado. */
+const contentData = {
+  /* Semana 1 */
+  'w1d1': {
+    title: 'Dia 1 – Introdução à Construção Metálica',
+    meta: 'Tema: visão geral, terminologia e segurança básica',
+    html: `
+      <h4>Resumo</h4>
+      <p>Breve história e aplicações da construção metálica. Diferença entre estruturas porticadas, treliçadas e grelhas. Introdução às normas mais usadas (EN, AISC, API).</p>
+      <h4>Objetivos do dia</h4>
+      <ul>
+        <li>Compreender os principais tipos de estruturas.</li>
+        <li>Conhecer a terminologia essencial do setor.</li>
+        <li>Identificar conceitos básicos de segurança em oficina e obra.</li>
+      </ul>
+      <h4>Atividade prática</h4>
+      <p>Catalogar 5 peças típicas usadas numa peça de ligação (perfís, chapas, parafusos).</p>
+    `
+  },
+  'w1d2': {
+    title: 'Dia 2 – Perfis e Materiais',
+    meta: 'Tema: tipos de perfis, propriedades e códigos de material',
+    html: `
+      <h4>Resumo</h4>
+      <p>Descrição dos perfis I, H, U, CHS e chapas. Propriedades mecânicas básicas: limite de escoamento, resistência à tração e ductilidade.</p>
+      <h4>Objetivos do dia</h4>
+      <ul>
+        <li>Reconhecer perfis e suas aplicações.</li>
+        <li>Interpretar tabelas de propriedades mecânicas.</li>
+      </ul>
+      <h4>Atividade prática</h4>
+      <p>Consultar uma tabela de perfis e indicar o perfil adequado para uma viga simples com vão X.</p>
+    `
+  },
+  'w1d3': {
+    title: 'Dia 3 – Noções de Desenho Técnico',
+    meta: 'Tema: escalas, linhas, cotas e padrões de desenho',
+    html: `
+      <h4>Resumo</h4>
+      <p>Conceitos de projeção ortogonal, tipos de linha, simbologia e convenções de cotagem segundo normas EN ISO.</p>
+      <h4>Objetivos do dia</h4>
+      <ul>
+        <li>Interpretar cortes e vistas.</li>
+        <li>Aplicar regras de cotagem e tolerâncias básicas.</li>
+      </ul>
+      <h4>Atividade prática</h4>
+      <p>Desenhar à mão livre a vista e o corte de uma pequena peça e colocar cotas essenciais.</p>
+    `
+  },
+  'w1d4': {
+    title: 'Dia 4 – Ferramentas CAD 2D',
+    meta: 'Tema: comandos e configuração básica do ambiente CAD',
+    html: `
+      <h4>Resumo</h4>
+      <p>Introdução aos comandos essenciais do AutoCAD: linhas, polilinhas, trim, offset, mirror, layers e templates.</p>
+      <h4>Objetivos do dia</h4>
+      <ul>
+        <li>Configurar um template com layers FEKA.</li>
+        <li>Executar um desenho simples seguindo padrões definidos.</li>
+      </ul>
+      <h4>Atividade prática</h4>
+      <p>Reproduzir em CAD o exercício de ligação do Dia 5 da semana 1 (viga x coluna, cotada).</p>
+    `
+  },
+  'w1d5': {
+    title: 'Dia 5 – Exercício Prático',
+    meta: 'Tema: aplicação integrada dos temas da semana',
+    html: `
+      <h4>Resumo</h4>
+      <p>Exercício prático: detalhar uma ligação simples (viga-coluna) com cotas, símbolos de solda e lista de materiais básica.</p>
+      <h4>Objetivos do dia</h4>
+      <ul>
+        <li>Produzir uma prancha de fabrico simplificada.</li>
+        <li>Gerar uma lista de materiais mínima.</li>
+      </ul>
+      <h4>Entrega</h4>
+      <p>Enviar prancha em PDF e BOM em Excel para avaliação do instrutor (método simulado durante a formação).</p>
+    `
+  },
+
+  /* Semana 2 */
+  'w2d1': {
+    title: 'Dia 1 – Tipos de Aço',
+    meta: 'Tema: classes de aço e selecção para aplicação',
+    html: `<p>Descrição de aço estrutural S275, S355, características e indicações de uso. Critérios para seleção do aço conforme ambiente (corrosão, temperatura).</p>`
+  },
+  'w2d2': { title: 'Dia 2 – Propriedades Mecânicas', meta:'Tema: resistência, ductilidade e ensaios', html:`<p>Ensaios básicos (tracção, dobramento) e interpretação de resultados para especificação de materiais.</p>` },
+  'w2d3': { title: 'Dia 3 – Ligações Aparafusadas', meta:'Tema: tipos de parafusos, classes e montagem', html:`<p>Torque, pré-carga e verificação dimensional de ligações aparafusadas; classes de resistência e controlo de qualidade.</p>` },
+  'w2d4': { title: 'Dia 4 – Ligações Soldadas', meta:'Tema: tipos de solda e simbologia', html:`<p>Processos de soldagem comuns, símbolos em desenho e considerações de fadiga e controlo de qualidade.</p>` },
+  'w2d5': { title: 'Dia 5 – Exercício de Ligações', meta:'Exercício', html:`<p>Detalhar e justificar uma ligação (soldada ou aparafusada) para uma aplicação simples; considerar custos e execução.</p>` },
+
+  /* Semana 3 */
+  'w3d1': { title:'Dia 1 – Escalas e Projeções', meta:'Tema: representação', html:`<p>Exemplos práticos de seleção de escala e decomposição de vistas.</p>` },
+  'w3d2': { title:'Dia 2 – Cotas e Tolerâncias', meta:'Tema: precisão', html:`<p>Conceitos de tolerância e como representam-se em desenhos de fabrico.</p>` },
+  'w3d3': { title:'Dia 3 – Cortes e Vistas', meta:'Tema: leitura de cortes', html:`<p>Exercício de leitura de um desenho com cortes complexos.</p>` },
+  'w3d4': { title:'Dia 4 – Símbolos e Notas Técnicas', meta:'Tema: padronização', html:`<p>Lista de símbolos comuns e como escrever notas técnicas claras.</p>` },
+  'w3d5': { title:'Dia 5 – Exercício de Interpretação', meta:'Exercício', html:`<p>Interpretação de prancha completa e identificação de não conformidades simuladas.</p>` },
+
+  /* Semana 4 */
+  'w4d1': { title:'Dia 1 – Interface e Comandos Básicos', meta:'CAD 2D', html:`<p>Primeiros passos com comandos para modelação 2D eficiente.</p>` },
+  'w4d2': { title:'Dia 2 – Layers e Templates', meta:'CAD organização', html:`<p>Como organizar layers e preparar template FEKA.</p>` },
+  'w4d3': { title:'Dia 3 – Cotagem e Hachuras', meta:'Detalhamento', html:`<p>Regras de cotagem e aplicação de hachuras para indicar cortes e materiais.</p>` },
+  'w4d4': { title:'Dia 4 – Geração de Pranchas', meta:'Prática', html:`<p>Montar prancha de fabrico com legenda e carimbo.</p>` },
+  'w4d5': { title:'Dia 5 – Exercício CAD Prático', meta:'Exercício', html:`<p>Desenho completo para produção baseado em um caso real simplificado.</p>` },
+
+  /* Semana 5 */
+  'w5d1': { title:'Dia 1 – Noções de Modelação 3D', meta:'Tema 3D', html:`<p>Fluxo de modelação e vantagens do 3D para MTO.</p>` },
+  'w5d2': { title:'Dia 2 – Parâmetros e Famílias', meta:'BIM', html:`<p>Como parametrizar componentes para reuso e extração automática de listas.</p>` },
+  'w5d3': { title:'Dia 3 – Extração de MTO', meta:'MTO', html:`<p>Gerar lista de materiais a partir do modelo 3D e validar quantidades.</p>` },
+  'w5d4': { title:'Dia 4 – Preparação de Kits', meta:'Kitting', html:`<p>Organizar kits de montagem e documentação anexa para fábrica/obra.</p>` },
+  'w5d5': { title:'Dia 5 – Exercício Tekla Básico', meta:'Exercício', html:`<p>Modelar uma peça simples e extrair MTO.</p>` },
+
+  /* Semana 6 */
+  'w6d1': { title:'Dia 1 – BOM (Bill of Materials)', meta:'Documentação', html:`<p>Estrutura do BOM e boas práticas de organização.</p>` },
+  'w6d2': { title:'Dia 2 – Controle de Revisões', meta:'Gestão', html:`<p>Metodologia para controlar revisões de desenho e comunicação de mudança.</p>` },
+  'w6d3': { title:'Dia 3 – Etiquetagem e Rastreabilidade', meta:'Logística', html:`<p>Sistemas de identificação e rastreabilidade para peças e kits.</p>` },
+  'w6d4': { title:'Dia 4 – Geração de Relatórios', meta:'Relatórios', html:`<p>Como preparar relatórios de montagem e QC para inspeção.</p>` },
+  'w6d5': { title:'Dia 5 – Exercício de Documentação', meta:'Exercício', html:`<p>Gerar um pacote de documentação para uma peça de amostra.</p>` },
+
+  /* Semana 7 */
+  'w7d1': { title:'Dia 1 – Trabalho em Fábrica', meta:'Campo', html:`<p>Rotinas de conferência e trabalho com equipe de produção.</p>` },
+  'w7d2': { title:'Dia 2 – Conferência e QA', meta:'QA', html:`<p>Checklists de qualidade e procedimentos de não conformidade.</p>` },
+  'w7d3': { title:'Dia 3 – Interface com Montagem', meta:'Montagem', html:`<p>Como preparar desenhos para uso em obra e minimizar dúvidas.</p>` },
+  'w7d4': { title:'Dia 4 – Relatórios de Campo', meta:'Comunicação', html:`<p>Formatos de relatórios e fluxo de comunicação com escritório.</p>` },
+  'w7d5': { title:'Dia 5 – Exercício Final de Campo', meta:'Exercício', html:`<p>Relatório prático sobre verificação de kit e orientação ao montador.</p>` },
+
+  /* Semana 8 */
+  'w8d1': { title:'Dia 1 – Revisão Geral', meta:'Recapitulação', html:`<p>Resumo dos tópicos chave e checklist para projeto final.</p>` },
+  'w8d2': { title:'Dia 2 – Preparação Projeto Final', meta:'Entrega', html:`<p>Organização, divisão de tarefas e cronograma para entrega.</p>` },
+  'w8d3': { title:'Dia 3 – Ensaio de Apresentação', meta:'Comunicação', html:`<p>Como apresentar o projeto com foco técnico e executivo.</p>` },
+  'w8d4': { title:'Dia 4 – Avaliação Prática', meta:'Avaliação', html:`<p>Critérios de avaliação prática (qualidade do detalhamento, BOM, conformidade).</p>` },
+  'w8d5': { title:'Dia 5 – Apresentação Final', meta:'Encerramento', html:`<p>Apresentação do projeto e feedback do instrutor; definição de próximos passos.</p>` }
+};
+
+/* Funções para carregar conteúdo no painel da direita */
+const contentTitle = document.getElementById('content-title');
+const contentMeta = document.getElementById('content-meta');
+const contentBody = document.getElementById('content-body');
+const dayButtons = document.querySelectorAll('.day-btn');
+const closeAllBtn = document.getElementById('closeAll');
+
+function clearActiveDays(){
+  dayButtons.forEach(b => b.classList.remove('active'));
+}
+
+function loadDayContent(id, el){
+  const data = contentData[id];
+  if(!data){
+    contentTitle.textContent = 'Conteúdo não disponível';
+    contentMeta.textContent = 'Este conteúdo ainda não foi adicionado.';
+    contentBody.innerHTML = '<p>Por favor volte mais tarde — conteúdo em desenvolvimento.</p>';
+    return;
+  }
+  clearActiveDays();
+  el.classList.add('active');
+  contentTitle.textContent = data.title;
+  contentMeta.textContent = data.meta || '';
+  contentBody.innerHTML = data.html;
+  // scroll to top of content area for mobile
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* Ativar clique nos botões de dia */
+dayButtons.forEach(btn=>{
+  btn.addEventListener('click', (e)=>{
+    const id = btn.getAttribute('data-id');
+    loadDayContent(id, btn);
+  });
+});
+
+/* Fechar tudo: limpa a área de conteúdo e remove active */
+closeAllBtn.addEventListener('click', ()=>{
+  clearActiveDays();
+  contentTitle.textContent = 'Bem-vindo ao Nível 1 – Desenhador Projectista';
+  contentMeta.textContent = 'Objetivo do nível: integrar o aluno no ambiente técnico da construção metálica, dominar ferramentas básicas de desenho e processos de produção.';
+  contentBody.innerHTML = `<p>Este espaço mostrará a lição escolhida. Clique em um "Dia" no painel da esquerda para carregar o conteúdo da lição correspondente.</p>
+    <p>O curso está organizado em 8 semanas — cada semana com 5 dias de lição / exercícios práticos.</p>`;
+});
+
+/* Opcional: carregar automaticamente o primeiro dia da semana 1 ao abrir */
+document.addEventListener('DOMContentLoaded', ()=>{
+  const first = document.querySelector('.day-btn[data-id="w1d1"]');
+  if(first) loadDayContent('w1d1', first);
+});
+</script>
+
+</body>
+</html>
