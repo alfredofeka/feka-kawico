@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inscrição em Curso - FEKA KAWIÇO</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<style>
+  body { font-family: 'Roboto', sans-serif; background: #f4f4f8; margin: 0; padding: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+  .card { background: #fff; padding: 40px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); max-width: 600px; width: 90%; text-align: center; }
+  h2 { color: #004a80; margin-bottom: 25px; font-family: 'Montserrat', sans-serif; }
+  .message { padding: 15px; border-radius: 8px; margin-bottom: 20px; font-weight: 500; }
+  .info { background: #e0f2f7; color: #004a80; }
+  .error { background: #ffe0e0; color: #a00000; }
+  .success { background: #e0ffe0; color: #006600; }
+  button { background: #007bff; color: #fff; padding: 12px 25px; border: none; border-radius: 8px; cursor: pointer; font-size: 1.1em; transition: background 0.3s; margin-top: 15px; }
+  button:hover { background: #0056b3; }
+  button:disabled { background: #ccc; cursor: not-allowed; }
+  .course-select { margin-bottom: 20px; }
+  select { width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #ccc; font-size: 1em; }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div id="auth-check">
+    <h2>A verificar o seu registo...</h2>
+    <i class="fas fa-spinner fa-spin" style="font-size: 2em; color: #004a80;"></i>
+  </div>
+</div>
+
+<script>
+// Mock de Cursos
+const cursos = [
+  { id: 'estr', nome: 'Engenharia de Estruturas Metálicas' },
+  { id: 'qaqc', nome: 'Certificação QA/QC em Soldadura' },
+  { id: 'engl', nome: 'Inglês Técnico para Projetos' },
+];
+
+function checkGeneralEnrollment() {
+  const user = localStorage.getItem('feka_user');
+  const authCheck = document.getElementById('auth-check');
+
+  if (!user) {
+    // 1. Usuário NÃO INSCRITO GERALMENTE
+    authCheck.innerHTML = `
+      <h2>Acesso Restrito</h2>
+      <div class="message error">
+        <strong>Erro:</strong> Não está inscrito na plataforma.
+        Para se inscrever em qualquer curso, precisa de ter uma Inscrição Geral (conta) na FEKA KAWIÇO.
+      </div>
+      <button onclick="window.location.href='Inscricaogeral.html'">Ir para Inscrição Geral</button>
+      <p style="margin-top: 20px;"><a href="login.html">Já sou inscrito. Fazer Login</a></p>
+    `;
+    return false;
+  }
+  
+  // Usuário INSCRITO GERALMENTE
+  const userData = JSON.parse(user);
+  
+  authCheck.innerHTML = `
+    <h2>Inscrição no Curso</h2>
+    <div class="message info">
+      Bem-vindo(a), ${userData.nome.split(' ')[0]}! Selecione o curso que deseja frequentar.
+    </div>
+
+    <div class="course-select">
+      <label for="course">Curso a Inscrever:</label>
+      <select id="course">
+        ${cursos.map(c => `<option value="${c.id}">${c.nome}</option>`).join('')}
+      </select>
+    </div>
+
+    <div id="feedback" class="message success" style="display: none;"></div>
+
+    <button id="btn-pay">Prosseguir para Pagamento (30.000 Kz)</button>
+  `;
+  
+  document.getElementById('btn-pay').addEventListener('click', handleCourseEnrollment);
+  return true;
+}
+
+function handleCourseEnrollment() {
+  const selectedCourseId = document.getElementById('course').value;
+  const btn = document.getElementById('btn-pay');
+  const feedback = document.getElementById('feedback');
+  
+  btn.disabled = true;
+  feedback.style.display = 'block';
+  feedback.textContent = "A processar o pedido de inscrição para " + cursos.find(c => c.id === selectedCourseId).nome + "...";
+  feedback.className = "message info";
+
+  // --- SIMULAÇÃO DO PROCESSO DE PAGAMENTO E VALIDAÇÃO ---
+  setTimeout(() => {
+    // Nesta etapa, você faria uma chamada API para processar o pagamento
+    // e registar a intenção de matrícula.
+
+    // SIMULAÇÃO: Pagamento bem-sucedido. O aluno está "Pendente de Validação Admin"
+
+    feedback.className = "message success";
+    feedback.innerHTML = `
+      Inscrição registada com sucesso! <br>
+      O pagamento de 30.000 Kz foi iniciado. Após confirmação (pode levar até 24h),
+      o administrador validará a sua inscrição e o curso aparecerá no seu Perfil.
+    `;
+    
+    // Você pode armazenar a inscrição pendente no localStorage (simulação backend)
+    const user = JSON.parse(localStorage.getItem('feka_user'));
+    user.cursos_pendentes = user.cursos_pendentes || [];
+    if (!user.cursos_pendentes.includes(selectedCourseId)) {
+        user.cursos_pendentes.push(selectedCourseId);
+    }
+    localStorage.setItem('feka_user', JSON.stringify(user));
+
+    btn.style.display = 'none';
+
+  }, 3000); // Espera 3 segundos para simular a transação
+}
+
+// Inicializa a verificação
+checkGeneralEnrollment();
+</script>
+</body>
+</html>
