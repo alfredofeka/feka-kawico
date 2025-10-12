@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>FEKA KAWIÇO - Carreiras Profissionais</title>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 <style>
 :root {
   --primary-blue: #004a80;
@@ -13,258 +14,520 @@
   --text-light: #f4f4f4;
   --bg-light: #f9f9f9;
   --bg-dark: #2c3e50;
-  --border-color: #ddd;
-  --hover-light: #e0f2f7;
   --btn-bg: #007bff;
   --btn-hover: #0056b3;
-  --btn-yellow: #f7d070;
-  --btn-yellow-hover: #e6c25a;
   --sidebar-bg: #ffffff;
   --sidebar-hover: #f0f4f8;
+  --online-color: #28a745;
+  --offline-color: #ffc107;
 }
 
-* {margin:0; padding:0; box-sizing:border-box;}
-body {font-family:'Roboto', sans-serif; line-height:1.6; color:var(--text-dark); background-color:var(--bg-light);}
-.container {max-width:1200px; margin:0 auto; padding:0 20px;}
+/* Base */
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Roboto',sans-serif;background-color:var(--bg-light);color:var(--text-dark);line-height:1.6;}
+.container{max-width:1200px;margin:0 auto;padding:0 20px;}
 
-/* Header */
-header {background-color: var(--primary-blue); color: var(--text-light); padding:15px 0; box-shadow:0 2px 10px rgba(0,0,0,0.1);}
-header .container {display:flex; justify-content:space-between; align-items:center;}
-.logo {display:flex; align-items:center; gap:10px;}
-.logo img {height:50px;}
-.logo div {display:flex; flex-direction:column;}
-.logo h1 {font-family:'Montserrat', sans-serif; font-size:1.8em; font-weight:700; margin:0;}
-.logo span {font-size:0.9em; color:#cbd6e0;}
-nav ul {list-style:none; display:flex; align-items:center;}
-nav ul li {margin-left:28px;}
-nav ul li a {color:var(--text-light); text-decoration:none; font-weight:600; font-size:1.05em; transition: color 0.3s;}
-nav ul li a:hover {color: var(--secondary-blue);}
-
-/* Hero Slider */
-.hero {position:relative; height:60vh; overflow:hidden; display:flex; align-items:center; justify-content:center; color:var(--text-light);}
-.hero-slide {position:absolute; top:0; left:0; width:100%; height:100%; background-size:cover; background-position:center; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; opacity:0; transition:opacity 1s;}
-.hero-slide.active {opacity:1;}
-.hero-slide h1 {
-    font-family:'Montserrat',sans-serif;
-    font-size:2.5em;
-    margin-bottom:15px;
-    color: #fff; 
-    text-shadow:0 2px 8px rgba(0,0,0,0.5);
+/* Header (Adaptado ao seu estilo) */
+header{
+  background:var(--primary-blue);
+  color:var(--text-light);
+  padding:10px 0; 
+  box-shadow:0 2px 10px rgba(0,0,0,0.1);
+  position:sticky;top:0;z-index:1000;
 }
-.hero-slide p {
-    font-size:1.2em;
-    max-width:800px;
-    margin:5px auto;
-    color: #fff;
-    text-shadow:0 1px 5px rgba(0,0,0,0.5);
-    display:none;
+header .container{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-wrap:wrap;
 }
-.hero-btn {
-    padding:12px 25px;
-    background:var(--btn-yellow);
-    color: var(--primary-blue);
-    border:none;
-    border-radius:8px;
-    cursor:pointer;
-    font-weight:600;
-    transition:all 0.3s;
+.header-top-row {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
-.hero-btn:hover {background:var(--btn-yellow-hover); transform:translateY(-2px);}
+.logo{display:flex;align-items:center;gap:10px;}
+.logo img{height:35px;}
+.logo h1{font-family:'Montserrat',sans-serif;font-size:1.4em;font-weight:700;margin:0;}
+.logo span{font-size:0.7em;color:#cbd6e0;}
 
-/* Carreiras Section */
-#carreiras {padding:80px 0; display:flex; flex-wrap:wrap; justify-content:center; gap:30px;}
-.carreira-card {background:#fff; border-radius:12px; overflow:hidden; width:280px; box-shadow:0 4px 15px rgba(0,0,0,0.1); transition:transform 0.3s; display:flex; flex-direction:column;}
-.carreira-card:hover {transform:translateY(-5px);}
-.carreira-card img {width:100%; height:180px; object-fit:cover; cursor:pointer;}
-.carreira-card .card-body {padding:15px; flex:1; display:flex; flex-direction:column;}
-.carreira-card h3 {font-family:'Montserrat', sans-serif; margin-bottom:10px; color:var(--primary-blue);}
-.carreira-card p {flex:1; color:#555; font-size:0.95em; margin-bottom:15px;}
-.carreira-card button {padding:10px; border:none; border-radius:8px; background:var(--btn-bg); color:#fff; font-weight:600; cursor:pointer; transition:all 0.3s;}
-.carreira-card button:hover {background:var(--btn-hover); transform:translateY(-2px);}
+/* Menu retrátil */
+.menu-toggle{display:block;cursor:pointer;font-size:1.6em;color:var(--text-light);}
+nav{max-height:0;overflow:hidden;transition:max-height 0.3s ease-out;width:100%;}
+nav.active{max-height:400px;padding-top: 10px;}
+nav ul{list-style:none;display:flex;flex-direction:column;align-items:flex-start;}
+nav ul li{margin:5px 0;}
+nav ul li a{color:var(--text-light);text-decoration:none;font-weight:600;font-size:1em;padding:5px 0;display:block;}
 
-/* Sidebar Conhecimento & Emprego */
+/* Desktop Menu */
+@media(min-width:1025px){
+  .header-top-row {width: auto;}
+  .menu-toggle{display:none;}
+  nav{max-height:none!important;overflow:visible!important;width:auto;}
+  nav ul{flex-direction:row;align-items:center;}
+  nav ul li{margin-left:22px; margin-top:0;}
+}
+
+/* Status Indicator */
+#status-indicator {
+    display: flex;
+    align-items: center;
+    color: var(--text-light);
+    cursor: pointer;
+    transition: opacity 0.3s;
+    margin-left: 15px;
+}
+.status-icon {font-size: 1.2em;margin-right: 5px;}
+.status-icon.online {color: var(--online-color);}
+.status-icon.offline {color: var(--offline-color);}
+.status-text {font-size: 0.85em;font-weight: 600;}
+.login-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+
+/* Hero */
+.hero{
+  position:relative;height:32vh;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;color:var(--text-light);
+}
+.hero-slide{
+  position:absolute;top:0;left:0;width:100%;height:100%;
+  background-size:cover;background-position:center;
+  display:flex;flex-direction:column;justify-content:center;align-items:center;
+  text-align:center;opacity:0;transition:opacity 2s ease-in-out;
+  padding: 0 20px;
+}
+.hero-slide.active{opacity:1;}
+.hero-slide h1{font-family:'Montserrat',sans-serif;font-size:1.8em;margin-bottom:10px;text-shadow:0 2px 8px rgba(0,0,0,0.5);}
+.hero-slide p{font-size:0.95em;max-width:800px;color:#fff;text-shadow:0 1px 5px rgba(0,0,0,0.5);margin-bottom:10px;}
+
+/* Cards */
+#carreiras{padding:40px 0;display:flex;flex-wrap:wrap;justify-content:center;gap:30px;}
+.carreira-card{background:#fff;border-radius:12px;overflow:hidden;width:280px;box-shadow:0 4px 15px rgba(0,0,0,0.1);transition:transform 0.3s;display:flex;flex-direction:column;}
+.carreira-card:hover{transform:translateY(-5px);}
+.carreira-card img{width:100%;height:160px;object-fit:cover;cursor:pointer;}
+.carreira-card .card-body{padding:15px;flex:1;display:flex;flex-direction:column;}
+.carreira-card h3{font-family:'Montserrat',sans-serif;margin-bottom:10px;color:var(--primary-blue);}
+.carreira-card p{flex:1;color:#555;font-size:0.95em;margin-bottom:15px;}
+.carreira-card button{padding:10px;border:none;border-radius:8px;background:var(--btn-bg);color:#fff;font-weight:600;cursor:pointer;transition:all 0.3s;}
+.carreira-card button:hover{background:var(--btn-hover);transform:translateY(-2px);}
+
+/* Descrições */
+.career-description{
+  display:none;background:#fff;border-radius:12px;box-shadow:0 2px 10px rgba(0,0,0,0.1);
+  padding:30px;margin:30px auto;max-width:900px;animation:fadeIn 0.8s ease;
+}
+.career-description.active{display:block;}
+.career-description h2{color:var(--primary-blue);font-family:'Montserrat',sans-serif;margin-bottom:15px;}
+.career-description h3{margin-top:20px;color:#007bff;}
+.career-description p, .career-description li{margin-bottom:10px;}
+.career-description table{width:100%;border-collapse:collapse;margin:15px 0;}
+.career-description th, .career-description td{border:1px solid #ddd;padding:8px;text-align:left;}
+.career-description th{background:#f2f6fc;color:#004a80;font-weight:600;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+
+/* Sidebar - Retrátil e com Scroll Infinito */
 #knowledge-feed {
-    position:fixed;
-    top:100px;
-    right:0;
-    width:320px;
-    height:80vh;
-    overflow-y:auto;
-    background:var(--sidebar-bg);
-    box-shadow:-2px 4px 20px rgba(0,0,0,0.2);
-    border-radius:12px 0 0 12px;
-    padding:20px;
-    font-family:'Roboto', sans-serif;
+    position: fixed;
+    top: 0; 
+    right: -320px;
+    width: 320px;
+    height: 100vh;
+    background: #ffffff;
+    box-shadow: -2px 0 20px rgba(0,0,0,0.2);
+    padding: 0 20px 20px 20px;
+    transition: right 0.3s ease-in-out;
+    z-index: 900;
+    display: flex;
+    flex-direction: column;
 }
-#knowledge-feed h2 {text-align:center; font-family:'Montserrat', sans-serif; color:var(--primary-blue); margin-bottom:20px;}
-.knowledge-item {
-    margin-bottom:15px;
-    padding:12px;
-    border-radius:8px;
-    background:#f9f9f9;
-    transition:all 0.3s;
-    cursor:pointer;
+#knowledge-feed.active {right: 0;}
+
+.sidebar-title {
+    background: var(--primary-blue);
+    color: white;
+    text-align: center;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.2em;
+    font-weight: 700;
+    padding: 15px 0;
+    margin: 0 -20px; /* Estende a cor até as bordas */
+    flex-shrink: 0;
 }
-.knowledge-item:hover {
-    background:var(--sidebar-hover);
-    transform:translateX(-3px);
+
+#knowledge-content {
+    overflow-y: hidden;
+    flex: 1; 
+    margin-top: 20px;
+    position: relative;
+    padding-bottom: 30px; 
 }
-.knowledge-item h4 {font-size:1em; margin-bottom:5px; color:var(--primary-blue);}
-.knowledge-item p {font-size:0.9em; color:#555;}
+.knowledge-item{margin-bottom:15px;padding:12px;border-radius:8px;background:#f9f9f9;transition:all 0.3s;cursor:pointer;}
+.knowledge-item:hover{background:var(--sidebar-hover);transform:translateX(-3px);}
+
+.sidebar-toggle{
+  position:fixed;top:50%;right:0;transform:translateY(-50%);
+  background:var(--primary-blue);color:#fff;padding:10px 12px;
+  border-radius:8px 0 0 8px;cursor:pointer;z-index:950;
+  box-shadow:0 0 12px rgba(0,0,0,0.3);transition:all 0.3s;
+}
+.sidebar-toggle:hover{background:var(--secondary-blue);right:2px;}
 
 /* Footer */
-footer {background-color:var(--bg-dark); color:var(--text-light); text-align:center; padding:40px 20px;}
-footer p {margin:5px 0;}
-
-@media(max-width:1024px){#knowledge-feed{position:static;width:100%;height:auto;margin-top:40px;}}
-@media(max-width:768px){.hero-slide h1{font-size:2em;}.hero-slide p{font-size:1em;} #carreiras{flex-direction:column; align-items:center;}}
+footer{background:var(--bg-dark);color:var(--text-light);text-align:center;padding:30px 20px;margin-top:40px;}
+footer p{margin:5px 0;}
 </style>
 </head>
 <body>
 
 <header>
   <div class="container">
-    <div class="logo">
-      <img src="FK.png" alt="FK Logo">
-      <div>
-        <h1>FEKA KAWIÇO</h1>
-        <span>Cursos Técnicos - A Terra Natural do Conhecimento</span>
-      </div>
+    <div class="header-top-row">
+        <div class="logo">
+          <a href="index.html" style="text-decoration:none; color:inherit; display:flex; align-items:center; gap:10px;">
+              <img src="FK.png" alt="FK Logo">
+              <div>
+                  <h1>FEKA KAWIÇO</h1>
+                  <span>Cursos Técnicos - A Terra Natural do Conhecimento</span>
+              </div>
+          </a>
+        </div>
+        
+        <div class="login-wrapper">
+            <div id="status-indicator"></div>
+            <div class="menu-toggle" id="menu-toggle">☰</div>
+        </div>
     </div>
-    <nav>
+    
+    <nav id="main-nav">
       <ul>
         <li><a href="index.html">Início</a></li>
-        <li><a href="carreiras.html">Carreira</a></li>
-        <li><a href="index.html">Cursos</a></li>
+        <li><a href="carreiras.html">Carreiras</a></li>
+        <li><a href="index.html#cursos">Cursos</a></li>
         <li><a href="sobrenos.html">Sobre Nós</a></li>
         <li><a href="contato.html">Contato</a></li>
+        <li><a href="ajuda.html">Ajuda/Suporte</a></li>
       </ul>
     </nav>
   </div>
 </header>
 
+<div class="sidebar-toggle" id="sidebar-toggle">⟨</div>
+
 <section class="hero">
-  <a href="sobre_carreiras.html" class="hero-slide-link">
-    <div class="hero-slide active" style="background-image:url('https://picsum.photos/id/1015/1600/600');">
-      <h1>Comece Cedo, Cresça Sempre</h1>
-      <p class="slide-text">Invista em você desde jovem e conquiste seu espaço profissional.</p>
-      <p class="slide-text">Desenvolva competências sólidas e seja referência.</p>
-      <p class="slide-text">O futuro é construído agora.</p>
-      <p class="slide-text">Seja protagonista da sua carreira.</p>
-      <button class="hero-btn">Descubra sua Carreira</button>
-    </div>
-  </a>
-  <a href="profissionalismo.html" class="hero-slide-link">
-    <div class="hero-slide" style="background-image:url('https://picsum.photos/id/1016/1600/600');">
-      <h1>Profissionalismo é Poder</h1>
-      <p class="slide-text">Domine sua área de atuação e destaque-se no mercado.</p>
-      <p class="slide-text">Prática e conhecimento são aliados essenciais.</p>
-      <p class="slide-text">Aprender sempre, liderar com excelência.</p>
-      <p class="slide-text">Transforme esforço em reconhecimento.</p>
-      <button class="hero-btn">Descubra sua Carreira</button>
-    </div>
-  </a>
-  <!-- Adicione mais slides até 10 imagens -->
+  <div class="hero-slide active" style="background-image:url('https://picsum.photos/id/1015/1600/600');">
+    <h1>Constrói o Teu Futuro Técnico</h1>
+    <p>Descobre carreiras que transformam conhecimento em profissão.</p>
+  </div>
+  <div class="hero-slide" style="background-image:url('https://picsum.photos/id/1018/1600/600');">
+    <h1>Domina a Engenharia e Automação</h1>
+    <p>Prepara-te para a Indústria 4.0 com os cursos mais procurados.</p>
+  </div>
 </section>
 
 <main class="container">
   <section id="carreiras">
     <div class="carreira-card">
-      <img src="https://picsum.photos/id/1012/400/180" alt="Desenhador / Projectista" onclick="window.location.href='desenhador.html'">
+      <img src="Carreira DPM.png" alt="Desenhador" onclick="showCareer('projectista')">
       <div class="card-body">
         <h3>Desenhador / Projectista</h3>
-        <p>Aprenda a detalhar estruturas metálicas com CAD e Tekla.</p>
-        <button onclick="window.location.href='desenhador.html'">Saiba Mais</button>
+        <p>Transforma ideias em estruturas reais. A mente que constrói o futuro da engenharia.</p>
+        <button onclick="showCareer('projectista')">Ver Carreira</button>
       </div>
     </div>
+    
     <div class="carreira-card">
-      <img src="https://picsum.photos/id/1013/400/180" alt="Inglês Técnico" onclick="window.location.href='ingles.html'">
+      <img src="Carreira Robotica.png" alt="Robótica Industrial" onclick="showCareer('robotica')">
       <div class="card-body">
-        <h3>Inglês Técnico</h3>
-        <p>Domine termos técnicos e comunicação em engenharia internacional.</p>
-        <button onclick="window.location.href='ingles.html'">Saiba Mais</button>
+        <h3>Engenheiro / Programador de Robótica</h3>
+        <p>O arquiteto da automação industrial e da era 4.0, programando sistemas inteligentes.</p>
+        <button onclick="showCareer('robotica')">Ver Carreira</button>
       </div>
     </div>
+    
     <div class="carreira-card">
-      <img src="https://picsum.photos/id/1014/400/180" alt="Francês Técnico" onclick="window.location.href='frances.html'">
+      <img src="https://picsum.photos/id/43/600/400" alt="Controlo de Qualidade" onclick="showCareer('qaqc')">
       <div class="card-body">
-        <h3>Francês Técnico</h3>
-        <p>Comunique-se eficientemente em projetos internacionais.</p>
-        <button onclick="window.location.href='frances.html'">Saiba Mais</button>
+        <h3>Técnico de QA/QC (Controlo de Qualidade)</h3>
+        <p>Assegura que os produtos e processos cumprem rigorosamente as normas internacionais de qualidade.</p>
+        <button onclick="showCareer('qaqc')">Ver Carreira</button>
       </div>
     </div>
+    
     <div class="carreira-card">
-      <img src="https://picsum.photos/id/1016/400/180" alt="Introdução a QA & QC" onclick="window.location.href='qa_qc.html'">
+      <img src="https://picsum.photos/id/29/600/400" alt="Logística" onclick="showCareer('logistica')">
       <div class="card-body">
-        <h3>Introdução a QA & QC</h3>
-        <p>Garanta qualidade na fabricação e inspeção de estruturas metálicas.</p>
-        <button onclick="window.location.href='qa_qc.html'">Saiba Mais</button>
+        <h3>Especialista em Logística & MTO</h3>
+        <p>Gestão eficiente da cadeia de suprimentos, aquisição de materiais (MTO) e organização de projetos.</p>
+        <button onclick="showCareer('logistica')">Ver Carreira</button>
       </div>
     </div>
+    
     <div class="carreira-card">
-      <img src="https://picsum.photos/id/1018/400/180" alt="Procurement" onclick="window.location.href='procurement.html'">
+      <img src="https://picsum.photos/id/163/600/400" alt="Tradução Técnica" onclick="showCareer('idiomas')">
       <div class="card-body">
-        <h3>Procurement</h3>
-        <p>Gerencie materiais e logística para projetos industriais e offshore.</p>
-        <button onclick="window.location.href='procurement.html'">Saiba Mais</button>
-      </div>
-    </div>
-    <div class="carreira-card">
-      <img src="https://picsum.photos/id/1020/400/180" alt="Montagem de Estruturas" onclick="window.location.href='montagem.html'">
-      <div class="card-body">
-        <h3>Montagem de Estruturas</h3>
-        <p>Aprenda técnicas de montagem seguras e eficientes em obra.</p>
-        <button onclick="window.location.href='montagem.html'">Saiba Mais</button>
+        <h3>Especialista em Idiomas Técnicos</h3>
+        <p>Profissional que traduz e interpreta documentação em projetos internacionais (Inglês/Francês).</p>
+        <button onclick="showCareer('idiomas')">Ver Carreira</button>
       </div>
     </div>
   </section>
+
+  <div id="projectista" class="career-description">
+    <h2>🏗️ Desenhador / Projectista de Estruturas Metálicas: A Mente que Constrói o Futuro</h2>
+    <p>O Desenhador/Projectista é o tradutor técnico da Engenharia — transforma cálculos complexos em instruções práticas, seguras e precisas para o fabrico e montagem.</p>
+    <p>É o profissional que assegura que cada peça de aço se encaixa perfeitamente, garantindo a segurança e rastreabilidade das estruturas modernas.</p>
+    <h3>💡 Porquê Escolher Esta Carreira</h3>
+    <ul>
+      <li>Alta empregabilidade e crescimento constante no setor de construção pesada.</li>
+      <li>Domínio de ferramentas CAD e BIM 3D como Tekla Structures e AutoCAD.</li>
+      <li>Impacto direto na construção e engenharia real.</li>
+    </ul>
+    <h3>🚀 Pipeline de Carreira</h3>
+    <table>
+      <tr><th>Nível</th><th>Função</th><th>Foco</th><th>Competências</th></tr>
+      <tr><td>Júnior</td><td>Desenhador Detalhista</td><td>Aprender software e simbologia.</td><td>CAD 2D, Normas ISO/AWS.</td></tr>
+      <tr><td>Pleno</td><td>Projectista 3D</td><td>Modelagem e gestão de montagens.</td><td>Tekla, MTO (Material Take Off), BOM.</td></tr>
+      <tr><td>Sénior</td><td>Especialista Técnico</td><td>Resolução de desafios e revisões.</td><td>BIM, Fabrico, Revisões.</td></tr>
+    </table>
+  </div>
+
+  <div id="robotica" class="career-description">
+    <h2>🤖 Engenharia de Robótica Industrial: O Arquiteto da Automação</h2>
+    <p>O Engenheiro de Robótica une mecânica, eletrónica e software para desenvolver sistemas inteligentes que transformam a produção industrial.</p>
+    <p>Cria, programa e otimiza robôs capazes de trabalhar com precisão milimétrica, revolucionando as linhas de montagem do mundo moderno.</p>
+    <h3>💡 Porquê Escolher Esta Carreira</h3>
+    <ul>
+        <li>Liderança na transformação digital da indústria (Indústria 4.0).</li>
+        <li>Elevada procura por empresas de automação e grandes fábricas.</li>
+        <li>Oportunidade de trabalhar com tecnologias de ponta (IA e Visão Computacional).</li>
+    </ul>
+    <h3>🚀 Pipeline de Carreira</h3>
+    <table>
+      <tr><th>Nível</th><th>Função</th><th>Foco</th><th>Competências</th></tr>
+      <tr><td>Júnior</td><td>Técnico de Operação</td><td>Manuseio e diagnóstico.</td><td>PLC, Sensores e Atuadores.</td></tr>
+      <tr><td>Pleno</td><td>Programador de Robôs</td><td>Integração e otimização.</td><td>Python, Linguagens de Robôs (ABB, Fanuc, KUKA).</td></tr>
+      <tr><td>Sénior</td><td>Engenheiro de Automação</td><td>Gestão de sistemas complexos.</td><td>Machine Learning, Redes Industriais.</td></tr>
+    </table>
+  </div>
+  
+  <div id="qaqc" class="career-description">
+    <h2>✅ Técnico de QA/QC (Quality Assurance/Control): O Guardião da Conformidade</h2>
+    <p>Este profissional é essencial para qualquer projeto que exija rastreabilidade e segurança. Ele é responsável por planear e executar inspeções, testes e procedimentos para garantir que o produto final está 100% em conformidade com as especificações e normas legais.</p>
+    <h3>💡 Porquê Escolher Esta Carreira</h3>
+    <ul>
+        <li>Fundamental na indústria petrolífera, offshore e metalomecânica.</li>
+        <li>Elevado rigor técnico e exigência salarial.</li>
+        <li>Oportunidade de trabalho em campo e em escritório.</li>
+    </ul>
+    <h3>🚀 Pipeline de Carreira</h3>
+    <table>
+      <tr><th>Nível</th><th>Função</th><th>Foco</th><th>Competências</th></tr>
+      <tr><td>Júnior</td><td>Inspetor Assistente</td><td>Inspeção visual e controlo documental.</td><td>Leitura de Desenho, Normas ISO.</td></tr>
+      <tr><td>Pleno</td><td>Técnico de QA/QC</td><td>Emissão de relatórios e gestão de não-conformidades.</td><td>NDT (Non-Destructive Testing), Metrologia.</td></tr>
+      <tr><td>Sénior</td><td>Coordenador de Qualidade</td><td>Gestão do sistema de qualidade da empresa (ISO 9001).</td><td>Auditorias internas/externas, Liderança de equipa.</td></tr>
+    </table>
+  </div>
+
+  <div id="logistica" class="career-description">
+    <h2>🚛 Especialista em Logística e Procurement: Gestão de Materiais</h2>
+    <p>O Especialista em Logística garante que os materiais e equipamentos certos cheguem ao local de trabalho na hora certa e ao melhor custo. É uma peça chave para evitar atrasos e desperdícios em projetos de grande escala.</p>
+    <h3>💡 Porquê Escolher Esta Carreira</h3>
+    <ul>
+        <li>Interliga o escritório, o fornecedor e o local de construção.</li>
+        <li>Desenvolvimento de fortes habilidades de negociação e gestão de fornecedores.</li>
+        <li>Posição estratégica para a otimização de custos e prazos.</li>
+    </ul>
+    <h3>🚀 Pipeline de Carreira</h3>
+    <table>
+      <tr><th>Nível</th><th>Função</th><th>Foco</th><th>Competências</th></tr>
+      <tr><td>Júnior</td><td>Assistente de Compras</td><td>Processamento de pedidos de cotação e controlo de inventário.</td><td>Excel, Bases de dados de fornecedores.</td></tr>
+      <tr><td>Pleno</td><td>Analista de MTO</td><td>Material Take Off e gestão da cadeia de suprimentos.</td><td>Negociação, Gestão de armazém.</td></tr>
+      <tr><td>Sénior</td><td>Especialista em Supply Chain</td><td>Estratégia de aquisição global e planeamento de longo prazo.</td><td>Sistemas ERP, Análise de risco.</td></tr>
+    </table>
+  </div>
+  
+  <div id="idiomas" class="career-description">
+    <h2>🌐 Especialista em Idiomas Técnicos: A Ponte da Comunicação Global</h2>
+    <p>A fluência em idiomas técnicos (especialmente Inglês e Francês) é uma exigência no mercado internacional de Engenharia. Este profissional facilita a comunicação entre equipas multiculturais e garante a precisão de documentos essenciais (manuais, especificações, relatórios).</p>
+    <h3>💡 Porquê Escolher Esta Carreira</h3>
+    <ul>
+        <li>Trabalho em ambientes internacionais (Angola, África, Europa).</li>
+        <li>Requisito essencial em projetos offshore e empresas multinacionais.</li>
+        <li>Permite rápida progressão para funções de coordenação.</li>
+    </ul>
+    <h3>🚀 Pipeline de Carreira</h3>
+    <table>
+      <tr><th>Nível</th><th>Função</th><th>Foco</th><th>Competências</th></tr>
+      <tr><td>Júnior</td><td>Assistente Bilingue</td><td>Tradução simples e comunicação básica.</td><td>Inglês/Francês Técnico, Correspondência.</td></tr>
+      <tr><td>Pleno</td><td>Tradutor Documental</td><td>Tradução de manuais de qualidade e especificações.</td><td>Terminologia técnica avançada, Edição de texto.</td></tr>
+      <tr><td>Sénior</td><td>Coordenador de Documentação</td><td>Gestão de documentação de projetos e reuniões.</td><td>Interpretação simultânea, Liderança de equipa.</td></tr>
+    </table>
+  </div>
+
 </main>
 
+
+<div class="sidebar-toggle" id="sidebar-toggle">⟨</div>
+
 <div id="knowledge-feed">
-  <h2>Conhecimento & Emprego</h2>
-  <div class="knowledge-item" onclick="window.location.href='cv.html'"><h4>Como fazer um CV</h4><p>Dicas práticas para destacar-se.</p></div>
-  <div class="knowledge-item" onclick="window.location.href='trabalhar_conta_propria.html'"><h4>Trabalhar por conta própria</h4><p>Como gerir sua própria carreira.</p></div>
-  <div class="knowledge-item" onclick="window.location.href='procurar_emprego.html'"><h4>Como procurar emprego</h4><p>Estratégias eficientes para conseguir oportunidades.</p></div>
-  <div class="knowledge-item" onclick="window.location.href='crescer_profissionalmente.html'"><h4>Como crescer profissionalmente</h4><p>Desenvolvimento e avanço na carreira.</p></div>
-  <div class="knowledge-item" onclick="window.location.href='dicas_profissionais.html'"><h4>5 dicas que elevam profissionalmente</h4><p>Conselhos práticos para alcançar excelência.</p></div>
-  <div class="knowledge-item" onclick="window.location.href='anuncios_emprego.html'"><h4>10 anúncios de emprego</h4><p>Oportunidades atuais no mercado.</p></div>
+  <h2 class="sidebar-title">Conhecimento & Emprego</h2>
+  <div id="knowledge-content">
+    <div class="knowledge-item" onclick="window.location.href='cv.html'">
+      <h4>Como fazer um CV</h4>
+      <p>Dicas práticas para destacar-se.</p>
+    </div>
+    <div class="knowledge-item" onclick="window.location.href='trabalhar_conta_propria.html'">
+      <h4>Trabalhar por conta própria</h4>
+      <p>Como gerir sua própria carreira.</p>
+    </div>
+    <div class="knowledge-item" onclick="window.location.href='procurar_emprego.html'">
+      <h4>Como procurar emprego</h4>
+      <p>Estratégias eficientes para conseguir oportunidades.</p>
+    </div>
+    <div class="knowledge-item" onclick="window.location.href='crescer_profissionalmente.html'">
+      <h4>Como crescer profissionalmente</h4>
+      <p>Desenvolvimento e avanço na carreira.</p>
+    </div>
+    <div class="knowledge-item" onclick="window.location.href='dicas_profissionais.html'">
+      <h4>5 dicas que elevam profissionalmente</h4>
+      <p>Conselhos práticos para alcançar excelência.</p>
+    </div>
+    <div class="knowledge-item" onclick="window.location.href='anuncios_emprego.html'">
+      <h4>Anúncios de Emprego</h4>
+      <p>Oportunidades atuais no mercado.</p>
+    </div>
+  </div>
 </div>
 
 <footer>
-  <div class="container">
-    <p>&copy; 2025 FEKA KAWIÇO Cursos Técnicos. Todos os direitos reservados.</p>
-    <p>“A Terra Natural do Conhecimento” – Capacitando o futuro da engenharia.</p>
-  </div>
+  <p>&copy; 2025 FEKA KAWIÇO Cursos Técnicos. Todos os direitos reservados.</p>
+  <p>“A Terra Natural do Conhecimento” – Capacitando o futuro da engenharia.</p>
 </footer>
 
 <script>
-// Hero slider automático com rotação de frases
-const slides = document.querySelectorAll('.hero-slide');
+// ====================================================================
+// JS Comum: Indicador de Login & Logout
+// ====================================================================
+
+function updateLoginStatus() {
+    const statusIndicator = document.getElementById('status-indicator');
+    const user = localStorage.getItem('feka_user');
+    
+    if (user) {
+        const userData = JSON.parse(user);
+        const firstName = userData.nome ? userData.nome.split(' ')[0] : 'Usuário';
+        
+        statusIndicator.innerHTML = `
+            <a href="perfil.html" style="text-decoration:none; color:inherit; display:flex; align-items:center;" title="Ver Perfil (Online)">
+                <i class="fas fa-circle status-icon online"></i>
+                <span class="status-text">Olá, ${firstName}</span>
+            </a>
+            <a href="#" onclick="logout(event)" style="margin-left: 10px; color: var(--offline-color); font-weight: bold; text-decoration: none;">(Sair)</a>
+        `;
+    } else {
+        statusIndicator.innerHTML = `
+            <a href="login.html" style="text-decoration:none; color:inherit; display:flex; align-items:center;" title="Fazer Login">
+                <i class="fas fa-circle status-icon offline"></i>
+                <span class="status-text">Login</span>
+            </a>
+        `;
+    }
+}
+
+function logout(e) {
+    e.preventDefault();
+    localStorage.removeItem('feka_user');
+    alert('Sessão encerrada com sucesso.');
+    updateLoginStatus();
+    window.location.href = 'index.html';
+}
+
+updateLoginStatus();
+
+// ====================================================================
+// JS Específico: Hero Slider, Menu e Sidebar
+// ====================================================================
+
+/* Hero Slider */
 let currentSlide = 0;
+const slides = document.querySelectorAll('.hero-slide');
+function nextSlide() {
+    slides[currentSlide].classList.remove('active');
+    currentSlide = (currentSlide + 1) % slides.length;
+    slides[currentSlide].classList.add('active');
+}
+setInterval(nextSlide, 5000); // Muda a cada 5 segundos
 
-function showSlide(index){
-  slides.forEach((slide,i)=>{
-    slide.classList.remove('active');
-    const texts = slide.querySelectorAll('.slide-text');
-    texts.forEach(t=>t.style.display='none');
-  });
-  slides[index].classList.add('active');
+/* Menu retrátil */
+document.getElementById('menu-toggle').addEventListener('click',()=>document.getElementById('main-nav').classList.toggle('active'));
 
-  const texts = slides[index].querySelectorAll('.slide-text');
-  texts.forEach((t,i)=>setTimeout(()=>{t.style.display='block'}, i*4000));
+/* Sidebar retrátil */
+const sidebarToggle=document.getElementById('sidebar-toggle');
+const knowledgeFeed=document.getElementById('knowledge-feed');
+sidebarToggle.addEventListener('click',()=>{
+  knowledgeFeed.classList.toggle('active');
+  sidebarToggle.textContent=knowledgeFeed.classList.contains('active')?'⟩':'⟨';
+});
+
+
+/* --- SCROLL INFINITO CONTÍNUO NA BARRA LATERAL --- */
+const content = document.getElementById('knowledge-content');
+const numDuplicates = 5; 
+
+// 1. Duplicar Itens para Scroll Infinito
+function duplicateItems() {
+    const originalItems = [...content.children].slice(0, 6); // Pega apenas os 6 itens originais
+    // Limpa o conteúdo antes de duplicar para evitar múltiplas duplicações
+    content.innerHTML = '';
+    
+    for (let i = 0; i < numDuplicates; i++) {
+        originalItems.forEach(item => {
+            content.appendChild(item.cloneNode(true));
+        });
+    }
+}
+duplicateItems();
+
+// 2. Lógica do Loop de Animação
+let scrollSpeed = 0.5;
+
+function autoScroll() {
+    // Só executa o scroll no desktop
+    if (window.innerWidth >= 1025) {
+        content.scrollTop += scrollSpeed;
+
+        const heightOfOriginalContent = content.scrollHeight / numDuplicates; 
+
+        if (content.scrollTop >= heightOfOriginalContent) {
+            content.scrollTop = 0; 
+        }
+    } else {
+        // Para o scroll no mobile e garante que o conteúdo é visível
+        content.scrollTop = 0;
+    }
+    
+    requestAnimationFrame(autoScroll);
 }
 
-function nextSlide(){
-  currentSlide = (currentSlide+1)%slides.length;
-  showSlide(currentSlide);
-}
+requestAnimationFrame(autoScroll);
 
-setInterval(nextSlide, 15000); // cada slide 15 segundos
-showSlide(0);
+content.addEventListener('mouseenter', () => cancelAnimationFrame(autoScroll));
+content.addEventListener('mouseleave', () => requestAnimationFrame(autoScroll));
+/* --- FIM DO SCROLL INFINITO --- */
+
+
+
+/* Mostrar descrição da carreira */
+function showCareer(id){
+  document.querySelectorAll('.career-description').forEach(d=>d.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo({top:document.getElementById(id).offsetTop-60,behavior:'smooth'});
+}
 </script>
 
 </body>
 </html>
-
-
-

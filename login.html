@@ -1,85 +1,86 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="pt-PT">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login - FEKA KAWIÇO Cursos Técnicos</title>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --primary-blue: #004a80;
-      --secondary-blue: #007bff;
-      --text-dark: #333;
-      --success-green: #28a745;
-      --error-red: #dc3545;
-    }
-    *{margin:0; padding:0; box-sizing:border-box;}
-    body{font-family:'Roboto',sans-serif; background:linear-gradient(135deg,#004a80,#007bff); display:flex; justify-content:center; align-items:center; min-height:100vh; color:var(--text-dark);}
-    .login-box{background:#fff; padding:40px 50px; border-radius:12px; box-shadow:0 10px 25px rgba(0,0,0,0.2); max-width:420px; width:100%; text-align:center;}
-    .login-box h1{font-family:'Montserrat',sans-serif; color:var(--primary-blue); font-size:2em; margin-bottom:15px;}
-    .login-box input{width:100%; padding:12px 15px; margin-bottom:20px; border:1px solid #ccc; border-radius:8px; font-size:1em;}
-    .btn{width:100%; background:var(--secondary-blue); color:white; padding:12px; border:none; border-radius:8px; font-weight:bold; cursor:pointer; font-family:'Montserrat',sans-serif; font-size:1em; transition:0.3s; margin-bottom:10px;}
-    .btn:hover{background:#0056b3; transform:scale(1.02);}
-    .status-msg{margin-top:15px; font-weight:600;}
-    .back-link{margin-top:15px; display:block; color: var(--primary-blue); text-decoration:none; font-weight:600;}
-    .back-link:hover{color: var(--secondary-blue);}
-  </style>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Login - FEKA KAWIÇO</title>
+<style>
+body{font-family:Arial,Helvetica,sans-serif;background:#f4f6f8;margin:0;padding:0;color:#333;display:flex;justify-content:center;align-items:center;height:100vh}
+.card{background:#fff;padding:22px;border-radius:8px;border:1px solid #ddd;width:360px;box-shadow:0 8px 30px rgba(0,0,0,0.06)}
+input{width:100%;padding:10px;margin-top:10px;border-radius:6px;border:1px solid #ccc}
+button{background:#0055a5;color:#fff;padding:10px;border:0;border-radius:6px;margin-top:12px;cursor:pointer;transition:background 0.3s;}
+button:hover{background:#00407a}
+.link{display:block;margin-top:10px;color:#0055a5;text-decoration:none}
+.msg{display:none;padding:8px;border-radius:6px;margin-top:8px;text-align:center;font-weight:bold;}
+.msg.error{background:#ffe0e0;color:#a00000}
+.msg.success{background:#e0ffe0;color:#006600}
+</style>
 </head>
 <body>
-
-<div class="login-box">
-  <h1>Entrar / Registar</h1>
-
-  <!-- Formulário Sign In -->
+<div class="card">
+  <h3>Entrar na FEKA KAWIÇO</h3>
   <form id="loginForm">
-    <input type="text" id="username" placeholder="Nome de utilizador" required>
-    <input type="password" id="password" placeholder="Palavra-passe" required>
-    <button type="submit" class="btn">Sign In</button>
+    <input id="username" placeholder="Username" required> 
+    <input id="password" type="password" placeholder="Password" required>
+    <button type="submit">Entrar</button>
   </form>
+  <a class="link" href="Inscricaogeral.html">Ainda não tens conta? Inscrever-me</a>
+  <a class="link" href="trocarpass.html">Esqueci a password / Trocar</a>
 
-  <div id="status" class="status-msg"></div>
-
-  <!-- Botão Sign Up -->
-  <a href="inscricaogeral.html" class="btn">Sign Up / Inscrever-se</a>
-
-  <a href="index.html" class="back-link">← Voltar ao site</a>
+  <div id="msgErr" class="msg error"></div>
 </div>
 
 <script>
-  // Redirecionar se já estiver logado
-  const currentUser = JSON.parse(localStorage.getItem('user') || 'null');
-  if(currentUser && currentUser.logged){
-    window.location.href="index.html";
-  }
-
-  document.getElementById('loginForm').addEventListener('submit', function(e){
+document.getElementById('loginForm').addEventListener('submit', e => {
     e.preventDefault();
-    const user = document.getElementById('username').value.trim();
-    const pass = document.getElementById('password').value.trim();
-    const statusMsg = document.getElementById('status');
-
-    const validUsers = JSON.parse(localStorage.getItem('inscritos') || '[]')
-      .map(u => ({name:u.nome, username:u.email.split('@')[0], password:'1234'}));
-
-    const match = validUsers.find(u => u.username === user && u.password === pass);
-
-    if(match){
-      localStorage.setItem("user", JSON.stringify({name:match.name, username:match.username, logged:true}));
-      statusMsg.style.display='block';
-      statusMsg.style.color='var(--success-green)';
-      statusMsg.textContent="✅ Login bem-sucedido! A entrar...";
-      setTimeout(()=>{window.location.href="index.html";},1500);
-    } else {
-      statusMsg.style.display='block';
-      statusMsg.style.color='var(--error-red)';
-      statusMsg.textContent="❌ Utilizador não registado. Clique em Sign Up para se inscrever.";
+    const username = document.getElementById('username').value.trim();
+    const password = document.getElementById('password').value;
+    const msgErr = document.getElementById('msgErr');
+    
+    // Esconde a mensagem de erro anterior
+    msgErr.style.display = 'none'; 
+    msgErr.classList.remove('error', 'success');
+    
+    // Função para carregar inscritos do localStorage (chave usada pela Inscricaogeral.html)
+    function getInscritos() {
+        try {
+            return JSON.parse(localStorage.getItem('inscritos_feka')) || [];
+        } catch (e) {
+            console.error("Erro ao ler localStorage:", e);
+            return [];
+        }
     }
-  });
-</script>
+    
+    const inscritos = getInscritos();
 
+    // 1. Procurar o utilizador que corresponda ao username E password
+    const user = inscritos.find(u => u.username === username && u.password === password);
+
+    if (user) {
+        // 2. Login bem-sucedido
+        // Criar objeto de sessão (removendo a password)
+        const userSession = { ...user };
+        delete userSession.password; 
+        
+        // 3. Guardar sessão simples no localStorage (simulando a sessão)
+        localStorage.setItem('feka_user', JSON.stringify(userSession));
+        
+        msgErr.textContent = `Login efetuado com sucesso! Bem-vindo, ${user.nome.split(' ')[0]}.`;
+        msgErr.classList.add('success');
+        msgErr.style.display = 'block';
+
+        // 4. Redirecionar após 1 segundo
+        setTimeout(() => {
+            // Redireciona para a página principal (index.html)
+            location.href = 'index.html';
+        }, 1000); 
+
+    } else {
+        // 5. Credenciais inválidas
+        msgErr.textContent = 'Credenciais inválidas. Verifique o Username e a Password.';
+        msgErr.classList.add('error');
+        msgErr.style.display = 'block';
+    }
+});
+</script>
 </body>
 </html>
-
-
-
-

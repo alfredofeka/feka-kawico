@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajuda e Suporte - FEKA KAWIÇO</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        /* Variáveis de Cor (ajustadas para corresponder ao index.html) */
+        :root {
+            --primary-blue: #004a80;
+            --secondary-blue: #007bff;
+            --text-dark: #333;
+            --text-light: #f4f4f4;
+            --bg-light: #f9f9f9;
+            --bg-dark: #2c3e50;
+            --border-color: #ddd;
+        }
+
+        /* Base */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif; background-color: var(--bg-light); color: var(--text-dark); line-height: 1.6; }
+        .container { max-width: 900px; margin: 50px auto; padding: 0 20px; background: #fff; border-radius: 12px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); }
+        h1 { text-align: center; color: var(--primary-blue); padding-top: 30px; margin-bottom: 30px; }
+
+        /* Estilos do FAQ (Accordion) */
+        .faq-item { border-bottom: 1px solid var(--border-color); }
+        .faq-question {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 0;
+            font-weight: 600;
+            color: var(--primary-blue);
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        .faq-question:hover { color: var(--secondary-blue); }
+        .faq-answer {
+            padding: 0 0 15px 0;
+            color: #555;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out, padding 0.4s ease-out;
+        }
+        .faq-answer p { margin-bottom: 10px; }
+        .faq-answer a { color: var(--secondary-blue); text-decoration: none; font-weight: 500;}
+
+        /* Ícone de seta */
+        .faq-question i {
+            margin-left: 10px;
+            transition: transform 0.3s;
+        }
+        .faq-item.active .faq-question i {
+            transform: rotate(180deg);
+        }
+        .faq-item.active .faq-answer {
+            max-height: 500px; /* Suficientemente grande para a resposta */
+            padding-bottom: 15px;
+        }
+
+        /* Contatos de Suporte */
+        .support-contact { text-align: center; padding: 20px 0 40px; margin-top: 30px; border-top: 1px solid var(--border-color);}
+        .support-contact p { margin-bottom: 10px; font-size: 1.1em; }
+        .support-contact a { display: inline-block; background: var(--secondary-blue); color: var(--text-light); padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: 600; transition: background 0.3s; }
+        .support-contact a:hover { background: var(--btn-hover); }
+
+        /* Media Queries */
+        @media (max-width: 768px) {
+            .container { margin: 20px auto; padding: 15px; }
+            h1 { font-size: 1.8em; margin-bottom: 20px; }
+            .faq-question { font-size: 0.95em; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <a href="index.html" style="display:block; text-align:left; padding-top:20px; color:var(--primary-blue); text-decoration:none;"><i class="fas fa-arrow-left"></i> Voltar ao Início</a>
+    <h1>Central de Ajuda & FAQ</h1>
+
+    <div class="faq-list">
+
+        <div class="faq-item">
+            <div class="faq-question">
+                Como sei se iniciei sessão (estou online)? <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+                <p>No canto superior direito da página principal (junto ao menu), você verá um indicador de status. Se estiver autenticado, o círculo estará **verde** e aparecerá a mensagem "Olá, [Seu Nome]". Se estiver desconectado, o círculo estará **amarelo** e aparecerá a palavra "Login".</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">
+                Qual é o meu Username e a minha Password? <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+                <p>O seu **Username** foi gerado automaticamente quando se inscreveu (baseado no seu nome, ex: `joao01`). A sua **Password** é a que definiu durante o registo.</p>
+                <p>Ambos foram guardados com sucesso no seu navegador aquando da sua inscrição geral.</p>
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <div class="faq-question">
+                Esqueci a minha Password, como posso trocá-la? <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+                <p>Como não usamos um sistema de email, a recuperação exige a sua identidade:</p>
+                <ol>
+                    <li>Vá para a página <a href="trocarpass.html">Trocar Password</a>.</li>
+                    <li>Deve fornecer o **Email** e o **País de Registo**.</li>
+                    <li>Deve responder corretamente à sua **Pergunta Secreta** (ex: Qual o nome do seu primeiro animal de estimação?).</li>
+                    <li>Se todas as informações estiverem corretas, poderá definir uma nova Password instantaneamente.</li>
+                </ol>
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <div class="faq-question">
+                Como posso partilhar um curso com um amigo? <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+                <p>É fácil! Em cada cartão de curso na página principal, existem pequenos botões no fundo:</p>
+                <ul>
+                    <li><i class="fab fa-whatsapp"></i>: Partilha a mensagem do curso no WhatsApp.</li>
+                    <li><i class="fab fa-facebook"></i>: Partilha o link do curso no Facebook.</li>
+                    <li><i class="fas fa-envelope"></i>: Abre o seu cliente de email para enviar o link do curso a um amigo.</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <div class="faq-question">
+                Por que preciso do LocalStorage (Armazenamento Local)? <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+                <p>O <strong>Local Storage</strong> é uma forma de guardar dados no seu próprio navegador. Como este site não tem um servidor (Backend) para guardar as suas inscrições, usamos o Local Storage para guardar os seus dados de registo e login.</p>
+                <p><strong>IMPORTANTE:</strong> Se limpar os dados do seu navegador (cache e cookies), os seus dados de login serão perdidos e terá de se registar novamente.</p>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="support-contact">
+        <p>Se as suas dúvidas não foram esclarecidas, contacte-nos:</p>
+        <a href="contato.html"><i class="fas fa-headset"></i> Ir para a Página de Contato</a>
+    </div>
+
+</div>
+
+<script>
+    // Lógica do Accordion para o FAQ
+    document.querySelectorAll('.faq-question').forEach(button => {
+        button.addEventListener('click', () => {
+            const item = button.closest('.faq-item');
+            const answer = item.querySelector('.faq-answer');
+            const isActive = item.classList.contains('active');
+
+            // Fechar todos os outros itens
+            document.querySelectorAll('.faq-item.active').forEach(activeItem => {
+                if (activeItem !== item) {
+                    activeItem.classList.remove('active');
+                    activeItem.querySelector('.faq-answer').style.maxHeight = '0';
+                }
+            });
+
+            // Abrir ou fechar o item clicado
+            if (!isActive) {
+                item.classList.add('active');
+                answer.style.maxHeight = answer.scrollHeight + "px";
+            } else {
+                item.classList.remove('active');
+                answer.style.maxHeight = '0';
+            }
+        });
+    });
+</script>
+</body>
+</html>

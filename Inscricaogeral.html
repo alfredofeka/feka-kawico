@@ -9,7 +9,7 @@
   .container { background:#fff; padding:30px; margin-top:50px; border-radius:12px; box-shadow:0 4px 16px rgba(0,0,0,0.15); max-width:500px; width:100%;}
   h2 { text-align:center; color:#333; margin-bottom:20px;}
   label { display:block; margin:10px 0 5px; color:#555;}
-  input, textarea { width:100%; padding:10px 12px; border-radius:8px; border:1px solid #ccc; margin-bottom:15px; font-size:14px;}
+  input, textarea, select { width:100%; padding:10px 12px; border-radius:8px; border:1px solid #ccc; margin-bottom:15px; font-size:14px;} /* Adicionado select */
   input[readonly] { background:#e9e9e9;}
   button { width:100%; background:#4A90E2; color:#fff; padding:12px; border:none; border-radius:8px; font-size:16px; cursor:pointer; transition:all 0.3s ease;}
   button:disabled { background:#9bbce4; cursor:not-allowed;}
@@ -40,10 +40,24 @@
 
     <label for="cidade">Cidade *</label>
     <input type="text" id="cidade" name="cidade" required>
+    
+    <label for="pais">País de Registo *</label>
+    <input type="text" id="pais" name="pais" required>
 
     <label for="password">Password *</label>
     <input type="password" id="password" name="password" required>
     <div class="senha-regras" id="senhaRegras">A password deve ter letras, números e não conter o seu nome.</div>
+
+    <label for="perguntaSeguranca">Pergunta Secreta *</label>
+    <select id="perguntaSeguranca" name="perguntaSeguranca" required>
+        <option value="">Selecione uma pergunta</option>
+        <option value="Qual o nome do seu primeiro animal de estimação?">Qual o nome do seu primeiro animal de estimação?</option>
+        <option value="Qual o nome da rua onde nasceu?">Qual o nome da rua onde nasceu?</option>
+        <option value="Qual o nome do seu professor favorito?">Qual o nome do seu professor favorito?</option>
+    </select>
+    
+    <label for="respostaSecreta">Resposta Secreta *</label>
+    <input type="text" id="respostaSecreta" name="respostaSecreta" required>
 
     <label for="telefone">Telefone</label>
     <input type="text" id="telefone" name="telefone">
@@ -102,9 +116,9 @@ fotoInput.addEventListener('change', ()=>{
 
 // Atualizar barra de progresso
 form.addEventListener('input', ()=>{
-  const total = form.querySelectorAll('input[required]').length;
+  const total = form.querySelectorAll('input[required], select[required]').length; // Incluir select
   let filled=0;
-  form.querySelectorAll('input[required]').forEach(i=>{if(i.value.trim()!=='') filled++;});
+  form.querySelectorAll('input[required], select[required]').forEach(i=>{if(i.value.trim()!=='') filled++;}); // Incluir select
   progressBar.style.width=`${(filled/total)*100}%`;
 });
 
@@ -112,7 +126,8 @@ form.addEventListener('input', ()=>{
 senhaInput.addEventListener('input', ()=>{
   const val = senhaInput.value;
   const nome = document.getElementById('nome').value.toLowerCase();
-  const valid = /[A-Za-z]/.test(val) && /\d/.test(val) && !val.toLowerCase().includes(nome.split(' ')[0]);
+  // Incluído validação mais estrita para a regra do nome
+  const valid = /[A-Za-z]/.test(val) && /\d/.test(val) && !val.toLowerCase().includes(nome.split(' ')[0].toLowerCase());
   senhaRegras.style.color = valid?'green':'red';
 });
 
@@ -133,7 +148,10 @@ form.addEventListener('submit', e=>{
   const email = form.email.value.trim();
   const username = usernameInput.value;
   const cidade = form.cidade.value.trim();
+  const pais = form.pais.value.trim(); // NOVO: País
   const password = form.password.value;
+  const perguntaSeguranca = form.perguntaSeguranca.value; // NOVO: Pergunta
+  const respostaSecreta = form.respostaSecreta.value.trim(); // NOVO: Resposta
   const telefone = form.telefone.value.trim();
   const observacoes = form.observacoes.value.trim();
   const foto = fotoPreview.src || '';
@@ -150,13 +168,20 @@ form.addEventListener('submit', e=>{
     feedback.style.color='red'; submitBtn.disabled=false; return;
   }
 
-  // Validar password
+  // Validar password (reutiliza a lógica)
   if(!(/[A-Za-z]/.test(password) && /\d/.test(password) && !password.toLowerCase().includes(nome.split(' ')[0].toLowerCase()))){
     feedback.textContent='Password inválida.';
     feedback.style.color='red'; submitBtn.disabled=false; return;
   }
+  
+  // Validar Pergunta Secreta
+  if(perguntaSeguranca === '' || respostaSecreta === ''){
+     feedback.textContent='Selecione e responda à Pergunta Secreta.';
+     feedback.style.color='red'; submitBtn.disabled=false; return;
+  }
 
-  const novo = {nome,email,username,cidade,password,telefone,observacoes,foto,validado:true,ts:Date.now()};
+  // NOVO: Adicionar os novos campos ao objeto de utilizador
+  const novo = {nome,email,username,cidade,pais,password,perguntaSeguranca,respostaSecreta,telefone,observacoes,foto,validado:true,ts:Date.now()};
   inscritos.push(novo);
   saveInscritos(inscritos);
 

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Recuperar Password - FEKA KAWIÇO</title>
+<style>
+/* CSS para consistência visual */
+body{font-family:'Segoe UI', sans-serif;background:#f4f6f8;margin:0;padding:0;color:#333;display:flex;justify-content:center;align-items:center;height:100vh}
+.card{background:#fff;padding:30px;border-radius:12px;border:1px solid #ddd;width:360px;box-shadow:0 8px 30px rgba(0,0,0,0.15)}
+h3{text-align:center;color:#333;margin-bottom:20px}
+label{display:block;margin:10px 0 5px;color:#555;}
+input{width:100%;padding:10px 12px;border-radius:8px;border:1px solid #ccc;margin-bottom:15px;font-size:14px;}
+button{width:100%;background:#4A90E2;color:#fff;padding:12px;border:none;border-radius:8px;font-size:16px;cursor:pointer;transition:all 0.3s ease;}
+button:hover:not(:disabled){background:#357ABD;transform:translateY(-2px);}
+button:disabled { background:#9bbce4; cursor:not-allowed;}
+.msg{padding:10px;border-radius:8px;margin-top:15px;text-align:center;font-weight:bold;display:none;}
+.msg.error{background:#ffe0e0;color:#a00000;display:block;}
+.msg.success{background:#e0ffe0;color:#006600;display:block;}
+.link{display:block;margin-top:15px;text-align:center;color:#0055a5;text-decoration:none}
+.senha-regras { font-size:12px; color:#888; margin-top:-10px; margin-bottom:10px;}
+
+/* Estilo para ocultar e mostrar campos dinamicamente */
+.hidden-step { display: none; }
+</style>
+</head>
+<body>
+<div class="card">
+  <h3>Recuperar/Trocar Password</h3>
+  <form id="trocarPassForm">
+    <div id="step1">
+        <label for="email">Email de Registo *</label>
+        <input id="email" type="email" placeholder="O seu Email" required>
+        
+        <label for="pais">País de Registo *</label>
+        <input id="pais" type="text" placeholder="O seu País" required>
+        
+        <label for="respostaSecreta">Resposta à Pergunta Secreta *</label>
+        <input id="respostaSecreta" type="text" placeholder="A sua resposta secreta" required>
+        
+        <button type="button" id="nextStepBtn">Verificar Identidade</button>
+    </div>
+
+    <div id="step2" class="hidden-step">
+        <p id="perguntaDisplay" style="font-weight: bold; margin-bottom: 10px;"></p>
+        
+        <label for="newPassword">Nova Password *</label>
+        <input id="newPassword" type="password" required>
+        <div class="senha-regras" id="senhaRegras">A password deve ter letras, números e não conter o seu nome.</div>
+
+        <label for="confirmPassword">Confirmar Nova Password *</label>
+        <input id="confirmPassword" type="password" required>
+
+        <button type="submit" id="submitBtn">Trocar Password</button>
+    </div>
+  </form>
+
+  <div id="feedbackMsg" class="msg"></div>
+  <a class="link" href="login.html">Voltar ao Login</a>
+</div>
+
+<script>
+// --- Funções de Ajuda do LocalStorage ---
+function getInscritos(){
+  return JSON.parse(localStorage.getItem('inscritos_feka') || '[]');
+}
+
+function saveInscritos(list){
+  localStorage.setItem('inscritos_feka', JSON.stringify(list));
+}
+
+function showFeedback(message, type) {
+    const feedback = document.getElementById('feedbackMsg');
+    feedback.textContent = message;
+    feedback.className = 'msg ' + type;
+}
+
+// Verifica as regras de password
+function isValidPassword(password, firstName) {
+    const hasLetter = /[A-Za-z]/.test(password);
+    const hasNumber = /\d/.test(password);
+    const notContainName = !password.toLowerCase().includes(firstName.toLowerCase()); 
+    return hasLetter && hasNumber && notContainName;
+}
+
+// Variável para guardar o utilizador encontrado entre os passos
+let foundUser = null; 
+let userIndex = -1;
+
+// --- Passo 1: Verificação de Identidade ---
+document.getElementById('nextStepBtn').addEventListener('click', () => {
+    const email = document.getElementById('email').value.trim().toLowerCase();
+    const pais = document.getElementById('pais').value.trim().toLowerCase();
+    const respostaSecreta = document.getElementById('respostaSecreta').value.trim().toLowerCase();
+    
+    if (email === '' || pais === '' || respostaSecreta === '') {
+        showFeedback('Preencha todos os campos de verificação.', 'error');
+        return;
+    }
+
+    showFeedback('A verificar dados...', '');
+
+    const inscritos = getInscritos();
+
+    // Procurar o utilizador que corresponde a TUDO: Email, País E Resposta Secreta
+    const index = inscritos.findIndex(u => 
+        u.email.toLowerCase() === email && 
+        u.pais.toLowerCase() === pais && 
+        u.respostaSecreta.toLowerCase() === respostaSecreta
+    );
+    
+    if (index === -1) {
+        showFeedback('Dados de verificação inválidos. Tente novamente ou contacte o suporte.', 'error');
+        return;
+    }
+
+    // Sucesso na verificação
+    foundUser = inscritos[index];
+    userIndex = index;
+
+    document.getElementById('step1').classList.add('hidden-step');
+    document.getElementById('step2').classList.remove('hidden-step');
+    
+    // Mostra a pergunta secreta (dica)
+    document.getElementById('perguntaDisplay').textContent = `Usuário verificado. Pergunta de Segurança: ${foundUser.perguntaSeguranca}`;
+    showFeedback('Identidade verificada. Introduza a nova password.', 'success');
+});
+
+// --- Passo 2: Troca de Password ---
+document.getElementById('trocarPassForm').addEventListener('submit', e => {
+    e.preventDefault();
+    
+    // Só avança se o Passo 1 foi bem-sucedido
+    if (foundUser === null) {
+        showFeedback('Primeiro, complete a verificação de identidade.', 'error');
+        return;
+    }
+    
+    document.getElementById('submitBtn').disabled = true;
+    showFeedback('A processar...', '');
+
+    const newPassword = document.getElementById('newPassword').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
+
+    if (newPassword !== confirmPassword) {
+        showFeedback('As passwords não coincidem!', 'error');
+        document.getElementById('submitBtn').disabled = false;
+        return;
+    }
+    
+    const firstName = foundUser.nome.split(' ')[0]; 
+
+    // Validar a nova password
+    if (!isValidPassword(newPassword, firstName)) {
+        showFeedback('Nova password não cumpre as regras: deve ter letras, números e não conter o seu primeiro nome.', 'error');
+        document.getElementById('submitBtn').disabled = false;
+        return;
+    }
+
+    // Sucesso: Atualizar a password e guardar
+    foundUser.password = newPassword;
+    
+    const inscritos = getInscritos();
+    inscritos[userIndex] = foundUser; // Atualizar o objeto no array
+    saveInscritos(inscritos); // Guardar de volta no localStorage
+
+    showFeedback('Password alterada com sucesso! Redirecionando para o Login...', 'success');
+    
+    setTimeout(() => {
+        window.location.href = 'login.html';
+    }, 1500);
+});
+
+
+// Feedback de regras de password
+document.getElementById('newPassword').addEventListener('input', () => {
+    const password = document.getElementById('newPassword').value;
+    const hasLetter = /[A-Za-z]/.test(password);
+    const hasNumber = /\d/.test(password);
+
+    const valid = hasLetter && hasNumber; 
+
+    const senhaRegras = document.getElementById('senhaRegras');
+    senhaRegras.style.color = valid ? 'green' : 'red';
+});
+</script>
+</body>
+</html>
