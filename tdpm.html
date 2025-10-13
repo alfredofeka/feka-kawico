@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Técnico Desenhador Projectista de Estruturas Metálicas (TDPM)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> 
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        /* Variáveis e Reset */
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Roboto:wght@300;400;500&display=swap');
+
+        :root {
+            --primary-blue: #004a80;
+            --secondary-blue: #007bff;
+            --text-dark: #333;
+            --text-light: #f4f4f4;
+            --bg-light: #f9f9f9;
+            --bg-dark: #2c3e50;
+            --border-color: #ddd;
+            --hover-light: #e0f2f7;
+            --success-green: #28a745; 
+            --warning-red: #dc3545;
+            
+            /* NOVO: CORES E EFEITOS PARA DESIGN MODERNO E LIMPO */
+            --header-bg: var(--primary-blue); /* Cabeçalho Azul */
+            --header-link: var(--text-light); /* Links e textos em branco */
+            --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); 
+            --border-color-light: #f0f0f0;
+
+            /* Breakpoints */
+            --mobile-breakpoint: 768px; 
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background-color: var(--bg-light);
+            scroll-behavior: smooth;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* HEADER - ESTILO COM FUNDO AZUL (Referência: Alfeka Cursos Tec) */
+        header {
+            background-color: var(--header-bg);
+            color: var(--header-link);
+            padding: 15px 0; 
+            box-shadow: var(--card-shadow); 
+            position: sticky; 
+            top: 0;
+            z-index: 1000;
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap; 
+        }
+
+        /* Logo Area - Cores Ajustadas ao Fundo Escuro */
+        .logo-area {
+            display: flex;
+            align-items: center;
+            color: var(--text-light); 
+            white-space: nowrap;
+        }
+
+        .logo-area img {
+            height: 40px; 
+            margin-right: 10px;
+        }
+        
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.2;
+        }
+
+        .logo-line-feka {
+            display: flex;
+            align-items: baseline;
+        }
+
+        /* Títulos do Logo (Todos em tons de Branco/Claro) */
+        .logo-main-title { 
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.5em; 
+            font-weight: 700;
+            color: var(--text-light); 
+        }
+        
+        .logo-sub-title-inline {
+            font-family: 'Roboto', sans-serif;
+            font-size: 1em; 
+            font-weight: 400; 
+            color: rgba(255, 255, 255, 0.9);
+            margin-left: 5px; 
+        }
+
+        .logo-sub-title {
+            font-family: 'Roboto', sans-serif;
+            font-size: 0.85em; 
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.7); /* Suaviza a cor */
+            display: block;
+            margin-top: 0px; 
+        }
+
+        /* Nav e Botões (Em Fundo Azul) */
+        .header-nav {
+            display: flex;
+            align-items: center;
+        }
+
+        .header-nav .nav-link, .header-nav .login-btn, .back-btn {
+            color: var(--text-light); /* Cor Branca */
+            text-decoration: none;
+            padding: 10px 18px;
+            margin-left: 15px;
+            border-radius: 6px; 
+            transition: all 0.3s;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            border: 1px solid transparent;
+            cursor: pointer;
+        }
+
+        .header-nav .nav-link:hover {
+            background-color: var(--secondary-blue); /* Light blue background on hover */
+            color: var(--text-light);
+        }
+
+        .header-nav .login-btn {
+            color: var(--primary-blue); /* Texto Azul no botão Login */
+            background-color: var(--text-light); /* Fundo Branco */
+            border: 1px solid var(--text-light);
+            box-shadow: 0 2px 4px rgba(255, 255, 255, 0.3); 
+        }
+
+        .header-nav .login-btn:hover {
+            background-color: var(--hover-light);
+            border-color: var(--hover-light);
+        }
+
+        .back-btn {
+            background-color: var(--success-green); 
+            border: 1px solid var(--success-green);
+            color: white;
+            padding: 8px 15px; 
+            font-size: 0.9em;
+            margin-top: 5px; 
+            display: block; 
+            text-align: center;
+        }
+        .back-btn:hover {
+            background-color: #218838;
+            border-color: #218838;
+        }
+
+        /* LAYOUT PRINCIPAL E SIDEBAR (Mantido o Estilo Card Moderno) */
+        .course-page {
+            display: flex;
+            min-height: calc(100vh - 80px); 
+            padding-top: 30px;
+            position: relative;
+        }
+
+        .course-sidebar {
+            width: 280px; 
+            background-color: #fff;
+            padding: 20px 0; 
+            box-shadow: var(--card-shadow); 
+            flex-shrink: 0;
+            transition: width 0.3s, transform 0.3s;
+            position: relative;
+            align-self: flex-start; 
+            border-radius: 12px; 
+            margin-right: 20px; 
+        }
+        
+        .course-sidebar h2 {
+            padding: 0 20px 10px 20px;
+            border-bottom: 1px solid var(--border-color-light);
+            margin-bottom: 10px;
+            font-size: 1.3em;
+            color: var(--primary-blue); /* Destaque azul no título */
+        }
+
+        /* Estado recolhido (desktop) */
+        .course-page.sidebar-collapsed .course-sidebar {
+            width: 0;
+            padding: 0;
+            overflow: hidden;
+            margin-right: 0;
+        }
+        
+        /* Toggle Button (Desktop) */
+        .sidebar-toggle {
+            position: absolute;
+            top: 50%;
+            right: -25px;
+            transform: translateY(-50%);
+            background-color: var(--secondary-blue);
+            color: var(--text-light);
+            border: none;
+            padding: 10px 5px;
+            border-radius: 0 6px 6px 0;
+            cursor: pointer;
+            z-index: 10;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s;
+        }
+
+        /* ESTILOS MODERNOS DO MENU DE MÓDULOS */
+        .module {
+            margin-bottom: 5px;
+        }
+        
+        .module-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1em;
+            color: var(--text-dark);
+            background-color: transparent; 
+            padding: 12px 20px;
+            border-radius: 0;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            font-weight: 600;
+            display: block;
+            border-left: 4px solid transparent; 
+        }
+
+        .module-title:hover {
+            background-color: var(--border-color-light);
+        }
+
+        .module.open .module-title {
+            border-left: 4px solid var(--secondary-blue); 
+            background-color: var(--hover-light);
+            color: var(--primary-blue);
+        }
+
+        .lesson-list {
+            padding-left: 0;
+            margin-top: 0;
+        }
+        
+        .lesson-list li button {
+            background: none;
+            border: none;
+            text-align: left;
+            padding: 8px 20px 8px 35px; 
+            width: 100%;
+            cursor: pointer;
+            font-size: 0.95em;
+            color: var(--text-dark);
+            transition: all 0.2s;
+            display: block;
+            border-left: 5px solid transparent; 
+        }
+
+        .lesson-list li button:hover {
+            background-color: var(--border-color-light);
+            border-left-color: var(--secondary-blue);
+        }
+
+        .lesson-list li button.active {
+            background-color: var(--secondary-blue);
+            color: var(--text-light);
+            font-weight: 500;
+            border-left-color: var(--secondary-blue);
+        }
+        
+        /* Conteúdo Principal (Card) */
+        .course-content {
+            flex-grow: 1;
+            padding: 0; 
+        }
+
+        .content-area {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            min-height: 100%;
+        }
+
+        .content-area h1 {
+            color: var(--primary-blue); /* Títulos em Azul */
+        }
+        
+        /* Rodapé - Estilos mantidos */
+        footer {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            padding: 20px 0;
+            text-align: center;
+            font-size: 0.9em;
+            margin-top: 30px;
+        }
+
+        /* ==================================== */
+        /* MEDIA QUERIES (RESPONSIVIDADE MOBILE)*/
+        /* ==================================== */
+
+        @media (max-width: var(--mobile-breakpoint)) {
+            
+            /* HEADER: Ajuste de Layout */
+            header .container {
+                flex-direction: column; 
+                align-items: flex-start;
+            }
+
+            .logo-area {
+                margin-bottom: 10px; 
+                white-space: normal; 
+            }
+            
+            /* Ajuste de Fontes no Header para Mobile */
+            .logo-main-title {
+                font-size: 1.3em;
+            }
+
+            .logo-sub-title-inline {
+                font-size: 0.9em;
+            }
+            
+            .logo-sub-title {
+                font-size: 0.8em;
+                margin-top: 0;
+            }
+
+            .header-nav {
+                width: 100%;
+                justify-content: space-around;
+                margin-bottom: 5px;
+            }
+            
+            .header-nav .nav-link, .header-nav .login-btn {
+                padding: 6px 10px;
+                margin: 0;
+                font-size: 0.9em;
+            }
+            
+            .back-to-index {
+                width: 100%;
+                order: 10; 
+            }
+            .back-btn {
+                margin: 5px 0 0 0;
+            }
+            
+            /* LAYOUT PRINCIPAL: Mobile-First Sidebar */
+            .course-page {
+                flex-direction: column;
+                padding-top: 20px; 
+            }
+
+            .course-sidebar {
+                /* Sidebar aparece sobre o conteúdo */
+                width: 100%;
+                max-height: 0;
+                overflow: hidden;
+                padding: 0 20px;
+                margin-right: 0;
+                border-right: none;
+                transform: translateY(-100%);
+                position: absolute; 
+                top: 0;
+                z-index: 999;
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+                border-radius: 0 0 12px 12px; 
+            }
+            
+            /* Quando a sidebar está 'aberta' (mobile) */
+            .course-page.sidebar-collapsed .course-sidebar {
+                max-height: 80vh; 
+                padding: 20px;
+                transform: translateY(0);
+                overflow-y: auto; 
+            }
+            
+            /* O conteúdo deve sempre ocupar 100% da largura em mobile */
+            .course-content {
+                padding: 20px 20px;
+                padding-top: 5px; 
+            }
+            
+            /* Ajuste do botão toggle para mobile (Fixo na esquerda) */
+            .sidebar-toggle {
+                position: fixed; 
+                top: 50%;
+                left: 0; 
+                right: auto;
+                transform: translateY(-50%);
+                border-radius: 0 6px 6px 0;
+            }
+            
+            /* Se a sidebar estiver aberta, o botão muda de cor para indicar fechar */
+            .course-page.sidebar-collapsed .sidebar-toggle {
+                background-color: var(--warning-red);
+            }
+            
+            /* Ocultar o botão toggle padrão (direita) em mobile */
+            .course-sidebar > .sidebar-toggle {
+                 display: none;
+            }
+
+            .content-area {
+                padding: 20px;
+                border-radius: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <div class="logo-area">
+                
+                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXdcWgAAAAAXNSR0IArs4c6QAAA6JJREFUaEPtmL1rFEEUx3//zrx7R0xLhY2FKJgVvGgSggoWC70z0hL0V7BQsbHQRQsV/g0WEgspKlgpQhCj0YQWCwsRBG/gWJmZvb3jZtX93W5v78XuzNnZ+z/33pl5b4h4rA+p6b/uP7gH1wN47v930/8z/DcAo049pKb/uP/gA9/7gH3/T/0b/jXAOQ+t6b/uP/gT+9B+m/9m/g18mP3QoA861F+m/92f8b+K/03/mX+zH78GADgZ7UgnfQ/8hC8n/o3+g18mP3QoA861F+m/92f8b+A/03/mX+zH78GADgZ7UgnfQ/8hC8n/o3+g18mP3QoA861F+m/92f8b+A/03/mX+zH78GADgZ7UgnfQ/8hC8n/o3+g18mP3QoA861F+m/92f8b+A/03/mX+zH78GADgZ7UgnfQ/8hC8n/o3+g18mP3QoA861F+m/92f8b+A/03/mX+zH78GADgZ7UgnfQ/8hC8n/o3+g18mP3QoA861F+m/92f8b+A/03/mX+zH78GADgZ7UgnfQ/8hC8n/o3+g18mP3QoA861F+m/92f8b+A/03/mX+zH78GADgZ7UgnfQ/8hC8n/o3+g18mP3QoA861F+m/92f8b+A/03/mX+zH78GADgZ7UgnfQ/8hC8n/o3+g18mP3QoA861F+m/92f8b+A/03/mX+zH78GADgZ7UgnfQ/8hC8n/o3+g18mP3QoA861F+m/92f8b+A/03/mX+zH78GADgZ7UgnfQ/8hC8n/o3+g18mP3QoA861F+m/92f8b+A/03/mX+zH78GADgZ7UgnfQ/8hC8n/o3+g18mP3QoA861F+m/92f8b+A/03/mX+zH78GADgZ7UgnfQ/8hC8n/o3+g18mP3QoA861F+m/92f8b+A/03/mX+zH78GADgZ7UgnfQ/8hC8n/o3+g18mP3QoA861F+m/92f8b+A/03/mX+zH78GADgZ7UgnfQ/8hCersbJ2zZt93t9XAAAAAElFTkSuQmCC" alt="Logo Feka Kawico">
+                
+                <div class="logo-text">
+                    <div class="logo-line-feka">
+                        <span class="logo-main-title">Feka Kawico</span>
+                        <span class="logo-sub-title-inline"> - Terra Natura do Conhecimento</span>
+                    </div>
+                    <span class="logo-sub-title">Cursos Técnicos</span>
+                </div>
+            </div>
+            
+            <nav class="header-nav">
+                <a href="index.html" class="nav-link">
+                    <i class="fas fa-home"></i> Início
+                </a>
+                <a href="#" class="login-btn">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </a>
+                <div class="back-to-index">
+                    <a href="index.html" class="back-btn">
+                         Voltar
+                    </a>
+                </div>
+            </nav>
+        </div>
+    </header>
+    
+    <button class="sidebar-toggle" onclick="toggleSidebar()">
+        <i class="fas fa-chevron-left"></i>
+    </button>
+
+    <main class="course-page container" id="course-page">
+        
+        <aside class="course-sidebar" id="course-sidebar">
+            <button class="sidebar-toggle" onclick="toggleSidebar()">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <h2>Módulos do Curso</h2>
+            
+            <div class="module open" id="module-intro">
+                <div class="module-title" onclick="toggleModule('module-intro')">Módulo 0: Introdução à Profissão</div>
+                <ul class="lesson-list">
+                    <li><button onclick="loadContent('aula0_1', this)" class="active">Aula 1: Definição e Modo de Vida</button></li>
+                    <li><button onclick="loadContent('aula0_2', this)">Aula 2: Importância (Sociedade e Indústria)</button></li>
+                    <li><button onclick="loadContent('aula0_3', this)">Aula 3: Progressão de Carreira</button></li>
+                </ul>
+            </div>
+            
+            <div class="module" id="module-1">
+                <div class="module-title" onclick="toggleModule('module-1')">Módulo 1: Fundamentos e Tipologias</div>
+                <ul class="lesson-list">
+                    <li><button onclick="loadContent('aula1_1', this)">Aula 1: Tipos de Estruturas Metálicas</button></li>
+                    <li><button onclick="loadContent('aula1_2', this)">Aula 2: Perfis Metálicos e Materiais</button></li>
+                    <li><button onclick="loadContent('aula1_3', this)">Aula 3: Ligações Metálicas (Parafusadas e Soldadas)</button></li>
+                    <li><button onclick="loadContent('aula1_4', this)">Aula 4: Normas Básicas de Projeto</button></li>
+                </ul>
+            </div>
+            
+            <div class="module" id="module-2">
+                <div class="module-title" onclick="toggleModule('module-2')">Módulo 2: CAD 2D/3D e Leitura de Desenhos</div>
+                <ul class="lesson-list">
+                    <li><button onclick="loadContent('aula2_1', this)">Aula 1: Leitura de Desenhos Técnicos</button></li>
+                    <li><button onclick="loadContent('aula2_2', this)">Aula 2: AutoCAD 2D: Fundamentos</button></li>
+                    <li><button onclick="loadContent('aula2_3', this)">Aula 3: Desenho de Peças e Conjuntos (2D)</button></li>
+                    <li><button onclick="loadContent('aula2_4', this)">Aula 4: AutoCAD 3D (Modelagem)</button></li>
+                    <li><button onclick="loadContent('aula2_5', this)">Aula 5: Tekla / Advance Steel (Introdução)</button></li>
+                </ul>
+            </div>
+
+            <div class="module" id="module-3">
+                <div class="module-title" onclick="toggleModule('module-3')">Módulo 3: Sistemas, BIM e Compatibilização</div>
+                <ul class="lesson-list">
+                    <li><button onclick="loadContent('aula3_1', this)">Aula 1: Sistemas Estruturais e Estabilidade</button></li>
+                    <li><button onclick="loadContent('aula3_2', this)">Aula 2: Montagem e DFMA (Design for Manufacturing)</button></li>
+                    <li><button onclick="loadContent('aula3_3', this)">Aula 3: Introdução ao Revit Estrutural</button></li>
+                    <li><button onclick="loadContent('aula3_4', this)">Aula 4: Tekla / Advance Steel Avançado</button></li>
+                    <li><button onclick="loadContent('aula3_5', this)">Aula 5: Compatibilização BIM e Clash Detection</button></li>
+                </ul>
+            </div>
+
+            <div class="module" id="module-4">
+                <div class="module-title" onclick="toggleModule('module-4')">Módulo 4: Documentação, Qualidade e Projeto Final</div>
+                <ul class="lesson-list">
+                    <li><button onclick="loadContent('aula4_1', this)">Aula 1: Lista de Materiais (BOM) - Geração e Uso</button></li>
+                    <li><button onclick="loadContent('aula4_2', this)">Aula 2: Documentação Complementar e Memorial</button></li>
+                    <li><button onclick="loadContent('aula4_3', this)">Aula 3: Qualidade, Normas e Certificação (ISO, EN)</button></li>
+                    <li><button onclick="loadContent('aula4_4', this)">Aula 4: Projeto Final (Planeamento e Entregáveis)</button></li>
+                </ul>
+            </div>
+            
+        </aside>
+
+        <section class="course-content">
+            <div class="content-area" id="content-area">
+                </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 ALFEKA Cursos Técnicos. Todos os direitos reservados.</p>
+            <p>Alfredo Feka quer ser sábio - Capacitando o futuro da engenharia.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Dados de Conteúdo (HTML e informações) - MANTIDO
+        const contentData = {
+            // MÓDULO 0: INTRODUÇÃO À PROFISSÃO
+            'aula0_1': {
+                title: 'Aula 1: Definição e Modo de Vida do Projectista',
+                type: 'lesson',
+                video: 'https://www.youtube.com/embed/dQw4w9WgXcQ?si=cO5tT-U-7_g9T5mP', // Placeholder de vídeo
+                html: `
+                    <p>O Desenhador Projectista de Estruturas Metálicas é o especialista que transforma o projeto teórico do Engenheiro Calculista em **documentação construtiva exata**.</p>
+                    <p style="font-style: italic;">Por: Alfredo Simão da Silva (Alfredo Feka).</p>
+                    <h2>O Dia a Dia (Modo de Vida)</h2>
+                    <ul>
+                        <li>**Tecnologia:** Grande parte do trabalho é em frente ao computador, utilizando softwares CAD/BIM como o Tekla Structures ou Advance Steel.</li>
+                        <li>**Colaboração:** É um elo vital entre o cálculo, a equipa de fabricação (serralharia) e a equipa de montagem (obra).</li>
+                        <li>**Revisão e Precisão:** A atenção aos detalhes é crucial. Uma falha no detalhamento pode levar a grandes custos e atrasos em obra.</li>
+                    </ul>
+                    <h2>Definição</h2>
+                    <p>Este profissional não só desenha, como também garante a **compatibilização**, ou seja, que as peças de aço não colidam com outras estruturas, tubagens ou sistemas (como em ambientes BIM).</p>
+                `
+            },
+            'aula0_2': {
+                title: 'Aula 2: Importância (Sociedade e Indústria)',
+                type: 'lesson',
+                video: 'https://www.youtube.com/embed/dQw4w9WgXcQ?si=cO5tT-U-7_g9T5mP', // Placeholder de vídeo
+                html: `
+                    <h2>Impacto Social e Segurança</h2>
+                    <p>O detalhamento correto é a fundação da **segurança estrutural**. Desenhos precisos garantem que as estruturas, como pontes, torres de telecomunicação, ou edifícios, sejam construídas exatamente como calculado para resistir a cargas.</p>
+                    <h2>Impacto Industrial (Redução de Custos e Prazo)</h2>
+                    <ul>
+                        <li>**MTO Preciso:** O projectista gera o Material Take-Off (MTO), ou lista de materiais, com o peso, tipo e comprimento exato das peças, o que minimiza desperdício e otimiza a compra.</li>
+                        <li>**Fabricação Otimizada:** Detalhes de ligações parafusadas ou soldadas claros aceleram a produção em fábrica e reduzem o retrabalho.</li>
+                        <li>**Setores Críticos:** A atuação é essencial em setores como a construção civil, infraestrutura (pontes) e plataformas *offshore*.</li>
+                    </ul>
+                `
+            },
+            'aula0_3': {
+                title: 'Aula 3: Progressão de Carreira',
+                type: 'lesson',
+                video: 'https://www.youtube.com/embed/dQw4w9WgXcQ?si=cO5tT-U-7_g9T5mP', // Placeholder de vídeo
+                html: `
+                    <h2>Caminhos Profissionais</h2>
+                    <p>O ponto de partida é ser Desenhador Projectista Júnior. A progressão de carreira pode levar a:</p>
+                    <ol>
+                        <li>**Desenhador Projectista Sénior:** Liderança técnica em projetos complexos, mentorando a equipa júnior.</li>
+                        <li>**Coordenador BIM / Detalhamento:** Responsável pela implementação de *standards* (Normas) e pela gestão de grandes modelos BIM, como a compatibilização com arquitetura e MEP.</li>
+                        <li>**Gestor de Projeto / Engenheiro de Produção:** Transição para gestão de prazos, custos e planeamento de montagem em obra.</li>
+                    </ol>
+                    <h2>Especializações Relevantes</h2>
+                    <p>É possível especializar-se em áreas de alta procura, como estruturas para setor *offshore* e normas específicas (AISC, Eurocode 3, AWS D1.1).</p>
+                `
+            },
+
+            // MÓDULO 1: Fundamentos e Tipologias
+            'aula1_1': {
+                title: 'Aula 1: Tipos de Estruturas Metálicas',
+                type: 'lesson',
+                video: 'https://www.youtube.com/embed/dQw4w9WgXcQ?si=cO5tT-U-7_g9T5mP',
+                html: `
+                    <h2>Tipologias Comuns</h2>
+                    <ul>
+                        <li>**Galpões industriais:** Estruturas de grande vão utilizadas em armazéns, oficinas e fábricas.</li>
+                        <li>**Plataformas offshore:** Estruturas robustas para extração de petróleo e gás no mar.</li>
+                        <li>**Torres de telecomunicação:** Estruturas esbeltas para antenas e equipamentos de comunicação.</li>
+                        <li>**Estruturas Secundárias:** Escadas, mezaninos e passadiços para acesso e circulação.</li>
+                    </ul>
+                    <p>O detalhamento varia drasticamente em complexidade e normas para cada tipo.</p>
+                `
+            },
+            'aula1_2': {
+                title: 'Aula 2: Perfis Metálicos e Materiais',
+                type: 'lesson',
+                video: 'https://www.youtube.com/embed/dQw4w9WgXcQ?si=cO5tT-U-7_g9T5mP',
+                html: `
+                    <h2>Perfis e Tipos de Aço</h2>
+                    <ul>
+                        <li>**Perfis:** I, H, U, L, e tubos redondos/quadrados.</li>
+                        <li>**Tipos de Aço:** Aço carbono (mais comum), galvanizado (para ambientes corrosivos) e inox.</li>
+                    </ul>
+                    <p>O projectista deve conhecer as propriedades mecânicas e a aplicação de aços como ASTM A36 e A992, e a norma europeia EN 10025-2:2004 para especificar corretamente o material na Lista de Materiais (BOM).</p>
+                `
+            },
+            'aula1_3': {
+                title: 'Aula 3: Ligações Metálicas (Parafusadas e Soldadas)',
+                type: 'lesson',
+                video: 'https://www.youtube.com/embed/dQw4w9WgXcQ?si=cO5tT-U-7_g9T5mP',
+                html: `
+                    <h2>Detalhe Crítico de Ligações</h2>
+                    <p>As ligações são o ponto mais crítico e exigem detalhamento minucioso, pois é onde os esforços são transferidos entre as peças.</p>
+                    <ul>
+                        <li>**Parafusadas:** Podem ser simples ou flangeadas. O detalhe deve incluir a especificação correta do diâmetro, comprimento e aperto dos parafusos.</li>
+                        <li>**Soldadas:** Tipos comuns incluem solda de filete e solda de topo. O projectista utiliza a simbologia da AWS D1.1 (Structural Welding Code) nos desenhos para comunicar os procedimentos de soldagem.</li>
+                    </ul>
+                    <p>O AISC 360-22 Chapter J contém referências essenciais para estas considerações.</p>
+                `
+            },
+            'aula1_4': {
+                title: 'Aula 4: Normas Básicas de Projeto',
+                type: 'lesson',
+                video: 'https://www.youtube.com/embed/dQw4w9WgXcQ?si=cO5tT-U-7_g9T5mP',
+                html: `
+                    <h2>Normas Essenciais (Obrigatórias)</h2>
+                    <p>O desenho técnico é uma linguagem universal que segue regras rigorosas:</p>
+                    <ul>
+                        <li>**AISC (American Institute of Steel Construction):** Norma dos EUA, muito usada globalmente. O projectista precisa consultar o AISC Steel Manual.</li>
+                        <li>**Eurocode 3:** Norma europeia, fundamental em projetos na Europa e países com essa influência.</li>
+                        <li>**ISO 657 e ISO 2553:** Normas internacionais para perfis e soldagem.</li>
+                    </ul>
+                    <p>O conhecimento dessas normas garante que o desenho seja compreendido e aceite em qualquer parte do mundo.</p>
+                `
+            },
+            // MÓDULO 2 (Placeholders com títulos do PDF)
+            'aula2_1': { title: 'Aula 1: Leitura de Desenhos Técnicos', type: 'lesson', video: 'https://www.youtube.com/embed/dQw4w9WgXcQ?si=cO5tT-U-7_g9T5mP', html: '<p>Foca-se em vistas ortogonais, cortes, cotas e simbologia.</p>' },
+            'aula2_2': { title: 'Aula 2: AutoCAD 2D: Fundamentos', type: 'lesson', video: 'https://www.youtube.com/embed/dQw4w9WgXcQ?si=cO5tT-U-7_g9T5mP', html: '<p>Aprenda a interface, *layers* (camadas), comandos básicos e criação de *templates*.</p>' },
+            'aula2_3': { title: 'Aula 3: Desenho de Peças e Conjuntos (2D)', type: 'lesson', video: 'https://www.youtube.com/embed/dQw4w9WgXcQ?si=cO5tT-U-7_g9T5mP', html: '<p>Foco na criação de vistas de perfis, ligações e detalhamentos com cotagem.</p>' },
+            'aula2_4': { title: 'Aula 4: AutoCAD 3D (Modelagem)', type: 'lesson', video: 'https://www.youtube.com/embed/dQw4w9WgXcQ?si=cO5tT-U-7_g9T5mP', html: '<p>Introdução à modelagem de perfis e peças metálicas e visualização 3D.</p>' },
+            'aula2_5': { title: 'Aula 5: Tekla / Advance Steel (Introdução)', type: 'lesson', video: 'https://www.youtube.com/embed/dQw4w9WgXcQ?si=cO5tT-U-7_g9T5mP', html: '<p>Familiarização com a navegação do modelo 3D e visualização das propriedades das peças.</p>' },
+            // MÓDULO 3
+            'aula3_1': { title: 'Aula 1: Sistemas Estruturais e Estabilidade', type: 'lesson', video: 'https://www.youtube.com/embed/dQw4w9WgXcQ?si=cO5tT-U-7_g9T5mP', html: '<p>Abordagem de pórticos, treliças, sistemas mistos e estabilidade global/local.</p>' },
+            'aula3_2': { title: 'Aula 2: Montagem e DFMA (Design for Manufacturing)', type: 'lesson', video: 'https://www.youtube.com/embed/dQw4w9WgXcQ?si=cO5tT-U-7_g9T5mP', html: '<p>Foco no planeamento da montagem em obra, numeração de peças e sequências.</p>' },
+            'aula3_3': { title: 'Aula 3: Introdução ao Revit Estrutural', type: 'lesson', video: 'https://www.youtube.com/embed/dQw4w9WgXcQ?si=cO5tT-U-7_g9T5mP', html: '<p>Foco na inserção de elementos metálicos, famílias e propriedades em ambiente BIM.</p>' },
+            'aula3_4': { title: 'Aula 4: Tekla / Advance Steel Avançado', type: 'lesson', video: 'https://www.youtube.com/embed/dQw4w9WgXcQ?si=cO5tT-U-7_g9T5mP', html: '<p>Modelagem de escadas, plataformas e geração de vistas e detalhes automáticos.</p>' },
+            'aula3_5': { title: 'Aula 5: Compatibilização BIM e Clash Detection', type: 'lesson', video: 'https://www.youtube.com/embed/dQw4w9WgXcQ?si=cO5tT-U-7_g9T5mP', html: '<p>Uso do Navisworks para Clash Detection e coordenação com arquitetura e MEP (Instalações).</p>' },
+            // MÓDULO 4
+            'aula4_1': { title: 'Aula 1: Lista de Materiais (BOM) - Geração e Uso', type: 'lesson', video: 'https://www.youtube.com/embed/dQw4w9WgXcQ?si=cO5tT-U-7_g9T5mP', html: '<p>Geração de Lista de Materiais (BOM) automática e manual, incluindo peso, tipo e quantidade.</p>' },
+            'aula4_2': { title: 'Aula 2: Documentação Complementar e Memorial', type: 'lesson', video: 'https://www.youtube.com/embed/dQw4w9WgXcQ?si=cO5tT-U-7_g9T5mP', html: '<p>Elaboração de memorial descritivo e marcação de corte e dobra.</p>' },
+            'aula4_3': { title: 'Aula 3: Qualidade, Normas e Certificação (ISO, EN)', type: 'lesson', video: 'https://www.youtube.com/embed/dQw4w9WgXcQ?si=cO5tT-U-7_g9T5mP', html: '<p>Gestão da Qualidade (ISO 9001), Execução de Estruturas Metálicas (EN 1090-2) e Soldagem (AWS D1.1).</p>' },
+            'aula4_4': { title: 'Aula 4: Projeto Final (Planeamento e Entregáveis)', type: 'lesson', video: 'https://www.youtube.com/embed/dQw4w9WgXcQ?si=cO5tT-U-7_g9T5mP', html: '<p>Escolha da estrutura (galpão, mezanino, torre), planeamento e entregáveis finais: modelo, BOM, desenhos e memorial.</p>' }
+        };
+
+        // Função para carregar o conteúdo da aula
+        function loadContent(id, element) {
+            const contentArea = document.getElementById('content-area');
+            const data = contentData[id];
+            
+            // 1. Desativa o estado 'active' de todos os botões e ativa o clicado
+            document.querySelectorAll('.lesson-list button').forEach(btn => btn.classList.remove('active'));
+            if(element) {
+                 element.classList.add('active');
+            }
+
+            if (!data) {
+                contentArea.innerHTML = `<h1>Conteúdo Não Encontrado</h1><p>O conteúdo para esta lição ainda não foi desenvolvido. Por favor, volte mais tarde.</p>`;
+                return;
+            }
+
+            contentArea.innerHTML = `<h1>${data.title}</h1>`;
+
+            if (data.type === 'lesson') {
+                let videoHTML = '';
+                if (data.video) {
+                    // 2. Adiciona o Container para o Vídeo
+                    videoHTML = `
+                        <div class="video-container">
+                            <iframe src="${data.video}" title="Vídeo da Aula" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                        </div>
+                    `;
+                }
+
+                // 3. Adiciona o Conteúdo HTML da Aula
+                contentArea.innerHTML += videoHTML + `<div class="lesson-text">${data.html}</div>`;
+            }
+            
+            // Em dispositivos móveis, esconde a sidebar depois de carregar o conteúdo
+            if (window.innerWidth <= 768) {
+                const page = document.getElementById('course-page');
+                page.classList.remove('sidebar-collapsed');
+            }
+        }
+        
+        // Função para recolher/expandir a Sidebar
+        function toggleSidebar() {
+            const page = document.getElementById('course-page');
+            page.classList.toggle('sidebar-collapsed');
+        }
+
+        // Função para recolher/expandir os Módulos (Accordion)
+        function toggleModule(moduleId) {
+            const moduleElement = document.getElementById(moduleId);
+            moduleElement.classList.toggle('open');
+        }
+
+        // Carrega a primeira aula (do novo módulo 0) ao iniciar a página
+        document.addEventListener('DOMContentLoaded', () => {
+            const initialButton = document.querySelector('.lesson-list button.active');
+            if (initialButton) {
+                loadContent('aula0_1', initialButton);
+            }
+            
+            // NOVO: Adiciona a classe 'sidebar-collapsed' se for um dispositivo móvel
+            if (window.innerWidth <= 768) {
+                const page = document.getElementById('course-page');
+                // Começa no modo collapsed (menu fechado) no mobile
+                page.classList.add('sidebar-collapsed');
+            }
+        });
+    </script>
+</body>
+</html>
