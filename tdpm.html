@@ -301,6 +301,35 @@
         .content-area h1 {
             color: var(--primary-blue); /* Títulos em Azul */
         }
+
+        .video-container {
+            margin: 20px 0;
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: 8px;
+            background: #000;
+        }
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        .lesson-text h2 {
+            color: var(--primary-blue);
+            margin-top: 14px;
+        }
+        .lesson-text ul, .lesson-text ol {
+            margin: 10px 0 10px 20px;
+        }
+        .lesson-text p {
+            margin: 8px 0;
+        }
         
         /* Rodapé - Estilos mantidos */
         footer {
@@ -432,7 +461,7 @@
         <div class="container">
             <div class="logo-area">
                 
-                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXdcWgAAAAAXNSR0IArs4c6QAAA6JJREFUaEPtmL1rFEEUx3//zrx7R0xLhY2FKJgVvGgSggoWC70z0hL0V7BQsbHQRQsV/g0WEgspKlgpQhCj0YQWCwsRBG/gWJmZvb3jZtX93W5v78XuzNnZ+z/33pl5b4h4rA+p6b/uP7gH1wN47v930/8z/DcAo049pKb/uP/gA9/7gH3/T/0b/jXAOQ+t6b/uP/gT+9B+m/9m/g18mP3QoA861F+m/92f8b+K/03/mX+zH78GADgZ7UgnfQ/8hC8n/o3+g18mP3QoA861F+m/92f8b+A/03/mX+zH78GADgZ7UgnfQ/8hC8n/o3+g18mP3QoA861F+m/92f8b+A/03/mX+zH78GADgZ7UgnfQ/8hC8n/o3+g18mP3QoA861F+m/92f8b+A/03/mX+zH78GADgZ7UgnfQ/8hC8n/o3+g18mP3QoA861F+m/92f8b+A/03/mX+zH78GADgZ7UgnfQ/8hC8n/o3+g18mP3QoA861F+m/92f8b+A/03/mX+zH78GADgZ7UgnfQ/8hC8n/o3+g18mP3QoA861F+m/92f8b+A/03/mX+zH78GADgZ7UgnfQ/8hC8n/o3+g18mP3QoA861F+m/92f8b+A/03/mX+zH78GADgZ7UgnfQ/8hC8n/o3+g18mP3QoA861F+m/92f8b+A/03/mX+zH78GADgZ7UgnfQ/8hC8n/o3+g18mP3QoA861F+m/92f8b+A/03/mX+zH78GADgZ7UgnfQ/8hC8n/o3+g18mP3QoA861F+m/92f8b+A/03/mX+zH78GADgZ7UgnfQ/8hC8n/o3+g18mP3QoA861F+m/92f8b+A/03/mX+zH78GADgZ7UgnfQ/8hC8n/o3+g18mP3QoA861F+m/92f8b+A/03/mX+zH78GADgZ7UgnfQ/8hC8n/o3+g18mP3QoA861F+m/92f8b+A/03/mX+zH78GADgZ7UgnfQ/8hCersbJ2zZt93t9XAAAAAElFTkSuQmCC" alt="Logo Feka Kawico">
+                <img src="FK.png" alt="Logo Feka Kawico">
                 
                 <div class="logo-text">
                     <div class="logo-line-feka">
@@ -539,133 +568,538 @@
     </footer>
 
     <script>
-        // Dados de Conteúdo (HTML e informações) - MANTIDO
+        // Conteúdo extraído e convertido fielmente dos PDFs fornecidos.
+        // Cada chave faz MATCH exato com a aula correspondente no sidebar.
         const contentData = {
-            // MÓDULO 0: INTRODUÇÃO À PROFISSÃO
+            // MÓDULO 0: INTRODUÇÃO À PROFISSÃO (mantivemos os textos originais já existentes, apenas reforçados)
             'aula0_1': {
                 title: 'Aula 1: Definição e Modo de Vida do Projectista',
                 type: 'lesson',
-                video: 'https://www.youtube.com/embed/dQw4w9WgXcQ?si=cO5tT-U-7_g9T5mP', // Placeholder de vídeo
+                video: '', // Sem vídeo no PDF; manter placeholder vazio
                 html: `
-                    <p>O Desenhador Projectista de Estruturas Metálicas é o especialista que transforma o projeto teórico do Engenheiro Calculista em **documentação construtiva exata**.</p>
+                    <p>O Desenhador Projectista de Estruturas Metálicas é o especialista que transforma o projeto teórico do Engenheiro Calculista em <strong>documentação construtiva exata</strong>.</p>
                     <p style="font-style: italic;">Por: Alfredo Simão da Silva (Alfredo Feka).</p>
+
                     <h2>O Dia a Dia (Modo de Vida)</h2>
                     <ul>
-                        <li>**Tecnologia:** Grande parte do trabalho é em frente ao computador, utilizando softwares CAD/BIM como o Tekla Structures ou Advance Steel.</li>
-                        <li>**Colaboração:** É um elo vital entre o cálculo, a equipa de fabricação (serralharia) e a equipa de montagem (obra).</li>
-                        <li>**Revisão e Precisão:** A atenção aos detalhes é crucial. Uma falha no detalhamento pode levar a grandes custos e atrasos em obra.</li>
+                        <li><strong>Tecnologia:</strong> Grande parte do trabalho é em frente ao computador, utilizando softwares CAD/BIM como Tekla Structures, Advance Steel, AutoCAD e Revit.</li>
+                        <li><strong>Colaboração:</strong> É um elo vital entre o cálculo, a equipa de fabricação (serralharia) e a equipa de montagem (obra).</li>
+                        <li><strong>Revisão e Precisão:</strong> A atenção aos detalhes é crucial. Uma falha no detalhamento pode levar a grandes custos e atrasos em obra.</li>
                     </ul>
+
                     <h2>Definição</h2>
-                    <p>Este profissional não só desenha, como também garante a **compatibilização**, ou seja, que as peças de aço não colidam com outras estruturas, tubagens ou sistemas (como em ambientes BIM).</p>
+                    <p>Este profissional não só desenha, como também garante a <strong>compatibilização</strong>, ou seja, que as peças de aço não colidam com outras estruturas, tubagens ou sistemas (num contexto BIM).</p>
                 `
             },
             'aula0_2': {
                 title: 'Aula 2: Importância (Sociedade e Indústria)',
                 type: 'lesson',
-                video: 'https://www.youtube.com/embed/dQw4w9WgXcQ?si=cO5tT-U-7_g9T5mP', // Placeholder de vídeo
+                video: '',
                 html: `
                     <h2>Impacto Social e Segurança</h2>
-                    <p>O detalhamento correto é a fundação da **segurança estrutural**. Desenhos precisos garantem que as estruturas, como pontes, torres de telecomunicação, ou edifícios, sejam construídas exatamente como calculado para resistir a cargas.</p>
+                    <p>O detalhamento correto é a fundação da <strong>segurança estrutural</strong>. Desenhos precisos garantem que estruturas — como pontes, torres de telecomunicação ou edifícios — sejam construídas conforme dimensionado para resistir às cargas previstas.</p>
+
                     <h2>Impacto Industrial (Redução de Custos e Prazo)</h2>
                     <ul>
-                        <li>**MTO Preciso:** O projectista gera o Material Take-Off (MTO), ou lista de materiais, com o peso, tipo e comprimento exato das peças, o que minimiza desperdício e otimiza a compra.</li>
-                        <li>**Fabricação Otimizada:** Detalhes de ligações parafusadas ou soldadas claros aceleram a produção em fábrica e reduzem o retrabalho.</li>
-                        <li>**Setores Críticos:** A atuação é essencial em setores como a construção civil, infraestrutura (pontes) e plataformas *offshore*.</li>
+                        <li><strong>MTO Preciso:</strong> O projectista gera o Material Take-Off (MTO), ou lista de materiais, com o peso, tipo e comprimento exato das peças, minimizando desperdício e otimizando compras.</li>
+                        <li><strong>Fabricação Otimizada:</strong> Detalhes de ligações parafusadas ou soldadas claros aceleram a produção em fábrica e reduzem retrabalhos.</li>
+                        <li><strong>Setores Críticos:</strong> Atuação essencial em construção civil, infraestrutura (pontes) e plataformas offshore.</li>
                     </ul>
                 `
             },
             'aula0_3': {
                 title: 'Aula 3: Progressão de Carreira',
                 type: 'lesson',
-                video: 'https://www.youtube.com/embed/dQw4w9WgXcQ?si=cO5tT-U-7_g9T5mP', // Placeholder de vídeo
+                video: '',
                 html: `
                     <h2>Caminhos Profissionais</h2>
-                    <p>O ponto de partida é ser Desenhador Projectista Júnior. A progressão de carreira pode levar a:</p>
+                    <p>O ponto de partida é ser Desenhador Projectista Júnior. A progressão típica pode levar a:</p>
                     <ol>
-                        <li>**Desenhador Projectista Sénior:** Liderança técnica em projetos complexos, mentorando a equipa júnior.</li>
-                        <li>**Coordenador BIM / Detalhamento:** Responsável pela implementação de *standards* (Normas) e pela gestão de grandes modelos BIM, como a compatibilização com arquitetura e MEP.</li>
-                        <li>**Gestor de Projeto / Engenheiro de Produção:** Transição para gestão de prazos, custos e planeamento de montagem em obra.</li>
+                        <li><strong>Desenhador Projectista Sénior:</strong> Liderança técnica em projetos complexos, mentorando a equipa júnior.</li>
+                        <li><strong>Coordenador BIM / Detalhamento:</strong> Responsável pela implementação de standards e gestão de grandes modelos BIM.</li>
+                        <li><strong>Gestor de Projeto / Engenheiro de Produção:</strong> Transição para gestão de prazo, custo e planeamento de montagem em obra.</li>
                     </ol>
-                    <h2>Especializações Relevantes</h2>
-                    <p>É possível especializar-se em áreas de alta procura, como estruturas para setor *offshore* e normas específicas (AISC, Eurocode 3, AWS D1.1).</p>
+
+                    <h2>Especializações</h2>
+                    <p>Especializar-se em áreas como estruturas offshore, normas (AISC, Eurocode 3, AWS D1.1) ou automação do fluxo BIM pode aumentar fortemente a empregabilidade.</p>
                 `
             },
 
-            // MÓDULO 1: Fundamentos e Tipologias
+            // MÓDULO 1: Fundamentos e Tipologias (conteúdo fiel do PDF Módulo 1)
             'aula1_1': {
                 title: 'Aula 1: Tipos de Estruturas Metálicas',
                 type: 'lesson',
-                video: 'https://www.youtube.com/embed/dQw4w9WgXcQ?si=cO5tT-U-7_g9T5mP',
+                video: '',
                 html: `
-                    <h2>Tipologias Comuns</h2>
+                    <h2>Introdução às Estruturas Metálicas</h2>
+                    <p>As estruturas metálicas utilizam predominantemente aço estrutural e destinam-se a resistir a cargas permanentes, variáveis e acidentais garantindo rigidez, estabilidade e segurança.</p>
+
+                    <h2>Conceitos Essenciais</h2>
+                    <p>Resistência específica, ductilidade, ligações (aparafusadas/soldadas), propriedades de corrosão e proteções superficiais, verificações por estados-limite.</p>
+
+                    <h2>Galpões Industriais</h2>
                     <ul>
-                        <li>**Galpões industriais:** Estruturas de grande vão utilizadas em armazéns, oficinas e fábricas.</li>
-                        <li>**Plataformas offshore:** Estruturas robustas para extração de petróleo e gás no mar.</li>
-                        <li>**Torres de telecomunicação:** Estruturas esbeltas para antenas e equipamentos de comunicação.</li>
-                        <li>**Estruturas Secundárias:** Escadas, mezaninos e passadiços para acesso e circulação.</li>
+                        <li><strong>Descrição:</strong> Estruturas de grande vão, modulares, para armazéns e fábricas.</li>
+                        <li><strong>Configuração típica:</strong> Pórticos rígidos, terças, vigas secundárias, contraventamentos.</li>
+                        <li><strong>Materiais usuais:</strong> Aços S275 / S355 ou ASTM A36 / A992; proteções: galvanização ou pintura industrial.</li>
                     </ul>
-                    <p>O detalhamento varia drasticamente em complexidade e normas para cada tipo.</p>
+
+                    <h2>Plataformas Offshore</h2>
+                    <p>Instalações marítimas (jackets, semi-submersíveis) com requisitos de fadiga, corrosão e análise hidrodinâmica (Morison, Froude-Krylov).</p>
+
+                    <h2>Torres de Telecomunicação</h2>
+                    <p>Tipos: treliçadas autoportantes, estaiadas e monopolos. Normas típicas: TIA-222 / EN 1993-3-1.</p>
+
+                    <h2>Escadas, Mezaninos e Passadiços</h2>
+                    <p>Elementos secundários para circulação: requisitos de carga, segurança e vibração (ISO 14122).</p>
+
+                    <h2>Exercícios Sugeridos</h2>
+                    <ol>
+                        <li>Dimensionar um pórtico de galpão com vão de 30 m e apresentar cortes e ligações.</li>
+                        <li>Avaliar fadiga de membro tubulado sujeito a cargas cíclicas.</li>
+                        <li>Projeto de torre estaiada para 40 m, verificando deslocamentos e frequência natural.</li>
+                    </ol>
                 `
             },
             'aula1_2': {
                 title: 'Aula 2: Perfis Metálicos e Materiais',
                 type: 'lesson',
-                video: 'https://www.youtube.com/embed/dQw4w9WgXcQ?si=cO5tT-U-7_g9T5mP',
+                video: '',
                 html: `
-                    <h2>Perfis e Tipos de Aço</h2>
+                    <h2>Tipos de Perfis Metálicos</h2>
                     <ul>
-                        <li>**Perfis:** I, H, U, L, e tubos redondos/quadrados.</li>
-                        <li>**Tipos de Aço:** Aço carbono (mais comum), galvanizado (para ambientes corrosivos) e inox.</li>
+                        <li><strong>Perfis I e H:</strong> usados em vigas e pórticos; normas: ASTM A992 / EN 10025-2.</li>
+                        <li><strong>Perfis U (C):</strong> vigas secundárias e travessas (UPN, C-shapes).</li>
+                        <li><strong>Perfis L (cantoneiras):</strong> diagonais, treliças; ligação por parafusos ou solda.</li>
+                        <li><strong>Tubos (CHS/RHS/SHS):</strong> colunas, torres; normas EN 10210 / EN 10219.</li>
+                        <li><strong>Perfis formados a frio:</strong> leves, utilizados em fachadas e mezaninos.</li>
                     </ul>
-                    <p>O projectista deve conhecer as propriedades mecânicas e a aplicação de aços como ASTM A36 e A992, e a norma europeia EN 10025-2:2004 para especificar corretamente o material na Lista de Materiais (BOM).</p>
+
+                    <h2>Materiais Metálicos</h2>
+                    <ul>
+                        <li><strong>Aço Carbono:</strong> ASTM A36, A992, EN S275/S355.</li>
+                        <li><strong>Aço Galvanizado:</strong> proteção contra corrosão; preferência por aparafusamento em soldas sensíveis.</li>
+                        <li><strong>Aço Inoxidável:</strong> AISI 304/316, para ambientes agressivos e aplicações arquitetónicas.</li>
+                    </ul>
+
+                    <h2>Propriedades Mecânicas</h2>
+                    <p>Tensão de escoamento (Fy), tensão última (Fu), módulo de elasticidade (E ≈ 200 GPa), alongamento (%), densidade (≈7850 kg/m³).</p>
+
+                    <h2>Exercícios</h2>
+                    <ol>
+                        <li>Selecionar perfil para viga com vão de 8 m considerando flechas segundo EN 1993.</li>
+                        <li>Comparar IPE 300 em S275 e S355 quanto a resistência.</li>
+                        <li>Escolher aço apropriado para estrutura marítima e justificar.</li>
+                    </ol>
                 `
             },
             'aula1_3': {
                 title: 'Aula 3: Ligações Metálicas (Parafusadas e Soldadas)',
                 type: 'lesson',
-                video: 'https://www.youtube.com/embed/dQw4w9WgXcQ?si=cO5tT-U-7_g9T5mP',
+                video: '',
                 html: `
-                    <h2>Detalhe Crítico de Ligações</h2>
-                    <p>As ligações são o ponto mais crítico e exigem detalhamento minucioso, pois é onde os esforços são transferidos entre as peças.</p>
+                    <h2>Introdução às Ligações</h2>
+                    <p>As ligações são pontos críticos — a resistência e rigidez global da estrutura depende da conceção e execução correta das ligações.</p>
+
+                    <h2>Ligações Parafusadas</h2>
                     <ul>
-                        <li>**Parafusadas:** Podem ser simples ou flangeadas. O detalhe deve incluir a especificação correta do diâmetro, comprimento e aperto dos parafusos.</li>
-                        <li>**Soldadas:** Tipos comuns incluem solda de filete e solda de topo. O projectista utiliza a simbologia da AWS D1.1 (Structural Welding Code) nos desenhos para comunicar os procedimentos de soldagem.</li>
+                        <li>Parafusos estruturais de alta resistência (ASTM A325/A490 ou EN 14399-4).</li>
+                        <li>Tipos: ligações simples (cisalhamento/tração) e flangeadas (moment-resistentes).</li>
+                        <li>Considerações: verificação de bearing, afastamentos mínimos, torque ou pré-tensionamento.</li>
                     </ul>
-                    <p>O AISC 360-22 Chapter J contém referências essenciais para estas considerações.</p>
+
+                    <h2>Ligações Soldadas</h2>
+                    <ul>
+                        <li>Solda de filete (fillet weld) e solda de topo (butt weld).</li>
+                        <li>Normas e referências: AWS D1.1 e AISC Capítulo J.</li>
+                        <li>Inspeções: VT, MT, UT, RT conforme exigido.</li>
+                    </ul>
+
+                    <h2>Fabricação e Montagem</h2>
+                    <p>Fase de fábrica: furações, cortes e pré-montagem; obra: alinhamento, torque, inspeção final.</p>
+
+                    <h2>Exercícios</h2>
+                    <ol>
+                        <li>Dimensionar uma ligação aparafusada com 4 parafusos M20 para esforço de corte.</li>
+                        <li>Calcular capacidade de uma solda de filete 6 mm com eletrodo E70XX.</li>
+                        <li>Comparar eficiência entre ligação flangeada aparafusada e soldada de topo.</li>
+                    </ol>
                 `
             },
             'aula1_4': {
                 title: 'Aula 4: Normas Básicas de Projeto',
                 type: 'lesson',
-                video: 'https://www.youtube.com/embed/dQw4w9WgXcQ?si=cO5tT-U-7_g9T5mP',
+                video: '',
                 html: `
-                    <h2>Normas Essenciais (Obrigatórias)</h2>
-                    <p>O desenho técnico é uma linguagem universal que segue regras rigorosas:</p>
+                    <h2>Normas Essenciais</h2>
                     <ul>
-                        <li>**AISC (American Institute of Steel Construction):** Norma dos EUA, muito usada globalmente. O projectista precisa consultar o AISC Steel Manual.</li>
-                        <li>**Eurocode 3:** Norma europeia, fundamental em projetos na Europa e países com essa influência.</li>
-                        <li>**ISO 657 e ISO 2553:** Normas internacionais para perfis e soldagem.</li>
+                        <li><strong>AISC 360:</strong> Specification for Structural Steel Buildings.</li>
+                        <li><strong>Eurocode 3 (EN 1993):</strong> Design of Steel Structures.</li>
+                        <li><strong>ISO 657 / ISO 2553:</strong> perfis e representação de soldadura.</li>
                     </ul>
-                    <p>O conhecimento dessas normas garante que o desenho seja compreendido e aceite em qualquer parte do mundo.</p>
+
+                    <h2>Princípios</h2>
+                    <p>As normas estabelecem critérios mínimos de segurança, qualidade e desempenho, abordando verificação por estados-limite, fatores de segurança e requisitos de fabrico/execução.</p>
+
+                    <h2>Fontes e Referências</h2>
+                    <ul>
+                        <li>AISC.org</li>
+                        <li>Eurocodes - JRC</li>
+                        <li>ISO.org</li>
+                    </ul>
                 `
             },
-            // MÓDULO 2 (Placeholders com títulos do PDF)
-            'aula2_1': { title: 'Aula 1: Leitura de Desenhos Técnicos', type: 'lesson', video: 'https://www.youtube.com/embed/dQw4w9WgXcQ?si=cO5tT-U-7_g9T5mP', html: '<p>Foca-se em vistas ortogonais, cortes, cotas e simbologia.</p>' },
-            'aula2_2': { title: 'Aula 2: AutoCAD 2D: Fundamentos', type: 'lesson', video: 'https://www.youtube.com/embed/dQw4w9WgXcQ?si=cO5tT-U-7_g9T5mP', html: '<p>Aprenda a interface, *layers* (camadas), comandos básicos e criação de *templates*.</p>' },
-            'aula2_3': { title: 'Aula 3: Desenho de Peças e Conjuntos (2D)', type: 'lesson', video: 'https://www.youtube.com/embed/dQw4w9WgXcQ?si=cO5tT-U-7_g9T5mP', html: '<p>Foco na criação de vistas de perfis, ligações e detalhamentos com cotagem.</p>' },
-            'aula2_4': { title: 'Aula 4: AutoCAD 3D (Modelagem)', type: 'lesson', video: 'https://www.youtube.com/embed/dQw4w9WgXcQ?si=cO5tT-U-7_g9T5mP', html: '<p>Introdução à modelagem de perfis e peças metálicas e visualização 3D.</p>' },
-            'aula2_5': { title: 'Aula 5: Tekla / Advance Steel (Introdução)', type: 'lesson', video: 'https://www.youtube.com/embed/dQw4w9WgXcQ?si=cO5tT-U-7_g9T5mP', html: '<p>Familiarização com a navegação do modelo 3D e visualização das propriedades das peças.</p>' },
-            // MÓDULO 3
-            'aula3_1': { title: 'Aula 1: Sistemas Estruturais e Estabilidade', type: 'lesson', video: 'https://www.youtube.com/embed/dQw4w9WgXcQ?si=cO5tT-U-7_g9T5mP', html: '<p>Abordagem de pórticos, treliças, sistemas mistos e estabilidade global/local.</p>' },
-            'aula3_2': { title: 'Aula 2: Montagem e DFMA (Design for Manufacturing)', type: 'lesson', video: 'https://www.youtube.com/embed/dQw4w9WgXcQ?si=cO5tT-U-7_g9T5mP', html: '<p>Foco no planeamento da montagem em obra, numeração de peças e sequências.</p>' },
-            'aula3_3': { title: 'Aula 3: Introdução ao Revit Estrutural', type: 'lesson', video: 'https://www.youtube.com/embed/dQw4w9WgXcQ?si=cO5tT-U-7_g9T5mP', html: '<p>Foco na inserção de elementos metálicos, famílias e propriedades em ambiente BIM.</p>' },
-            'aula3_4': { title: 'Aula 4: Tekla / Advance Steel Avançado', type: 'lesson', video: 'https://www.youtube.com/embed/dQw4w9WgXcQ?si=cO5tT-U-7_g9T5mP', html: '<p>Modelagem de escadas, plataformas e geração de vistas e detalhes automáticos.</p>' },
-            'aula3_5': { title: 'Aula 5: Compatibilização BIM e Clash Detection', type: 'lesson', video: 'https://www.youtube.com/embed/dQw4w9WgXcQ?si=cO5tT-U-7_g9T5mP', html: '<p>Uso do Navisworks para Clash Detection e coordenação com arquitetura e MEP (Instalações).</p>' },
-            // MÓDULO 4
-            'aula4_1': { title: 'Aula 1: Lista de Materiais (BOM) - Geração e Uso', type: 'lesson', video: 'https://www.youtube.com/embed/dQw4w9WgXcQ?si=cO5tT-U-7_g9T5mP', html: '<p>Geração de Lista de Materiais (BOM) automática e manual, incluindo peso, tipo e quantidade.</p>' },
-            'aula4_2': { title: 'Aula 2: Documentação Complementar e Memorial', type: 'lesson', video: 'https://www.youtube.com/embed/dQw4w9WgXcQ?si=cO5tT-U-7_g9T5mP', html: '<p>Elaboração de memorial descritivo e marcação de corte e dobra.</p>' },
-            'aula4_3': { title: 'Aula 3: Qualidade, Normas e Certificação (ISO, EN)', type: 'lesson', video: 'https://www.youtube.com/embed/dQw4w9WgXcQ?si=cO5tT-U-7_g9T5mP', html: '<p>Gestão da Qualidade (ISO 9001), Execução de Estruturas Metálicas (EN 1090-2) e Soldagem (AWS D1.1).</p>' },
-            'aula4_4': { title: 'Aula 4: Projeto Final (Planeamento e Entregáveis)', type: 'lesson', video: 'https://www.youtube.com/embed/dQw4w9WgXcQ?si=cO5tT-U-7_g9T5mP', html: '<p>Escolha da estrutura (galpão, mezanino, torre), planeamento e entregáveis finais: modelo, BOM, desenhos e memorial.</p>' }
+
+            // MÓDULO 2: CAD 2D/3D e Leitura de Desenhos (conteúdo fiel do PDF Módulo 2)
+            'aula2_1': {
+                title: 'Aula 1: Leitura de Desenhos Técnicos',
+                type: 'lesson',
+                video: '',
+                html: `
+                    <h2>Focos Principais</h2>
+                    <p>Vistas ortogonais, cortes, cotas e simbologia técnica — aprender a interpretar plantas, cortes e detalhes de ligação.</p>
+
+                    <h2>Elementos de um Desenho</h2>
+                    <ul>
+                        <li>Planta, elevação, cortes, vistas auxiliares.</li>
+                        <li>Legenda e carimbo com requisitos ISO 7200.</li>
+                        <li>Leitura de cotas e tolerâncias, identificação de peças (marks).</li>
+                    </ul>
+
+                    <h2>Exercícios</h2>
+                    <ol>
+                        <li>Interpretar uma prancha de montagem e enumerar as peças existentes.</li>
+                        <li>Identificar simbologias de soldadura e parafusos em desenhos fornecidos.</li>
+                    </ol>
+                `
+            },
+            'aula2_2': {
+                title: 'Aula 2: AutoCAD 2D: Fundamentos',
+                type: 'lesson',
+                video: '',
+                html: `
+                    <h2>Tópicos Principais</h2>
+                    <ul>
+                        <li>Interface: Ribbon, Model Space, Paper Space, Linha de Comando.</li>
+                        <li>Unidades e limites (UNITS, LIMITS).</li>
+                        <li>Layers: criação, cor, tipo de linha e organização por função (ESTRUTURA, EIXOS, COTAS, TEXTO, SOLDAS).</li>
+                    </ul>
+
+                    <h2>Comandos Básicos</h2>
+                    <p>Draw: LINE, CIRCLE, ARC, POLYLINE, RECTANGLE, HATCH. Modify: MOVE, COPY, ROTATE, TRIM, EXTEND, OFFSET, MIRROR, FILLET, ARRAY.</p>
+
+                    <h2>Templates e Legendas</h2>
+                    <p>Criação de templates (.DWT) com unidades, layers, estilos de texto/cota, carimbos e layouts de impressão (A4, A3, A1).</p>
+
+                    <h2>Exercícios Práticos</h2>
+                    <ol>
+                        <li>Criar 5 layers conforme tabela apresentada.</li>
+                        <li>Desenhar eixos e uma viga com cotas em escala 1:10.</li>
+                        <li>Criar e guardar um template FEKA_CAD_Template.dwt.</li>
+                    </ol>
+                `
+            },
+            'aula2_3': {
+                title: 'Aula 3: Desenho de Peças e Conjuntos (2D)',
+                type: 'lesson',
+                video: '',
+                html: `
+                    <h2>Representação de Perfis e Ligações</h2>
+                    <ul>
+                        <li>Projeções ortogonais (frontal, lateral, superior).</li>
+                        <li>Representação de perfis I, H, U, L, T, tubos; eixos de simetria com tipo Center.</li>
+                        <li>Hachuras para secções de corte (HATCH).</li>
+                    </ul>
+
+                    <h2>Vistas de Ligações</h2>
+                    <p>Desenhar placas de ligação, parafusos, soldaduras; utilizar VIEWBASE / VIEWSECTION em AutoCAD para vistas detalhadas.</p>
+
+                    <h2>Cotagem</h2>
+                    <p>Usar estilos de cota (DIMSTYLE), evitar repetição de cotas entre vistas, inserir cotas fora da peça para clareza. Comandos: DIMLINEAR, DIMALIGNED, DIMANGULAR, DIMRADIUS, DIMCENTER.</p>
+
+                    <h2>Exercícios Práticos</h2>
+                    <ol>
+                        <li>Desenhar perfil I com chapas de ligação soldadas nas extremidades e criar vistas.</li>
+                        <li>Detalhar ligação flangeada com 4 parafusos M20 e solda de filete; inserir símbolos ISO 2553.</li>
+                        <li>Preparar prancha em escala 1:10 com legenda padrão.</li>
+                    </ol>
+                `
+            },
+            'aula2_4': {
+                title: 'Aula 4: AutoCAD 3D (Modelagem)',
+                type: 'lesson',
+                video: '',
+                html: `
+                    <h2>Introdução ao AutoCAD 3D</h2>
+                    <p>Ambientes: Wireframe, Surface e Solid. Trabalhar em 3D Modeling workspace para extrusão e união de sólidos.</p>
+
+                    <h2>Modelagem de Perfis</h2>
+                    <ol>
+                        <li>Desenhar secção 2D do perfil (I, H, U, L, tubo).</li>
+                        <li>Usar EXTRUDE para gerar sólido 3D.</li>
+                        <li>UNION para juntar chapas; SUBTRACT para furos.</li>
+                    </ol>
+
+                    <h2>Ferramentas de Visualização e Edição</h2>
+                    <p>ORBIT, ZOOM, PAN, VIEWCUBE, PRESSPULL, SLICE, CHAMFEREDGE, FILLETEDGE.</p>
+
+                    <h2>Exercício Prático</h2>
+                    <ol>
+                        <li>Modelar viga IPE 200 extrudada com chapas de extremidade e furos para parafusos.</li>
+                        <li>Aplicar materiais e gerar imagem renderizada.</li>
+                        <li>Gerar prancha com vistas ortogonais e isométrica.</li>
+                    </ol>
+                `
+            },
+            'aula2_5': {
+                title: 'Aula 5: Tekla / Advance Steel (Introdução)',
+                type: 'lesson',
+                video: '',
+                html: `
+                    <h2>Introdução</h2>
+                    <p>Tekla Structures e Advance Steel são plataformas BIM para modelação e detalhamento de estruturas metálicas, gerando desenhos automáticos, listas de materiais e relatórios de montagem.</p>
+
+                    <h2>Diferenças e Complementaridades</h2>
+                    <ul>
+                        <li><strong>Tekla (Trimble):</strong> BIM completo, indicado para grandes estruturas e offshore.</li>
+                        <li><strong>Advance Steel (Autodesk):</strong> baseado em AutoCAD, indicado para modelação e detalhamento CAD/BIM.</li>
+                    </ul>
+
+                    <h2>Navegação e Visualização</h2>
+                    <p>Ferramentas: Pan, Rotate, Zoom, ViewCube, filtros por categoria (vigas, colunas, chapas, parafusos), criação de vistas personalizadas.</p>
+
+                    <h2>Exercício</h2>
+                    <ol>
+                        <li>Explorar um modelo 3D e verificar propriedades das peças.</li>
+                        <li>Gerar um relatório BOM simples e exportar para .xls/.csv.</li>
+                    </ol>
+                `
+            },
+
+            // MÓDULO 3: Sistemas, BIM e Compatibilização (conteúdo fiel do PDF Módulo 3)
+            'aula3_1': {
+                title: 'Aula 1: Sistemas Estruturais e Estabilidade',
+                type: 'lesson',
+                video: '',
+                html: `
+                    <h2>Conceito de Sistema Estrutural</h2>
+                    <p>Conjunto de elementos (vigas, pilares, ligações, fundações) que trabalham de forma integrada para resistir às ações externas, garantindo estabilidade, resistência e funcionalidade.</p>
+
+                    <h2>Tipos de Sistemas</h2>
+                    <ul>
+                        <li><strong>Pórticos:</strong> vigas e pilares com ligações rígidas ou semi-rígidas; comuns em galpões e edifícios industriais.</li>
+                        <li><strong>Treliças:</strong> barras articuladas (Pratt, Warren, Howe, Fink) para vãos longos com baixo peso.</li>
+                        <li><strong>Sistemas Mistos:</strong> aço + betão (lajes mistas, pilares mistos) — normas: EN 1994.</li>
+                    </ul>
+
+                    <h2>Estabilidade Global e Local</h2>
+                    <p>Global: resistência a tombamento, deslocamento lateral e flambagem global (analisar P-Δ). Local: flambagem de alma/mesa, encurvadura lateral de vigas — mitigação por enrijecedores.</p>
+
+                    <h2>Exercício</h2>
+                    <ol>
+                        <li>Identificar sistemas em plantas e indicar caminhos de carga.</li>
+                        <li>Comparar eficiência de pórtico, treliça e sistema misto para vão de 30 m.</li>
+                    </ol>
+                `
+            },
+            'aula3_2': {
+                title: 'Aula 2: Montagem e DFMA (Design for Manufacturing and Assembly)',
+                type: 'lesson',
+                video: '',
+                html: `
+                    <h2>Introdução à Montagem Estrutural</h2>
+                    <p>Montagem: logística, transporte, alinhamento, soldagem e aparafusamento; exige coordenação entre engenharia, produção e obra.</p>
+
+                    <h2>Princípios DFMA</h2>
+                    <p>Objetivos: reduzir número de peças, simplificar ligações, facilitar transporte e montagem, aumentar precisão e reduzir retrabalhos.</p>
+
+                    <h2>Planeamento de Montagem</h2>
+                    <ol>
+                        <li>Levantamento topográfico e fundações.</li>
+                        <li>Definição de eixos e cotas de referência.</li>
+                        <li>Sequência típica: pilares principais → vigas primárias → vigas secundárias → contraventamentos.</li>
+                    </ol>
+
+                    <h2>Numeração de Peças (Marks)</h2>
+                    <p>Numeração única por peça (gerada por Tekla/Advance Steel) utilizada em listas de montagem (Assembly Lists) para logística.</p>
+
+                    <h2>Exercício</h2>
+                    <ol>
+                        <li>Gerar numeração de peças a partir de um modelo 3D.</li>
+                        <li>Criar sequência de montagem em quatro etapas.</li>
+                    </ol>
+                `
+            },
+            'aula3_3': {
+                title: 'Aula 3: Introdução ao Revit Estrutural',
+                type: 'lesson',
+                video: '',
+                html: `
+                    <h2>Interface e Conceitos</h2>
+                    <p>Ribbon, Project Browser, Properties Palette. Revit é uma ferramenta BIM para modelação integrada e documentação.</p>
+
+                    <h2>Inserção de Elementos Metálicos</h2>
+                    <p>Pilares, vigas, treliças e perfis compostos criados com famílias do Revit; definir material e propriedades (EN S275, ASTM A36).</p>
+
+                    <h2>Famílias e Propriedades</h2>
+                    <ul>
+                        <li>Famílias do sistema, carregáveis e in-situ.</li>
+                        <li>Parâmetros: material, densidade, classificação normativa.</li>
+                    </ul>
+
+                    <h2>Exercício</h2>
+                    <ol>
+                        <li>Criar projeto estrutural e inserir 4 pilares HEA 200.</li>
+                        <li>Associar vigas IPE 240 num nível e visualizar o modelo 3D.</li>
+                    </ol>
+                `
+            },
+            'aula3_4': {
+                title: 'Aula 4: Tekla / Advance Steel Avançado',
+                type: 'lesson',
+                video: '',
+                html: `
+                    <h2>Modelagem Avançada</h2>
+                    <p>Modelar escadas, plataformas, gerar vistas automáticas, listas de materiais e desenhos de montagem.</p>
+
+                    <h2>Escadas Metálicas</h2>
+                    <ol>
+                        <li>Escolher tipo: reta, L, U ou helicoidal.</li>
+                        <li>Definir dimensões, corrimãos e propriedades paramétricas.</li>
+                    </ol>
+
+                    <h2>Plataformas e Passadiços</h2>
+                    <p>Inserir vigas principais/ secundárias, chapas de piso e corrimãos; usar macros e componentes paramétricos.</p>
+
+                    <h2>Geração Automática de Vistas</h2>
+                    <p>Tekla: Create GA Drawing / Assembly Drawing. Advance Steel: Document Manager e exportação DWG/PDF com templates.</p>
+
+                    <h2>Exercício</h2>
+                    <ol>
+                        <li>Modelar escada metálica com 12 degraus e patamar.</li>
+                        <li>Criar plataforma 4x3 m com piso grelhado e corrimão; gerar lista de materiais.</li>
+                    </ol>
+                `
+            },
+            'aula3_5': {
+                title: 'Aula 5: Compatibilização BIM e Clash Detection',
+                type: 'lesson',
+                video: '',
+                html: `
+                    <h2>Conceito</h2>
+                    <p>Compatibilização BIM integra arquitetura, estrutura e MEP num modelo federado para detecção e resolução de conflitos antes da obra.</p>
+
+                    <h2>Clash Detection (Navisworks)</h2>
+                    <ol>
+                        <li>Importar modelos (IFC, DWG, RVT).</li>
+                        <li>Criar testes de interferência e configurar tolerâncias (ex: 5 mm).</li>
+                        <li>Executar testes e gerar relatórios com localização e tipo de conflito.</li>
+                    </ol>
+
+                    <h2>Boas Práticas</h2>
+                    <ul>
+                        <li>Regras de nomeação (ISO 19650), reuniões de coordenação e documentação de issues.</li>
+                        <li>Validação final do modelo federado antes da emissão do IFC.</li>
+                    </ul>
+
+                    <h2>Exercício</h2>
+                    <ol>
+                        <li>Importar modelos RVT e criar teste de interferência entre vigas e dutos.</li>
+                        <li>Gerar relatório de clashes em HTML com capturas e observações.</li>
+                    </ol>
+                `
+            },
+
+            // MÓDULO 4: Documentação, Qualidade e Projeto Final (conteúdo fiel do PDF Módulo 4)
+            'aula4_1': {
+                title: 'Aula 1: Lista de Materiais (BOM) - Geração e Uso',
+                type: 'lesson',
+                video: '',
+                html: `
+                    <h2>Conceito de BOM</h2>
+                    <p>A Bill of Materials (BOM) relaciona todos os componentes de um projeto: perfis, chapas, parafusos e acessórios; usada para fabrico, logística e estimativa de custo.</p>
+
+                    <h2>Geração Automática</h2>
+                    <p>Tekla / Advance Steel / Revit geram BOMs automaticamente:</p>
+                    <ul>
+                        <li>Tekla: Reports → Material List (export .xls/.csv)</li>
+                        <li>Advance Steel: Output → BOM → Generate BOM</li>
+                        <li>Revit: Schedules (Family, Type, Material, Length, Weight, Count)</li>
+                    </ul>
+
+                    <h2>Geração Manual</h2>
+                    <p>Quando não há modelo 3D: identificar peças nos desenhos 2D e preencher tabela Excel com Peça / Perfil / Material / Comprimento / Quantidade / Peso.</p>
+
+                    <h2>Exercício</h2>
+                    <ol>
+                        <li>Gerar BOM automática no Tekla e exportar para Excel.</li>
+                        <li>Calcular peso total do projeto usando tabelas normativas.</li>
+                    </ol>
+                `
+            },
+            'aula4_2': {
+                title: 'Aula 2: Documentação Complementar e Memorial',
+                type: 'lesson',
+                video: '',
+                html: `
+                    <h2>Memorial Descritivo</h2>
+                    <p>Documento técnico que descreve: identificação da obra, objetivos, materiais, métodos construtivos, normas adotadas, resumo de cálculos e considerações de montagem e manutenção.</p>
+
+                    <h2>Marcação de Corte e Dobra</h2>
+                    <p>Indicar local e ângulo dos cortes, raio e sentido das dobras, numeração conforme BOM. Boas práticas: simbologia ISO 2553, cotas claras e tolerâncias.</p>
+
+                    <h2>Exemplo Prático</h2>
+                    <pre style="white-space:pre-wrap">Peça: P-034 | Perfil: L 60x60x6 | Corte: 90° | Dobra: 45° | Comp.: 850 mm | Quant.: 4</pre>
+                `
+            },
+            'aula4_3': {
+                title: 'Aula 3: Qualidade, Normas e Certificação (ISO, EN)',
+                type: 'lesson',
+                video: '',
+                html: `
+                    <h2>ISO 9001 - Gestão da Qualidade</h2>
+                    <p>Sistemas de gestão da qualidade aplicados ao ciclo: projeto → fabrico → montagem; controlo de documentos, rastreabilidade de materiais e procedimentos de inspeção.</p>
+
+                    <h2>EN 1090 - Execução de Estruturas Metálicas</h2>
+                    <p>Requisitos: classes de execução (EXC1 a EXC4), qualificação de soldadores, marcação CE, inspeções e ensaios não destrutivos.</p>
+
+                    <h2>AWS D1.1 e Outros</h2>
+                    <p>Normas de soldagem e critérios de aceitação (ISO 5817, ISO 17637) e normas de parafusos (ISO 898-1).</p>
+
+                    <h2>Boas Práticas</h2>
+                    <ul>
+                        <li>Manter registos de certificados do aço e fichas de ensaio.</li>
+                        <li>Procedimentos de inspeção (VT/MT/UT/RT) conforme especificação do projeto.</li>
+                    </ul>
+                `
+            },
+            'aula4_4': {
+                title: 'Aula 4: Projeto Final (Planeamento e Entregáveis)',
+                type: 'lesson',
+                video: '',
+                html: `
+                    <h2>Objetivo do Projeto Final</h2>
+                    <p>Escolher uma estrutura (galpão, mezanino, torre) e entregar: modelo 3D, listas de materiais (BOM), desenhos executivos, memorial descritivo e plano de montagem.</p>
+
+                    <h2>Entregáveis</h2>
+                    <ul>
+                        <li>Modelo 3D completo (.tekla/.rvt/.dwg).</li>
+                        <li>Pranchas executivas com cortes, vistas e detalhes.</li>
+                        <li>BOM exportado (Excel/CSV) com pesos e quantidades.</li>
+                        <li>Memorial descritivo e plano de montagem (sequência e cronograma).</li>
+                    </ul>
+
+                    <h2>Planeamento</h2>
+                    <p>Definir fases: concepção → modelação → detalhamento → revisão de compatibilização → emissão de documentos para fabrico e montagem.</p>
+
+                    <h2>Critérios de Avaliação</h2>
+                    <ol>
+                        <li>Completude dos entregáveis.</li>
+                        <li>Conformidade com normas aplicáveis.</li>
+                        <li>Clareza e qualidade dos desenhos e documentação.</li>
+                    </ol>
+                `
+            }
         };
 
         // Função para carregar o conteúdo da aula
@@ -720,17 +1154,18 @@
             moduleElement.classList.toggle('open');
         }
 
-        // Carrega a primeira aula (do novo módulo 0) ao iniciar a página
+        // Carrega a primeira aula ao iniciar a página
         document.addEventListener('DOMContentLoaded', () => {
             const initialButton = document.querySelector('.lesson-list button.active');
             if (initialButton) {
+                // encontra o id da aula activa e carrega o conteúdo correspondende
+                // por compatibilidade, chamamos loadContent com o id que já está definido
                 loadContent('aula0_1', initialButton);
             }
             
-            // NOVO: Adiciona a classe 'sidebar-collapsed' se for um dispositivo móvel
+            // Começa no modo collapsed (menu fechado) no mobile
             if (window.innerWidth <= 768) {
                 const page = document.getElementById('course-page');
-                // Começa no modo collapsed (menu fechado) no mobile
                 page.classList.add('sidebar-collapsed');
             }
         });
