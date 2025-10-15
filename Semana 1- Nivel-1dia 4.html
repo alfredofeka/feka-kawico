@@ -1,0 +1,160 @@
+<!-- =======================
+  Módulo Quinta-feira – Discussão em Grupo
+  Fórum Académico
+==========================-->
+
+<section class="module">
+  <header class="module-header">
+    <h1>Quinta-feira – Discussão em Grupo<br>Debate sobre Conceitos Aprendidos</h1>
+    <p class="objetivos">
+      <strong>Objetivos:</strong> Promover um debate científico e técnico de alto nível, semelhante aos fóruns
+      de universidades de referência. Os alunos devem:
+      <ul>
+        <li>Revisitar conceitos dos 3 primeiros dias (fundamentos, normas, materiais).</li>
+        <li>Aplicá-los a <strong>situações reais de obra</strong> em construção metálica e offshore.</li>
+        <li>Identificar <strong>riscos, materiais, processos e práticas de segurança</strong>.</li>
+        <li>Contribuir com <strong>pelo menos 3 observações ou perguntas</strong> para fomentar o debate.</li>
+      </ul>
+    </p>
+  </header>
+
+  <!-- Simulação de Cenários de Obra -->
+  <div class="content-block">
+    <h2>Simulações de Cenários</h2>
+    <p>Os grupos deverão escolher um ou mais cenários para análise:</p>
+    <ol>
+      <li><strong>Montagem de módulo offshore:</strong> identificar pontos críticos de segurança, escolha de materiais e sequências de trabalho.</li>
+      <li><strong>Inspeção de corrosão:</strong> propor medidas de proteção e manutenção.</li>
+      <li><strong>Remoção de stiffeners deteriorados:</strong> planeamento de reparação segura e conforme normas.</li>
+      <li><strong>Integração de novos equipamentos:</strong> avaliar compatibilidade estrutural e operacional.</li>
+    </ol>
+  </div>
+
+  <!-- Fórum Online -->
+  <div class="content-block atividade">
+    <h2>Atividade Interativa – Fórum de Discussão</h2>
+    <p>Participe no fórum abaixo: escreva as suas <strong>3 observações ou perguntas</strong> e interaja com os colegas,
+       comentando ou votando nas contribuições.</p>
+
+    <!-- Formulário de Postagem -->
+    <div id="forum-form">
+      <textarea id="forum-input" placeholder="Escreva aqui a sua observação ou pergunta..." maxlength="300"></textarea>
+      <button id="post-button">Publicar</button>
+    </div>
+
+    <!-- Lista de Publicações -->
+    <div id="forum-posts">
+      <!-- As mensagens aparecerão aqui -->
+    </div>
+  </div>
+
+  <!-- Resumo e Notas -->
+  <div class="resumo">
+    <h2>Resumo</h2>
+    <p>Este fórum visa estimular o <strong>pensamento crítico</strong> e a <strong>colaboração científica</strong>,
+      fundamentais na formação de profissionais em engenharia metálica e offshore.
+      As discussões simulam os desafios reais enfrentados em projetos e destacam a importância da
+      <strong>comunicação interdisciplinar e do compliance</strong> com normas e segurança.</p>
+  </div>
+</section>
+
+<!-- ======== CSS do Padrão ======== -->
+<style>
+  body {font-family: 'Roboto', sans-serif; background:#f6f7f8; color:#222;}
+  .module {max-width: 900px; margin: 0 auto; padding: 20px;}
+  .module-header {border-left: 5px solid #007b8f; padding-left:15px; margin-bottom:20px;}
+  h1,h2 {color:#007b8f;}
+  .content-block {background:#fff; padding:20px; margin-bottom:20px; border-radius:8px;}
+  .atividade {background:#eef7fa;}
+  .resumo {background:#fff3cd; padding:20px; border-radius:8px;}
+
+  /* Fórum */
+  #forum-form {display:flex; flex-direction:column; margin-bottom:20px;}
+  #forum-input {min-height:80px; padding:10px; border:1px solid #007b8f; border-radius:5px; margin-bottom:10px; resize:vertical;}
+  #post-button {align-self:flex-end; padding:8px 16px; border:none; border-radius:5px; background:#007b8f; color:#fff; cursor:pointer;}
+  #post-button:hover {background:#005f6b;}
+
+  #forum-posts {background:#fff; border:1px solid #ddd; padding:10px; border-radius:5px; max-height:400px; overflow-y:auto;}
+  .post {border-bottom:1px solid #eee; padding:10px 5px;}
+  .post:last-child {border-bottom:none;}
+  .post-meta {font-size:0.85em; color:#555; margin-bottom:5px;}
+  .post-text {margin-bottom:8px;}
+  .vote-btn {cursor:pointer; background:none; border:none; font-size:0.9em; color:#007b8f; margin-right:10px;}
+  .vote-btn:hover {text-decoration:underline;}
+  .votes {font-weight:bold; color:#007b8f;}
+</style>
+
+<!-- ======== JS do Fórum ======== -->
+<script>
+const postButton = document.getElementById('post-button');
+const forumInput = document.getElementById('forum-input');
+const forumPosts = document.getElementById('forum-posts');
+
+let posts = [];
+
+function renderPosts() {
+  forumPosts.innerHTML = '';
+  posts.forEach((post, index) => {
+    const postDiv = document.createElement('div');
+    postDiv.classList.add('post');
+
+    const metaDiv = document.createElement('div');
+    metaDiv.classList.add('post-meta');
+    metaDiv.textContent = `Publicado por Aluno ${post.user} • ${post.time}`;
+
+    const textDiv = document.createElement('div');
+    textDiv.classList.add('post-text');
+    textDiv.textContent = post.text;
+
+    const voteDiv = document.createElement('div');
+    const upBtn = document.createElement('button');
+    upBtn.textContent = `👍`;
+    upBtn.classList.add('vote-btn');
+    upBtn.addEventListener('click', () => {
+      posts[index].votes++;
+      renderPosts();
+    });
+
+    const downBtn = document.createElement('button');
+    downBtn.textContent = `👎`;
+    downBtn.classList.add('vote-btn');
+    downBtn.addEventListener('click', () => {
+      posts[index].votes--;
+      renderPosts();
+    });
+
+    const voteCount = document.createElement('span');
+    voteCount.textContent = `Votos: ${post.votes}`;
+    voteCount.classList.add('votes');
+
+    voteDiv.appendChild(upBtn);
+    voteDiv.appendChild(downBtn);
+    voteDiv.appendChild(voteCount);
+
+    postDiv.appendChild(metaDiv);
+    postDiv.appendChild(textDiv);
+    postDiv.appendChild(voteDiv);
+
+    forumPosts.appendChild(postDiv);
+  });
+}
+
+postButton.addEventListener('click', () => {
+  const text = forumInput.value.trim();
+  if (text.length === 0) return;
+  const timestamp = new Date().toLocaleString('pt-PT', { hour: '2-digit', minute:'2-digit', day:'2-digit', month:'2-digit' });
+  
+  posts.unshift({
+    user: Math.floor(Math.random()*90+10), // Simula um ID de aluno
+    time: timestamp,
+    text: text,
+    votes: 0
+  });
+
+  forumInput.value = '';
+  renderPosts();
+});
+
+// Inicialização
+renderPosts();
+</script>

@@ -1,0 +1,155 @@
+<!-- =======================
+  Módulo Aula Dia 3 - Nível 1
+  Materiais Metálicos e suas Propriedades
+==========================-->
+
+<section class="module">
+  <header class="module-header">
+    <h1>Dia 3 – Nível 1<br>Materiais Metálicos na Construção Metálica e Offshore</h1>
+    <p class="objetivos">
+      <strong>Objetivos:</strong> Conhecer os principais materiais metálicos utilizados em estruturas offshore,
+      compreender as suas propriedades mecânicas e de durabilidade, e identificar critérios de seleção adequados.
+    </p>
+  </header>
+
+  <!-- Secção 1 -->
+  <div class="content-block">
+    <h2>1. Introdução aos Materiais Metálicos</h2>
+    <p>Na construção metálica e offshore, os <strong>aços estruturais</strong> são os materiais predominantes devido à sua
+    elevada resistência, ductilidade e disponibilidade. Em situações específicas utilizam-se também <strong>ligas de alumínio</strong>
+    e, em menor escala, <strong>titânio e ligas de níquel</strong> para aplicações de elevada resistência à corrosão.</p>
+  </div>
+
+  <!-- Secção 2 -->
+  <div class="content-block">
+    <h2>2. Principais Tipos de Aço</h2>
+    <ul>
+      <li><strong>Aços carbono (S235, S275, S355):</strong> mais comuns em estruturas terrestres e offshore fixas.</li>
+      <li><strong>Aços de alta resistência (S420, S460, API 2W):</strong> utilizados em estruturas sujeitas a cargas elevadas e ambientes agressivos.</li>
+      <li><strong>Aços de baixa liga e alta resistência (HSLA):</strong> melhor comportamento à corrosão atmosférica.</li>
+      <li><strong>Aços inoxidáveis (304, 316, duplex):</strong> utilizados em tubagens, válvulas e ambientes com elevada salinidade.</li>
+    </ul>
+  </div>
+
+  <!-- Secção 3 -->
+  <div class="content-block">
+    <h2>3. Propriedades Mecânicas Relevantes</h2>
+    <ul>
+      <li><strong>Resistência à tração:</strong> capacidade de resistir a esforços sem ruptura.</li>
+      <li><strong>Limite de escoamento:</strong> tensão máxima antes da deformação plástica.</li>
+      <li><strong>Ductilidade:</strong> capacidade de deformação sem fraturar.</li>
+      <li><strong>Tenacidade:</strong> resistência ao choque e fratura em baixas temperaturas.</li>
+      <li><strong>Resistência à fadiga:</strong> capacidade de suportar ciclos de carga repetitivos.</li>
+    </ul>
+  </div>
+
+  <!-- Secção 4 -->
+  <div class="content-block">
+    <h2>4. Durabilidade e Proteção</h2>
+    <ul>
+      <li><strong>Corrosão:</strong> fator crítico em ambiente marinho; requer pinturas, galvanização ou proteção catódica.</li>
+      <li><strong>Fragilização a frio:</strong> impacto de baixas temperaturas nas propriedades mecânicas.</li>
+      <li><strong>Soldabilidade:</strong> importância de baixos teores de carbono e boas práticas de pré-aquecimento.</li>
+      <li><strong>Revestimentos especiais:</strong> epóxi, poliuretano, metalização e aplicação de anodos sacrificiais.</li>
+    </ul>
+  </div>
+
+  <!-- Atividade Interativa -->
+  <div class="content-block atividade">
+    <h2>Atividade Interativa – Quiz Rápido</h2>
+    <p>Teste os seus conhecimentos sobre materiais e propriedades: cada resposta correta vale 1 ponto!</p>
+
+    <div id="quiz-container">
+      <div class="quiz-question" data-correct="b">
+        <p>1. Qual é o material metálico predominante em estruturas offshore?</p>
+        <button data-option="a">Alumínio</button>
+        <button data-option="b">Aço estrutural</button>
+        <button data-option="c">Titânio</button>
+      </div>
+
+      <div class="quiz-question" data-correct="c">
+        <p>2. Que propriedade mede a capacidade de um material resistir a esforços repetitivos?</p>
+        <button data-option="a">Tenacidade</button>
+        <button data-option="b">Ductilidade</button>
+        <button data-option="c">Resistência à fadiga</button>
+      </div>
+
+      <div class="quiz-question" data-correct="b">
+        <p>3. Os aços inoxidáveis são especialmente usados devido à sua:</p>
+        <button data-option="a">Alta densidade</button>
+        <button data-option="b">Resistência à corrosão</button>
+        <button data-option="c">Baixo custo</button>
+      </div>
+
+      <div class="quiz-question" data-correct="a">
+        <p>4. A fragilização a frio está associada a:</p>
+        <button data-option="a">Baixas temperaturas</button>
+        <button data-option="b">Exposição solar intensa</button>
+        <button data-option="c">Pintura anticorrosiva</button>
+      </div>
+
+      <div class="quiz-question" data-correct="c">
+        <p>5. Qual destes processos NÃO é uma forma de proteção contra a corrosão?</p>
+        <button data-option="a">Pintura epóxi</button>
+        <button data-option="b">Galvanização</button>
+        <button data-option="c">Aumento da temperatura ambiente</button>
+      </div>
+    </div>
+
+    <p id="quiz-score">Pontuação: 0/5</p>
+  </div>
+
+  <!-- Resumo -->
+  <div class="resumo">
+    <h2>Resumo</h2>
+    <p>O conhecimento das propriedades e seleção correta dos materiais metálicos
+       é fundamental para garantir a <strong>resistência, durabilidade e segurança</strong>
+       das estruturas metálicas offshore, especialmente em ambientes marinhos agressivos.</p>
+  </div>
+</section>
+
+<!-- ======== CSS (herda do padrão) ======== -->
+<style>
+  body {font-family: 'Roboto', sans-serif; background:#f6f7f8; color:#222;}
+  .module {max-width: 900px; margin: 0 auto; padding: 20px;}
+  .module-header {border-left: 5px solid #007b8f; padding-left:15px; margin-bottom:20px;}
+  h1,h2 {color:#007b8f;}
+  .content-block {background:#fff; padding:20px; margin-bottom:20px; border-radius:8px;}
+  .atividade {background:#eef7fa;}
+  button {margin:5px 0; padding:10px 15px; border:1px solid #007b8f; border-radius:5px; background:#fff; cursor:pointer;}
+  button.correct {background:#c8f7c5;}
+  button.wrong {background:#f8d7da;}
+  #quiz-score {font-weight:bold; margin-top:10px;}
+  .resumo {background:#fff3cd; padding:20px; border-radius:8px;}
+</style>
+
+<!-- ======== JS do Quiz ======== -->
+<script>
+let score = 0;
+const quizQuestions = document.querySelectorAll('.quiz-question');
+const scoreDisplay = document.getElementById('quiz-score');
+
+quizQuestions.forEach(question => {
+  const correct = question.getAttribute('data-correct');
+  const buttons = question.querySelectorAll('button');
+
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      // Evita responder mais de uma vez
+      if (question.classList.contains('answered')) return;
+
+      question.classList.add('answered');
+      if (btn.getAttribute('data-option') === correct) {
+        btn.classList.add('correct');
+        score++;
+      } else {
+        btn.classList.add('wrong');
+        buttons.forEach(b=>{
+          if(b.getAttribute('data-option')===correct) b.classList.add('correct');
+        });
+      }
+      scoreDisplay.textContent = `Pontuação: ${score}/5`;
+    });
+  });
+});
+</script>

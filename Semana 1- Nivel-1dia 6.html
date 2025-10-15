@@ -1,0 +1,186 @@
+<!-- =======================
+  Módulo Sábado – Teste da Semana
+==========================-->
+
+<section class="module">
+  <header class="module-header">
+    <h1>Sábado – Teste da Semana<br> Avaliação do Conteúdo</h1>
+    <p class="objetivos">
+      <strong>Objetivos:</strong> Avaliar a compreensão global do conteúdo da semana:
+      <ul>
+        <li>História e conceitos fundamentais da indústria metálica e offshore.</li>
+        <li>Principais normas internacionais e compliance.</li>
+        <li>Materiais metálicos e propriedades.</li>
+        <li>Práticas de segurança e riscos em obra.</li>
+      </ul>
+    </p>
+  </header>
+
+  <!-- Instruções -->
+  <div class="content-block">
+    <h2>Instruções</h2>
+    <p>Responda às 10 perguntas.  
+       O teste inclui <strong>múltipla escolha</strong>, <strong>verdadeiro/falso</strong> e <strong>correspondência</strong>.  
+       No final, verá a pontuação e os <strong>tópicos que deve rever</strong>.</p>
+  </div>
+
+  <!-- Quiz Interativo -->
+  <div class="content-block atividade" id="quiz-container">
+    <h2>Atividade Interativa – Teste</h2>
+
+    <!-- Perguntas -->
+    <div class="quiz-question" data-type="mcq" data-correct="b">
+      <p>1. (Múltipla escolha) Qual foi um dos fatores-chave para a expansão da construção offshore no século XX?</p>
+      <button data-option="a">A disponibilidade de titânio</button>
+      <button data-option="b">A demanda crescente por petróleo em alto-mar</button>
+      <button data-option="c">A aplicação de drones</button>
+    </div>
+
+    <div class="quiz-question" data-type="mcq" data-correct="c">
+      <p>2. (Múltipla escolha) Qual destas normas trata especificamente de estruturas fixas offshore?</p>
+      <button data-option="a">ISO 9001</button>
+      <button data-option="b">ABS Rules for Vessels</button>
+      <button data-option="c">ISO 19902</button>
+    </div>
+
+    <div class="quiz-question" data-type="tf" data-correct="true">
+      <p>3. (Verdadeiro/Falso) A norma DNV-ST-N001 aborda aspetos de segurança marítima e operações offshore.</p>
+      <button data-option="true">Verdadeiro</button>
+      <button data-option="false">Falso</button>
+    </div>
+
+    <div class="quiz-question" data-type="tf" data-correct="false">
+      <p>4. (Verdadeiro/Falso) O alumínio é o material predominante na maioria das plataformas offshore.</p>
+      <button data-option="true">Verdadeiro</button>
+      <button data-option="false">Falso</button>
+    </div>
+
+    <div class="quiz-question" data-type="mcq" data-correct="a">
+      <p>5. (Múltipla escolha) Qual das seguintes propriedades é crucial para resistir a cargas cíclicas em estruturas offshore?</p>
+      <button data-option="a">Resistência à fadiga</button>
+      <button data-option="b">Densidade</button>
+      <button data-option="c">Condutividade térmica</button>
+    </div>
+
+    <div class="quiz-question" data-type="tf" data-correct="true">
+      <p>6. (Verdadeiro/Falso) A corrosão é um dos maiores riscos para estruturas metálicas em ambientes marinhos.</p>
+      <button data-option="true">Verdadeiro</button>
+      <button data-option="false">Falso</button>
+    </div>
+
+    <div class="quiz-question" data-type="mcq" data-correct="c">
+      <p>7. (Múltipla escolha) Qual destes processos NÃO é uma medida de proteção contra a corrosão?</p>
+      <button data-option="a">Revestimento epóxi</button>
+      <button data-option="b">Proteção catódica</button>
+      <button data-option="c">Aumento da temperatura ambiente</button>
+    </div>
+
+    <div class="quiz-question match-question" data-correct='{"1":"c","2":"a","3":"b"}'>
+      <p>8. (Correspondência) Associe o material à sua principal característica:</p>
+      <ul>
+        <li>1. Aço carbono – <select><option value="">--Escolha--</option><option value="a">Alta resistência à corrosão</option><option value="b">Uso em ambiente marinho severo</option><option value="c">Custo acessível e bom desempenho estrutural</option></select></li>
+        <li>2. Aço inoxidável – <select><option value="">--Escolha--</option><option value="a">Alta resistência à corrosão</option><option value="b">Uso em ambiente marinho severo</option><option value="c">Custo acessível e bom desempenho estrutural</option></select></li>
+        <li>3. Ligas de titânio – <select><option value="">--Escolha--</option><option value="a">Alta resistência à corrosão</option><option value="b">Uso em ambiente marinho severo</option><option value="c">Custo acessível e bom desempenho estrutural</option></select></li>
+      </ul>
+    </div>
+
+    <div class="quiz-question" data-type="tf" data-correct="true">
+      <p>9. (Verdadeiro/Falso) A utilização de EPIs é obrigatória e faz parte das boas práticas de segurança em obras offshore.</p>
+      <button data-option="true">Verdadeiro</button>
+      <button data-option="false">Falso</button>
+    </div>
+
+    <div class="quiz-question" data-type="mcq" data-correct="b">
+      <p>10. (Múltipla escolha) Que fator é essencial para garantir a durabilidade das soldaduras em ambiente marítimo?</p>
+      <button data-option="a">Alta condutividade elétrica</button>
+      <button data-option="b">Controle de pré-aquecimento e uso de materiais adequados</button>
+      <button data-option="c">Aumento da velocidade de soldagem</button>
+    </div>
+
+    <button id="submit-quiz">Submeter Teste</button>
+    <p id="quiz-result"></p>
+    <div id="review-topics"></div>
+  </div>
+</section>
+
+<!-- ======== CSS do Padrão ======== -->
+<style>
+  body {font-family: 'Roboto', sans-serif; background:#f6f7f8; color:#222;}
+  .module {max-width: 900px; margin: 0 auto; padding: 20px;}
+  .module-header {border-left: 5px solid #007b8f; padding-left:15px; margin-bottom:20px;}
+  h1,h2 {color:#007b8f;}
+  .content-block {background:#fff; padding:20px; margin-bottom:20px; border-radius:8px;}
+  .atividade {background:#eef7fa;}
+  button {margin:5px 0; padding:8px 15px; border:1px solid #007b8f; border-radius:5px; background:#fff; cursor:pointer;}
+  button.correct {background:#c8f7c5;}
+  button.wrong {background:#f8d7da;}
+  select {margin-left:10px; padding:4px;}
+  #submit-quiz {margin-top:15px; padding:10px 20px; border:none; background:#007b8f; color:#fff; border-radius:5px;}
+  #submit-quiz:hover {background:#005f6b;}
+  #quiz-result {font-weight:bold; margin-top:10px;}
+  #review-topics {margin-top:10px; background:#fff3cd; padding:10px; border-radius:5px;}
+</style>
+
+<!-- ======== JS do Quiz ======== -->
+<script>
+document.getElementById('submit-quiz').addEventListener('click', () => {
+  let score = 0;
+  const total = 10;
+  const review = [];
+
+  document.querySelectorAll('.quiz-question').forEach(q => {
+    const type = q.getAttribute('data-type');
+
+    if (type === 'mcq' || type === 'tf') {
+      const correct = q.getAttribute('data-correct');
+      const selected = q.querySelector('button.correct, button.wrong') ?
+        q.querySelector('button.correct, button.wrong').getAttribute('data-option') : null;
+
+      // Se não respondeu ainda
+      if (!selected) {
+        const activeBtn = q.querySelector('button.selected');
+        if (activeBtn) {
+          if (activeBtn.getAttribute('data-option') === correct) score++;
+          else review.push(q.querySelector('p').innerText);
+        } else {
+          review.push(q.querySelector('p').innerText);
+        }
+      } else {
+        if (selected === correct) score++;
+        else review.push(q.querySelector('p').innerText);
+      }
+    }
+
+    if (type === null && q.classList.contains('match-question')) {
+      const correct = JSON.parse(q.getAttribute('data-correct'));
+      let allCorrect = true;
+      q.querySelectorAll('select').forEach((sel, idx) => {
+        const key = (idx + 1).toString();
+        if (sel.value !== correct[key]) allCorrect = false;
+      });
+      if (allCorrect) score++;
+      else review.push(q.querySelector('p').innerText);
+    }
+  });
+
+  document.getElementById('quiz-result').textContent = `Pontuação: ${score}/${total}`;
+
+  if (review.length > 0) {
+    document.getElementById('review-topics').innerHTML =
+      `<strong>Tópicos para rever:</strong><ul>${review.map(r => `<li>${r}</li>`).join('')}</ul>`;
+  } else {
+    document.getElementById('review-topics').innerHTML =
+      `<strong>Excelente!</strong> Está pronto para avançar para a próxima semana.`;
+  }
+});
+
+// Marcar respostas
+document.querySelectorAll('.quiz-question button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const parent = btn.closest('.quiz-question');
+    parent.querySelectorAll('button').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+  });
+});
+</script>
+
