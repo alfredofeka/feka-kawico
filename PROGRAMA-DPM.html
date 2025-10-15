@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> FEKA METAL Cursos Técnicos - Desenhador Projectista</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Base do Site (mantido do exemplo anterior) */
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Roboto:wght@300;400;500&display=swap');
+
+        :root {
+            --primary-blue: #004a80;
+            --secondary-blue: #007bff;
+            --text-dark: #333;
+            --text-light: #f4f4f4;
+            --bg-light: #f9f9f9;
+            --bg-dark: #2c3e50;
+            --border-color: #ddd;
+            --hover-light: #e0f2f7;
+            --success-green: #28a745; /* Novo */
+            --warning-red: #dc3545;   /* Novo */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background-color: var(--bg-light);
+            scroll-behavior: smooth;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background-color: var(--primary-blue);
+            color: var(--text-light);
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo a {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2em;
+            font-weight: 700;
+            color: var(--text-light);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+        .logo a span {
+            font-size: 0.5em;
+            font-weight: 400;
+            margin-left: 10px;
+            opacity: 0.8;
+        }
+
+        /* Novo: Layout de Curso */
+        .course-page {
+            display: flex;
+            min-height: calc(100vh - 80px); /* Altura mínima para caber na tela */
+            padding-top: 40px;
+        }
+
+        /* Menu Lateral (Sidebar) */
+        .course-sidebar {
+            width: 300px;
+            background-color: #fff;
+            padding: 20px;
+            border-right: 1px solid var(--border-color);
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
+            flex-shrink: 0; /* Não encolhe */
+        }
+
+        .course-sidebar h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.4em;
+            color: var(--primary-blue);
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--secondary-blue);
+            padding-bottom: 10px;
+        }
+
+        /* Estilos dos Módulos */
+        .module {
+            margin-bottom: 15px;
+        }
+
+        .module-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1em;
+            color: var(--text-dark);
+            background-color: var(--hover-light);
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            font-weight: 600;
+            display: block;
+        }
+
+        .module-title:hover {
+            background-color: #d0e8f0;
+        }
+
+        /* Lista de Aulas e Testes */
+        .lesson-list {
+            list-style: none;
+            padding-left: 0;
+            margin-top: 5px;
+        }
+
+        .lesson-list li button {
+            background: none;
+            border: none;
+            text-align: left;
+            padding: 8px 15px 8px 25px;
+            width: 100%;
+            cursor: pointer;
+            font-size: 0.95em;
+            color: var(--text-dark);
+            transition: background-color 0.2s;
+            display: block;
+            border-left: 3px solid transparent;
+        }
+
+        .lesson-list li button:hover {
+            background-color: var(--bg-light);
+            border-left: 3px solid var(--secondary-blue);
+        }
+
+        .lesson-list li button.active {
+            background-color: var(--secondary-blue);
+            color: var(--text-light);
+            border-left: 3px solid var(--secondary-blue);
+            font-weight: 500;
+        }
+
+        /* Conteúdo Principal */
+        .course-content {
+            flex-grow: 1;
+            padding: 20px 40px;
+        }
+
+        .content-area {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+            min-height: 100%;
+        }
+
+        .content-area h1 {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--primary-blue);
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .lesson-text p, .lesson-text ul, .lesson-text ol {
+            margin-bottom: 20px;
+            font-size: 1.05em;
+        }
+
+        .lesson-text ul li {
+            margin-bottom: 10px;
+        }
+
+        /* Estilos para Testes (Interatividade) */
+        .quiz-container {
+            margin-top: 30px;
+            border-top: 1px dashed var(--secondary-blue);
+            padding-top: 20px;
+        }
+
+        .question {
+            margin-bottom: 25px;
+            padding: 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+        }
+
+        .question p {
+            font-weight: 600;
+            color: var(--primary-blue);
+            margin-bottom: 15px;
+        }
+
+        .options label {
+            display: block;
+            margin: 8px 0;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+
+        .options label:hover {
+            background-color: var(--hover-light);
+        }
+
+        .submit-btn {
+            background-color: var(--success-green);
+            color: var(--text-light);
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+
+        .submit-btn:hover {
+            background-color: #1e7e34;
+        }
+
+        .results {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 4px;
+            font-weight: 600;
+            display: none; /* Escondido inicialmente */
+        }
+
+        .results.correct {
+            background-color: #d4edda;
+            color: var(--success-green);
+        }
+
+        .results.incorrect {
+            background-color: #f8d7da;
+            color: var(--warning-red);
+        }
+
+        /* Rodapé */
+        footer {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            padding: 20px 0;
+            text-align: center;
+            font-size: 0.9em;
+        }
+        footer p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container" style="display: flex; align-items: center; justify-content: space-between; padding: 10px 20px;">
+            <div class="logo" style="display: flex; align-items: center;">
+
+                <img src="Feka metal simbulo.png" alt="Logo FEKA METAL" style="height: 50px; max-width: 100%; margin-right: 10px;">
+                <a href="#"  style="text-decoration: none; color: color: #fff; font-weight: bold;"> 
+                FEKA METAL 
+               <span style="font-size: 0.6em;  display: block; font-weight: normal;">Cursos Técnicos</span></a>
+            </div>
+            <nav>
+
+                   <nav>
+        <a href="PAGINA CENTRAL.html"
+           style="background-color:#007bff;color:#fff;text-decoration:none;padding:8px 15px;border-radius:4px;font-weight:600;transition:background-color 0.3s;">
+          Home
+        </a>
+      </nav>
+
+
+                </nav>
+        </div>
+    </header>
+
+    <main class="course-page container">
+        
+        <aside class="course-sidebar">
+            <h2>Curso: Desenhador Projectista de Estruturas Metálicas</h2>
+            
+            <div class="module">
+                <div class="module-title">Módulo 1: A Fundamentação</div>
+                <ul class="lesson-list">
+                    <li><button onclick="loadContent('aula1', this)" class="active">Aula 1: A Importância do Desenhador Projectista</button></li>
+                    <li><button onclick="loadContent('teste1', this)">Teste 1: Fundamentos da Profissão</button></li>
+                    <li><button onclick="loadContent('aula2', this)">Aula 2: Tipos de Estruturas Metálicas e Aplicações</button></li>
+                    <li><button onclick="loadContent('teste2', this)">Teste 2: Classificação Estrutural</button></li>
+                </ul>
+            </div>
+            
+            <div class="module">
+                <div class="module-title">Módulo 2: Detalhamento e Normas</div>
+                <ul class="lesson-list">
+                    <li><button onclick="loadContent('aula3', this)">Aula 3: Normas Técnicas Essenciais</button></li>
+                    <li><button onclick="loadContent('aula4', this)">Aula 4: Ligações Aparafusadas e Soldadas</button></li>
+                </ul>
+            </div>
+
+            <div class="module">
+                <div class="module-title">Módulo 3: BIM e Processos</div>
+                <ul class="lesson-list">
+                    <li><button onclick="loadContent('aula5', this)">Aula 5: Introdução ao Software BIM</button></li>
+                    <li><button onclick="loadContent('aula6', this)">Aula 6: Geração de MTO e Fluxo</button></li>
+                </ul>
+            </div>
+            
+            <div class="module">
+                <div class="module-title">Módulo 4: Aplicações Específicas</div>
+                <ul class="lesson-list">
+                    <li><button onclick="loadContent('aula7', this)">Aula 7: Detalhamento para o Setor Offshore</button></li>
+                    <li><button onclick="loadContent('aula8', this)">Aula 8: Noções de Orçamento e Planeamento</button></li>
+                </ul>
+            </div>
+        </aside>
+
+        <section class="course-content">
+            <div class="content-area" id="content-area">
+                </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 ALFEKA Cursos Técnicos. Todos os direitos reservados.</p>
+            <p>Alfredo Feka quer ser sábio - Capacitando o futuro da engenharia.</p>
+        </div>
+    </footer>
+
+    <script>
+        const contentData = {
+            // Conteúdo da Aula 1 (Fornecido anteriormente)
+            'aula1': {
+                title: 'Aula 1: A Importância do Desenhador Projectista de Estruturas Metálicas',
+                type: 'lesson',
+                html: `
+                    <p style="font-style: italic;">Por: Alfredo Simão da Silva (Alfredo Feka), Engenheiro Civil, especialista em estruturas metálicas e gestor de projecto.</p>
+                    <h2>Definição do Desenhador Projectista</h2>
+                    <p>O desenhador projectista de estruturas metálicas é o profissional responsável por:</p>
+                    <ul>  
+
+
+                          <div class="video-container">
+                          <iframe width="700" height="400" 
+                        src="https://www.youtube.com/embed/8LC1FdnYREA" 
+                         title="connections AISC" 
+                         frameborder="0" 
+                        allowfullscreen>
+                     </iframe>
+                        </div>
+
+
+
+
+                        <li>Elaborar desenhos técnicos e modelos 3D de estruturas metálicas.</li>
+                        <li>Interpretar e aplicar normas técnicas (AISC, Eurocódigos, API, etc.).</li>
+                        <li>Apoiar engenheiros na transformação de cálculos estruturais em documentação construtiva.</li>
+                        <li>Detalhar ligações, chumbadores, soldas, cortes e perfis metálicos.</li>
+                        <li>Garantir a compatibilização entre projeto, fabricação e montagem.</li>
+                    </ul>
+                    <p>É um elo essencial entre o engenheiro calculista e a produção/fabricação.</p>
+                    <h2>Importância do Desenhador Projectista</h2>
+                    <ol>
+                        <li><strong>Transformação do Conceito em Realidade:</strong> Traduz os cálculos do engenheiro em desenhos claros e exatos, fundamentais para a fabricação e montagem.</li>
+                        <li><strong>Precisão e Segurança:</strong> Através de softwares CAD/BIM (AutoCAD, Tekla Structures, Advance Steel), garante precisão milimétrica.</li>
+                        <li><strong>Otimização de Custos e Prazo:</strong> Detalhes bem feitos reduzem desperdícios e retrabalhos.</li>
+                    </ol>
+                    <div style="margin-top: 30px; padding: 15px; background-color: var(--hover-light); border-left: 5px solid var(--secondary-blue); font-style: italic;">
+                        "Sem um bom detalhamento, até o melhor cálculo estrutural pode falhar na prática."
+                    </div>
+                `
+            },
+
+            // Teste 1 (Estrutura Interativa baseada no modelo)
+            'teste1': {
+                title: 'Teste 1: Fundamentos da Profissão',
+                type: 'quiz',
+                questions: [
+                    {
+                        q: "Qual é o principal objetivo do Desenhador Projectista na fase de detalhamento?",
+                        options: ["Realizar o cálculo estrutural final.", "Transformar o cálculo em documentação construtiva exata.", "Definir o custo da mão de obra."],
+                        answer: "Transformar o cálculo em documentação construtiva exata."
+                    },
+                    {
+                        q: "Qual software é comumente utilizado para garantir a precisão milimétrica e a compatibilização do projeto?",
+                        options: ["Microsoft Word.", "Software CAD/BIM (Tekla, Advance Steel).", "Editor de Texto."],
+                        answer: "Software CAD/BIM (Tekla, Advance Steel)."
+                    }
+                ]
+            },
+
+            // Conteúdo da Aula 2 (Gerado com base no programa)
+            'aula2': {
+                title: 'Aula 2: Tipos de Estruturas Metálicas e Aplicações',
+                type: 'lesson',
+                html: `
+                    <h2>Principais Tipologias Estruturais</h2>
+                    <p>As estruturas metálicas são classificadas de acordo com o seu sistema de transmissão de cargas e geometria:</p>
+                    <ul>
+                        <li><strong>Estruturas Porticadas:</strong> Mais comuns em galpões industriais e edifícios de múltiplos andares, utilizam pórticos (colunas e vigas) para resistir a cargas verticais e horizontais (vento).</li>
+                        <li><strong>Estruturas Treliçadas:</strong> Usadas em pontes, torres de telecomunicação e coberturas de grandes vãos. São eficientes devido à leveza e alta resistência, pois trabalham apenas com esforços de tração e compressão nas suas barras.</li>
+                        <li><strong>Estruturas em Grelha (Grid Structures):</strong> Frequentemente vistas em plataformas offshore (decks e módulos) e grandes lajes. São altamente complexas e requerem detalhamento dimensional rigoroso.</li>
+                    </ul>
+                    <h2>Aplicações Setoriais</h2>
+                    <p>O desenhador projectista atua em setores críticos:</p>
+                    <ol>
+                        <li><strong>Construção Civil e Indústria:</strong> Edifícios, fábricas, e centros logísticos.</li>
+                        <li><strong>Infraestrutura:</strong> Pontes, passarelas e viadutos metálicos.</li>
+                        <li><strong>Setor Offshore:</strong> Plataformas de petróleo e gás (FPSOs, jackets) e estruturas navais, onde a precisão e as normas (API, DNV) são mais exigentes.</li>
+                    </ol>
+                `
+            },
+            
+            // Teste 2 (Estrutura Interativa baseada no modelo)
+            'teste2': {
+                title: 'Teste 2: Classificação Estrutural',
+                type: 'quiz',
+                questions: [
+                    {
+                        q: "Qual tipo de estrutura metálica é frequentemente utilizada em coberturas de grandes vãos e trabalha primariamente sob tração e compressão?",
+                        options: ["Estruturas Porticadas.", "Estruturas Treliçadas.", "Estruturas em Grelha."],
+                        answer: "Estruturas Treliçadas."
+                    },
+                    {
+                        q: "Qual setor industrial exige o conhecimento de normas como API e DNV, e lida com estruturas complexas como FPSOs e jackets?",
+                        options: ["Construção Civil.", "Indústria Petroquímica e Offshore.", "Mineração e Siderurgia."],
+                        answer: "Indústria Petroquímica e Offshore."
+                    }
+                ]
+            },
+
+            // Placeholder para outras aulas
+            'aula3': { title: 'Aula 3: Normas Técnicas Essenciais', type: 'lesson', html: '<p>O conteúdo desta aula focará nas normas AISC, Eurocode e AWS. Desenvolva este conteúdo aqui.</p>' },
+            'aula4': { title: 'Aula 4: Ligações Aparafusadas e Soldadas', type: 'lesson', html: '<p>Esta aula abordará o detalhamento crítico de ligações, incluindo especificações de chumbadores e procedimentos de soldagem. Desenvolva este conteúdo aqui.</p>' },
+            'aula5': { title: 'Aula 5: Introdução ao Software BIM', type: 'lesson', html: '<p>Conteúdo focado na modelagem de estruturas metálicas em ambiente BIM e seus benefícios. Desenvolva este conteúdo aqui.</p>' },
+            'aula6': { title: 'Aula 6: Geração de MTO e Fluxo', type: 'lesson', html: '<p>O foco é a geração precisa do Material Take-Off (MTO) e a sua integração no fluxo de trabalho entre engenharia, procurement e fabricação. Desenvolva este conteúdo aqui.</p>' },
+            'aula7': { title: 'Aula 7: Detalhamento para o Setor Offshore', type: 'lesson', html: '<p>Conteúdo específico sobre o design e detalhamento de estruturas para ambientes marítimos. Desenvolva este conteúdo aqui.</p>' },
+            'aula8': { title: 'Aula 8: Noções de Orçamento e Planeamento', type: 'lesson', html: '<p>Introdução a conceitos de estimativa de custos, cronogramas (Gantt) e controlo de projeto. Desenvolva este conteúdo aqui.</p>' }
+
+        };
+
+        // Função para carregar o conteúdo da aula ou teste
+        function loadContent(id, element) {
+            const contentArea = document.getElementById('content-area');
+            const data = contentData[id];
+            
+            // Remove a classe 'active' de todos os botões e adiciona ao clicado
+            document.querySelectorAll('.lesson-list button').forEach(btn => btn.classList.remove('active'));
+            element.classList.add('active');
+
+            if (!data) {
+                contentArea.innerHTML = `<h1>Conteúdo Não Encontrado</h1><p>O conteúdo para esta lição ainda não foi desenvolvido. Por favor, volte mais tarde.</p>`;
+                return;
+            }
+
+            contentArea.innerHTML = `<h1>${data.title}</h1>`;
+
+            if (data.type === 'lesson') {
+                contentArea.innerHTML += `<div class="lesson-text">${data.html}</div>`;
+            } else if (data.type === 'quiz') {
+                loadQuiz(data, contentArea);
+            }
+        }
+
+        // Função para carregar o Quiz
+        function loadQuiz(data, container) {
+            let quizHTML = `<form id="quiz-form" class="quiz-container">`;
+
+            data.questions.forEach((q, index) => {
+                quizHTML += `
+                    <div class="question" id="q-${index}">
+                        <p>${index + 1}. ${q.q}</p>
+                        <div class="options">
+                `;
+                q.options.forEach((option, optIndex) => {
+                    quizHTML += `
+                        <label>
+                            <input type="radio" name="question-${index}" value="${option}"> ${option}
+                        </label>
+                    `;
+                });
+                quizHTML += `
+                        </div>
+                        <div class="results" id="result-${index}"></div>
+                    </div>
+                `;
+            });
+
+            quizHTML += `<button type="submit" class="submit-btn">Verificar Respostas</button></form>`;
+            container.innerHTML += quizHTML;
+
+            // Adiciona o evento de submissão do formulário
+            document.getElementById('quiz-form').addEventListener('submit', (e) => {
+                e.preventDefault();
+                checkQuiz(data.questions);
+            });
+        }
+        
+        // Função para verificar as respostas
+        function checkQuiz(questions) {
+            let totalCorrect = 0;
+            questions.forEach((q, index) => {
+                const questionElement = document.getElementById(`q-${index}`);
+                const resultElement = document.getElementById(`result-${index}`);
+                const selectedOption = document.querySelector(`input[name="question-${index}"]:checked`);
+                
+                resultElement.style.display = 'block';
+
+                if (selectedOption && selectedOption.value === q.answer) {
+                    resultElement.className = 'results correct';
+                    resultElement.textContent = 'Correto! ✔️';
+                    totalCorrect++;
+                } else {
+                    resultElement.className = 'results incorrect';
+                    resultElement.textContent = `Incorreto. A resposta correta é: ${q.answer} ❌`;
+                }
+            });
+
+            // Exibe a pontuação final (opcional, mas profissional)
+            const finalScore = (totalCorrect / questions.length) * 100;
+            alert(`Teste concluído! Você acertou ${totalCorrect} de ${questions.length} perguntas (${finalScore.toFixed(0)}%).`);
+        }
+
+        // Carrega a primeira aula ao iniciar a página
+        document.addEventListener('DOMContentLoaded', () => {
+            loadContent('aula1', document.querySelector('.lesson-list button.active'));
+        });
+    </script>
+</body>
+</html>
