@@ -1,0 +1,626 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>FEKA KAWIÇO — Curso Infantil de Inglês (Teacher Alfredo Materializado)</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<style>
+  :root{
+    --feka-blue:#004a80;
+    --feka-yellow:#ffd24d;
+    --bg:#f4fbff;
+    --card:#ffffff;
+    --muted:#444;
+    --radius:14px;
+    --shadow:0 10px 30px rgba(6,30,60,0.08);
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial;
+    background:linear-gradient(180deg,var(--bg),#fff);
+    color:#123;
+    -webkit-font-smoothing:antialiased;
+  }
+  header{background:var(--feka-blue);color:#fff;padding:12px 18px;position:sticky;top:0;z-index:60;box-shadow:0 6px 20px rgba(0,0,0,0.12)}
+  .hdr{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px}
+  .brand{display:flex;gap:12px;align-items:center}
+  .brand img{height:44px;border-radius:8px}
+  .brand h1{font-size:18px;margin:0;line-height:1}
+  nav a{color:#fff;margin-left:12px;font-weight:700;text-decoration:none}
+  nav a:hover{text-decoration:underline}
+  main{max-width:1200px;margin:20px auto;padding:0 18px;display:grid;grid-template-columns:340px 1fr;gap:22px;align-items:start}
+  @media(max-width:980px){main{grid-template-columns:1fr;padding-bottom:30px}}
+  /* SIDEBAR */
+  .sidebar{background:var(--card);padding:12px;border-radius:var(--radius);box-shadow:var(--shadow);max-height:84vh;overflow:auto}
+  .teacher-card{display:flex;gap:12px;align-items:center;padding:10px;border-radius:12px;background:linear-gradient(90deg,rgba(0,74,128,0.06),#fff)}
+  .avatar{width:72px;height:72px;border-radius:14px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;background:linear-gradient(180deg,var(--feka-blue),#1a6aa8)}
+  .teacher-info{font-size:13px}
+  .lesson-list{margin-top:12px;display:flex;flex-direction:column;gap:8px}
+  .lesson-item{display:flex;gap:10px;align-items:center;padding:10px;border-radius:10px;cursor:pointer;border:1px solid transparent;transition:all .15s}
+  .lesson-item:hover{transform:translateY(-3px);box-shadow:0 6px 14px rgba(0,0,0,0.04)}
+  .lesson-item.active{background:linear-gradient(90deg,rgba(0,122,204,0.06),rgba(0,74,128,0.02));border-color:rgba(0,74,128,0.06)}
+  .num{width:36px;height:36px;border-radius:8px;background:#eaf6ff;color:var(--feka-blue);display:flex;align-items:center;justify-content:center;font-weight:800}
+  .sidebar .controls{display:flex;gap:8px;margin-top:12px}
+  .btn{background:var(--feka-blue);color:#fff;padding:10px 12px;border-radius:10px;border:0;cursor:pointer;font-weight:800;display:inline-flex;gap:8px;align-items:center}
+  .btn.secondary{background:#fff;color:var(--feka-blue);border:2px solid rgba(0,74,128,0.06)}
+  /* CONTENT */
+  .content{background:var(--card);padding:18px;border-radius:var(--radius);box-shadow:var(--shadow)}
+  .top-row{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+  .title{font-size:20px;color:var(--feka-blue);font-weight:900}
+  .meta{color:var(--muted);font-size:13px}
+  /* player area */
+  #player{width:100%;border-radius:12px;overflow:hidden;background:#000;aspect-ratio:16/9;margin-top:12px}
+  .lesson-structure{display:grid;grid-template-columns:1fr 360px;gap:14px;margin-top:12px}
+  @media(max-width:980px){.lesson-structure{grid-template-columns:1fr}}
+  /* digital board */
+  .board{background:linear-gradient(180deg,#fff,#fbfdff);padding:12px;border-radius:12px;border:1px solid rgba(0,74,128,0.04)}
+  .board .eng{font-weight:800;color:var(--feka-blue);font-size:18px}
+  .board .pt{color:#333;margin-top:6px}
+  .board .small{font-size:13px;color:var(--muted);margin-top:8px}
+  .board .phrase{padding:8px;border-radius:10px;background:#f7fbff;border:1px solid rgba(0,74,128,0.03);margin-top:8px;cursor:pointer}
+  .board .phrase:hover{background:#eef8ff}
+  .board .controls{display:flex;gap:8px;margin-top:10px;align-items:center}
+  /* right column: exercises */
+  .panel{background:#fff;padding:12px;border-radius:12px;border:1px solid rgba(0,0,0,0.03)}
+  .expressions{display:flex;flex-direction:column;gap:8px}
+  .expr{padding:8px;border-radius:8px;background:linear-gradient(180deg,#fff,#f9feff);border:1px solid rgba(0,74,128,0.03);font-weight:700;cursor:pointer}
+  .expr:hover{background:#eef8ff}
+  .dialogue{margin-top:10px}
+  .dialogue p{margin:6px 0;padding:8px;border-radius:8px;background:#f1f6ff;border:1px solid rgba(0,74,128,0.03);cursor:pointer}
+  .dialogue p:hover{background:#e8f4ff}
+  .quiz{margin-top:12px;padding:10px;border-radius:10px;background:linear-gradient(180deg,#fff,#f7fbff);border:1px solid rgba(0,74,128,0.03)}
+  .opts{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:8px}
+  .opt{padding:10px;border-radius:8px;border:1px solid #e6efff;background:#fff;cursor:pointer;font-weight:800}
+  .opt.correct{background:linear-gradient(90deg,rgba(40,167,69,0.08),#fff);border-color:#28a745}
+  .opt.wrong{background:linear-gradient(90deg,rgba(220,53,69,0.04),#fff);border-color:#dc3545}
+  .upload{margin-top:12px;padding:10px;border-radius:10px;border:1px dashed rgba(0,74,128,0.06);display:flex;align-items:center;gap:10px}
+  .upload input{display:block}
+  .progress{height:12px;background:#eef6ff;border-radius:999px;overflow:hidden;margin-top:10px}
+  .progress > i{display:block;height:100%;background:linear-gradient(90deg,var(--feka-yellow),var(--feka-blue));width:0%}
+  footer{max-width:1200px;margin:24px auto;padding:18px;text-align:center;color:var(--muted);font-size:13px}
+  /* teacher avatar fixed floating */
+  .teacher-anim{position:fixed;right:20px;bottom:18px;width:150px;z-index:999;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:6px}
+  .bubble{position:fixed;right:190px;bottom:110px;background:#fff;padding:8px 12px;border-radius:12px;box-shadow:0 8px 22px rgba(0,0,0,0.12);display:none;max-width:340px}
+  /* floating animation */
+  .floaty{animation:floaty 4s ease-in-out infinite}
+  @keyframes floaty{0%{transform:translateY(0)}50%{transform:translateY(-8px)}100%{transform:translateY(0)}}
+  /* arm wave */
+  .wave { transform-origin: center bottom; animation: wave 1s ease-in-out 1; }
+  @keyframes wave { 0%{transform:rotate(0deg)} 25%{transform:rotate(-12deg)} 50%{transform:rotate(12deg)} 75%{transform:rotate(-8deg)}100%{transform:rotate(0deg)} }
+  .teacher-body svg{width:150px;height:auto;display:block}
+  .teacher-anim:hover .teacher-face .eye { transform: scaleY(0.8); transition:0.12s }
+  /* read-all button */
+  .readAllBtn{background:var(--feka-yellow);color:#123;border:0;padding:8px 10px;border-radius:10px;font-weight:800;cursor:pointer;margin-left:8px}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="hdr">
+    <div class="brand">
+      <img src="FK.png" alt="FEKA" onerror="this.style.display='none'">
+      <div>
+        <h1>FEKA KAWIÇO — Inglês para Crianças (Teacher Alfredo)</h1>
+        <div style="font-size:12px;color:rgba(255,255,255,0.9)">Curso gratuito para crianças desfavorecidas</div>
+      </div>
+    </div>
+    <nav>
+      <a href="index.html">Início</a>
+      <a href="carreiras.html">Carreiras</a>
+      <a href="ingles.html" style="text-decoration:underline">Inglês</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <aside class="sidebar">
+    <div class="teacher-card" role="dialog" aria-label="Teacher Alfredo">
+      <div class="avatar" aria-hidden="true">AF</div>
+      <div class="teacher-info">
+        <div style="font-weight:900">Teacher Alfredo Fekas</div>
+        <div style="font-size:13px;color:var(--muted)">Sábio, gentil e divertido — guia das lições.</div>
+      </div>
+    </div>
+
+    <div style="font-weight:900;color:var(--feka-blue)">Aulas (24)</div>
+    <div class="lesson-list" id="lessonList"></div>
+
+    <div style="margin-top:12px" class="controls">
+      <button class="btn" id="downloadPlan"><i class="fa fa-download"></i> Plano (txt)</button>
+      <button class="btn secondary" id="resetBtn"><i class="fa fa-eraser"></i> Reset</button>
+    </div>
+  </aside>
+
+  <section class="content" aria-live="polite">
+    <div class="top-row">
+      <div style="display:flex;align-items:center;gap:8px">
+        <div>
+          <div class="title" id="lessonTitle">Escolhe uma aula — começa pela 1 (Greetings)</div>
+          <div class="meta" id="lessonMeta">Aulas simples, passo-a-passo. Teacher Alfredo está aqui para ajudar.</div>
+        </div>
+        <button class="readAllBtn" id="readAllBtn"><i class="fa fa-book"></i> 📖 Ouvir toda a lição</button>
+      </div>
+
+      <div style="text-align:right">
+        <div style="font-size:12px;color:var(--muted)">Progresso</div>
+        <div style="font-weight:900;color:var(--feka-blue)" id="globalProgress">0/24</div>
+      </div>
+    </div>
+
+    <!-- Player (YouTube API) -->
+    <div id="player"></div>
+
+    <!-- Lesson structure -->
+    <div class="lesson-structure">
+      <div class="board" id="digitalBoard" role="region" aria-label="Quadro digital">
+        <div class="eng" id="boardEng">(Frase em inglês aparecerá aqui)</div>
+        <div class="pt" id="boardPTpt"><strong>PT-PT:</strong> (tradução PT-PT)</div>
+        <div class="pt" id="boardPTao"><strong>PT-AO:</strong> (tradução PT-AO)</div>
+
+        <div class="board-controls" style="display:flex;gap:8px;align-items:center;margin-top:10px">
+          <button class="btn secondary" id="speakLineBtn"><i class="fa fa-volume-up"></i> Ouvir frase</button>
+          <button class="btn secondary" id="toggleTranslate"><i class="fa fa-language"></i> Mostrar/Esconder tradução</button>
+        </div>
+
+        <div style="margin-top:10px">
+          <div class="phrase" id="phrase1" data-tts>Phrase 1 - example</div>
+          <div class="phrase" id="phrase2" data-tts>Phrase 2 - example</div>
+          <div class="phrase" id="phrase3" data-tts>Phrase 3 - example</div>
+        </div>
+        <div style="margin-top:10px">
+          <button class="btn secondary" id="showMore">Mostrar/Esconder Conteúdo</button>
+        </div>
+      </div>
+
+      <div>
+        <div class="panel">
+          <div style="font-weight:900;color:var(--feka-blue)">Expressões mais usadas</div>
+          <div class="expressions" id="expressionsList"></div>
+
+          <div class="dialogue" id="dialogueBox" style="margin-top:12px">
+            <div style="font-weight:900;color:var(--feka-blue)">Mini-diálogo</div>
+          </div>
+
+          <div class="quiz" id="quizBox" hidden>
+            <div style="font-weight:900;color:var(--feka-blue)" id="quizQ">Pergunta</div>
+            <div class="opts" id="quizOpts"></div>
+            <div class="progress"><i id="quizProgress" style="width:0%"></i></div>
+            <div style="margin-top:8px;color:var(--muted)">Pontos: <strong id="scoreLocal">0</strong></div>
+          </div>
+
+          <div class="upload" style="margin-top:12px">
+            <div>
+              <div style="font-weight:900;color:var(--feka-blue)">Grava a tua voz</div>
+              <div style="font-size:13px;color:var(--muted)">Repete as frases ou faz um pequeno diálogo (20–40s).</div>
+            </div>
+            <div style="flex:1"></div>
+            <div>
+              <input type="file" id="audioInput" accept="audio/*">
+              <div style="margin-top:8px;display:flex;gap:8px">
+                <button class="btn secondary" id="playUpload" disabled><i class="fa fa-play"></i> Ouvir</button>
+                <button class="btn" id="removeUpload" disabled><i class="fa fa-trash"></i> Remover</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </section>
+</main>
+
+<!-- teacher avatar fixed floating (materialized) -->
+<div class="teacher-anim floaty" id="teacherAnim" title="Teacher Alfredo">
+  <div class="teacher-body" id="teacherBody">
+    <!-- Full-body stylized SVG (dark skin, headwrap) -->
+    <svg viewBox="0 0 200 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">
+      <defs>
+        <linearGradient id="g1" x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0" stop-color="#2b5d8a"/>
+          <stop offset="1" stop-color="#1a6aa8"/>
+        </linearGradient>
+      </defs>
+      <!-- body card -->
+      <rect rx="20" width="200" height="260" fill="url(#g1)"/>
+      <!-- headwrap -->
+      <path d="M20 46 q80 -36 160 0 v40 h-160z" fill="#ffd24d"/>
+      <!-- face -->
+      <ellipse cx="100" cy="90" rx="44" ry="48" fill="#3b1f14"/>
+      <!-- eyes -->
+      <g class="teacher-face">
+        <ellipse class="eye" cx="82" cy="86" rx="6" ry="4" fill="#fff"/>
+        <ellipse class="eye" cx="118" cy="86" rx="6" ry="4" fill="#fff"/>
+        <circle cx="82" cy="86" r="2" fill="#000"/>
+        <circle cx="118" cy="86" r="2" fill="#000"/>
+      </g>
+      <!-- smile -->
+      <path d="M82 106 q18 12 36 0" stroke="#2b170f" stroke-width="3" fill="none" stroke-linecap="round"/>
+      <!-- body (robe) -->
+      <path d="M40 140 q60 70 120 0 v70 h-120z" fill="#073d6b"/>
+      <!-- arm (right) – will wave by rotation via CSS -->
+      <g id="armRight" transform="translate(150,140)">
+        <rect x="-8" y="-4" width="50" height="12" rx="6" fill="#3b1f14"/>
+      </g>
+    </svg>
+  </div>
+</div>
+<div class="bubble" id="teacherBubble" aria-hidden="true">Hi kids! I'm Teacher Alfredo — click the book button to hear the whole lesson.</div>
+
+<footer>© FEKA KAWIÇO — Curso Infantil de Inglês • Teacher Alfredo Fekas — Gratuito para comunidades desfavorecidas</footer>
+
+<!-- YouTube IFrame API -->
+<script src="https://www.youtube.com/iframe_api"></script>
+<script>
+/* ======= Dados do curso (igual ao ficheiro anterior) ======= */
+const LESSONS = [
+  { id:1, title:"Greetings & Introductions", level:"Iniciante", video:"DGvhHCn72E0",
+    englishLine:"Hi! Hello! Good morning! Good afternoon! Good evening!",
+    ptPT:"Olá! Bom dia! Boa tarde! Boa noite!",
+    ptAO:"Olá! Bom dia! Boa tarde! Boa noite!",
+    expressions:[
+      {en:"Hello / Hi", ptPT:"Olá", ptAO:"Olá"},
+      {en:"Good morning", ptPT:"Bom dia", ptAO:"Bom dia"},
+      {en:"How are you?", ptPT:"Como estás?", ptAO:"Como estás?"},
+      {en:"Nice to meet you", ptPT:"Prazer em conhecer-te", ptAO:"Prazer em conhecer-te"},
+      {en:"What is your name?", ptPT:"Como te chamas?", ptAO:"Como te chamas?"}
+    ],
+    dialogue:[
+      {who:"A", en:"Hi! My name is Ana. What's your name?", ptPT:"Olá! Eu chamo-me Ana. Como te chamas?", ptAO:"Olá! Chamo-me Ana. Como te chamas?"},
+      {who:"B", en:"Hello Ana, I'm João. Nice to meet you!", ptPT:"Olá Ana, eu sou o João. Prazer em conhecer-te!", ptAO:"Olá Ana, eu sou o João. Prazer em conhecer-te!"}
+    ],
+    boardPhrases:[
+      {en:"Hi, my name is ____.", ptPT:"Olá, o meu nome é ____.", ptAO:"Olá, o meu nome é ____."},
+      {en:"Nice to meet you.", ptPT:"Prazer em conhecer-te.", ptAO:"Prazer em conhecer-te."},
+      {en:"How are you? I'm fine, thank you.", ptPT:"Como estás? Estou bem, obrigado.", ptAO:"Como estás? Estou bem, obrigado."}
+    ],
+    quiz:{ q:"How do you ask someone's name?", opts:["What's your name?","How old are you?","Where are you from?","Do you like pizza?"], ans:0 }
+  },
+  /* restante aulas (2..24) — idêntico ao ficheiro anterior (placeholders) */
+  { id:2, title:"Alphabet & Spelling", level:"Iniciante", video:"sUoCd0DTJVY", englishLine:"A B C ...", ptPT:"A B C ...", ptAO:"A B C ...", expressions:[{en:"Can you spell your name?",ptPT:"Consegues soletrar o teu nome?",ptAO:"Consegues soletrar o teu nome?"}], dialogue:[{who:"T", en:"Spell it, please.", ptPT:"Soletra, por favor.", ptAO:"Soletra, por favor."}], boardPhrases:[{en:"Can you spell your name?",ptPT:"Consegues soletrar o teu nome?",ptAO:"Consegues soletrar o teu nome?"}], quiz:{q:"Spell CAT", opts:["c-a-t","c-t-a","a-c-t","t-a-c"], ans:0} },
+  { id:3, title:"Daily Routine", level:"Iniciante", video:"qD1pnquN_DM", englishLine:"I wake up at 7.", ptPT:"Eu acordo às 7.", ptAO:"Eu acordo às 7.", expressions:[], dialogue:[], boardPhrases:[{en:"I wake up at 7.",ptPT:"Eu acordo às 7.",ptAO:"Eu acordo às 7."}], quiz:{q:"I ___ up at 7.", opts:["get","gets","got","getting"], ans:0} },
+  { id:4, title:"Body Parts", level:"Iniciante", video:"SUt8q0EKbms", englishLine:"This is my head.", ptPT:"Esta é a minha cabeça.", ptAO:"Esta é a minha cabeça.", expressions:[], dialogue:[], boardPhrases:[], quiz:{q:"Where is the head?", opts:["Top","Hand","Foot","Knee"], ans:0} },
+  { id:5, title:"Family & Friends", level:"Iniciante", video:"FHaObkHEkHQ", englishLine:"My mum, my dad, my sister.", ptPT:"A minha mãe, o meu pai, a minha irmã.", ptAO:"A minha mãe, o meu pai, a minha irmã.", expressions:[], dialogue:[], boardPhrases:[], quiz:{q:"Father's sister is?", opts:["Aunt","Uncle","Cousin","Mother"], ans:0} },
+  { id:6, title:"Jobs & Occupations", level:"Iniciante", video:"ugsRzHMIF2o", englishLine:"I want to be a teacher.", ptPT:"Quero ser professor.", ptAO:"Quero ser professor.", expressions:[], dialogue:[], boardPhrases:[], quiz:{q:"Who teaches?", opts:["Teacher","Doctor","Driver","Chef"], ans:0} },
+  { id:7, title:"There is / There are", level:"Básico", video:"eUPOGjAEwqg", englishLine:"There are three apples.", ptPT:"Há três maçãs.", ptAO:"Há três maçãs.", expressions:[], dialogue:[], boardPhrases:[], quiz:{q:"There ___ two cats.", opts:["is","are","am","was"], ans:1} },
+  { id:8, title:"Food & Restaurant", level:"Básico", video:"Z5e5xKzt2jE", englishLine:"Can I have a burger, please?", ptPT:"Posso pedir um hambúrguer, por favor?", ptAO:"Posso pedir um hambúrguer, por favor?", expressions:[], dialogue:[], boardPhrases:[], quiz:{q:"'I would like' is...", opts:["polite","rude","fast","slow"], ans:0} },
+  { id:9, title:"Directions & Places", level:"Básico", video:"ziTid30L8DI", englishLine:"Turn left, go straight.", ptPT:"Vira à esquerda, segue em frente.", ptAO:"Vira à esquerda, segue em frente.", expressions:[], dialogue:[], boardPhrases:[], quiz:{q:"'Across from' means:", opts:["Opposite","Near","Inside","Outside"], ans:0} },
+  { id:10, title:"Can / Can't (ability)", level:"Básico", video:"LYVQv77WFUM", englishLine:"She can swim.", ptPT:"Ela sabe nadar.", ptAO:"Ela sabe nadar.", expressions:[], dialogue:[], boardPhrases:[], quiz:{q:"He ___ run fast.", opts:["can","can't","is","does"], ans:0} },
+  { id:11, title:"Simple Past", level:"Intermédio", video:"BikK0zzbpIs", englishLine:"I played yesterday.", ptPT:"Eu joguei ontem.", ptAO:"Eu joguei ontem.", expressions:[], dialogue:[], boardPhrases:[], quiz:{q:"I ___ to the park yesterday.", opts:["go","went","goed","gone"], ans:1} },
+  { id:12, title:"Adjectives & Colors", level:"Intermédio", video:"xwH3KSnY0L8", englishLine:"The ball is red.", ptPT:"A bola é vermelha.", ptAO:"A bola é vermelha.", expressions:[], dialogue:[], boardPhrases:[], quiz:{q:"Sky is what color?", opts:["Blue","Green","Red","Black"], ans:0} },
+  { id:13, title:"Future: will / going to", level:"Intermédio", video:"kXYiU_JCYtU", englishLine:"I will go tomorrow.", ptPT:"Eu irei amanhã.", ptAO:"Eu irei amanhã.", expressions:[], dialogue:[], boardPhrases:[], quiz:{q:"I ___ study tomorrow.", opts:["will","am","did","go"], ans:0} },
+  { id:14, title:"Modal Verbs", level:"Intermédio", video:"gubPH3WEurg", englishLine:"You should drink water.", ptPT:"Deves beber água.", ptAO:"Tens de beber água.", expressions:[], dialogue:[], boardPhrases:[], quiz:{q:"You ___ rest when tired.", opts:["should","mustn't","can","did"], ans:0} },
+  { id:15, title:"Health & Emergencies", level:"Intermédio", video:"5qap5aO4i9A", englishLine:"I have a headache.", ptPT:"Tenho dor de cabeça.", ptAO:"Tenho dor de cabeça.", expressions:[], dialogue:[], boardPhrases:[], quiz:{q:"Say 'I have a ___ache'", opts:["head","foot","hand","ear"], ans:0} },
+  { id:16, title:"Travel & Booking", level:"Intermédio", video:"YQHsXMglC9A", englishLine:"I need my passport.", ptPT:"Preciso do meu passaporte.", ptAO:"Preciso do meu passaporte.", expressions:[], dialogue:[], boardPhrases:[], quiz:{q:"You need ___ to fly", opts:["passport","book","food","map"], ans:0} },
+  { id:17, title:"Listening Practice", level:"Intermédio", video:"fRh_vgS2dFE", englishLine:"Listen and repeat.", ptPT:"Ouve e repete.", ptAO:"Ouve e repete.", expressions:[], dialogue:[], boardPhrases:[], quiz:{q:"Good listeners are...", opts:["attentive","loud","angry","sleepy"], ans:0} },
+  { id:18, title:"Conditionals", level:"Avançado", video:"2vj37yeQQHg", englishLine:"If I study, I will pass.", ptPT:"Se eu estudar, vou passar.", ptAO:"Se eu estudar, vou passar.", expressions:[], dialogue:[], boardPhrases:[], quiz:{q:"If it rains, I will ___ inside.", opts:["stay","go","run","sleep"], ans:0} },
+  { id:19, title:"Phrasal Verbs", level:"Avançado", video:"60ItHLz5WEA", englishLine:"Don't give up!", ptPT:"Não desistas!", ptAO:"Não desistas!", expressions:[], dialogue:[], boardPhrases:[], quiz:{q:"'Give up' = ?", opts:["stop trying","start","go","come"], ans:0} },
+  { id:20, title:"Idioms & Expressions", level:"Avançado", video:"A3PDXmYoF5U", englishLine:"It's a piece of cake.", ptPT:"Isto é muito fácil.", ptAO:"Isto é muito fácil.", expressions:[], dialogue:[], boardPhrases:[], quiz:{q:"'Piece of cake' means:", opts:["easy","hard","big","small"], ans:0} },
+  { id:21, title:"Presentation Skills", level:"Avançado", video:"e-ORhEE9VVg", englishLine:"First, I will tell you...", ptPT:"Primeiro, vou dizer-vos...", ptAO:"Primeiro, vou dizer-vos...", expressions:[], dialogue:[], boardPhrases:[], quiz:{q:"Start a talk with:", opts:["Hello everyone","Bye","Now","Stop"], ans:0} },
+  { id:22, title:"Movies & TV Scenes", level:"Avançado", video:"4ncLB3JPy_w", englishLine:"Listen to the characters.", ptPT:"Ouve as personagens.", ptAO:"Ouve as personagens.", expressions:[], dialogue:[], boardPhrases:[], quiz:{q:"Slang is:", opts:["informal","formal","wrong","old"], ans:0} },
+  { id:23, title:"Mock Interviews", level:"Avançado", video:"JG2q6npGg6k", englishLine:"Tell me about your experience.", ptPT:"Fala-me sobre a tua experiência.", ptAO:"Fala-me sobre a tua experiência.", expressions:[], dialogue:[], boardPhrases:[], quiz:{q:"STAR 'R' = ?", opts:["Result","Role","Reason","Report"], ans:0} },
+  { id:24, title:"Final Project & Review", level:"Avançado", video:"60ItHLz5WEA", englishLine:"Show what you learned.", ptPT:"Mostra o que aprendeste.", ptAO:"Mostra o que aprendeste.", expressions:[], dialogue:[], boardPhrases:[], quiz:{q:"After course you can:", opts:["speak better","forget","sleep","run"], ans:0} }
+];
+
+/* ===== state ===== */
+const STORAGE = 'feka_alfredo_v4';
+let state = { current:0, progress: {} };
+try { const saved = JSON.parse(localStorage.getItem(STORAGE)); if(saved) state = saved; } catch(e){}
+
+/* ===== DOM refs ===== */
+const lessonList = document.getElementById('lessonList');
+const lessonTitle = document.getElementById('lessonTitle');
+const lessonMeta = document.getElementById('lessonMeta');
+const playerContainer = document.getElementById('player');
+const boardEng = document.getElementById('boardEng');
+const boardPTpt = document.getElementById('boardPTpt');
+const boardPTAO = document.getElementById('boardPTao');
+const phrase1 = document.getElementById('phrase1');
+const phrase2 = document.getElementById('phrase2');
+const phrase3 = document.getElementById('phrase3');
+const expressionsList = document.getElementById('expressionsList');
+const dialogueBox = document.getElementById('dialogueBox');
+const quizBox = document.getElementById('quizBox');
+const quizQ = document.getElementById('quizQ');
+const quizOpts = document.getElementById('quizOpts');
+const quizProgress = document.getElementById('quizProgress');
+const scoreLocal = document.getElementById('scoreLocal');
+const audioInput = document.getElementById('audioInput');
+const playUpload = document.getElementById('playUpload');
+const removeUpload = document.getElementById('removeUpload');
+const downloadPlanBtn = document.getElementById('downloadPlan');
+const resetBtn = document.getElementById('resetBtn');
+const globalProgress = document.getElementById('globalProgress');
+const teacherAnim = document.getElementById('teacherAnim');
+const teacherBody = document.getElementById('teacherBody');
+const teacherBubble = document.getElementById('teacherBubble');
+const readAllBtn = document.getElementById('readAllBtn');
+const speakLineBtn = document.getElementById('speakLineBtn');
+const toggleTranslate = document.getElementById('toggleTranslate');
+
+/* ===== YouTube Player via API ===== */
+let player;
+function onYouTubeIframeAPIReady(){
+  player = new YT.Player('player', {
+    height: '360', width: '640', videoId: LESSONS[state.current].video,
+    playerVars: { 'autoplay': 0, 'controls': 1, 'rel': 0 }
+  });
+  renderLessonList();
+  openLesson(state.current);
+}
+
+/* ===== render lesson list ===== */
+function renderLessonList(){
+  lessonList.innerHTML = '';
+  LESSONS.forEach((L, idx)=>{
+    const div = document.createElement('div');
+    div.className = 'lesson-item' + (idx===state.current ? ' active' : '');
+    div.innerHTML = `<div class="num">${L.id}</div><div style="flex:1"><div style="font-weight:800">${L.title}</div><div style="font-size:12px;color:var(--muted)">${L.level}</div></div>`;
+    div.onclick = ()=> openLesson(idx);
+    lessonList.appendChild(div);
+  });
+  updateGlobalProgress();
+}
+
+/* ===== open lesson ===== */
+function openLesson(idx){
+  if(idx<0) idx=0; if(idx>=LESSONS.length) idx=LESSONS.length-1;
+  state.current = idx; saveState(); renderLessonList();
+  const L = LESSONS[idx];
+  lessonTitle.textContent = `${L.id}. ${L.title}`;
+  lessonMeta.textContent = `${L.level} · Lição completa — frases, diálogo, prática e quiz`;
+  // load video
+  if(player && typeof player.loadVideoById === 'function'){ player.loadVideoById(L.video); }
+  else { playerContainer.innerHTML = `<iframe width="100%" height="100%" src="https://www.youtube.com/embed/${L.video}?rel=0&modestbranding=1" frameborder="0" allowfullscreen></iframe>`; }
+  // board content
+  boardEng.textContent = L.englishLine || '';
+  boardPTpt.innerHTML = '<strong>PT-PT:</strong> ' + (L.ptPT || '');
+  boardPTAO.innerHTML = '<strong>PT-AO:</strong> ' + (L.ptAO || '');
+  // phrases
+  const bp = L.boardPhrases || [];
+  phrase1.textContent = bp[0] ? bp[0].en : (bp[0] || L.englishLine || '');
+  phrase2.textContent = bp[1] ? bp[1].en : (bp[1] || '');
+  phrase3.textContent = bp[2] ? bp[2].en : (bp[2] || '');
+  // expressions
+  expressionsList.innerHTML = '';
+  (L.expressions || []).forEach(ex=>{
+    const d = document.createElement('div'); d.className='expr'; d.textContent = ex.en + ' — ' + (ex.ptPT || ex.ptAO || '');
+    d.onclick = ()=> speakText(ex.en,'en-US');
+    expressionsList.appendChild(d);
+  });
+  // dialogue
+  dialogueBox.innerHTML = '<div style="font-weight:900;color:var(--feka-blue)">Mini-diálogo</div>';
+  (L.dialogue || []).forEach(row=>{
+    const p = document.createElement('p');
+    p.innerHTML = `<strong>${row.who}:</strong> ${row.en} <br><small style="color:var(--muted)">${row.ptPT} • ${row.ptAO}</small>`;
+    p.onclick = ()=> speakText(row.en,'en-US');
+    dialogueBox.appendChild(p);
+  });
+  // quiz
+  renderQuiz(L);
+  // uploaded file UI
+  const up = (state.progress[L.id] && state.progress[L.id].file) ? state.progress[L.id].file : null;
+  if(up && up.url){ playUpload.disabled=false; removeUpload.disabled=false; playUpload.onclick = ()=> new Audio(up.url).play(); }
+  else { playUpload.disabled=true; removeUpload.disabled=true; playUpload.onclick=null; removeUpload.onclick=null; }
+}
+
+/* ===== quiz render ===== */
+function renderQuiz(L){
+  quizBox.hidden = false;
+  quizQ.textContent = L.quiz.q || 'Quiz';
+  quizOpts.innerHTML = '';
+  (L.quiz.opts || []).forEach((opt,i)=>{
+    const b = document.createElement('div'); b.className='opt'; b.textContent = opt;
+    b.onclick = ()=>{
+      quizOpts.querySelectorAll('.opt').forEach(x=>x.classList.remove('correct','wrong'));
+      if(i === L.quiz.ans){ b.classList.add('correct'); scoreLocal.textContent='1'; quizProgress.style.width='100%'; saveLessonScore(L.id,1); }
+      else { b.classList.add('wrong'); scoreLocal.textContent='0'; quizProgress.style.width='0%'; saveLessonScore(L.id,0); }
+      updateGlobalProgress();
+    };
+    quizOpts.appendChild(b);
+  });
+  const prev = (state.progress[L.id] && state.progress[L.id].score) ? state.progress[L.id].score : 0;
+  scoreLocal.textContent = prev;
+  quizProgress.style.width = (prev*100) + '%';
+}
+
+/* ===== save score ===== */
+function saveLessonScore(id, pts){
+  state.progress[id] = state.progress[id] || {};
+  state.progress[id].score = pts;
+  saveState();
+}
+
+/* ===== audio upload handling ===== */
+audioInput.addEventListener('change', (e)=>{
+  const file = e.target.files[0]; if(!file) return;
+  const url = URL.createObjectURL(file);
+  const L = LESSONS[state.current];
+  state.progress[L.id] = state.progress[L.id] || {};
+  state.progress[L.id].file = { name: file.name, url: url, ts: Date.now() };
+  saveState();
+  playUpload.disabled = false; removeUpload.disabled = false;
+  playUpload.onclick = ()=> new Audio(url).play();
+  removeUpload.onclick = ()=> {
+    try{ URL.revokeObjectURL(url); }catch(e){}
+    delete state.progress[L.id].file; saveState();
+    playUpload.disabled=true; removeUpload.disabled=true; audioInput.value='';
+  };
+});
+
+/* ===== TTS helpers ===== */
+function getVoiceByLang(langPref){
+  const voices = speechSynthesis.getVoices();
+  // try to find male-ish voice for en-US, else fallback to first matching
+  if(!voices || voices.length === 0) return null;
+  let match;
+  if(langPref === 'en-US'){
+    match = voices.find(v => /en-US|en_US/.test(v.lang) && /male|Male|Guy|Daniel|John|Tom/.test(v.name) );
+    if(!match) match = voices.find(v => /en-US|en_US/.test(v.lang));
+  } else if(langPref === 'pt-PT'){
+    match = voices.find(v => /pt-PT|pt_PT/.test(v.lang));
+    if(!match) match = voices.find(v => /pt/.test(v.lang));
+  } else if(langPref === 'pt-AO'){
+    match = voices.find(v => /pt/.test(v.lang));
+  }
+  return match || voices[0];
+}
+
+function speakText(text, lang='en-US', onend){
+  if(!('speechSynthesis' in window)){
+    alert('Text-to-speech não disponível neste navegador.');
+    if(onend) onend();
+    return;
+  }
+  // ensure voices loaded
+  const speak = () => {
+    const utter = new SpeechSynthesisUtterance(text);
+    utter.lang = lang;
+    const v = getVoiceByLang(lang);
+    if(v) utter.voice = v;
+    utter.rate = 0.95;
+    utter.onend = ()=> { if(onend) onend(); };
+    speechSynthesis.cancel();
+    speechSynthesis.speak(utter);
+  };
+  if(speechSynthesis.getVoices().length === 0){
+    // some browsers load voices asynchronously
+    speechSynthesis.addEventListener('voiceschanged', speak, { once: true });
+  } else speak();
+}
+
+/* ===== Read-all (sequential reading) ===== */
+let reading = false;
+readAllBtn.addEventListener('click', ()=>{
+  if(reading){ // stop reading
+    speechSynthesis.cancel();
+    readAllBtn.textContent = '📖 Ouvir toda a lição';
+    reading = false;
+    return;
+  }
+  const L = LESSONS[state.current];
+  // gather texts: board phrases, expressions, dialogue, quiz
+  const items_en = [];
+  // board main
+  if(L.englishLine) items_en.push(L.englishLine);
+  // board phrases
+  (L.boardPhrases || []).forEach(bp => { if(bp.en) items_en.push(bp.en); });
+  // expressions
+  (L.expressions || []).forEach(e => items_en.push(e.en));
+  // dialogue lines
+  (L.dialogue || []).forEach(d => items_en.push(`${d.who} says: ${d.en}`));
+  // quiz
+  if(L.quiz && L.quiz.q) items_en.push('Quiz question: ' + L.quiz.q);
+  // translations
+  const items_ptpt = [];
+  if(L.ptPT) items_ptpt.push(L.ptPT);
+  (L.boardPhrases || []).forEach(bp => { if(bp.ptPT) items_ptpt.push(bp.ptPT); });
+  (L.expressions || []).forEach(e => { if(e.ptPT) items_ptpt.push(e.ptPT || ''); });
+  (L.dialogue || []).forEach(d => items_ptpt.push(d.ptPT || ''));
+  // ptAO
+  const items_ptao = [];
+  if(L.ptAO) items_ptao.push(L.ptAO);
+  (L.boardPhrases || []).forEach(bp => { if(bp.ptAO) items_ptao.push(bp.ptAO); });
+  (L.expressions || []).forEach(e => { if(e.ptAO) items_ptao.push(e.ptAO || ''); });
+  (L.dialogue || []).forEach(d => items_ptao.push(d.ptAO || ''));
+
+  // flatten sequences: first English list, then ptPT, then ptAO
+  const sequence = items_en.concat(['--- now portuguese (Portugal) ---']).concat(items_ptpt).concat(['--- agora português (Angola) ---']).concat(items_ptao);
+  if(sequence.length === 0) return;
+  reading = true;
+  readAllBtn.textContent = '⏹ Parar leitura';
+  // play sequence sequentially
+  let i = 0;
+  const playNext = () => {
+    if(i >= sequence.length || !reading){ reading = false; readAllBtn.textContent = '📖 Ouvir toda a lição'; return; }
+    const text = sequence[i++];
+    // skip empty or separators, but speak separators as short breaks
+    if(text === '--- now portuguese (Portugal) ---'){ setTimeout(playNext,400); return; }
+    if(text === '--- agora português (Angola) ---'){ setTimeout(playNext,400); return; }
+    // decide language for current segment: first block english, then pt-PT, then pt-AO
+    let lang = 'en-US';
+    if(i > items_en.length + 1 && i <= items_en.length + 1 + items_ptpt.length + 1) lang = 'pt-PT';
+    if(i > items_en.length + 1 + items_ptpt.length + 1) lang = 'pt-PT';
+    speakText(text, lang, playNext);
+  };
+  playNext();
+});
+
+/* ===== small helpers ===== */
+document.getElementById('speakLineBtn').addEventListener('click', ()=> {
+  const L = LESSONS[state.current];
+  speakText(L.englishLine || '', 'en-US');
+});
+toggleTranslate.addEventListener('click', ()=>{
+  const elptpt = document.getElementById('boardPTpt');
+  const elptao = document.getElementById('boardPTao');
+  elptpt.style.display = elptpt.style.display === 'none' ? 'block' : 'none';
+  elptao.style.display = elptao.style.display === 'none' ? 'block' : 'none';
+});
+
+/* phrase clicks TTS */
+phrase1.addEventListener('click', ()=> speakText(phrase1.textContent,'en-US'));
+phrase2.addEventListener('click', ()=> speakText(phrase2.textContent,'en-US'));
+phrase3.addEventListener('click', ()=> speakText(phrase3.textContent,'en-US'));
+
+/* teacher avatar interactions: click to speak and wave; hover to smile */
+teacherAnim.addEventListener('click', ()=>{
+  // wave animation: add class to the arm group (we rotate the whole svg body a bit)
+  teacherBody.classList.add('wave');
+  setTimeout(()=> teacherBody.classList.remove('wave'), 1200);
+  const L = LESSONS[state.current];
+  const msg = `Hi kids! I'm Teacher Alfredo. Today's lesson is ${L.title}. Click phrases to hear me. Let's repeat together!`;
+  teacherBubble.textContent = msg;
+  teacherBubble.style.display = 'block';
+  setTimeout(()=> teacherBubble.style.display = 'none', 6000);
+  speakText(`Hello kids! Today's lesson is ${L.title}. Click phrases to hear me. Let's repeat together!`, 'en-US');
+});
+teacherAnim.addEventListener('mouseenter', ()=> {
+  // small bubble greeting
+  teacherBubble.textContent = 'Olá! Clica no livro para ouvir tudo.';
+  teacherBubble.style.display = 'block';
+});
+teacherAnim.addEventListener('mouseleave', ()=> {
+  teacherBubble.style.display = 'none';
+});
+
+/* ===== Read/Play UI and other controls (download/reset) ===== */
+downloadPlanBtn.addEventListener('click', ()=>{
+  let text = "FEKA KAWIÇO — Plano Curso Inglês (24 aulas)\\n\\n";
+  LESSONS.forEach(L=> text += `${L.id}. ${L.title} — ${L.level} — ${L.englishLine} — PT: ${L.ptPT}\\n`);
+  const blob = new Blob([text], {type:'text/plain;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href=url; a.download='Plano_Ingles_FEKA.txt'; document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),1500);
+});
+resetBtn.addEventListener('click', ()=>{
+  if(!confirm('Resetar progresso e gravações?')) return;
+  state = { current:0, progress:{} }; saveState(); renderLessonList(); openLesson(0);
+});
+
+/* ===== navigation & persistence ===== */
+document.addEventListener('keydown', (e)=> { if(e.key === 'ArrowLeft') openLesson(state.current-1); if(e.key === 'ArrowRight') openLesson(state.current+1); });
+function saveState(){ try{ localStorage.setItem(STORAGE, JSON.stringify(state)); }catch(e){console.warn(e);} }
+function updateGlobalProgress(){ const done = Object.values(state.progress || {}).filter(x=>x && x.score && x.score>0).length; globalProgress.textContent = `${done}/${LESSONS.length}`; saveState(); }
+renderLessonList();
+updateGlobalProgress();
+
+/* phrase / show more toggles */
+document.getElementById('showMore').addEventListener('click', ()=>{
+  const extras = document.querySelectorAll('.phrase'); extras.forEach(x => x.classList.toggle('hidden'));
+});
+
+/* Fallback iframe if YouTube api not loaded */
+setTimeout(()=> {
+  if(!window.YT || !window.YT.Player){
+    const L = LESSONS[state.current];
+    playerContainer.innerHTML = `<iframe width="100%" height="100%" src="https://www.youtube.com/embed/${L.video}?rel=0&modestbranding=1" frameborder="0" allowfullscreen></iframe>`;
+    console.warn('YouTube API not loaded — using fallback iframe.');
+  }
+}, 2500);
+
+</script>
+</body>
+</html>
