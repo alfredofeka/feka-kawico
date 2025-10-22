@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>FEKA KAWIÇO | Desenhador Projectista - DPM</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* Estilos Base da Pagina 29 */
+:root {
+  --azul: #007bff;
+  --cinza: #343a40;
+  --fundo: #ffffff;
+  --fundo-escuro: #f8f9fa;
+  --borda: #dee2e6;
+  --claro: #e9ecef;
+}
+
+* { box-sizing: border-box; }
+html, body {
+  margin: 0; padding: 0;
+  font-family: 'Inter', sans-serif;
+  background: var(--fundo-escuro);
+  color: var(--cinza);
+  height: 100%;
+}
+
+/* ======= HEADER ======= */
+header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  background: var(--fundo);
+  border-bottom: 1px solid var(--borda);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 20px;
+  transition: top 0.4s ease, bottom 0.4s ease;
+}
+header img { height: 35px; }
+nav ul { list-style: none; display: flex; gap: 22px; margin: 0; padding: 0; }
+nav li { cursor: pointer; font-weight: 600; transition: 0.3s; padding-bottom: 5px; }
+nav li:hover { color: var(--azul); border-bottom: 2px solid var(--azul); }
+
+/* ======= SIDEBARS ======= */
+#sidebar-left, #sidebar-right {
+  position: fixed;
+  top: 56px; bottom: 0;
+  background: var(--fundo);
+  border: 1px solid var(--borda);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  padding: 15px;
+  transition: width 0.3s ease, right 0.3s ease, left 0.3s ease;
+  overflow-y: auto;
+}
+
+/* esquerda */
+#sidebar-left {
+  left: 0;
+  width: 300px; /* Aumentado para acomodar conteúdo da pág 25 */
+  border-right: 1px solid var(--borda);
+}
+#sidebar-left.collapsed { width: 0; padding: 0; overflow: hidden; border: none; }
+
+/* direita */
+#sidebar-right {
+  right: 0;
+  width: 220px;
+  border-left: 1px solid var(--borda);
+}
+#sidebar-right.collapsed { width: 0; padding: 0; overflow: hidden; border: none; }
+
+/* botões de toggle */
+.toggle-btn {
+  position: fixed;
+  top: 65px;
+  z-index: 1100;
+  background: var(--azul);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 36px; height: 36px;
+  cursor: pointer;
+  font-size: 18px;
+  transition: background 0.3s;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+}
+.toggle-btn:hover { background: #0056b3; }
+#toggleLeft { left: 10px; }
+#toggleRight { right: 10px; }
+
+/* ======= MAIN CONTENT ======= */
+main {
+  margin-top: 56px;
+  margin-left: 300px; /* Alinhado com a sidebar maior */
+  margin-right: 220px;
+  padding: 30px;
+  transition: margin 0.3s;
+}
+#sidebar-left.collapsed ~ main { margin-left: 10px; }
+#sidebar-right.collapsed ~ main { margin-right: 10px; }
+
+h1 { color: var(--azul); }
+.section h3 { margin-top: 5px; margin-bottom: 10px; font-size: 1.1rem; }
+
+/* ======= COMPONENTES DA PÁGINA 25 (Conteúdo) ======= */
+
+/* Voz Principal */
+.voice-controls {
+    background-color: var(--fundo);
+    padding:15px;
+    border-radius:8px;
+    box-shadow:0 1px 3px rgba(0,0,0,0.05);
+    margin-bottom:30px;
+}
+#voiceSelectMain { 
+    width:auto; min-width:200px; padding:8px; border-radius:6px; 
+    border:1px solid var(--borda); box-shadow: inset 0 1px 2px rgba(0,0,0,0.05); 
+    appearance:none; margin-top: 5px; margin-bottom: 10px; display: block;
+}
+
+/* Navegação da Aula (Botões do dia) */
+#navegacao { margin-bottom:25px; padding:15px; background-color: var(--claro); border-radius:8px; }
+#navegacao p { font-weight:600; margin-top:0; color:var(--cinza); }
+#navegacao button { 
+    padding:8px 15px; cursor:pointer; background-color:var(--azul); color:white; 
+    border:none; border-radius:6px; font-weight:600; transition:background-color .2s; 
+    margin: 5px 5px 0 0;
+}
+#navegacao button:hover { background-color:#0056b3; }
+
+/* Módulos */
+.modulo {
+    border:1px solid var(--borda);
+    background: var(--fundo);
+    padding:30px;
+    margin-bottom:30px;
+    border-radius:10px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.08);
+    display:none;
+}
+.modulo h4 { 
+    color:var(--azul); font-size:1.4rem; font-weight:700; margin-top:0; 
+    border-bottom:2px solid var(--claro); padding-bottom:10px; margin-bottom:20px; 
+}
+.dia1, .dia2, .dia3, .dia4, .dia5 { display:none; padding:20px 0; margin-top:20px; border-top:1px solid var(--claro); }
+.dia1:first-child, .dia2:first-child, .dia3:first-child, .dia4:first-child, .dia5:first-child { border-top:none; margin-top:0; }
+
+.dia-visivel { display:block; }
+.dia-visivel h3 { color:var(--cinza); font-weight:700; margin-bottom:15px; }
+.dia-visivel p { margin-bottom:10px; padding-left:15px; border-left:2px solid var(--claro); }
+.dia-visivel ul { list-style: disc; margin-bottom: 15px; padding-left: 35px; }
+.dia-visivel ul ul { list-style: circle; margin-bottom: 10px; padding-left: 20px; }
+.dia-visivel li { margin-bottom: 5px; }
+
+p.reading { background-color:#ffeaa7; color:var(--cinza); font-weight:600; border-radius:4px; padding:8px; border-left:4px solid var(--azul); }
+.texto-fluido { text-align: justify; }
+.img-quadro {
+    float: right;
+    width: 280px;
+    height: auto;
+    margin: 0 0 20px 30px;
+    border-radius: 12px;
+    shape-outside: inset(0 round 12px);
+    clip-path: inset(0 round 12px);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
+}
+
+/* Acordeão Sidebar */
+.accordion h2 p { font-size:1.1rem; font-weight:700; margin:0; }
+.accordion h3 p { font-size:0.9rem; font-weight:600; color:var(--azul); margin:0; }
+.accordion-header {
+    cursor:pointer;
+    padding:10px 15px;
+    background-color: var(--claro);
+    color: var(--cinza);
+    margin-top:8px;
+    border-radius:6px;
+    font-weight:600;
+    border:1px solid var(--borda);
+    transition: all .2s;
+}
+.accordion-header:hover { background-color:#e2e6ea; color: var(--azul); }
+.accordion-content {
+    display:none;
+    padding:10px;
+    border-left:3px solid var(--azul);
+    margin:5px 0 15px 5px;
+    background:#fcfcfc;
+    border-radius:0 4px 4px 0;
+    box-shadow:0 2px 4px rgba(0,0,0,0.05);
+}
+.accordion-content ol { padding-left:20px; list-style-type: decimal; }
+.accordion-content li { cursor:pointer; padding:5px 0; transition: background-color .1s; }
+.accordion-content li:hover { background-color: var(--claro); padding-left:5px; border-radius:4px; }
+.accordion-content h5 p { margin: 0; color: var(--azul); }
+
+/* CONTROLO DE VOZ LATERAL */
+#voiceSelectSidebar { 
+    width:100%; margin-top:5px; margin-bottom:10px; padding:8px; border-radius:6px; 
+    border:1px solid var(--borda); box-shadow: inset 0 1px 2px rgba(0,0,0,0.05); appearance:none;
+}
+.voice-controls button { 
+    padding:8px 12px; font-size:0.9rem; margin-right:5px; background-color: var(--azul); 
+    color: white; border: none; border-radius: 6px; font-weight: 600; 
+    transition: background-color .2s;
+}
+.voice-controls button:hover { background-color: #0056b3; }
+
+
+/* ======= MOBILE ======= */
+@media (max-width: 900px) {
+  nav ul { display: none; }
+  header { justify-content: space-between; }
+  #sidebar-left, #sidebar-right {
+    width: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+  /* Adicionado 'open' para mobile */
+  #sidebar-left.open { width: 80%; max-width: 300px; padding: 15px; }
+  #sidebar-right.open { width: 60%; max-width: 220px; padding: 15px; }
+  main { margin: 80px 10px 30px 10px; }
+  .toggle-btn { top: 65px; }
+  #toggleLeft { left: 10px; }
+  #toggleRight { right: 10px; }
+  .img-quadro { float: none; width: 100%; margin: 10px 0; }
+  #sidebar-left.collapsed ~ main { margin-left: 10px; }
+  #sidebar-right.collapsed ~ main { margin-right: 10px; }
+}
+
+</style>
+</head>
+
+<body>
+<header id="header">
+  <a href="index.html"><img src="FK.png" alt="Logo FEKA"></a>
+  <nav>
+    <ul>
+      <li><a href="index.html">Home</a></li><li>Sobre nós</li><li>Carreira</li>
+      <li>Emprego</li><li>Artigos</li><li>Contacto</li>
+    </ul>
+  </nav>
+</header>
+
+<button id="toggleLeft" class="toggle-btn">☰</button>
+<button id="toggleRight" class="toggle-btn">☰</button>
+
+<aside id="sidebar-left">
+    <div class="voice-controls">
+        <label for="voiceSelectSidebar">🎙️ Voz lateral:</label>
+        <select id="voiceSelectSidebar"></select><br>
+        <button onclick="startSidebarReading()">🔊 Ler</button>
+        <button onclick="pauseReading()">⏸️ Pausar</button>
+        <button onclick="stopReading()">⏹️ Parar</button>
+    </div>
+
+    <div class="accordion">
+        <h2><p>DPM</p></h2>
+        <h3><p>Desenhador projectista de estruturas metálicas</p></h3>
+
+        <h3 style="margin-top: 15px;"><p>Objetivos do curso</p></h3>
+        <p style="border-left: none; padding-left: 0; margin-bottom: 5px;">1. Definir o papel do desenhador projectista de estruturas metálicas.</p>
+        <p style="border-left: none; padding-left: 0; margin-bottom: 5px;">2. Entender a importância desta função na engenharia e na construção.</p>
+        <p style="border-left: none; padding-left: 0; margin-bottom: 5px;">3. Explorar as principais aplicações e setores industriais onde atua.</p>
+        <p style="border-left: none; padding-left: 0; margin-bottom: 15px;">4. Mostrar como contribui para a segurança, economia e inovação nos projetos.</p>
+
+        <div class="accordion-header" data-target="modulo-objetivos-content">MOD. Introdutório</div>
+
+        <div class="accordion-content" id="modulo-objetivos-content">
+            <h5><p>MOD. Introdutório</p></h5>
+            <ol>
+                <li class="aula-link" data-target-aula="dia1" data-modulo="moduloI"><p style="border-left: none;">Definir o papel do desenhador projectista de estruturas metálicas.</p></li>
+                <li class="aula-link" data-target-aula="dia2" data-modulo="moduloI"><p style="border-left: none;">Entender a importância desta função na engenharia e na construção.</p></li>
+                <li class="aula-link" data-target-aula="dia3" data-modulo="moduloI"><p style="border-left: none;">Explorar as principais aplicações e setores industriais onde atua.</p></li>
+                <li class="aula-link" data-target-aula="dia4" data-modulo="moduloI"><p style="border-left: none;">Mostrar como contribui para a segurança, economia e inovação nos projetos.</p></li>
+                <li class="aula-link" data-target-aula="dia5" data-modulo="moduloI"><p style="border-left: none;">Perguntas de múltipla escolha para o Módulo I.</p></li>
+            </ol>
+        </div>
+
+        <div class="accordion-header" data-target="modulo-1-content">MÓDULO 1</div>
+        <div class="accordion-content" id="modulo-1-content">
+            <h5><p>MÓDULO 1 – Fundamentos de Estruturas Metálicas</p></h5>
+            <ol>
+                <li class="aula-link" data-target-aula="dia1" data-modulo="modulo1"><p style="border-left: none;">Cap. 1, Aula 1: Galpões Metálicos e Escadas</p></li>
+                <li class="aula-link" data-target-aula="dia2" data-modulo="modulo1"><p style="border-left: none;">Cap. 1, Aula 2: Pontes Metálicas</p></li>
+                <li class="aula-link" data-target-aula="dia3" data-modulo="modulo1"><p style="border-left: none;">Cap. 1, Aula 3: Estruturas Offshore</p></li>
+                <li class="aula-link" data-target-aula="dia4" data-modulo="modulo1"><p style="border-left: none;">Cap. 1: Discussão e Resumo</p></li>
+                <li class="aula-link" data-target-aula="dia5" data-modulo="modulo1"><p style="border-left: none;">Cap. 1: Teste de Avaliação</p></li>
+            </ol>
+        </div>
+    </div>
+</aside>
+
+<aside id="sidebar-right">
+  <div class="section">
+    <h3>⚙️ Ações Rápidas</h3>
+    <button class="action" onclick="alert('Funcionalidade a implementar.')">Guardar Progresso</button>
+    <button class="action" onclick="alert('Funcionalidade a implementar.')">Anotações</button>
+    <button class="action" onclick="alert('Funcionalidade a implementar.')">Ajuda</button>
+    <button class="action" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">Voltar ao Topo</button>
+  </div>
+</aside>
+
+<main>
+    <div class="voice-controls">
+        <label for="voiceSelectMain">🎙️ Voz principal:</label>
+        <select id="voiceSelectMain"></select><br>
+        <button onclick="startMainReading()">🔊 Ler conteúdo</button>
+        <button onclick="pauseReading()">⏸️ Pausar</button>
+        <button onclick="stopReading()">⏹️ Parar</button>
+    </div>
+
+    <div id="navegacao">
+        <p>Navegação do <strong>MÓDULO 1</strong>:</p>
+        <button onclick="mostrarDia('dia1','modulo1')">Segunda</button>
+        <button onclick="mostrarDia('dia2','modulo1')">Terça</button>
+        <button onclick="mostrarDia('dia3','modulo1')">Quarta</button>
+        <button onclick="mostrarDia('dia4','modulo1')">Quinta</button>
+        <button onclick="mostrarDia('dia5','modulo1')">Sexta</button>
+    </div>
+
+    <div class="modulo moduloI">
+        <h4>MÓDULO INTRODUTÓRIO - Objetivos do Curso</h4>
+
+        <div class="dia1" id="moduloI-dia1">
+            <h3>Segunda - Aula 1 – Teoria</h3>
+            <div class="texto-fluido">
+                <p><strong>“Definição do Desenhador Projectista”</strong></p>
+                <p>Quem é o DPM (desenhador projectista de estrutura metálica)?</p>
+                <p>O desenhador projectista de estruturas metálicas é o profissional responsável por:</p>
+                <p>Elaborar desenhos técnicos e modelos 3D de estruturas metálicas.</p>
+                <p>Interpretar e aplicar normas técnicas (AISC, Eurocódigos, API, etc.).</p>
+                <p>Apoiar engenheiros na transformação de cálculos estruturais em documentação construtiva.</p>
+                <p>Detalhar ligações, chumbadores, soldas, cortes e perfis metálicos.</p>
+                <p>Garantir a compatibilização entre projeto, fabricação e montagem.</p>
+                <p>É um elo essencial entre o engenheiro calculista e a produção/fabricação.</p>
+            </div>
+        </div>
+
+        <div class="dia2" id="moduloI-dia2">
+            <div class="texto-fluido">
+                <h3>Terça - Aula 2 – Teoria</h3>
+                <p><strong>"Importância do Desenhador Projectista"</strong></p>
+                <p>O DPM é o profissional que:</p>
+                <p>1. Transforma o Conceito em Realidade</p>
+                <p>Traduz os cálculos do engenheiro em desenhos claros e exatos, fundamentais para a fabricação e montagem.</p>
+                <p>Evita interpretações erradas que podem gerar atrasos e custos adicionais.</p>
+                <p>2. Garante Segurança e Precisão (QUALITY ASSURANCE)</p>
+                <p>Através de softwares CAD/BIM (AutoCAD, Tekla Structures, Advance Steel), garante precisão milimétrica.</p>
+                <p>3. Conformidade com Normas e Qualidade (QUALITY CONFORMANCE)</p>
+                <p>Trabalha alinhado com normas nacionais e internacionais (AISC, Eurocode, AWS para soldas).</p>
+                <p>4. Otimização de Custos e Prazo</p>
+                <p>Detalhes bem feitos reduzem desperdícios e retrabalhos.</p>
+            </div>
+        </div>
+
+        <div class="dia3" id="moduloI-dia3">
+            <h3>Quarta - Aula 3 – Teoria</h3>
+            <div class="texto-fluido">
+                <p><strong>“Explorar as principais aplicações e setores industriais onde atua o Desenhador Projectista de Estruturas Metálicas.”</strong></p>
+                <p>O desenhador projectista de estruturas metálicas (DPM) atua em praticamente todos os ramos da engenharia que envolvem estruturas em aço, alumínio e ligas metálicas estruturais. A sua intervenção vai desde a conceção até à fabricação e montagem.</p>
+                <p><strong>1. Construção Civil e Infraestruturas:</strong> O DPM elabora e detalha projetos de edifícios metálicos, passarelas, pontes, fachadas estruturais e coberturas industriais. Aplica normas como o <em>Eurocódigo 3 (EN 1993)</em> para dimensionamento e o <em>EN 1090</em> para execução e controlo de qualidade de estruturas de aço e alumínio.</p>
+                <p><strong>2. Indústria Petroquímica e Offshore:</strong> Em plataformas offshore e refinarias, o DPM detalha pipe racks, módulos estruturais e suportes de equipamentos sob normas como a <em>API RP 2A</em> (offshore structures) e a <em>ANSI/AISC 360</em> (steel design). Trabalha em integração multidisciplinar com engenharia mecânica, elétrica e de instrumentação.</p>
+                <p><strong>3. Indústria de Energia:</strong> Atua em projetos de centrais elétricas, torres de transmissão, suportes de turbinas eólicas e estruturas de painéis fotovoltaicos. Aqui, a precisão e a rastreabilidade dos desenhos são cruciais para garantir segurança e durabilidade.</p>
+                <p><strong>4. Fabricação e Montagem Industrial:</strong> No ambiente fabril, o DPM prepara <em>shop drawings</em>, listas de corte (BOQ) e arquivos CNC (DSTV, DXF, STEP) para máquinas de corte e furação automatizada, assegurando compatibilidade entre projeto e produção.</p>
+                <p><strong>5. Infraestruturas de Transporte e Logística:</strong> Inclui estruturas metálicas em aeroportos, hangares, terminais marítimos e logísticos, onde o desenho 3D integrado (BIM) é utilizado para evitar interferências e otimizar custos de montagem.</p>
+                <p>Em todos estes setores, o DPM é essencial para a tradução precisa dos cálculos estruturais em documentação construtiva. A sua atuação garante que o aço seja utilizado de forma racional, segura e economicamente eficiente.</p>
+            </div>
+        </div>
+
+        <div class="dia4" id="moduloI-dia4">
+            <h3>Quinta - Discussão</h3>
+            <div class="texto-fluido">
+                <p><strong>“Mostrar como o DPM contribui para a segurança, economia e inovação nos projetos.”</strong></p>
+                <p>A contribuição do desenhador projectista de estruturas metálicas é mensurável e indispensável, tanto em termos de segurança estrutural como de eficiência económica e inovação tecnológica.</p>
+                <p><strong>1. Segurança Estrutural:</strong> O DPM assegura que cada detalhe — soldas, parafusos, chapas de ligação e juntas — esteja conforme às normas de execução (<em>EN 1090-2</em>, <em>AWS D1.1</em> e <em>AISC 360</em>). A correta representação gráfica evita falhas de montagem e garante o comportamento estrutural esperado sob cargas permanentes, variáveis e sísmicas.</p>
+                <p><strong>2. Economia de Materiais e Custos:</strong> O detalhamento otimizado reduz o desperdício de aço e minimiza retrabalhos. O uso de softwares de modelação paramétrica (como <em>Tekla Structures</em> e <em>Advance Steel</em>) permite detectar conflitos, medir volumes e gerar listas automáticas de materiais com precisão milimétrica.</p>
+                <p><strong>3. Integração Digital e BIM:</strong> O DPM moderno trabalha num ambiente <em>Building Information Modeling</em> (BIM), integrando dados de várias disciplinas. Essa abordagem aumenta a coordenação entre engenharia, fabricação e montagem, reduzindo riscos e prazos de execução.</p>
+                <p><strong>4. Inovação Tecnológica:</strong> O DPM é um agente de inovação: utiliza simulações 3D, realidade aumentada e sistemas de gestão de dados (CDE – Common Data Environment) para validar interferências e prever cenários construtivos. Também aplica princípios de fabricação digital e corte automatizado via CNC.</p>
+                <p><strong>5. Sustentabilidade e Eficiência Energética:</strong> A modelação digital permite prever impactos ambientais e otimizar o uso de aço reciclado. Além disso, o controlo dimensional e o reaproveitamento de estruturas metálicas desmontáveis tornam o trabalho do DPM fundamental para uma construção mais sustentável.</p>
+                <p>Portanto, o desenhador projectista de estruturas metálicas é mais do que um técnico: é um elo científico, económico e tecnológico que sustenta a integridade, a eficiência e a inovação na engenharia moderna.</p>
+            </div>
+        </div>
+
+        <div class="dia5" id="moduloI-dia5">
+            <h3>Sexta - Quiz</h3>
+            <div class="texto-fluido">
+                <h3> <a href="moduloI.html">Clique Aqui</a> <p style="border-left: none;">Perguntas de múltipla escolha para o Módulo I...</p> </h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="modulo modulo1">
+        <h4>MÓDULO 1 – Fundamentos de Estruturas Metálicas</h4>
+
+        <div class="dia1" id="modulo1-dia1">
+            <h3>Segunda - Capítulo 1: Galpões Metálicos e Escadas</h3>
+            <div class="texto-fluido">
+                <p><strong>1. Introdução ao Uso do Aço em Estruturas</strong></p>
+                <p>Por que o Aço? O aço é uma das ligas metálicas mais utilizadas na construção civil devido à sua alta <strong>resistência</strong> por unidade de peso, <strong>durabilidade</strong> e <strong>flexibilidade</strong> de projeto.</p>
+                <p>Vantagens Gerais:</p>
+                <ul>
+                    <li>Rapidez na Execução: As peças são pré-fabricadas em oficina, diminuindo o tempo de montagem na obra.</li>
+                    <li>Leveza: Reduz a carga sobre as fundações.</li>
+                    <li>Sustentabilidade: O aço é 100% reciclável.</li>
+                    <li>Controle de Qualidade: A fabricação em ambiente controlado (oficina) garante maior precisão dimensional.</li>
+                    <li>Vãos Livres: Permite a construção de grandes vãos sem a necessidade de apoios intermediários.</li>
+                </ul>
+                <p><strong>2. Galpões Metálicos</strong></p>
+                <p>Definição e Aplicações:</p>
+                <p>Galpões são estruturas de grande porte, tipicamente utilizadas para criar espaços amplos e cobertos, ideais para fins industriais, logísticos, comerciais, de armazenamento ou agrícolas.</p>
+                <p>Características Estruturais Principais:</p>
+                <ul>
+                    <li>Pórticos: A estrutura primária de um galpão é geralmente composta por pórticos planos (conjunto de pilares e vigas de cobertura), que podem ser articulados ou engastados.</li>
+                    <li>Vigas e Tesouras: Elementos de cobertura que vencem grandes vãos.
+                        <ul>
+                            <li>Vigas em Perfil I ou H: Utilizadas em vãos menores e com alturas limitadas.</li>
+                            <li>Tesouras/Treliças Metálicas: Usadas para cobrir grandes vãos, são formadas por barras interligadas que trabalham majoritariamente sob esforços de tração e compressão, otimizando o peso da estrutura.</li>
+                        </ul>
+                    </li>
+                    <li>Terças e Contraventamentos:
+                        <ul>
+                            <li>Terças: Vigas secundárias que suportam as telhas e distribuem a carga para as tesouras/vigas principais.</li>
+                            <li>Contraventamentos (Diagonais): São elementos cruciais (em "X" ou "K") que garantem a estabilidade lateral do galpão contra as forças horizontais, como o vento.</li>
+                        </ul>
+                    </li>
+                </ul>
+                <p>Tipos Comuns de Cobertura de Galpões (Geometria):</p>
+                <ul>
+                    <li>Galpão de Uma Água: Inclinação do telhado para um único lado.</li>
+                    <li>Galpão de Duas Águas (Tesouras Simples): O tipo mais comum; duas superfícies de telhado inclinadas que se encontram no centro (cumeeira).</li>
+                    <li>Galpão Shed: Cobertura em "dentes de serra", ideal para otimizar a iluminação e ventilação natural.</li>
+                </ul>
+                <p><strong>3. Escadas Metálicas</strong></p>
+                <p>Aplicações:</p>
+                <p>As escadas metálicas são amplamente utilizadas em edifícios, mezaninos, galpões e, especialmente, como rotas de fuga (escadas de emergência) devido à sua rapidez de montagem e perfil esbelto.</p>
+                <p>Tipos Comuns e Características:</p>
+                <ul>
+                    <li>Escadas Retas e em "L" ou "U": Para acesso geral em edificações.</li>
+                    <li>Escada Marinheiro: Usada para acesso vertical e seguro a telhados, tanques, máquinas e plataformas elevadas, caracterizada pela gaiola de proteção e degraus tipo 'barra'.</li>
+                    <li>Escadas de Incêndio: Devem seguir rigorosas normas de segurança (como a NBR 9077 no Brasil), sendo geralmente externas e resistentes ao fogo (com tratamento adequado).</li>
+                </ul>
+                <p>Componentes Básicos:</p>
+                <ul>
+                    <li>Vigas Laterais (Longarinas): Os perfis principais que suportam os degraus e os patamares.</li>
+                    <li>Degraus: Podem ser de chapa xadrez, <em>grating</em> (grade) ou concreto sobre chapa metálica.</li>
+                    <li>Guarda-Corpo e Corrimão: Elementos de segurança.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="dia2" id="modulo1-dia2">
+            <h3>Terça - Capítulo 1: Pontes Metálicas</h3>
+            <div class="texto-fluido">
+                <p><strong>1. Introdução às Pontes Metálicas</strong></p>
+                <p>Definição: As pontes são estruturas de infraestrutura projetadas para vencer obstáculos (rios, vales, estradas) e permitir a passagem de veículos, trens ou pedestres. O aço é frequentemente a escolha ideal devido à sua capacidade de vencer grandes vãos com menor peso próprio e alta resistência à fadiga.</p>
+                <p>Vantagens do Aço em Pontes:</p>
+                <ul>
+                    <li>Grandes Vãos: O aço permite estruturas mais esbeltas e com maior capacidade de carga, facilitando a construção de pontes de longo alcance.</li>
+                    <li>Rapidez na Construção: Muitos elementos são pré-fabricados em oficina, agilizando a montagem no local.</li>
+                    <li>Facilidade de Reforço e Modificação: A estrutura de aço pode ser inspecionada, reforçada ou modificada com mais facilidade do que o concreto.</li>
+                </ul>
+                <p><strong>2. Tipos Estruturais de Pontes Metálicas</strong></p>
+                <p>Os tipos de pontes metálicas são classificados principalmente pela maneira como distribuem a carga e pelo formato de seus elementos principais:</p>
+                <p><strong>Pontes em Viga (Vigas I ou Caixão)</strong><br>
+                A carga é suportada por vigas principais que trabalham à flexão. É a tipologia mais simples e comum para vãos pequenos e médios. Aplicação: Vãos curtos a médios (até 100m). Estradas e viadutos urbanos.</p>
+                <p><strong>Pontes em Treliça</strong><br>
+                A estrutura principal é composta por barras interconectadas que formam triângulos (treliças), onde as barras trabalham predominantemente sob compressão ou tração. Aplicação: Vãos médios a grandes (até 200-300m). Oferecem excelente relação resistência-peso.</p>
+                <p><strong>Pontes em Arco</strong><br>
+                A carga é transferida horizontalmente para os apoios pelo efeito de arco. O aço é excelente para arcos devido à sua resistência à compressão. Aplicação: Pontes com necessidade de grande altura livre abaixo, ou onde o solo tem capacidade de suportar o empuxo horizontal.</p>
+                <p><strong>Pontes Estaiadas</strong><br>
+                O tabuleiro (pista) é sustentado por cabos de aço (estais) que partem de um ou mais pilares centrais (mastros ou torres). Os cabos trabalham exclusivamente à tração. Aplicação: Vãos muito grandes (acima de 300m), com estética marcante.</p>
+                <p><strong>Pontes Pênseis (Suspensa)</strong><br>
+                O tabuleiro é pendurado por tirantes verticais a cabos principais (funiculares) que, por sua vez, são ancorados em grandes torres e maciços de ancoragem. Aplicação: Maiores vãos do mundo (acima de 1000m). Ex: Golden Gate Bridge.</p>
+                <p><strong>3. Estruturas Mistas em Pontes</strong></p>
+                <p>Muitas pontes modernas utilizam a **estrutura mista** (aço e concreto).</p>
+                <p>Conceito: A viga de aço trabalha em conjunto com a laje de concreto, aproveitando o melhor de cada material: o aço resiste bem à tração e o concreto à compressão, resultando em uma seção mais rígida e eficiente.</p>
+                <p>Conectores de Cisalhamento: Pequenas peças metálicas (pinos soldados) que garantem a união eficaz entre a viga de aço e a laje de concreto, fazendo com que atuem como uma única peça.</p>
+            </div>
+        </div>
+
+        <div class="dia3" id="modulo1-dia3">
+            <h3>Quarta - Capítulo 1: Estruturas Offshore</h3>
+            <div class="texto-fluido">
+                <p><strong>1. Introdução e Contexto das Estruturas Offshore</strong></p>
+                <p>Definição: Estruturas **Offshore** (ou **Paltformas Marítimas**) são grandes construções metálicas fixas ou flutuantes projetadas para operar no mar. Elas são vitais para a exploração e produção de petróleo e gás, geração de energia eólica (turbinas <em>offshore</em>) e outras atividades marítimas.</p>
+                <p>Ambiente de Projeto: O projeto <em>Offshore</em> é um dos mais desafiadores na engenharia devido à necessidade de suportar:</p>
+                <ul>
+                    <li>Altas Cargas Estruturais (peso do equipamento de perfuração, módulos de processamento, etc.).</li>
+                    <li>Ações Ambientais Severas:
+                        <ul>
+                            <li>Ondas e Correntes: Forças dinâmicas e cíclicas.</li>
+                            <li>Vento: Cargas laterais significativas.</li>
+                            <li>Fadiga: O carregamento constante das ondas e do vento pode causar falhas ao longo do tempo.</li>
+                            <li>Corrosão: A exposição constante à água salgada e à névoa requer sistemas de proteção muito robustos.</li>
+                        </ul>
+                    </li>
+                </ul>
+                <p><strong>2. Tipos Comuns de Estruturas Offshore</strong></p>
+                <p>O tipo de plataforma escolhido depende principalmente da profundidade da água:</p>
+                <p><strong>Fixed Platform (Plataforma Fixa)</strong><br>
+                Profundidade Típica: Águas rasas a médias (até 150m). Descrição: <em>Jacket</em>: Estrutura treliçada de aço, apoiada no fundo do mar (fixada por estacas). Suporta o <em>Topside</em> (módulos de operação) acima da linha d'água.</p>
+                <p><strong>Compliant Tower (Torre Complacente)</strong><br>
+                Profundidade Típica: Águas médias a profundas (150m a 400m). Descrição: Estrutura esbelta e flexível, fixada ao fundo. Sua flexibilidade permite que ela se desloque levemente com as ondas, reduzindo o esforço.</p>
+                <p><strong>FPSO (Floating Production Storage and Offloading)</strong><br>
+                Profundidade Típica: Águas profundas e ultra-profundas. Descrição: Estrutura flutuante (navio modificado ou casco específico) ancorada. Ela produz, armazena e escoa (descarrega) o óleo. Possui um convés (deck) totalmente metálico para suportar os módulos.</p>
+                <p><strong>TLP (Tension Leg Platform)</strong><br>
+                Profundidade Típica: Águas profundas e ultra-profundas. Descrição: Plataforma flutuante ancorada verticalmente ao fundo do mar por tendões tensionados, o que restringe o movimento vertical (heave).</p>
+                <p><strong>3. Aspectos Estruturais Críticos em Aço</strong></p>
+                <ul>
+                    <li>Estruturas Tubulares: A grande maioria das estruturas <em>offshore</em> fixas (<em>Jackets</em>) utiliza perfis tubulares (cilíndricos). Isso se deve à sua alta resistência em várias direções de carregamento (ideal para ondas) e à sua hidrodinâmica favorável.</li>
+                    <li>Ligações Noduais: As ligações entre os tubos (os "nós") são pontos críticos. O projeto e a inspeção destas ligações exigem análise detalhada, muitas vezes utilizando a mecânica da fratura e análise de fadiga, pois a concentração de tensões é maior nesses pontos.</li>
+                    <li>Corrosão e Proteção:
+                        <ul>
+                            <li>Pintura de Alta Performance: Revestimentos espessos e multicamadas são aplicados acima e logo abaixo da linha d'água.</li>
+                            <li>Proteção Catódica: Uso de ânodos de sacrifício (geralmente zinco ou alumínio) ou sistemas de corrente impressa para proteger o aço submerso da corrosão eletroquímica.</li>
+                        </ul>
+                    </li>
+                </ul>
+                <p><strong>4. Escadas e Outras Estruturas Auxiliares Offshore</strong></p>
+                <p>Em plataformas, o uso de aço também é fundamental para:</p>
+                <ul>
+                    <li>Pipe-racks: Estruturas elevadas para suportar tubulações (risers, linhas de gás/óleo).</li>
+                    <li>Guindastes e Flare Booms: Estruturas metálicas de içamento e queima de excesso de gás.</li>
+                    <li>Mezaninos, passarelas e escadas: Todos projetados para suportar vibrações, movimentos da plataforma e o ambiente corrosivo, utilizando aço galvanizado e grades <em>grating</em> para evitar acúmulo de água.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="dia4" id="modulo1-dia4">
+            <h3>Quinta - DISCUSSÃO e Resumo do Capítulo 1</h3>
+            <div class="texto-fluido">
+                <p>Esta sessão destina-se a perguntas e esclarecimento de dúvidas sobre os seguintes temas abordados no Capítulo 1:</p>
+                <ul>
+                    <li>Galpões Metálicos e as ações de Vento.</li>
+                    <li>Tipos de Escadas (Marinheiro, Incêndio).</li>
+                    <li>Pontes Metálicas (Vigas, Treliças, Estaiadas, Mistas).</li>
+                    <li>Desafios das Estruturas Offshore (Corrosão, Fadiga, Tubulares).</li>
+                </ul>
+                <p>Aproveite para consolidar o conhecimento antes da avaliação.</p>
+                <p><strong>RESUMO DO CAPÍTULO 1</strong></p>
+                <p>Aula: Segunda | Estrutura Principal: Galpões e Escadas | Foco da Aplicação: Indústria e Logística | Tipo de Desafio Crítico: Vãos Livres e Estabilidade Lateral (Vento)</p>
+                <p>Aula: Terça | Estrutura Principal: Pontes | Foco da Aplicação: Infraestrutura e Transporte | Tipo de Desafio Crítico: Fadiga e Vencer Grandes Vãos</p>
+                <p>Aula: Quarta | Estrutura Principal: Offshore | Foco da Aplicação: Exploração de Energia | Tipo de Desafio Crítico: Corrosão, Ondas e Fadiga</p>
+            </div>
+        </div>
+
+        <div class="dia5" id="modulo1-dia5">
+            <h3>Sexta - Teste de Avaliação</h3>
+            <div class="texto-fluido">
+                <h3><a href="Módulo1.html">Clique Aqui</a> <p style="border-left: none;">Teste de Avaliação do Capítulo 1: Fundamentos de Estruturas Metálicas.</p></h3>
+                <p>Esta avaliação inclui perguntas de múltipla escolha e de aplicação sobre Galpões, Escadas, Pontes e Estruturas Offshore.</p>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    let voices = [];
+    let currentUtterance = null;
+    
+    // =========================================================
+    // Funções de Voz 
+    // =========================================================
+
+    function populateVoiceList(targetSelectId) {
+        const select = document.getElementById(targetSelectId);
+        if (!select) return; 
+        
+        select.innerHTML = '';
+        let allVoices = speechSynthesis.getVoices() || [];
+        let filtered = allVoices.filter(v => v.lang && v.lang.toLowerCase().startsWith('pt'));
+        if (filtered.length === 0) filtered = allVoices;
+
+        voices = filtered;
+
+        if (voices.length === 0) {
+            const option = document.createElement('option');
+            option.value = 0;
+            option.textContent = 'Sem vozes disponíveis';
+            select.appendChild(option);
+            return;
+        }
+
+        voices.forEach((voice, index) => {
+            const option = document.createElement('option');
+            option.value = index;
+            option.textContent = `${voice.name} (${voice.lang})`;
+            select.appendChild(option);
+        });
+
+        const defaultIndex = voices.findIndex(v => v.lang === 'pt-PT' || v.lang === 'pt_PT');
+        if (defaultIndex >= 0) select.value = defaultIndex;
+    }
+
+    function getParagraphs(targetSelectorOrFn) {
+        if (typeof targetSelectorOrFn === 'function') {
+            const items = targetSelectorOrFn();
+            return Array.from(items || []).filter(el => el && el.nodeType === 1);
+        } else {
+            return Array.from(document.querySelectorAll(targetSelectorOrFn));
+        }
+    }
+
+    function startReading(targetSelectorOrFn, voiceSelectId) {
+        stopReading();
+
+        const paragraphs = getParagraphs(targetSelectorOrFn).filter(p => {
+            try {
+                // Verifica visibilidade (offsetParent !== null)
+                return p.offsetParent !== null;
+            } catch (e) {
+                return true;
+            }
+        });
+
+        if (!paragraphs || paragraphs.length === 0) {
+            alert('Nenhum conteúdo visível para ler.');
+            return;
+        }
+
+        const voiceSelect = document.getElementById(voiceSelectId);
+        if (!voiceSelect || !voices || voices.length === 0) {
+            console.error("Vozes não carregadas ou seletor inválido.");
+            alert("Erro: vozes não disponíveis. Aguarda alguns segundos e tenta de novo.");
+            return;
+        }
+
+        const selectedIndex = parseInt(voiceSelect.value, 10) || 0;
+        const selectedVoice = voices[selectedIndex] || voices[0];
+
+        let index = 0;
+
+        function speakNext() {
+            if (index >= paragraphs.length) {
+                paragraphs.forEach(p => p.classList.remove('reading'));
+                return;
+            }
+
+            const para = paragraphs[index];
+            // Ignorar elementos de imagem e outros não-texto
+            if (para.tagName === 'IMG' || para.closest('.img-quadro') || para.tagName === 'UL' || para.tagName === 'OL') {
+                index++;
+                speakNext();
+                return;
+            }
+            
+            const text = para.textContent.trim();
+
+            if (!text || text.length < 3) {
+                index++;
+                speakNext();
+                return;
+            }
+
+            currentUtterance = new SpeechSynthesisUtterance(text);
+            currentUtterance.voice = selectedVoice;
+            currentUtterance.lang = selectedVoice.lang || 'pt-PT';
+            currentUtterance.rate = 1;
+
+            document.querySelectorAll('p.reading').forEach(p => p.classList.remove('reading'));
+            para.classList.add('reading');
+            para.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+            currentUtterance.onend = () => {
+                index++;
+                speakNext();
+            };
+
+            currentUtterance.onerror = (event) => {
+                console.error('SpeechSynthesisError:', event);
+                paragraphs.forEach(p => p.classList.remove('reading'));
+            };
+
+            speechSynthesis.speak(currentUtterance);
+        }
+
+        speakNext();
+    }
+
+    function pauseReading() {
+        if (speechSynthesis.speaking && !speechSynthesis.paused) {
+            speechSynthesis.pause();
+        } else if (speechSynthesis.paused) {
+            speechSynthesis.resume();
+        }
+    }
+
+    function stopReading() {
+        if (currentUtterance) {
+            currentUtterance.onend = null; // Evita que onend chame speakNext após cancelamento
+        }
+        speechSynthesis.cancel();
+        document.querySelectorAll('p.reading').forEach(p => p.classList.remove('reading'));
+    }
+
+    // Leitura da Sidebar: apenas parágrafos visíveis (fora dos conteúdos colapsados)
+    function startSidebarReading() {
+        startReading(() => {
+            const sidebar = document.getElementById('sidebar-left');
+            if (!sidebar) return [];
+            return Array.from(sidebar.querySelectorAll('p, h2 p, h3 p'));
+        }, 'voiceSelectSidebar');
+    }
+
+    // Leitura do Main: apenas parágrafos visíveis (dentro do .dia-visivel)
+    function startMainReading() {
+        // Selector adaptado para o novo HTML: inclui p, h3, h4 e li dentro do dia visível
+        const paragraphsSelectorFn = () => document.querySelectorAll('main .dia-visivel p, main .dia-visivel h3, main .dia-visivel li');
+        
+        let arr = getParagraphs(paragraphsSelectorFn).filter(p => p.offsetParent !== null);
+        if (!arr.length) {
+            // Se não houver dia visível, mostra o dia padrão (Segunda)
+            const dias = ['dia1','dia2','dia3','dia4','dia5'];
+            const hoje = new Date().getDay(); // 0 (Domingo) a 6 (Sábado)
+            const diaIndex = hoje >= 1 && hoje <= 5 ? hoje - 1 : 0;
+            // Carrega o MÓDULO 1 por padrão
+            mostrarDia(dias[diaIndex], 'modulo1'); 
+            
+            // Timeout para garantir que o render ocorreu
+            setTimeout(() => {
+                 startReading(paragraphsSelectorFn, 'voiceSelectMain');
+            }, 100); 
+            return;
+        }
+        startReading(paragraphsSelectorFn, 'voiceSelectMain');
+    }
+
+    // =========================================================
+    // Funções de Interação (Acordeão e Navegação)
+    // =========================================================
+
+    function setupAccordion() {
+        document.querySelectorAll('.accordion-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const targetId = header.getAttribute('data-target');
+                const content = document.getElementById(targetId);
+                if (!content) return;
+                
+                const isVisible = content.style.display === 'block';
+                
+                // Fecha todos os outros
+                document.querySelectorAll('.accordion-content').forEach(c => {
+                    if (c !== content) c.style.display = 'none';
+                });
+                
+                // Alterna o alvo
+                content.style.display = isVisible ? 'none' : 'block';
+            });
+        });
+    }
+
+    function mostrarDia(dia, modulo) {
+        stopReading();
+
+        // 1. Oculta todos os módulos e remove a classe visível de todos os dias
+        document.querySelectorAll('.modulo').forEach(mod => mod.style.display = 'none');
+        document.querySelectorAll('.dia1, .dia2, .dia3, .dia4, .dia5').forEach(el => el.classList.remove('dia-visivel'));
+
+        const targetModulo = document.querySelector(`.${modulo}`);
+        if (!targetModulo) {
+            console.error(`Módulo '${modulo}' não encontrado.`);
+            return;
+        }
+
+        const targetDia = targetModulo.querySelector(`.${dia}`);
+        targetModulo.style.display = 'block';
+
+        if (targetDia) {
+            targetDia.classList.add('dia-visivel');
+            // Scroll para o início do dia
+            requestAnimationFrame(() => {
+                targetDia.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        }
+    }
+
+    function setupAulaLinks() {
+        document.querySelectorAll('.aula-link').forEach(link => {
+            link.addEventListener('click', function () {
+                const dia = this.getAttribute('data-target-aula');
+                const modulo = this.getAttribute('data-modulo');
+                // Certifica-se de que o módulo está expandido antes de mudar o dia
+                const accordionContent = this.closest('.accordion-content');
+                if(accordionContent) accordionContent.style.display = 'block';
+                
+                if (dia && modulo) mostrarDia(dia, modulo);
+
+                // Opcional: Atualizar a navegação principal (para o módulo correto)
+                const navHeader = document.querySelector('#navegacao strong');
+                if (navHeader) {
+                    const moduloName = modulo === 'moduloI' ? 'MÓDULO INTRODUTÓRIO' : 'MÓDULO 1';
+                    navHeader.textContent = moduloName;
+                    
+                    // Se a navegação for clicada para um módulo, ajusta os botões (apenas texto)
+                    document.querySelectorAll('#navegacao button').forEach(button => {
+                        button.setAttribute('onclick', `mostrarDia(this.textContent.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').substring(0,4), '${modulo}')`);
+                    });
+                }
+            });
+        });
+    }
+    
+    // =========================================================
+    // Funções de Layout
+    // =========================================================
+
+    function setupToggleButtons() {
+        const leftBtn = document.getElementById('toggleLeft');
+        const rightBtn = document.getElementById('toggleRight');
+        const leftBar = document.getElementById('sidebar-left');
+        const rightBar = document.getElementById('sidebar-right');
+        const isMobile = window.innerWidth <= 900;
+
+        leftBtn.addEventListener('click', () => {
+            if (isMobile) {
+                leftBar.classList.toggle('open');
+            } else {
+                leftBar.classList.toggle('collapsed');
+            }
+        });
+        
+        rightBtn.addEventListener('click', () => {
+            if (isMobile) {
+                rightBar.classList.toggle('open');
+            } else {
+                rightBar.classList.toggle('collapsed');
+            }
+        });
+        
+        // Colapsa automaticamente a direita no desktop para dar mais espaço ao conteúdo
+        if (!isMobile) {
+            rightBar.classList.add('collapsed');
+        }
+    }
+
+
+    // =========================================================
+    // Inicialização
+    // =========================================================
+    
+    window.addEventListener('load', () => {
+        // 1. Configurar layout da Pág 29
+        setupToggleButtons();
+
+        // 2. Configurar voz
+        populateVoiceList('voiceSelectMain');
+        populateVoiceList('voiceSelectSidebar');
+        if (speechSynthesis.onvoiceschanged !== undefined) {
+            speechSynthesis.onvoiceschanged = () => {
+                populateVoiceList('voiceSelectMain');
+                populateVoiceList('voiceSelectSidebar');
+            };
+        }
+
+        // 3. Configurar interações
+        setupAccordion();
+        setupAulaLinks();
+        
+        // 4. Mostrar o dia padrão (usando MÓDULO 1 por padrão)
+        const dias = ['dia1','dia2','dia3','dia4','dia5'];
+        const hoje = new Date().getDay(); // 0 (Domingo) a 6 (Sábado)
+        const diaIndex = hoje >= 1 && hoje <= 5 ? hoje - 1 : 0;
+        mostrarDia(dias[diaIndex], 'modulo1'); // <-- AGORA INICIA NO MÓDULO 1
+        
+        // 5. Expande o acordeão inicial para visibilidade
+        const introHeader = document.querySelector('.accordion-header[data-target="modulo-1-content"]'); // <-- EXPANDIR MÓDULO 1
+        if(introHeader) introHeader.click();
+    });
+</script>
+</body>
+</html>

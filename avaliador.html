@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Painel do Avaliador | FEKA KAWIÇO</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{--prim:#007bff;--bg:#f4f7fb;--card:#fff;--muted:#666;}
+    body{font-family:Inter,Arial,sans-serif;background:var(--bg);margin:0;padding:18px;color:#222;}
+    .wrap{max-width:1100px;margin:12px auto;background:var(--card);padding:18px;border-radius:10px;box-shadow:0 8px 26px rgba(0,0,0,.06);}
+    h1{color:var(--prim);margin:0 0 8px;}
+    .loginBox{display:flex;gap:10px;align-items:center;margin-bottom:12px;}
+    input[type="password"]{padding:10px;border-radius:8px;border:1px solid #ddd;}
+    button{padding:10px 12px;border-radius:8px;border:none;cursor:pointer;font-weight:700;}
+    button.primary{background:var(--prim);color:#fff;}
+    button.danger{background:#e74c3c;color:#fff;}
+    table{width:100%;border-collapse:collapse;margin-top:12px;}
+    th,td{padding:10px;border-bottom:1px solid #eef;text-align:left;font-size:.95rem;}
+    th{background:#f8fbff;}
+    .small{font-size:.9rem;color:var(--muted);}
+    .actions{display:flex;gap:8px;}
+    .controls{display:flex;gap:8px;align-items:center;margin-top:8px;}
+    .btn-ghost{background:#f3f3f3;border:1px solid #e3e3e3;padding:8px;border-radius:8px;cursor:pointer;}
+    .detailBox{margin-top:12px;padding:12px;border-radius:8px;background:#fcfcff;border:1px solid #eef;}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Painel do Avaliador — FEKA KAWIÇO</h1>
+    <p class="small">Aceda aos resultados guardados localmente (keys: <code>feka_results</code> e <code>feka_results_m1</code>).</p>
+
+    <div class="loginBox" id="loginBox">
+      <input id="passInput" type="password" placeholder="Insere a password do avaliador" />
+      <button id="loginBtn" class="primary">Entrar</button>
+      <div style="margin-left:auto" class="small">Senha padrão: <strong>fekaAdmin2025</strong></div>
+    </div>
+
+    <div id="appArea" style="display:none;">
+      <div class="controls">
+        <button id="refreshBtn" class="btn-ghost">Atualizar</button>
+        <button id="exportBtn" class="btn-ghost">Exportar CSV</button>
+        <button id="clearBtn" class="btn-ghost" title="Apagar todos os registos">Limpar Tudo</button>
+        <div style="flex:1"></div>
+        <input id="filterSearch" placeholder="Filtrar por nome ou email" style="padding:8px;border-radius:8px;border:1px solid #ddd;min-width:220px;">
+      </div>
+
+      <table id="resultsTable" aria-live="polite">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Módulo</th>
+            <th>Nome</th>
+            <th>Email</th>
+            <th>Pontos</th>
+            <th>%</th>
+            <th>Data</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody id="resultsTbody"></tbody>
+      </table>
+
+      <div id="detail" class="detailBox" style="display:none;"></div>
+    </div>
+  </div>
+
+<script>
+(function(){
+  const KEYS = ['feka_results', 'feka_results_m1']; // adiciona modulo1
+  const PASSWORD = 'fekaAdmin2025';
+  const loginBox = document.getElementById('loginBox');
+  const passInput = document.getElementById('passInput');
+  const loginBtn = document.getElementById('loginBtn');
+  const appArea = document.getElementById('appArea');
+  const resultsTbody = document.getElementById('resultsTbody');
+  const refreshBtn = document.getElementById('refreshBtn');
+  const clearBtn = document.getElementById('clearBtn');
+  const exportBtn = document.getElementById('exportBtn');
+  const detailBox = document.getElementById('detail');
+  const filterSearch = document.getElementById('filterSearch');
+
+  function readAllResults(){
+    let all = [];
+    for(const key of KEYS){
+      try{
+        const raw = localStorage.getItem(key);
+        const arr = raw ? JSON.parse(raw) : [];
+        if(Array.isArray(arr)) all = all.concat(arr.map(x => ({...x, origem:key})));
+      }catch(e){}
+    }
+    return all.reverse(); // mais recentes primeiro
+  }
+
+  function renderTable(filterTerm=''){
+    const arr = readAllResults();
+    resultsTbody.innerHTML = '';
+    const term = (filterTerm||'').toLowerCase().trim();
+    arr.forEach((r, idx) => {
+      if (term){
+        const hay = ((r.nome||'') + ' ' + (r.email||'')).toLowerCase();
+        if (!hay.includes(term)) return;
+      }
+      const tr = document.createElement('tr');
+      const modulo = r.modulo ? `M${r.modulo}` : (r.origem==='feka_results_m1'?'M1':'—');
+      tr.innerHTML = `
+        <td>${idx+1}</td>
+        <td>${modulo}</td>
+        <td>${escapeHtml(r.nome||'')}</td>
+        <td>${escapeHtml(r.email||'')}</td>
+        <td>${r.pontuacao||0} / ${r.total||'-'}</td>
+        <td>${r.percent||0}%</td>
+        <td>${r.data ? new Date(r.data).toLocaleString() : ''}</td>
+        <td>
+          <div class="actions">
+            <button class="btn-ghost" data-idx="${idx}" data-act="view">Ver</button>
+            <button class="btn-ghost" data-idx="${idx}" data-act="delete">Apagar</button>
+          </div>
+        </td>
+      `;
+      resultsTbody.appendChild(tr);
+    });
+  }
+
+  function escapeHtml(s){ return String(s||'').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
+
+  function requireLogin(){
+    if (passInput.value === PASSWORD){
+      loginBox.style.display = 'none';
+      appArea.style.display = 'block';
+      renderTable();
+    } else alert('Password incorreta.');
+  }
+
+  loginBtn.addEventListener('click', requireLogin);
+  passInput.addEventListener('keydown', e => { if(e.key==='Enter') requireLogin(); });
+  refreshBtn.addEventListener('click', ()=> renderTable(filterSearch.value));
+  filterSearch.addEventListener('input', e=> renderTable(e.target.value));
+
+  resultsTbody.addEventListener('click', e=>{
+    const btn = e.target.closest('button'); if(!btn) return;
+    const act = btn.dataset.act; const idx = +btn.dataset.idx;
+    const arr = readAllResults();
+    const item = arr[idx]; if(!item) return;
+
+    if(act==='view'){
+      detailBox.style.display='block';
+      detailBox.innerHTML=`
+        <h3>Detalhes de ${escapeHtml(item.nome||'')}</h3>
+        <p><strong>Módulo:</strong> ${item.modulo || (item.origem==='feka_results_m1'?'1':'—')}</p>
+        <p><strong>Email:</strong> ${escapeHtml(item.email||'')}</p>
+        <p><strong>Pontuação:</strong> ${item.pontuacao||0} / ${item.total||'-'} — ${item.percent||0}%</p>
+        <p><strong>Data:</strong> ${item.data ? new Date(item.data).toLocaleString() : ''}</p>
+        <hr>
+        <h4>Respostas (aluno)</h4>
+        <pre style="white-space:pre-wrap;max-height:260px;overflow:auto;background:#fbfbff;padding:10px;border-radius:6px;border:1px solid #eef;">${escapeHtml(JSON.stringify(item.respostas,null,2))}</pre>
+        <div style="margin-top:8px;"><button id="closeDetail" class="btn-ghost">Fechar</button></div>`;
+      document.getElementById('closeDetail').addEventListener('click', ()=> detailBox.style.display='none');
+    } else if(act==='delete'){
+      if(!confirm('Apagar este registo?')) return;
+      // apagar no localStorage da origem correta
+      const key=item.origem||'feka_results';
+      const arrOrig=JSON.parse(localStorage.getItem(key)||'[]');
+      const indexInOrig = arrOrig.findIndex(a => a.data===item.data && a.email===item.email);
+      if(indexInOrig>=0){ arrOrig.splice(indexInOrig,1); localStorage.setItem(key,JSON.stringify(arrOrig)); }
+      renderTable(filterSearch.value);
+      detailBox.style.display='none';
+    }
+  });
+
+  clearBtn.addEventListener('click', ()=>{
+    if(!confirm('Apagar TODOS os registos localmente (todos os módulos)?')) return;
+    for(const key of KEYS) localStorage.removeItem(key);
+    renderTable();
+    detailBox.style.display='none';
+  });
+
+  exportBtn.addEventListener('click', ()=>{
+    const arr = readAllResults().slice().reverse();
+    if(!arr.length){ alert('Sem registos para exportar.'); return; }
+    const header = ['modulo','nome','email','pontuacao','total','percent','data','respostas_json'];
+    const rows = arr.map(r=>[
+      `"${r.modulo|| (r.origem==='feka_results_m1'?'1':'')}"`,
+      `"${(r.nome||'').replace(/"/g,'""')}"`,
+      `"${(r.email||'').replace(/"/g,'""')}"`,
+      r.pontuacao||'',
+      r.total||'',
+      r.percent||'',
+      `"${r.data||''}"`,
+      `"${JSON.stringify(r.respostas||{}).replace(/"/g,'""')}"`
+    ].join(','));
+    const csv=[header.join(','),...rows].join('\n');
+    const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a'); a.href=url; a.download='feka_results_export.csv'; a.click();
+    URL.revokeObjectURL(url);
+  });
+
+})();
+</script>
+</body>
+</html>

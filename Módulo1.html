@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Módulo 1 — Avaliação (Fundamentos de Estruturas Metálicas)</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --prim:#007bff; --dark:#343a40; --bg:#f8f9fa; --card:#fff;
+    }
+    body {
+      font-family:Inter,Arial,sans-serif;
+      background:var(--bg);
+      color:var(--dark);
+      margin:0;
+      padding:20px;
+    }
+    .container {
+      max-width:980px;
+      margin:20px auto;
+      background:var(--card);
+      padding:22px;
+      border-radius:10px;
+      box-shadow:0 6px 20px rgba(0,0,0,0.06);
+    }
+    h1 {
+      margin:0 0 10px;
+      font-size:1.4rem;
+      color:var(--prim);
+    }
+    p.lead { margin:0 0 18px;color:#444; }
+    .user-block {
+      display:flex;
+      gap:12px;
+      align-items:center;
+      margin-bottom:16px;
+      flex-wrap:wrap;
+    }
+    .user-block input {
+      padding:8px;
+      border-radius:6px;
+      border:1px solid #ddd;
+    }
+    .quiz-question {
+      margin:18px 0;
+      padding:14px;
+      border-radius:8px;
+      border:1px solid #eef;
+      background:#fcfcff;
+    }
+    .quiz-question p { margin:0 0 8px; font-weight:600; }
+    .quiz-question label {
+      display:block;
+      margin:6px 0;
+      cursor:pointer;
+    }
+    button.primary {
+      background:var(--prim);
+      color:#fff;
+      padding:10px 14px;
+      border-radius:8px;
+      border:none;
+      cursor:pointer;
+      font-weight:700;
+    }
+    button.secondary {
+      background:#eee;
+      color:#333;
+      padding:8px 12px;
+      border-radius:8px;
+      border:none;
+      cursor:pointer;
+    }
+    #resultadoBox {
+      margin-top:16px;
+      padding:12px;
+      border-radius:8px;
+      background:#fff;
+      border:1px solid #e6f0ff;
+    }
+    .muted { color:#666;font-size:.95rem; }
+    .small { font-size:.9rem;color:#666; }
+    .topbar {
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:12px;
+      flex-wrap:wrap;
+    }
+    .notice {
+      background:#fff3cd;
+      color:#856404;
+      padding:10px;
+      border-radius:6px;
+      border:1px solid #ffeeba;
+      margin-bottom:12px;
+    }
+    footer {
+      margin-top:18px;
+      font-size:.85rem;
+      color:#666;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="topbar">
+      <h1>Módulo 1 — Avaliação (Fundamentos de Estruturas Metálicas)<a href="index.html">-Home</a></h1>
+      <div class="small">FEKA KAWIÇO — Desenhador Projectista (DPM)</div>
+    </div>
+
+    <p class="lead">Completa o quiz (4 perguntas por aula/dia). No final verás a tua pontuação. As respostas e o resultado serão guardados e disponibilizados ao avaliador.</p>
+
+    <div id="userArea" class="user-block"></div>
+
+    <div class="notice">
+      <strong>Atenção:</strong> Se já estás autenticado no site principal, o nome e o email serão preenchidos automaticamente (o sistema tenta várias chaves em localStorage). Se não aparecerem, preenche manualmente.
+    </div>
+
+    <form id="quizForm">
+      <!-- Dia 1 -->
+      <div class="quiz-question" data-dia="1">
+        <p>Dia 1 - 1) Qual é a principal vantagem do aço que facilita a construção de grandes vãos?</p>
+        <label><input type="radio" name="q1" value="a"> Alta resistência por unidade de peso.</label>
+        <label><input type="radio" name="q1" value="b"> Ser facilmente enferrujável.</label>
+        <label><input type="radio" name="q1" value="c"> Ser o material mais pesado.</label>
+        <label><input type="radio" name="q1" value="d"> Baixa durabilidade.</label>
+      </div>
+
+      <div class="quiz-question" data-dia="1">
+        <p>Dia 1 - 2) Qual a principal função dos Contraventamentos (em "X" ou "K") num Galpão?</p>
+        <label><input type="radio" name="q2" value="a"> Suportar apenas as telhas.</label>
+        <label><input type="radio" name="q2" value="b"> Reduzir a carga vertical.</label>
+        <label><input type="radio" name="q2" value="c"> Otimizar a iluminação.</label>
+        <label><input type="radio" name="q2" value="d"> Garantir a estabilidade lateral contra forças horizontais (vento).</label>
+      </div>
+
+      <div class="quiz-question" data-dia="1">
+        <p>Dia 1 - 3) Estruturalmente, qual a vantagem das Tesouras/Treliças Metálicas em comparação com as Vigas em Perfil I/H?</p>
+        <label><input type="radio" name="q3" value="a"> São muito mais pesadas.</label>
+        <label><input type="radio" name="q3" value="b"> São usadas apenas para fins decorativos.</label>
+        <label><input type="radio" name="q3" value="c"> Trabalham predominantemente sob tração e compressão, otimizando o peso para grandes vãos.</label>
+        <label><input type="radio" name="q3" value="d"> Exigem apoios intermédios em todos os vãos.</label>
+      </div>
+
+      <div class="quiz-question" data-dia="1">
+        <p>Dia 1 - 4) Qual é a característica principal da Escada Marinheiro?</p>
+        <label><input type="radio" name="q4" value="a"> Ser usada para acesso geral em escritórios.</label>
+        <label><input type="radio" name="q4" value="b"> Uso de gaiola de proteção e degraus tipo 'barra' para acesso vertical seguro.</label>
+        <label><input type="radio" name="q4" value="c"> Ser sempre em formato "U".</label>
+        <label><input type="radio" name="q4" value="d"> Não precisar de guarda-corpo.</label>
+      </div>
+
+      <!-- Dia 2 -->
+      <div class="quiz-question" data-dia="2">
+        <p>Dia 2 - 5) Qual tipo de ponte tem o tabuleiro sustentado por cabos de aço (estais) que partem de pilares centrais (mastros)?</p>
+        <label><input type="radio" name="q5" value="a"> Pontes Estaiadas.</label>
+        <label><input type="radio" name="q5" value="b"> Pontes em Viga.</label>
+        <label><input type="radio" name="q5" value="c"> Pontes em Arco.</label>
+        <label><input type="radio" name="q5" value="d"> Pontes de madeira.</label>
+      </div>
+
+      <div class="quiz-question" data-dia="2">
+        <p>Dia 2 - 6) Em Pontes em Treliça, qual o principal estado de esforço das barras?</p>
+        <label><input type="radio" name="q6" value="a"> Flexão e corte.</label>
+        <label><input type="radio" name="q6" value="b"> Torção.</label>
+        <label><input type="radio" name="q6" value="c"> Tração e compressão.</label>
+        <label><input type="radio" name="q6" value="d"> Cisalhamento puro.</label>
+      </div>
+
+      <!-- ... restantes perguntas (até q16) seguem igual ao modelo ... -->
+
+      <div style="margin-top:18px;display:flex;gap:12px;flex-wrap:wrap;">
+        <button type="button" class="primary" id="submitQuiz">Enviar Avaliação</button>
+        <button type="button" class="secondary" id="resetQuiz">Limpar respostas</button>
+        <div style="flex:1"></div>
+        <div class="small muted">Resultados guardados localmente e visíveis apenas ao avaliador.</div>
+      </div>
+    </form>
+
+    <div id="resultadoBox" style="display:none;"></div>
+
+    <footer>
+      <div class="small">Nota: para o avaliador ver os resultados acede a <strong>avaliador.html</strong>.</div>
+    </footer>
+  </div>
+
+  <script>
+  (function(){
+    const form = document.getElementById('quizForm');
+    const submitBtn = document.getElementById('submitQuiz');
+    const resetBtn = document.getElementById('resetQuiz');
+    const resultBox = document.getElementById('resultadoBox');
+    const userArea = document.getElementById('userArea');
+    const RESULTS_KEY = 'feka_results_m1';
+
+    const possibleNameKeys = ['fekaUser','fekaUserName','userName','username','name','user','feka_name'];
+    const possibleEmailKeys = ['fekaEmail','userEmail','email','user_email','feka_user_email'];
+
+    function readStoredUser(){
+      let name=null,email=null;
+      for(const k of possibleNameKeys){const v=localStorage.getItem(k);if(v&&v.trim()){name=v.trim();break;}}
+      for(const k of possibleEmailKeys){const v=localStorage.getItem(k);if(v&&v.trim()){email=v.trim();break;}}
+      return {name,email};
+    }
+
+    function renderUserInputs(){
+      const stored=readStoredUser();
+      userArea.innerHTML='';
+      const nameInput=document.createElement('input');
+      nameInput.placeholder='Nome completo';
+      nameInput.id='alunoName';
+      nameInput.style.minWidth='220px';
+      const emailInput=document.createElement('input');
+      emailInput.placeholder='Email';
+      emailInput.id='alunoEmail';
+      emailInput.style.minWidth='220px';
+      if(stored.name) nameInput.value=stored.name;
+      if(stored.email) emailInput.value=stored.email;
+      const note=document.createElement('div');
+      note.className='small muted';
+      note.style.marginLeft='6px';
+      note.innerText='Nome e email utilizados para identificação do avaliador.';
+      userArea.appendChild(nameInput);
+      userArea.appendChild(emailInput);
+      userArea.appendChild(note);
+    }
+
+    renderUserInputs();
+
+    const answers={q1:'a',q2:'d',q3:'c',q4:'b',q5:'a',q6:'c',q7:'b',q8:'d',q9:'b',q10:'a',q11:'c',q12:'d',q13:'a',q14:'c',q15:'d',q16:'a'};
+
+    function collectAnswers(){
+      const collected={};let allAnswered=true;
+      for(let i=1;i<=16;i++){
+        const sel=document.querySelector(`input[name="q${i}"]:checked`);
+        collected['q'+i]=sel?sel.value:null;
+        if(!sel) allAnswered=false;
+      }
+      return {collected,allAnswered};
+    }
+
+    function saveResult(entry){
+      const raw=localStorage.getItem(RESULTS_KEY);
+      let arr=[];try{arr=raw?JSON.parse(raw):[];if(!Array.isArray(arr))arr=[];}catch(e){arr=[];}
+      arr.push(entry);
+      localStorage.setItem(RESULTS_KEY,JSON.stringify(arr));
+    }
+
+    function computeScore(collected){
+      let score=0;
+      for(let i=1;i<=16;i++){
+        if(collected['q'+i]&&collected['q'+i]===answers['q'+i])score++;
+      }
+      return score;
+    }
+
+    submitBtn.addEventListener('click',()=>{
+      const name=(document.getElementById('alunoName')||{value:''}).value.trim();
+      const email=(document.getElementById('alunoEmail')||{value:''}).value.trim();
+      if(!name||!email){alert('Por favor preenche o nome e o email antes de submeter.');return;}
+      const {collected,allAnswered}=collectAnswers();
+      if(!allAnswered&&!confirm('Nem todas as perguntas foram respondidas. Desejas submeter na mesma?'))return;
+      const score=computeScore(collected);
+      const total=16;
+      const percent=Math.round((score/total)*100);
+      const entry={modulo:1,nome:name,email:email,pontuacao:score,total:total,percent:percent,respostas:collected,data:new Date().toISOString()};
+      saveResult(entry);
+      resultBox.style.display='block';
+      resultBox.innerHTML=`<p style="font-size:1.1rem;"><strong>Resultados do Módulo 1</strong></p>
+        <p>Obrigado, ${name}.</p>
+        <p>Pontuação: <strong>${score}</strong> / ${total} — <strong>${percent}%</strong></p>
+        <p class="small">As respostas foram gravadas localmente e estarão disponíveis ao avaliador.</p>`;
+      submitBtn.disabled=true;
+    });
+
+    resetBtn.addEventListener('click',()=>{
+      if(confirm('Limpar todas as escolhas desta página?')){
+        form.reset();
+        resultBox.style.display='none';
+        submitBtn.disabled=false;
+      }
+    });
+  })();
+  </script>
+</body>
+</html>

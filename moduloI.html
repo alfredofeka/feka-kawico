@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Módulo I — Quiz | FEKA KAWIÇO</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --prim:#007bff; --dark:#343a40; --bg:#f8f9fa; --card:#fff;
+    }
+    body{font-family:Inter,Arial, sans-serif;background:var(--bg);color:var(--dark);margin:0;padding:20px;}
+    .container{max-width:980px;margin:20px auto;background:var(--card);padding:22px;border-radius:10px;box-shadow:0 6px 20px rgba(0,0,0,0.06);}
+    h1{margin:0 0 10px;font-size:1.4rem;color:var(--prim);}
+    p.lead{margin:0 0 18px;color:#444;}
+    .user-block{display:flex;gap:12px;align-items:center;margin-bottom:16px;}
+    .user-block input{padding:8px;border-radius:6px;border:1px solid #ddd;}
+    .quiz-question{margin:18px 0;padding:14px;border-radius:8px;border:1px solid #eef;background:#fcfcff;}
+    .quiz-question p{margin:0 0 8px;font-weight:600;}
+    .quiz-question label{display:block;margin:6px 0;cursor:pointer;}
+    button.primary{background:var(--prim);color:#fff;padding:10px 14px;border-radius:8px;border:none;cursor:pointer;font-weight:700;}
+    button.secondary{background:#eee;color:#333;padding:8px 12px;border-radius:8px;border:none;cursor:pointer;}
+    #resultadoBox{margin-top:16px;padding:12px;border-radius:8px;background:#fff;border:1px solid #e6f0ff;}
+    .muted{color:#666;font-size:.95rem;}
+    .small{font-size:.9rem;color:#666;}
+    .topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;}
+    .notice{background:#fff3cd;color:#856404;padding:10px;border-radius:6px;border:1px solid #ffeeba;margin-bottom:12px;}
+    footer{margin-top:18px;font-size:.85rem;color:#666;}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="topbar">
+      <h1>Módulo I — Avaliação <a href="index.html">-Home</a></h1>
+      <div class="small">FEKA KAWIÇO — Desenhador Projectista (DPM)</div>
+    </div>
+
+    <p class="lead">Completa o quiz (4 perguntas por dia). No final verás a tua pontuação. As respostas e o resultado serão guardados e disponibilizados ao avaliador.</p>
+
+    <div id="userArea" class="user-block">
+      <!-- Será preenchido por JS -->
+    </div>
+
+    <div class="notice">
+      <strong>Atenção:</strong> Se já estás autenticado no site principal, o nome e o email serão preenchidos automaticamente (o sistema tenta várias chaves em localStorage). Se não aparecerem, preenche manualmente.
+    </div>
+
+    <form id="quizForm">
+      <!-- Perguntas: 4 por dia -> 16 perguntas -->
+      <!-- Dia 1 -->
+      <div class="quiz-question" data-dia="1">
+        <p>Dia1 - 1) Qual é a principal função do Desenhador Projectista?</p>
+        <label><input type="radio" name="q1" value="a"> Fiscalizar obras em campo.</label>
+        <label><input type="radio" name="q1" value="b"> Criar desenhos técnicos e modelos 3D de estruturas metálicas.</label>
+        <label><input type="radio" name="q1" value="c"> Executar soldagens na fábrica.</label>
+        <label><input type="radio" name="q1" value="d"> Só calcular esforços.</label>
+      </div>
+
+      <div class="quiz-question" data-dia="1">
+        <p>Dia1 - 2) Que documento é crítico para produção e montagem?</p>
+        <label><input type="radio" name="q2" value="a"> Shop drawings / desenhos de oficina.</label>
+        <label><input type="radio" name="q2" value="b"> Apenas relatórios financeiros.</label>
+        <label><input type="radio" name="q2" value="c"> Só plantas arquitetónicas.</label>
+        <label><input type="radio" name="q2" value="d"> Fotografias da obra.</label>
+      </div>
+
+      <div class="quiz-question" data-dia="1">
+        <p>Dia1 - 3) O que garante a compatibilização entre projeto e fabrico?</p>
+        <label><input type="radio" name="q3" value="a"> Detalhamento preciso e ficheiros CNC (DSTV/STEP).</label>
+        <label><input type="radio" name="q3" value="b"> Apenas chamadas telefónicas.</label>
+        <label><input type="radio" name="q3" value="c"> Trabalhar isolado sem coordenação.</label>
+        <label><input type="radio" name="q3" value="d"> Ignorar listas de corte.</label>
+      </div>
+
+      <div class="quiz-question" data-dia="1">
+        <p>Dia1 - 4) Quem faz a transformação dos cálculos em documentação construtiva?</p>
+        <label><input type="radio" name="q4" value="a"> Desenhador Projectista (DPM).</label>
+        <label><input type="radio" name="q4" value="b"> Só o dono da obra.</label>
+        <label><input type="radio" name="q4" value="c"> Equipa de limpeza.</label>
+        <label><input type="radio" name="q4" value="d"> Apenas o diretor comercial.</label>
+      </div>
+
+      <!-- Dia 2 -->
+      <div class="quiz-question" data-dia="2">
+        <p>Dia2 - 5) Que software é típico para modelação paramétrica e detalhamento?</p>
+        <label><input type="radio" name="q5" value="a"> Tekla Structures / Advance Steel.</label>
+        <label><input type="radio" name="q5" value="b"> Microsoft Word.</label>
+        <label><input type="radio" name="q5" value="c"> Paint.</label>
+        <label><input type="radio" name="q5" value="d"> Apenas Excel.</label>
+      </div>
+
+      <div class="quiz-question" data-dia="2">
+        <p>Dia2 - 6) Trabalhar com normas (ex: EN 1993) assegura:</p>
+        <label><input type="radio" name="q6" value="a"> Segurança, repetibilidade e conformidade.</label>
+        <label><input type="radio" name="q6" value="b"> Atrasos e custos desnecessários.</label>
+        <label><input type="radio" name="q6" value="c"> Apenas estética.</label>
+        <label><input type="radio" name="q6" value="d"> Nada relevante.</label>
+      </div>
+
+      <div class="quiz-question" data-dia="2">
+        <p>Dia2 - 7) Qual é um benefício direto do bom detalhamento?</p>
+        <label><input type="radio" name="q7" value="a"> Redução de desperdício e retrabalhos.</label>
+        <label><input type="radio" name="q7" value="b"> Aumento de retrabalhos.</label>
+        <label><input type="radio" name="q7" value="c"> Menor qualidade de montagem.</label>
+        <label><input type="radio" name="q7" value="d"> Nenhum benefício.</label>
+      </div>
+
+      <div class="quiz-question" data-dia="2">
+        <p>Dia2 - 8) Qual destas práticas é típica do DPM?</p>
+        <label><input type="radio" name="q8" value="a"> Gerar listas automáticas de materiais (BOQ).</label>
+        <label><input type="radio" name="q8" value="b"> Limpar o canteiro.</label>
+        <label><input type="radio" name="q8" value="c"> Gerir restaurante da obra.</label>
+        <label><input type="radio" name="q8" value="d"> Pintar fachadas.</label>
+      </div>
+
+      <!-- Dia 3 -->
+      <div class="quiz-question" data-dia="3">
+        <p>Dia3 - 9) Em que setores o DPM atua?</p>
+        <label><input type="radio" name="q9" value="a"> Construção, energia, petroquímica, offshore, indústria.</label>
+        <label><input type="radio" name="q9" value="b"> Só setor agrícola.</label>
+        <label><input type="radio" name="q9" value="c"> Somente na área de TI.</label>
+        <label><input type="radio" name="q9" value="d"> Apenas em comércio retalhista.</label>
+      </div>
+
+      <div class="quiz-question" data-dia="3">
+        <p>Dia3 - 10) Que norma é referida para execução e controlo de qualidade?</p>
+        <label><input type="radio" name="q10" value="a"> EN 1090.</label>
+        <label><input type="radio" name="q10" value="b"> ISO 14001 apenas.</label>
+        <label><input type="radio" name="q10" value="c"> Nenhuma norma.</label>
+        <label><input type="radio" name="q10" value="d"> ISO 50001.</label>
+      </div>
+
+      <div class="quiz-question" data-dia="3">
+        <p>Dia3 - 11) Que ficheiro é comummente usado para máquinas CNC?</p>
+        <label><input type="radio" name="q11" value="a"> DSTV / DXF / STEP.</label>
+        <label><input type="radio" name="q11" value="b"> DOCX.</label>
+        <label><input type="radio" name="q11" value="c"> MP3.</label>
+        <label><input type="radio" name="q11" value="d"> JPG apenas.</label>
+      </div>
+
+      <div class="quiz-question" data-dia="3">
+        <p>Dia3 - 12) O DPM usa BIM principalmente para:</p>
+        <label><input type="radio" name="q12" value="a"> Coordenação multidisciplinar e deteção de conflitos.</label>
+        <label><input type="radio" name="q12" value="b"> Fazer artes gráficas apenas.</label>
+        <label><input type="radio" name="q12" value="c"> Substituir cálculo estrutural.</label>
+        <label><input type="radio" name="q12" value="d"> Gestão de restaurante.</label>
+      </div>
+
+      <!-- Dia 4 -->
+      <div class="quiz-question" data-dia="4">
+        <p>Dia4 - 13) Segurança estrutural depende de:</p>
+        <label><input type="radio" name="q13" value="a"> Representação correta de soldas, ligações e chumbadores conforme normas.</label>
+        <label><input type="radio" name="q13" value="b"> Só do material da tinta.</label>
+        <label><input type="radio" name="q13" value="c"> De nada — é sorte.</label>
+        <label><input type="radio" name="q13" value="d"> Do tamanho da equipa de limpeza.</label>
+      </div>
+
+      <div class="quiz-question" data-dia="4">
+        <p>Dia4 - 14) Como a modelação digital contribui para economia?</p>
+        <label><input type="radio" name="q14" value="a"> Otimiza cortes, reduz desperdício e gera listas de materiais precisas.</label>
+        <label><input type="radio" name="q14" value="b"> Aumenta desperdício intencionalmente.</label>
+        <label><input type="radio" name="q14" value="c"> Só serve para decoração.</label>
+        <label><input type="radio" name="q14" value="d"> Não tem impacto.</label>
+      </div>
+
+      <div class="quiz-question" data-dia="4">
+        <p>Dia4 - 15) Que tecnologias o DPM usa para inovar?</p>
+        <label><input type="radio" name="q15" value="a"> Simulações 3D, realidade aumentada, CDE e CNC.</label>
+        <label><input type="radio" name="q15" value="b"> Apenas lápis e papel.</label>
+        <label><input type="radio" name="q15" value="c"> Jogos de vídeo.</label>
+        <label><input type="radio" name="q15" value="d"> Televisão em pausa.</label>
+      </div>
+
+      <div class="quiz-question" data-dia="4">
+        <p>Dia4 - 16) Sustentabilidade pelo DPM inclui:</p>
+        <label><input type="radio" name="q16" value="a"> Uso otimizado de aço reciclado e reaproveitamento de estruturas desmontáveis.</label>
+        <label><input type="radio" name="q16" value="b"> Aumentar resíduos.</label>
+        <label><input type="radio" name="q16" value="c"> Ignorar a origem do material.</label>
+        <label><input type="radio" name="q16" value="d"> Usar só materiais descartáveis.</label>
+      </div>
+
+      <div style="margin-top:18px;display:flex;gap:12px;flex-wrap:wrap;">
+        <button type="button" class="primary" id="submitQuiz">Enviar Avaliação</button>
+        <button type="button" class="secondary" id="resetQuiz">Limpar respostas</button>
+        <div style="flex:1"></div>
+        <div class="small muted">Resultados guardados localmente e visíveis apenas ao avaliador.</div>
+      </div>
+    </form>
+
+    <div id="resultadoBox" style="display:none;"></div>
+
+    <footer>
+      <div class="small">Nota: para o avaliador ver os resultados acede a <strong>avaliador.html</strong> (senha fornecida).</div>
+    </footer>
+  </div>
+
+<script>
+/*
+  Frontend quiz logic:
+  - tenta obter user/email do localStorage em várias chaves comuns
+  - se não existir, pede preenchimento
+  - ao submeter: calcula pontuação, mostra ao aluno, guarda em localStorage 'feka_results'
+*/
+
+(function(){
+  const form = document.getElementById('quizForm');
+  const submitBtn = document.getElementById('submitQuiz');
+  const resetBtn = document.getElementById('resetQuiz');
+  const resultBox = document.getElementById('resultadoBox');
+  const userArea = document.getElementById('userArea');
+  const RESULTS_KEY = 'feka_results';
+
+  // tenta várias chaves comuns para detectar user/email do index.html
+  const possibleNameKeys = ['fekaUser','fekaUserName','userName','username','name','user','feka_name'];
+  const possibleEmailKeys = ['fekaEmail','userEmail','email','user_email','feka_user_email'];
+
+  function readStoredUser(){
+    let name = null, email = null;
+    for (const k of possibleNameKeys){
+      const v = localStorage.getItem(k);
+      if (v && v.trim()) { name = v.trim(); break; }
+    }
+    for (const k of possibleEmailKeys){
+      const v = localStorage.getItem(k);
+      if (v && v.trim()) { email = v.trim(); break; }
+    }
+    return {name, email};
+  }
+
+  function renderUserInputs(){
+    const stored = readStoredUser();
+    userArea.innerHTML = '';
+    const nameInput = document.createElement('input');
+    nameInput.placeholder = 'Nome completo';
+    nameInput.id = 'alunoName';
+    nameInput.style.minWidth = '220px';
+    const emailInput = document.createElement('input');
+    emailInput.placeholder = 'Email';
+    emailInput.id = 'alunoEmail';
+    emailInput.style.minWidth = '220px';
+
+    if (stored.name) nameInput.value = stored.name;
+    if (stored.email) emailInput.value = stored.email;
+
+    const note = document.createElement('div');
+    note.className = 'small muted';
+    note.style.marginLeft = '6px';
+    note.innerText = 'Nome e email utilizados para identificação do avaliador.';
+
+    userArea.appendChild(nameInput);
+    userArea.appendChild(emailInput);
+    userArea.appendChild(note);
+  }
+
+  renderUserInputs();
+
+  // respostas corretas
+  const answers = {
+    q1:'b',q2:'a',q3:'a',q4:'a',
+    q5:'a',q6:'a',q7:'a',q8:'a',
+    q9:'a',q10:'a',q11:'a',q12:'a',
+    q13:'a',q14:'a',q15:'a',q16:'a'
+  };
+
+  function collectAnswers(){
+    const collected = {};
+    let allAnswered = true;
+    for (let i=1;i<=16;i++){
+      const sel = document.querySelector(`input[name="q${i}"]:checked`);
+      collected['q'+i] = sel ? sel.value : null;
+      if (!sel) allAnswered = false;
+    }
+    return {collected, allAnswered};
+  }
+
+  function saveResultToLocalStorage(entry){
+    const raw = localStorage.getItem(RESULTS_KEY);
+    let arr = [];
+    try{
+      arr = raw ? JSON.parse(raw) : [];
+      if (!Array.isArray(arr)) arr = [];
+    }catch(e){ arr = []; }
+    arr.push(entry);
+    localStorage.setItem(RESULTS_KEY, JSON.stringify(arr));
+  }
+
+  function computeScore(collected){
+    let score=0;
+    for (let i=1;i<=16;i++){
+      if (collected['q'+i] && collected['q'+i] === answers['q'+i]) score++;
+    }
+    return score;
+  }
+
+  submitBtn.addEventListener('click', function(){
+    const name = (document.getElementById('alunoName')||{value:''}).value.trim();
+    const email = (document.getElementById('alunoEmail')||{value:''}).value.trim();
+
+    if (!name || !email){
+      alert('Por favor preenche o nome e o email antes de submeter.');
+      return;
+    }
+
+    const {collected, allAnswered} = collectAnswers();
+
+    if (!allAnswered){
+      if (!confirm('Nem todas as perguntas foram respondidas. Desejas submeter na mesma?')) return;
+    }
+
+    const score = computeScore(collected);
+    const total = 16;
+    const percent = Math.round((score/total)*100);
+
+    // guarda no localStorage (visível ao avaliador)
+    const entry = {
+      nome: name,
+      email: email,
+      pontuacao: score,
+      total: total,
+      percent: percent,
+      respostas: collected,
+      data: new Date().toISOString()
+    };
+
+    saveResultToLocalStorage(entry);
+
+    // mostrar resultado ao aluno (ele pediu para ver sua pontuação)
+    resultBox.style.display = 'block';
+    resultBox.innerHTML = `<p><strong>Obrigado, ${name}.</strong></p>
+      <p>Pontuação: <strong>${score}</strong> / ${total} — <strong>${percent}%</strong></p>
+      <p class="small">As respostas foram gravadas e estarão disponíveis ao avaliador.</p>`;
+
+    // opcional: bloquear envio repetido? deixamos livre — se quiseres bloquear, eu adiciono.
+    submitBtn.disabled = true;
+  });
+
+  resetBtn.addEventListener('click', function(){
+    if (confirm('Limpar todas as escolhas desta página?')) {
+      form.reset();
+      resultBox.style.display = 'none';
+      submitBtn.disabled = false;
+    }
+  });
+
+})();
+</script>
+</body>
+</html>
