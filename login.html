@@ -55,14 +55,22 @@ document.getElementById('loginForm').addEventListener('submit', e => {
     // 1. Procurar o utilizador que corresponda ao username E password
     const user = inscritos.find(u => u.username === username && u.password === password);
 
+   // ... dentro do if (user) { ...
+
     if (user) {
         // 2. Login bem-sucedido
-        // Criar objeto de sessão (removendo a password)
-        const userSession = { ...user };
-        delete userSession.password; 
+        // Criar objeto de sessão, garantindo que o campo 'nome' existe
+        const userSession = {
+            nome: user.nome || user.username, // 🌟 GARANTIMOS QUE O NOME É DEFINIDO
+            username: user.username,
+            email: user.email || null, // Se tiver email na inscrição
+            // Adicione outras propriedades importantes (ex: id) se existirem
+        };
         
         // 3. Guardar sessão simples no localStorage (simulando a sessão)
         localStorage.setItem('feka_user', JSON.stringify(userSession));
+        
+        // ... (o resto da lógica de mensagem e redirecionamento)
         
         msgErr.textContent = `Login efetuado com sucesso! Bem-vindo, ${user.nome.split(' ')[0]}.`;
         msgErr.classList.add('success');

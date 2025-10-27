@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Início — FEKA KAWIÇO | Cursos Técnicos</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f0f2f5; margin: 0; padding: 0;}
+        .fk-header { display: flex; justify-content: space-between; align-items: center; background: #004a80; color: white; padding: 15px 30px;}
+        .fk-header a { color: white; text-decoration: none; margin-left: 15px; font-weight: bold; }
+        .main-content { max-width: 1000px; margin: 30px auto; padding: 0 20px; }
+        h1 { color: #004a80; }
+        .user-status { background: #e0f2ff; padding: 15px; border-radius: 8px; margin-bottom: 20px; border-left: 5px solid #007bff; }
+        .course-card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        .course-card h3 { color: #0b1f3a; margin-top: 0; }
+        .btn { background: #28a745; color: white; border: none; padding: 10px 15px; border-radius: 6px; cursor: pointer; transition: background 0.3s; }
+        .btn.login { background: #007bff; }
+        .btn:hover { opacity: 0.9; }
+    </style>
+</head>
+<body>
+
+<header class="fk-header">
+    <div class="brand">
+        <a href="index.html">FEKA KAWIÇO</a>
+    </div>
+    <nav>
+        <span id="headerStatus">
+            <a href="login.html" class="btn login">Entrar / Inscrever-me</a>
+        </span>
+    </nav>
+</header>
+
+<div class="main-content">
+    <h1>Catálogo de Cursos</h1>
+
+    <div id="userStatusBox" class="user-status">
+        Carregando status...
+    </div>
+
+    <div id="courseList">
+        
+        <div class="course-card" data-course-key="procurement">
+            <h3>Procurement de Estruturas Metálicas</h3>
+            <p>Domine o processo de compra e aquisição de materiais para projetos de estruturas metálicas.</p>
+            
+            <p id="procurementValidationStatus" style="font-weight: bold; color: #cc6600;">Status: Verificando...</p>
+            
+            <button class="btn course-btn" onclick="iniciarCurso('procurement')">
+                Acessar o Curso
+            </button>
+        </div>
+
+        <div class="course-card" data-course-key="gestao">
+            <h3>Gestão de Projetos Industriais</h3>
+            <p>Curso avançado de gestão. Acesso indisponível.</p>
+            <button class="btn" disabled style="background:#888;">Em Breve</button>
+        </div>
+        
+    </div>
+</div>
+
+<script>
+
+const USER_KEY = 'feka_user';
+const VALIDATION_KEY = 'procurement_validado';
+
+// --- Função Principal ---
+function iniciarCurso(courseKey) {
+    if (courseKey === 'procurement') {
+        const isProcurementValidated = localStorage.getItem(VALIDATION_KEY) === 'true';
+        if (isProcurementValidated) {
+            // Se já validou, vai direto pro curso
+            window.location.href = 'validar-procurement.html';
+        } else {
+            // Se ainda não validou, pede o código
+            window.location.href = 'validar-procurement.html';
+        }
+    } else {
+        alert('Este curso ainda não está disponível.');
+    }
+}
+
+function updateUI() {
+    const storedUser = JSON.parse(localStorage.getItem(USER_KEY) || 'null');
+    const headerStatus = document.getElementById('headerStatus');
+    const userStatusBox = document.getElementById('userStatusBox');
+    const procurementStatus = document.getElementById('procurementValidationStatus');
+    const btn = document.querySelector('.course-card[data-course-key="procurement"] .course-btn');
+
+    // HEADER
+    if (storedUser && storedUser.nome) {
+        headerStatus.innerHTML = `
+            <span>Olá, ${storedUser.nome.split(' ')[0]}</span>
+            <a href="#" onclick="logout()" class="btn login">Sair</a>
+        `;
+        userStatusBox.innerHTML = `
+            <strong>Bem-vindo(a), ${storedUser.nome}!</strong><br>
+            A tua conta geral está ativa. 
+            Abaixo, verifica o status de validação para os cursos.
+        `;
+    } else {
+        headerStatus.innerHTML = `
+            <a href="login.html" class="btn login">Entrar</a>
+            <a href="Inscricaogeral.html" class="btn login" style="background:#009688;">Inscrever-me</a>
+        `;
+        userStatusBox.innerHTML = `
+            <strong>És Visitante.</strong><br>
+            <a href="login.html">Faz login</a> ou <a href="Inscricaogeral.html">Cria uma conta</a> para prosseguir com a inscrição nos cursos.
+        `;
+    }
+
+    // CURSO PROCUREMENT
+    const isProcurementValidated = localStorage.getItem(VALIDATION_KEY) === 'true';
+
+    if (isProcurementValidated) {
+        procurementStatus.innerHTML = 'Status: ✅ <strong>Inscrição Validada</strong>';
+        procurementStatus.style.color = '#28a745';
+        btn.textContent = 'Continuar o Curso';
+    } else if (storedUser) {
+        procurementStatus.innerHTML = 'Status: 🔓 <strong>Falta Validar Código</strong>';
+        procurementStatus.style.color = '#007bff';
+        btn.textContent = 'Validar Código e Acessar';
+    } else {
+        procurementStatus.innerHTML = 'Status: ❌ <strong>Requer Login</strong>';
+        procurementStatus.style.color = '#dc3545';
+        btn.textContent = 'Fazer Login Primeiro';
+    }
+}
+
+function logout() {
+    if (confirm('Tens certeza que queres sair?')) {
+        localStorage.removeItem(USER_KEY);
+        localStorage.removeItem('procurement_validado'); // 🔥 limpa validação
+        window.location.reload();
+    }
+}
+
+document.addEventListener('DOMContentLoaded', updateUI);
+</script>
+
+
+</body>
+</html>
