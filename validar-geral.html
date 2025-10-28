@@ -107,7 +107,7 @@ const VALIDATION_KEYS = {
   frances: 'frances_validado',
   'QA-QC': 'QA-QC_validado',
   avaliador: 'avaliador_validado',
-  Robotica: 'Robotica_validado'
+  Robotica: 'Robotica_validado',
 };
 
 // --- Mapeamento de cursos para ficheiros ---
@@ -117,11 +117,10 @@ const PAGE_MAP = {
   frances: "frances.html",
   avaliador: "avaliador.html",
   "QA-QC": "QA-QC.html",
-  Robotica: "Robotica.html"
+  Robotica: "Robotica.html",
 };
 
   window.location.href = PAGE_MAP[cursoAtual];
-
 
 const CODIGOS_VALIDOS = {
   procurement: ["PRC-2025-001","PRC-2025-002"],
@@ -129,7 +128,7 @@ const CODIGOS_VALIDOS = {
   frances: ["FRA-2025-001"],
   'QA-QC': ["QA-QC-2025-001"],
   avaliador: ["AVL-2025-001"], // ✅ corrigido, removido FOR-2025-001
-  Robotica: ["RBT-2025-001"]
+  Robotica: ["RBT-2025-001"],
 };
 
 let cursoAtual = null;
@@ -249,6 +248,7 @@ document.addEventListener('DOMContentLoaded', updateUI);
 
 </body>
 </html>
+
 
 
 
