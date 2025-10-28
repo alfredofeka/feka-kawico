@@ -62,6 +62,29 @@
       <p id="francesValidationStatus" style="font-weight:bold;color:#cc6600;">Status: Verificando...</p>
       <button class="btn course-btn" onclick="abrirModal('frances')">Acessar / Validar</button>
     </div>
+    
+    <div class="course-card" data-course-key="avaliador">
+      <h3>Avaliador</h3>
+      <p>Esta é a area do avaliador é o formador e o tutor do curso.</p>
+      <p id="avaliadorValidationStatus" style="font-weight:bold;color:#cc6600;">Status: Verificando...</p>
+      <button class="btn course-btn" onclick="abrirModal('avaliador')">Acessar / Validar</button>
+    </div>
+
+<div class="course-card" data-course-key="QA-QC">
+      <h3> QA-QC</h3>
+      <p>Curso de QA-QC aplicado a engenharia e projetos industriais.</p>
+      <p id=" QA-QCValidationStatus" style="font-weight:bold;color:#cc6600;">Status: Verificando...</p>
+      <button class="btn course-btn" onclick="abrirModal(' QA-QC')">Acessar / Validar</button>
+    </div>
+
+<div class="course-card" data-course-key="Robotica">
+      <h3> Robotica</h3>
+      <p>Curso de Robotica aplicado a engenharia e projetos industriais.</p>
+      <p id=" RoboticaValidationStatus" style="font-weight:bold;color:#cc6600;">Status: Verificando...</p>
+      <button class="btn course-btn" onclick="abrirModal('Robotica')">Acessar / Validar</button>
+    </div>
+
+    
   </div>
 </div>
 
@@ -85,13 +108,19 @@ const USER_KEY = 'feka_user';
 const VALIDATION_KEYS = {
   procurement: 'procurement_validado',
   ingles: 'ingles_validado',
-  frances: 'frances_validado'
+  frances: 'frances_validado' 
+  QA-QC: ' QA-QC_validado'
+    avaliador: 'avaliador_validado'
+    Robotica: 'Robotica_validado'
 };
 
 const CODIGOS_VALIDOS = {
   procurement: ["PRC-2025-001","PRC-2025-002"],
   ingles: ["ING-2025-001","ING-2025-002"],
   frances: ["FRA-2025-001"]
+   QA-QC: ["QA-QC-2025-001"]
+   Avaliador: ["AVL-2025-001"]
+   Robotica: ["RBT-2025-001"]
 };
 
 let cursoAtual = null;
@@ -172,3 +201,4 @@ document.addEventListener('DOMContentLoaded', updateUI);
 </script>
 </body>
 </html>
+
