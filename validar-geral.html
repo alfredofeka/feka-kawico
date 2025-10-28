@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FEKA KAWIÇO | Cursos Técnicos</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+<style>
+  body{font-family:'Inter',sans-serif;background:#eef2f7;margin:0;padding:0;}
+  .fk-header{display:flex;justify-content:space-between;align-items:center;background:#004a80;color:white;padding:15px 30px;}
+  .fk-header a{color:white;text-decoration:none;margin-left:15px;font-weight:bold;}
+  .main-content{max-width:1000px;margin:30px auto;padding:0 20px;}
+  h1{color:#004a80;}
+  .user-status{background:#e0f2ff;padding:15px;border-radius:8px;margin-bottom:20px;border-left:5px solid #007bff;}
+  .course-card{background:white;padding:20px;border-radius:8px;box-shadow:0 4px 8px rgba(0,0,0,0.1);margin-bottom:20px;}
+  .course-card h3{color:#0b1f3a;margin-top:0;}
+  .btn{background:#28a745;color:white;border:none;padding:10px 15px;border-radius:6px;cursor:pointer;transition:background 0.3s;}
+  .btn.login{background:#007bff;}
+  .btn:hover{opacity:0.9;}
+  /* Modal */
+  .modal{display:none;position:fixed;z-index:1000;left:0;top:0;width:100%;height:100%;overflow:auto;background:rgba(0,0,0,0.5);}
+  .modal-content{background:#fff;margin:15% auto;padding:30px;border-radius:12px;max-width:420px;text-align:center;box-shadow:0 4px 12px rgba(0,0,0,0.1);}
+  .modal input{width:100%;padding:10px 12px;margin-bottom:15px;border-radius:8px;border:1px solid #ccc;font-size:15px;}
+  .modal input:focus{border-color:#007bff;outline:none;}
+  .modal button{width:100%;background:#007bff;color:white;padding:10px 0;border:none;border-radius:8px;cursor:pointer;font-weight:600;font-size:15px;}
+  .modal button:hover{background:#0056b3;}
+  .modal .message{margin-top:15px;font-weight:600;font-size:14px;}
+  .modal .loading{display:none;margin:10px 0;color:#004a80;font-size:13px;}
+</style>
+</head>
+<body>
+
+<header class="fk-header">
+  <div class="brand"><a href="#">FEKA KAWIÇO</a></div>
+  <nav id="headerStatus">
+    <a href="login.html" class="btn login">Entrar / Inscrever-me</a>
+  </nav>
+</header>
+
+<div class="main-content">
+  <h1>Catálogo de Cursos</h1>
+  <div id="userStatusBox" class="user-status">Carregando status...</div>
+
+  <div id="courseList">
+    <div class="course-card" data-course-key="procurement">
+      <h3>Procurement de Estruturas Metálicas</h3>
+      <p>Domine o processo de compra e aquisição de materiais para projetos de estruturas metálicas.</p>
+      <p id="procurementValidationStatus" style="font-weight:bold;color:#cc6600;">Status: Verificando...</p>
+      <button class="btn course-btn" onclick="abrirModal('procurement')">Acessar / Validar</button>
+    </div>
+
+    <div class="course-card" data-course-key="ingles">
+      <h3>Inglês Técnico</h3>
+      <p>Curso de inglês aplicado a engenharia e projetos industriais.</p>
+      <p id="inglesValidationStatus" style="font-weight:bold;color:#cc6600;">Status: Verificando...</p>
+      <button class="btn course-btn" onclick="abrirModal('ingles')">Acessar / Validar</button>
+    </div>
+
+    <div class="course-card" data-course-key="frances">
+      <h3>Francês Técnico</h3>
+      <p>Curso de francês aplicado a engenharia e projetos industriais.</p>
+      <p id="francesValidationStatus" style="font-weight:bold;color:#cc6600;">Status: Verificando...</p>
+      <button class="btn course-btn" onclick="abrirModal('frances')">Acessar / Validar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de Validação -->
+<div id="validationModal" class="modal">
+  <div class="modal-content">
+    <h1>Validar Código</h1>
+    <p>Introduz o teu código de inscrição para desbloquear o curso.</p>
+    <form id="validationForm">
+      <input type="text" id="codeInput" placeholder="Ex: PRC-2025-001" required>
+      <button type="submit">Validar</button>
+      <div class="loading" id="loadingMsg">⏳ A validar o teu código...</div>
+    </form>
+    <div id="message" class="message"></div>
+    <button onclick="fecharModal()" style="margin-top:10px;background:#888;">Cancelar</button>
+  </div>
+</div>
+
+<script>
+const USER_KEY = 'feka_user';
+const VALIDATION_KEYS = {
+  procurement: 'procurement_validado',
+  ingles: 'ingles_validado',
+  frances: 'frances_validado'
+};
+
+const CODIGOS_VALIDOS = {
+  procurement: ["PRC-2025-001","PRC-2025-002"],
+  ingles: ["ING-2025-001","ING-2025-002"],
+  frances: ["FRA-2025-001"]
+};
+
+let cursoAtual = null;
+
+// --- Funções Modal ---
+function abrirModal(curso){
+  const user = JSON.parse(localStorage.getItem(USER_KEY) || 'null');
+  if(!user){ alert('Faz login primeiro!'); return; }
+  cursoAtual = curso;
+  document.getElementById('validationModal').style.display='block';
+  document.getElementById('message').textContent='';
+  document.getElementById('codeInput').value='';
+}
+function fecharModal(){ document.getElementById('validationModal').style.display='none'; }
+
+// --- Função para atualizar UI ---
+function updateUI(){
+  const storedUser = JSON.parse(localStorage.getItem(USER_KEY) || 'null');
+  const headerStatus = document.getElementById('headerStatus');
+  const userStatusBox = document.getElementById('userStatusBox');
+
+  if(storedUser && storedUser.nome){
+    headerStatus.innerHTML = `<span>Olá, ${storedUser.nome.split(' ')[0]}</span>
+      <a href="#" onclick="logout()" class="btn login">Sair</a>`;
+    userStatusBox.innerHTML = `<strong>Bem-vindo(a), ${storedUser.nome}!</strong><br>
+      Verifica o status de validação dos cursos abaixo.`;
+  } else {
+    headerStatus.innerHTML = `<a href="login.html" class="btn login">Entrar</a>
+      <a href="Inscricaogeral.html" class="btn login" style="background:#009688;">Inscrever-me</a>`;
+    userStatusBox.innerHTML = `<strong>És Visitante.</strong><br>
+      <a href="login.html">Faz login</a> ou <a href="Inscricaogeral.html">Cria uma conta</a> para prosseguir.`;
+  }
+
+  for(const curso in VALIDATION_KEYS){
+    const statusEl = document.getElementById(`${curso}ValidationStatus`);
+    const btn = document.querySelector(`.course-card[data-course-key="${curso}"] .course-btn`);
+    const validado = localStorage.getItem(VALIDATION_KEYS[curso])==='true';
+    if(validado){ statusEl.innerHTML='Status: ✅ Inscrição Validada'; statusEl.style.color='#28a745'; btn.textContent='Continuar Curso'; }
+    else if(storedUser){ statusEl.innerHTML='Status: 🔓 Falta Validar Código'; statusEl.style.color='#007bff'; btn.textContent='Validar Código'; }
+    else{ statusEl.innerHTML='Status: ❌ Requer Login'; statusEl.style.color='#dc3545'; btn.textContent='Fazer Login Primeiro'; }
+  }
+}
+
+// --- Logout ---
+function logout(){ 
+  if(confirm('Tens certeza que queres sair?')){
+    localStorage.removeItem(USER_KEY);
+    for(const key in VALIDATION_KEYS) localStorage.removeItem(VALIDATION_KEYS[key]);
+    location.reload();
+  }
+}
+
+// --- Validação ---
+document.getElementById('validationForm').addEventListener('submit', e=>{
+  e.preventDefault();
+  if(!cursoAtual) return;
+  const code = document.getElementById('codeInput').value.trim().toUpperCase();
+  const msgEl = document.getElementById('message');
+  const loading = document.getElementById('loadingMsg');
+  msgEl.textContent=''; loading.style.display='block';
+  setTimeout(()=>{
+    loading.style.display='none';
+    if(CODIGOS_VALIDOS[cursoAtual].includes(code)){
+      localStorage.setItem(VALIDATION_KEYS[cursoAtual],'true');
+      sessionStorage.setItem(`${cursoAtual}_code`,code);
+      msgEl.style.color='#28a745';
+      msgEl.textContent='✅ Código validado! A aceder ao curso...';
+      setTimeout(()=>{ window.location.href=`curso-${cursoAtual}.html`; },900);
+    } else{
+      msgEl.style.color='#dc3545';
+      msgEl.textContent='❌ Código inválido. Tenta novamente.';
+    }
+  },700);
+});
+
+// --- Inicialização ---
+document.addEventListener('DOMContentLoaded', updateUI);
+</script>
+</body>
+</html>
