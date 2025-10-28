@@ -1,31 +1,27 @@
 <!DOCTYPE html>
 <html lang="pt-PT">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FEKA KAWIÇO | Cursos Técnicos</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Catálogo de Cursos — FEKA KAWIÇO</title>
 <style>
-  body{font-family:'Inter',sans-serif;background:#eef2f7;margin:0;padding:0;}
-  .fk-header{display:flex;justify-content:space-between;align-items:center;background:#004a80;color:white;padding:15px 30px;}
-  .fk-header a{color:white;text-decoration:none;margin-left:15px;font-weight:bold;}
-  .main-content{max-width:1000px;margin:30px auto;padding:0 20px;}
-  h1{color:#004a80;}
-  .user-status{background:#e0f2ff;padding:15px;border-radius:8px;margin-bottom:20px;border-left:5px solid #007bff;}
-  .course-card{background:white;padding:20px;border-radius:8px;box-shadow:0 4px 8px rgba(0,0,0,0.1);margin-bottom:20px;}
-  .course-card h3{color:#0b1f3a;margin-top:0;}
-  .btn{background:#28a745;color:white;border:none;padding:10px 15px;border-radius:6px;cursor:pointer;transition:background 0.3s;}
-  .btn.login{background:#007bff;}
-  .btn:hover{opacity:0.9;}
-  /* Modal */
-  .modal{display:none;position:fixed;z-index:1000;left:0;top:0;width:100%;height:100%;overflow:auto;background:rgba(0,0,0,0.5);}
-  .modal-content{background:#fff;margin:15% auto;padding:30px;border-radius:12px;max-width:420px;text-align:center;box-shadow:0 4px 12px rgba(0,0,0,0.1);}
-  .modal input{width:100%;padding:10px 12px;margin-bottom:15px;border-radius:8px;border:1px solid #ccc;font-size:15px;}
-  .modal input:focus{border-color:#007bff;outline:none;}
-  .modal button{width:100%;background:#007bff;color:white;padding:10px 0;border:none;border-radius:8px;cursor:pointer;font-weight:600;font-size:15px;}
-  .modal button:hover{background:#0056b3;}
-  .modal .message{margin-top:15px;font-weight:600;font-size:14px;}
-  .modal .loading{display:none;margin:10px 0;color:#004a80;font-size:13px;}
+body { font-family: Arial, sans-serif; background: #f0f2f5; margin:0; padding:0;}
+.fk-header { display:flex; justify-content:space-between; align-items:center; background:#004a80; color:white; padding:15px 30px;}
+.fk-header a { color:white; text-decoration:none; margin-left:15px; font-weight:bold; }
+.main-content { max-width:1000px; margin:30px auto; padding:0 20px; }
+h1 { color:#004a80; }
+.user-status { background:#e0f2ff; padding:15px; border-radius:8px; margin-bottom:20px; border-left:5px solid #007bff; }
+.course-card { background:white; padding:20px; border-radius:8px; box-shadow:0 4px 8px rgba(0,0,0,0.1); margin-bottom:20px; }
+.course-card h3 { color:#0b1f3a; margin-top:0; }
+.btn { background:#28a745; color:white; border:none; padding:10px 15px; border-radius:6px; cursor:pointer; transition:background 0.3s; }
+.btn.login { background:#007bff; }
+.btn:hover { opacity:0.9; }
+
+/* Modal */
+.modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); justify-content:center; align-items:center; }
+.modal-content { background:white; padding:30px; border-radius:12px; width:90%; max-width:400px; text-align:center; position:relative; }
+.loading { display:none; margin:10px 0; color:#004a80; font-size:13px; }
+.message { margin-top:15px; font-weight:600; font-size:14px; }
 </style>
 </head>
 <body>
@@ -62,33 +58,32 @@
       <p id="francesValidationStatus" style="font-weight:bold;color:#cc6600;">Status: Verificando...</p>
       <button class="btn course-btn" onclick="abrirModal('frances')">Acessar / Validar</button>
     </div>
-    
+
     <div class="course-card" data-course-key="avaliador">
       <h3>Avaliador</h3>
-      <p>Esta é a area do avaliador é o formador e o tutor do curso.</p>
+      <p>Área exclusiva do avaliador e formador.</p>
       <p id="avaliadorValidationStatus" style="font-weight:bold;color:#cc6600;">Status: Verificando...</p>
       <button class="btn course-btn" onclick="abrirModal('avaliador')">Acessar / Validar</button>
     </div>
 
-<div class="course-card" data-course-key="QA-QC">
-      <h3> QA-QC</h3>
+    <div class="course-card" data-course-key="QA-QC">
+      <h3>QA-QC</h3>
       <p>Curso de QA-QC aplicado a engenharia e projetos industriais.</p>
-      <p id=" QA-QCValidationStatus" style="font-weight:bold;color:#cc6600;">Status: Verificando...</p>
-      <button class="btn course-btn" onclick="abrirModal(' QA-QC')">Acessar / Validar</button>
+      <p id="QA-QCValidationStatus" style="font-weight:bold;color:#cc6600;">Status: Verificando...</p>
+      <button class="btn course-btn" onclick="abrirModal('QA-QC')">Acessar / Validar</button>
     </div>
 
-<div class="course-card" data-course-key="Robotica">
-      <h3> Robotica</h3>
+    <div class="course-card" data-course-key="Robotica">
+      <h3>Robotica</h3>
       <p>Curso de Robotica aplicado a engenharia e projetos industriais.</p>
-      <p id=" RoboticaValidationStatus" style="font-weight:bold;color:#cc6600;">Status: Verificando...</p>
+      <p id="RoboticaValidationStatus" style="font-weight:bold;color:#cc6600;">Status: Verificando...</p>
       <button class="btn course-btn" onclick="abrirModal('Robotica')">Acessar / Validar</button>
     </div>
 
-    
   </div>
 </div>
 
-<!-- Modal de Validação -->
+<!-- Modal -->
 <div id="validationModal" class="modal">
   <div class="modal-content">
     <h1>Validar Código</h1>
@@ -104,39 +99,39 @@
 </div>
 
 <script>
+// --- Constantes ---
 const USER_KEY = 'feka_user';
 const VALIDATION_KEYS = {
   procurement: 'procurement_validado',
   ingles: 'ingles_validado',
-  frances: 'frances_validado' 
-  QA-QC: ' QA-QC_validado'
-    avaliador: 'avaliador_validado'
-    Robotica: 'Robotica_validado'
+  frances: 'frances_validado',
+  'QA-QC': 'QA-QC_validado',
+  avaliador: 'avaliador_validado',
+  Robotica: 'Robotica_validado'
 };
-
 const CODIGOS_VALIDOS = {
   procurement: ["PRC-2025-001","PRC-2025-002"],
   ingles: ["ING-2025-001","ING-2025-002"],
-  frances: ["FRA-2025-001"]
-   QA-QC: ["QA-QC-2025-001"]
-   Avaliador: ["AVL-2025-001"]
-   Robotica: ["RBT-2025-001"]
+  frances: ["FRA-2025-001"],
+  'QA-QC': ["QA-QC-2025-001"],
+  avaliador: ["AVL-2025-001","FOR-2025-001"],
+  Robotica: ["RBT-2025-001"]
 };
 
 let cursoAtual = null;
 
-// --- Funções Modal ---
+// --- Modal ---
 function abrirModal(curso){
   const user = JSON.parse(localStorage.getItem(USER_KEY) || 'null');
   if(!user){ alert('Faz login primeiro!'); return; }
   cursoAtual = curso;
-  document.getElementById('validationModal').style.display='block';
+  document.getElementById('validationModal').style.display='flex';
   document.getElementById('message').textContent='';
   document.getElementById('codeInput').value='';
 }
 function fecharModal(){ document.getElementById('validationModal').style.display='none'; }
 
-// --- Função para atualizar UI ---
+// --- Atualizar UI ---
 function updateUI(){
   const storedUser = JSON.parse(localStorage.getItem(USER_KEY) || 'null');
   const headerStatus = document.getElementById('headerStatus');
@@ -157,10 +152,23 @@ function updateUI(){
   for(const curso in VALIDATION_KEYS){
     const statusEl = document.getElementById(`${curso}ValidationStatus`);
     const btn = document.querySelector(`.course-card[data-course-key="${curso}"] .course-btn`);
+    if(!statusEl || !btn) continue;
     const validado = localStorage.getItem(VALIDATION_KEYS[curso])==='true';
-    if(validado){ statusEl.innerHTML='Status: ✅ Inscrição Validada'; statusEl.style.color='#28a745'; btn.textContent='Continuar Curso'; }
-    else if(storedUser){ statusEl.innerHTML='Status: 🔓 Falta Validar Código'; statusEl.style.color='#007bff'; btn.textContent='Validar Código'; }
-    else{ statusEl.innerHTML='Status: ❌ Requer Login'; statusEl.style.color='#dc3545'; btn.textContent='Fazer Login Primeiro'; }
+    if(validado){ 
+      statusEl.innerHTML='Status: ✅ Inscrição Validada'; 
+      statusEl.style.color='#28a745'; 
+      btn.textContent='Continuar Curso'; 
+    }
+    else if(storedUser){ 
+      statusEl.innerHTML='Status: 🔓 Falta Validar Código'; 
+      statusEl.style.color='#007bff'; 
+      btn.textContent='Validar Código'; 
+    }
+    else{ 
+      statusEl.innerHTML='Status: ❌ Requer Login'; 
+      statusEl.style.color='#dc3545'; 
+      btn.textContent='Fazer Login Primeiro'; 
+    }
   }
 }
 
@@ -180,15 +188,18 @@ document.getElementById('validationForm').addEventListener('submit', e=>{
   const code = document.getElementById('codeInput').value.trim().toUpperCase();
   const msgEl = document.getElementById('message');
   const loading = document.getElementById('loadingMsg');
-  msgEl.textContent=''; loading.style.display='block';
+  msgEl.textContent=''; 
+  loading.style.display='block';
   setTimeout(()=>{
     loading.style.display='none';
-    if(CODIGOS_VALIDOS[cursoAtual].includes(code)){
+    if(CODIGOS_VALIDOS[cursoAtual] && CODIGOS_VALIDOS[cursoAtual].includes(code)){
       localStorage.setItem(VALIDATION_KEYS[cursoAtual],'true');
       sessionStorage.setItem(`${cursoAtual}_code`,code);
       msgEl.style.color='#28a745';
       msgEl.textContent='✅ Código validado! A aceder ao curso...';
-      setTimeout(()=>{ window.location.href=`curso-${cursoAtual}.html`; },900);
+      setTimeout(()=>{
+        window.location.href=`curso-${cursoAtual}.html`;
+      },900);
     } else{
       msgEl.style.color='#dc3545';
       msgEl.textContent='❌ Código inválido. Tenta novamente.';
@@ -199,6 +210,9 @@ document.getElementById('validationForm').addEventListener('submit', e=>{
 // --- Inicialização ---
 document.addEventListener('DOMContentLoaded', updateUI);
 </script>
+
 </body>
 </html>
+
+
 
