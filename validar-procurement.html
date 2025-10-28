@@ -1,52 +1,121 @@
 <!DOCTYPE html>
 <html lang="pt-PT">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Validar Inscrição — Procurement</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
   <style>
-    body { font-family: Arial, sans-serif; background: #eef2f7; margin: 0; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #eef2f7;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
     .container {
-      max-width: 420px; margin: 60px auto;
-      background: #fff; padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      max-width: 420px;
+      width: 100%;
+      background: #fff;
+      padding: 40px 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      text-align: center;
     }
-    h1 { color: #004a80; text-align: center; }
+
+    h1 {
+      color: #004a80;
+      margin-bottom: 10px;
+    }
+
+    p {
+      color: #555;
+      font-size: 15px;
+      margin-bottom: 25px;
+    }
+
     input {
-      width: 100%; padding: 10px; margin-top: 10px;
-      border-radius: 6px; border: 1px solid #ccc;
+      width: 100%;
+      padding: 10px 12px;
+      margin-bottom: 15px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 15px;
+      transition: border-color 0.3s;
     }
+
+    input:focus {
+      border-color: #007bff;
+      outline: none;
+    }
+
     button {
-      width: 100%; background: #007bff; color: white;
-      padding: 10px; margin-top: 15px;
-      border: none; border-radius: 6px;
-      cursor: pointer; font-weight: bold;
+      width: 100%;
+      background: #007bff;
+      color: white;
+      padding: 10px 0;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 15px;
+      transition: background 0.3s;
     }
-    button:hover { background: #0056b3; }
-    #message { text-align: center; margin-top: 15px; font-weight: bold; }
+
+    button:hover {
+      background: #0056b3;
+    }
+
+    #message {
+      margin-top: 15px;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
     .login-suggestion {
       margin-top: 25px;
       text-align: center;
       font-size: 14px;
       color: #555;
     }
-    .login-suggestion a { color: #007bff; text-decoration: none; font-weight: bold; }
-    .login-suggestion a:hover { text-decoration: underline; }
+
+    .login-suggestion a {
+      color: #007bff;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .login-suggestion a:hover {
+      text-decoration: underline;
+    }
+
+    .loading {
+      display: none;
+      margin: 10px 0;
+      color: #004a80;
+      font-size: 13px;
+    }
   </style>
 </head>
-<body>
 
+<body>
   <div class="container">
     <h1>Validar Código</h1>
     <p>Introduz o teu código de inscrição para desbloquear o curso.</p>
+
     <form id="validationForm">
       <input type="text" id="codeInput" placeholder="Ex: PRC-2025-001" required />
       <button type="submit">Validar</button>
+      <div class="loading" id="loadingMsg">⏳ A validar o teu código...</div>
     </form>
+
     <div id="message"></div>
+
     <div id="loginMessage" class="login-suggestion" style="display:none;">
-      ⚠️ Parece que ainda não estás autenticado.<br>
+      ⚠️ Parece que ainda não estás autenticado.<br />
       <a href="login.html">Faz login</a> ou <a href="Inscricaogeral.html">cria a tua conta</a> para continuar.
     </div>
   </div>
@@ -57,50 +126,54 @@
       const form = document.getElementById('validationForm');
       const messageElement = document.getElementById('message');
       const loginMessage = document.getElementById('loginMessage');
+      const loadingMsg = document.getElementById('loadingMsg');
 
       // --- 1️⃣ Verifica login ---
       if (!userData) {
         console.warn('⚠️ Utilizador não autenticado. Mostrar aviso de login...');
-        form.style.display = 'none';          // esconde formulário
-        loginMessage.style.display = 'block'; // mostra aviso com links
+        form.style.display = 'none';
+        loginMessage.style.display = 'block';
         return;
       }
 
-      // --- 2️⃣ Dados inline (simulação de inscritos válidos) ---
+      // --- 2️⃣ Dados de inscritos válidos ---
       const procurementInscritos = [
         { nome: "Alfredo Silva", codigo: "PRC-2025-001" },
-        { nome: "Maria José",    codigo: "PRC-2025-002" },
-        { nome: "João Santos",   codigo: "PRC-2025-003" },
-        { nome: "Pedro Teixeira",codigo: "PRC-2025-004" }
+        { nome: "Maria José", codigo: "PRC-2025-002" },
+        { nome: "João Santos", codigo: "PRC-2025-003" },
+        { nome: "Pedro Teixeira", codigo: "PRC-2025-004" }
       ];
 
       // --- 3️⃣ Processar validação ---
       form.addEventListener('submit', (e) => {
         e.preventDefault();
 
-        let inputCode = document.getElementById('codeInput').value.trim().toUpperCase();
+        const inputCode = document.getElementById('codeInput').value.trim().toUpperCase();
+        messageElement.textContent = '';
+        loadingMsg.style.display = 'block';
 
-        console.log('Tentativa de validação:', inputCode);
+        setTimeout(() => {
+          const isValid = procurementInscritos.some(u => u.codigo === inputCode);
 
-        const isValid = Array.isArray(procurementInscritos) &&
-                        procurementInscritos.some(u => String(u.codigo).toUpperCase() === inputCode);
+          loadingMsg.style.display = 'none';
 
-        if (isValid) {
-          sessionStorage.setItem('procurement_code', inputCode);
-          localStorage.setItem('procurement_validado', 'true');
+          if (isValid) {
+            localStorage.setItem('procurement_validado', 'true');
+            sessionStorage.setItem('procurement_code', inputCode);
 
-          messageElement.textContent = '✅ Código validado com sucesso! A aceder ao curso...';
-          messageElement.style.color = '#28a745';
+            messageElement.textContent = '✅ Código validado com sucesso! A aceder ao curso...';
+            messageElement.style.color = '#28a745';
 
-          console.log('Validação OK — Redirecionando...');
-          setTimeout(() => {
-            window.location.replace('curso-procurement.html');
-          }, 800);
-        } else {
-          messageElement.textContent = '❌ Código inválido. Verifica e tenta novamente.';
-          messageElement.style.color = '#dc3545';
-          console.log('Validação falhou — código não encontrado');
-        }
+            console.log('Validação OK — redirecionando...');
+            setTimeout(() => {
+              window.location.href = 'curso-procurement.html';
+            }, 900);
+          } else {
+            messageElement.textContent = '❌ Código inválido. Verifica e tenta novamente.';
+            messageElement.style.color = '#dc3545';
+            console.warn('Código inválido:', inputCode);
+          }
+        }, 700);
       });
     });
   </script>
