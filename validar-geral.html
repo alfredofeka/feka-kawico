@@ -120,6 +120,9 @@ const PAGE_MAP = {
   Robotica: "Robotica.html"
 };
 
+  window.location.href = PAGE_MAP[cursoAtual];
+
+
 const CODIGOS_VALIDOS = {
   procurement: ["PRC-2025-001","PRC-2025-002"],
   ingles: ["ING-2025-001","ING-2025-002"],
@@ -209,7 +212,29 @@ document.getElementById('validationForm').addEventListener('submit', e=>{
       msgEl.style.color='#28a745';
       msgEl.textContent='✅ Código validado! A aceder ao curso...';
       setTimeout(()=>{
-        window.location.href=`curso-${cursoAtual}.html`;
+       <script>
+// --- Constantes ---
+const USER_KEY = 'feka_user';
+const VALIDATION_KEYS = {
+  procurement: 'procurement_validado',
+  ingles: 'ingles_validado',
+  frances: 'frances_validado',
+  'QA-QC': 'QA-QC_validado',
+  avaliador: 'avaliador_validado',
+  Robotica: 'Robotica_validado'
+};
+
+// --- Mapeamento de cursos para ficheiros ---
+const PAGE_MAP = {
+  procurement: "curso-procurement.html",
+  ingles: "ingles.html",
+  frances: "frances.html",
+  avaliador: "avaliador.html",
+  "QA-QC": "QA-QC.html",
+  Robotica: "Robotica.html"
+};
+
+  window.location.href = PAGE_MAP[cursoAtual]
       },900);
     } else{
       msgEl.style.color='#dc3545';
@@ -224,6 +249,7 @@ document.addEventListener('DOMContentLoaded', updateUI);
 
 </body>
 </html>
+
 
 
 
