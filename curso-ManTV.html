@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Curso: Refrigeração Residencial — FEKA KAWIÇO</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <style>
+  :root {
+    --primary-color: #004a80;
+    --secondary-color: #fca311;
+    --text-dark: #333;
+    --text-light: #fff;
+    --bg-light: #fff;
+    --bg-dark: #1f2937;
+    --border-color: #e0e0e0;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+  }
+
+  body {
+    background-color: var(--bg-light);
+    color: var(--text-dark);
+  }
+
+  header {
+    background-color: var(--primary-color);
+    color: var(--text-light);
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .brand-area {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .brand-area img {
+    height: 30px;
+    border-radius: 4px;
+  }
+
+  .brand-area a {
+    text-decoration: none;
+    color: var(--text-light);
+    font-size: 1.2rem;
+  }
+
+  #login-status {
+    font-size: 0.9rem;
+  }
+
+  #course-container {
+    display: flex;
+    height: calc(100vh - 65px);
+  }
+
+  #sidebar {
+    width: 280px;
+    background-color: var(--bg-dark);
+    color: var(--text-light);
+    padding: 20px;
+    overflow-y: auto;
+    flex-shrink: 0;
+  }
+
+  .module h3 {
+    cursor: pointer;
+    margin-bottom: 5px;
+  }
+
+  .chapter-list {
+    display: none;
+    margin-left: 10px;
+  }
+
+  .chapter-link {
+    display: block;
+    padding: 5px;
+    text-decoration: none;
+    color: var(--text-light);
+    font-size: 0.9rem;
+  }
+
+  #main-content {
+    flex-grow: 1;
+    padding: 30px;
+    overflow-y: auto;
+  }
+
+  #lesson-title {
+    font-size: 1.8rem;
+    color: var(--primary-color);
+    margin-bottom: 15px;
+  }
+
+  #lesson-content h3 {
+    color: var(--secondary-color);
+    margin-top: 20px;
+  }
+
+  #lesson-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+  }
+
+  #lesson-content th, td {
+    border: 1px solid var(--border-color);
+    padding: 8px;
+    text-align: left;
+  }
+
+  /* NOVO LAYOUT DO MAIN COM FOTO À DIREITA */
+  .course-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  grid-template-rows: auto;
+  gap: 20px;
+  max-width: 1000px;
+  margin: auto;
+  line-height: 1.6;
+  color: var(--text-dark);
+}
+
+.course-text {
+  grid-column: 1 / 2;
+}
+
+.course-wrapper img {
+  grid-column: 2 / 3;
+  grid-row: 1 / 2;
+  width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  object-fit: cover;
+}
+
+.course-wrapper h2 {
+  color: var(--primary-color);
+  margin-top: 0;
+}
+
+.course-wrapper strong {
+  color: var(--primary-color);
+  display: block;
+  margin-top: 20px;
+}
+
+.course-wrapper ul {
+  padding-left: 20px;
+  margin: 10px 0;
+}
+
+.course-wrapper li {
+  margin-bottom: 6px;
+}
+
+.course-wrapper p.quote {
+  font-style: italic;
+  color: #666;
+  margin-top: 30px;
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 800px) {
+  .course-wrapper {
+    grid-template-columns: 1fr;
+  }
+
+  .course-wrapper img {
+    grid-column: 1 / -1;
+    grid-row: auto;
+    margin: 0 auto 20px auto;
+    max-width: 300px;
+  }
+}
+
+</style>
+
+</head>
+<body>
+
+<header>
+  <div class="brand-area">
+    <a href="index.html"><i class="fas fa-home"></i> Início</a>
+    <img src="FK.png" alt="FEKA KAWIÇO" />
+    <span><strong>FEKA KAWIÇO</strong> – <em>A terra natural do conhecimento !</em></span>
+  </div>
+  <div id="login-status">🔒 Verificando acesso…</div>
+</header>
+
+<div id="course-container">
+  <aside id="sidebar">
+    <div class="module">
+      <h3 onclick="toggleModule(0)">📦 Módulo 1: Fundamentos</h3>
+      <div class="chapter-list" id="module-0">
+        <a href="#" class="chapter-link" onclick="loadLesson(0)">📘 Capítulo 1: Evolução e Tipos de Televisores</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(1)">📘 Capítulo 2: Blocos Funcionais e Arquitetura dos Televisores</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(2)">📘 Capítulo 3: Interfaces e Conectividade</a>
+      </div>
+    </div>
+    <div class="module">
+      <h3 onclick="toggleModule(1)">📐 Módulo 2: Normas e Segurança</h3>
+      <div class="chapter-list" id="module-1">
+        <a href="#" class="chapter-link" onclick="loadLesson(3)">📘 Capítulo 4: Normas Técnicas em Equipamentos de TV</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(4)">📘 Capítulo 5: EPIs e Procedimentos Seguros</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(5)">📘 Capítulo 6: Ferramentas de Diagnóstico</a>
+      </div>
+    </div>
+    <div class="module">
+      <h3 onclick="toggleModule(2)">🔧 Módulo 3: Diagnóstico e Reparação</h3>
+      <div class="chapter-list" id="module-2">
+        <a href="#" class="chapter-link" onclick="loadLesson(6)">📘 Capítulo 7: Falhas Comuns em Televisores</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(7)">📘 Capítulo 8: Técnicas de Diagnóstico Profissional</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(8)">📘 Capítulo 9: Reparações e Testes Pós-Manutenção</a>
+      </div>
+    </div>
+
+   <div class="module">
+      <h3 onclick="toggleModule(3)">🔧 Módulo 4: Diagnóstico e Reparação</h3>
+      <div class="chapter-list" id="module-3">
+        <a href="#" class="chapter-link" onclick="loadLesson(9)">📘 Capítulo 10: Testes Funcionais Após o Reparo</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(10)">📘 Capítulo 11: Checklist Técnico Padronizado</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(11)">📘 Capítulo 12: Relatório Técnico e Garantia</a>
+      </div>
+    </div>
+
+    <div class="module">
+      <h3>🧪 Teste Final</h3>
+      <div class="chapter-list" style="display:block;">
+        <a href="teste-TV-Final.html" class="chapter-link" style="font-weight:600;">Avaliação Teórica e Prática (100%)</a>
+        <p style="font-size:0.85rem; color:#ccc; margin-left:10px;">
+          • 50% teste de múltipla escolha<br>
+          • 50% diagnóstico e reparação de uma TV
+        </p>
+      </div>
+    </div>
+  </aside>
+
+  <main id="main-content">
+    <h2 id="lesson-title"> 🛠️ Curso de Manutenção e Reparação de Televisores</h2>
+    <div id="lesson-content">
+       <h2 style="color: var(--primary-color); margin-bottom: 10px;"> 🛠️ Curso de Manutenção e Reparação de Televisores</h2>
+  <p><strong>Objetivo:</strong> 🎯 Objetivos do Curso : </p>
+<p>No final do curso, os formandos deverão ser capazes de:</p>
+<p><strong>• Diagnosticar e Solucionar Falhas: </strong>Identificar, analisar e reparar avarias elétricas e eletrónicas comuns em televisores de diversas tecnologias (CRT, Plasma, LCD, LED e OLED).</p>
+<p><strong>• Compreender a Arquitetura:</strong>Dominar a estrutura e o funcionamento dos principais blocos de um televisor moderno (fonte de alimentação, main board, T-con board e painel).</p>
+<p><strong>• Utilizar Instrumentos:</strong> Manusear com proficiência ferramentas e equipamentos de teste e medição (multímetro, osciloscópio, analisador de sinais) na bancada de trabalho.</p>
+<p><strong>• Realizar Reparações a Nível Componente:</strong> Efetuar a substituição de componentes eletrónicos de montagem superficial (SMD) e de orifício (TH) com técnicas seguras e eficazes.</p>
+<p><strong>• Garantir a Segurança: </strong>Aplicar rigorosas normas de segurança e procedimentos de proteção antiestática (ESD) durante o manuseamento e reparação.</p>
+
+  <p><strong>Para quem se destina:</strong> Técnicos de manutenção, eletricistas, instaladores, estudantes de engenharia e profissionais da climatização que desejam aprofundar seus conhecimentos em sistemas de refrigeração.</p>
+
+  <p><strong>Duração:</strong> 3 semanas de estudo técnico + 1 semana de avaliação final (teórica e prática). Cada capítulo corresponde a 1 dia de formação intensiva.</p>
+
+  <p><strong>Formato:</strong> Curso modular com conteúdo teórico e prático, diagramas, tabelas técnicas, exemplos reais e checklist de diagnóstico. Acesso otimizado para desktop e dispositivos móveis.</p>
+ 
+  <div> <img src="Quatro-JovensTV.png" alt="Jovens técnicos angolanos em manutenção de AC" style="width:100%; max-width:400px; margin:20px 0; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.1);" />
+ 
+<STRONG>🧑‍💻 Público-Alvo: </STRONG>
+O curso destina-se a:
+•	Técnicos de Eletrónica: Profissionais que desejam especializar-se ou atualizar os seus conhecimentos na área de televisores.
+•	Entusiastas e Hobbistas: Indivíduos com conhecimentos básicos de eletrónica que pretendem adquirir uma competência profissional.
+•	Empreendedores: Pessoas que tencionam iniciar o seu próprio negócio de assistência técnica e reparação de equipamentos audiovisuais.
+•	Estudantes: Alunos de cursos técnicos de Eletrónica, Eletrotécnica ou Telecomunicações que procuram experiência prática.
+
+</div>
+
+
+  <p style="font-style: italic; color: #666;">“Dominar a refrigeração é mais do que saber consertar — é entender o conforto, a eficiência e a segurança que cada sistema deve oferecer.”</p>
+</div>
+
+  </main>
+</div>
+
+<script>
+const USER_KEY = 'feka_user';
+const VALIDATION_KEYS = { refrigeracao: 'refrigeracao_validado' };
+
+// Verifica se o usuário está autenticado e validado
+document.addEventListener('DOMContentLoaded', () => {
+  const user = JSON.parse(localStorage.getItem(USER_KEY) || 'null');
+  const validado = localStorage.getItem(VALIDATION_KEYS.refrigeracao) === 'true';
+  const loginStatus = document.getElementById('login-status');
+
+  if (!user) {
+    loginStatus.textContent = '❌ Requer login';
+    alert('Faz login primeiro para acessar este curso.');
+    window.location.href = 'login.html';
+    return;
+  }
+
+  if (!validado) {
+    loginStatus.textContent = '🔓 Falta validar código';
+    alert('Valida o teu código de inscrição para acessar este curso.');
+    window.location.href = 'index.html';
+    return;
+  }
+
+  loginStatus.textContent = `✅ Acesso autorizado — Olá, ${user.nome.split(' ')[0]}`;
+});
+
+// Sidebar toggle
+function toggleModule(index) {
+  const el = document.getElementById(`module-${index}`);
+  el.style.display = el.style.display === 'block' ? 'none' : 'block';
+}
+
+// Simulação de conteúdo (você pode carregar os capítulos aqui)
+function loadLesson(id) {
+     const lessons = [
+  {
+  title: "Capítulo 1: Evolução e Tipos de Televisores",
+  content: `
+<h3>🕰️ 1. A História da Televisão: Da Caixa ao Pixel</h3>
+<p>A televisão começou como um equipamento volumoso e analógico, com os famosos modelos CRT (tubo de raios catódicos). Esses aparelhos funcionavam com feixes de elétrons que atingiam uma tela fosforescente, gerando imagem. Eram robustos, fáceis de reparar e dominaram o mercado até o início dos anos 2000.</p>
+<p>Com a chegada dos televisores de Plasma, houve um salto em tamanho e qualidade de imagem. Embora mais finos e com melhor contraste, tinham alto consumo e desgaste acelerado.</p>
+<p>A tecnologia LCD (Liquid Crystal Display) trouxe leveza, resolução superior e menor consumo, tornando-se padrão global. Em seguida, os modelos LED (Light Emitting Diode) refinaram a iluminação traseira, melhorando brilho e eficiência.</p>
+<p>Hoje, os televisores OLED (Organic LED) representam o topo da evolução: cada pixel se ilumina individualmente, permitindo pretos reais, contraste extremo e design ultrafino.</p>
+
+<h3>⚙️ 2. Vantagens e Limitações de Cada Tecnologia</h3>
+<p>Cada tipo de TV tem características que influenciam o diagnóstico e a reparação.</p>
+<ul>
+  <li>Os CRT são simples, mas obsoletos.</li>
+  <li>Os Plasma exigem atenção ao desgaste.</li>
+  <li>Os LCD e LED são comuns e acessíveis, mas podem apresentar falhas no backlight.</li>
+  <li>Os OLED, embora superiores, são sensíveis à umidade e têm custo elevado.</li>
+</ul>
+
+<h3>📊 Tabela Comparativa de Tecnologias</h3>
+<table>
+  <thead>
+    <tr>
+      <th>Tipo</th>
+      <th>Tecnologia</th>
+      <th>Vantagens</th>
+      <th>Limitações</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>CRT</td>
+      <td>Tubo de raios catódicos</td>
+      <td>Fácil de reparar, robusto</td>
+      <td>Grande, pesado, obsoleto</td>
+    </tr>
+    <tr>
+      <td>Plasma</td>
+      <td>Gás ionizado</td>
+      <td>Boa imagem, tamanho grande</td>
+      <td>Alto consumo, desgaste</td>
+    </tr>
+    <tr>
+      <td>LCD</td>
+      <td>Cristais líquidos</td>
+      <td>Leve, baixo consumo</td>
+      <td>Ângulo de visão limitado</td>
+    </tr>
+    <tr>
+      <td>LED</td>
+      <td>Iluminação por LED</td>
+      <td>Brilho intenso, fino</td>
+      <td>Backlight pode falhar</td>
+    </tr>
+    <tr>
+      <td>OLED</td>
+      <td>Pixels orgânicos</td>
+      <td>Preto real, contraste alto</td>
+      <td>Custo elevado, sensível</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>🧪 Exemplo Prático</h3>
+<p>Durante uma triagem técnica, o profissional recebe uma TV sem imagem. Ao abrir o equipamento, identifica que se trata de um modelo LED.</p>
+<p>Com base nisso, verifica a alimentação do backlight e testa a placa T-Con.</p>
+<p>A identificação correta da tecnologia permite direcionar o diagnóstico, evitar trocas desnecessárias e aplicar o reparo com precisão.</p>
+`
+},
+
+{
+  title: "Capítulo 2: Blocos Funcionais e Arquitetura dos Televisores",
+  content: `
+<h3>🧩 1. Anatomia Interna: Como uma TV é Organizada</h3>
+<p>Todo televisor moderno é composto por blocos funcionais que trabalham em conjunto para gerar imagem, som e conectividade. Entender essa arquitetura é essencial para qualquer técnico que deseje realizar diagnósticos precisos e reparações seguras.</p>
+<p>Os principais blocos incluem a fonte de alimentação, que converte a energia da rede elétrica em tensões específicas para os circuitos internos; a placa principal (main board), que processa os sinais de entrada e controla o funcionamento geral; a placa T-Con (Timing Controller), responsável pela sincronização da imagem; e o sistema de iluminação traseira (backlight), que garante a visibilidade da tela em modelos LCD e LED.</p>
+
+<h3>🧠 2. Funções Técnicas de Cada Bloco</h3>
+<p>A fonte de alimentação é o coração energético do sistema. Se ela falha, a TV não liga ou apresenta comportamento instável. A main board é o cérebro, responsável por interpretar sinais e controlar os demais blocos. A T-Con atua como ponte entre a main board e a tela, e qualquer falha nela pode gerar imagem distorcida ou ausência total de vídeo.</p>
+<p>O backlight, por sua vez, é essencial para a visibilidade da imagem. Mesmo que a T-Con esteja funcionando, sem iluminação traseira a tela parecerá apagada. Por fim, as interfaces são os pontos de entrada de sinal — se uma delas falha, o conteúdo externo não será exibido corretamente.</p>
+
+<h3>📊 Tabela: Blocos Funcionais e Suas Funções</h3>
+<table>
+  <thead>
+    <tr>
+      <th>Bloco</th>
+      <th>Função Técnica</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Fonte</td><td>Converte energia para os circuitos</td></tr>
+    <tr><td>Main Board</td><td>Processa sinal e controla o sistema</td></tr>
+    <tr><td>T-Con</td><td>Sincroniza imagem com a tela</td></tr>
+    <tr><td>Backlight</td><td>Ilumina a tela LCD/LED</td></tr>
+    <tr><td>Interfaces</td><td>Recebem sinal externo (HDMI, USB)</td></tr>
+  </tbody>
+</table>
+
+<h3>🧪 Exemplo Prático</h3>
+<p>O técnico recebe uma TV que liga, mas não mostra imagem. Ao abrir o aparelho, verifica que a fonte está funcionando e a main board está ativa. Testa a T-Con com multímetro e percebe ausência de tensão nos pinos de saída. A falha está na T-Con. Após substituição, a imagem retorna. Esse diagnóstico por blocos evita trocas desnecessárias e economiza tempo.</p>
+`
+},
+{
+  title: "Capítulo 3: Interfaces e Conectividade",
+  content: `
+<h3>🌐 1. Portas de Entrada: Como a TV se Comunica</h3>
+<p>As interfaces de conectividade são os canais pelos quais a TV recebe sinais externos. As mais comuns são HDMI (áudio e vídeo digital), USB (mídia e atualizações), RF (sinal de antena), AV (áudio e vídeo analógico), e conexões sem fio como Wi-Fi e Bluetooth.</p>
+<p>Cada interface tem padrões específicos de funcionamento e pode apresentar falhas distintas. Saber testar e diagnosticar essas entradas é essencial para garantir que o conteúdo chegue corretamente à tela.</p>
+
+<h3>🧭 2. Diagnóstico de Interfaces</h3>
+<p>Falhas em interfaces podem se manifestar como ausência de imagem, som distorcido ou não reconhecimento de dispositivos. O técnico deve utilizar ferramentas como gerador de sinal HDMI, pen drives de teste, cabos coaxiais e aplicativos de rede para verificar a integridade das conexões.</p>
+
+<h3>📊 Tabela: Interfaces e Testes Recomendados</h3>
+<table>
+  <thead>
+    <tr>
+      <th>Interface</th>
+      <th>Aplicação</th>
+      <th>Teste recomendado</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>HDMI</td><td>Vídeo digital</td><td>Gerador de sinal</td></tr>
+    <tr><td>USB</td><td>Mídia externa</td><td>Pen drive funcional</td></tr>
+    <tr><td>RF</td><td>TV aberta</td><td>Cabo coaxial + sinal</td></tr>
+    <tr><td>Wi-Fi</td><td>Streaming</td><td>App de diagnóstico</td></tr>
+  </tbody>
+</table>
+
+<h3>🧪 Exemplo Prático</h3>
+<p>Um cliente relata que a TV não reconhece o decodificador via HDMI. O técnico conecta um gerador de sinal HDMI à entrada e verifica que a imagem aparece normalmente. O problema está no cabo ou no decodificador. Após troca do cabo, o sinal é restabelecido. Esse teste simples evita substituições de placa desnecessárias.</p>
+`
+},
+{
+  title: "Capítulo 4: Normas Técnicas em Equipamentos de TV",
+  content: `
+<h3>📜 1. A Importância das Normas Técnicas</h3>
+<p>Normas técnicas são documentos que estabelecem critérios de segurança, desempenho e compatibilidade para equipamentos eletrônicos. No contexto da manutenção de televisores, elas garantem que os procedimentos estejam alinhados com boas práticas internacionais, evitando riscos elétricos, incêndios e falhas funcionais.</p>
+<p>No Brasil, a ABNT NBR 14136 define padrões para plugues e tomadas, enquanto a IEC 60065 (internacional) trata da segurança em equipamentos de áudio e vídeo. Nos Estados Unidos, a UL 62368 substituiu normas antigas e foca na segurança funcional, considerando riscos térmicos, elétricos e mecânicos.</p>
+
+<h3>🌍 2. Normas por Região e Aplicação</h3>
+<p>Cada região adota normas específicas, mas muitas convergem em princípios. A ABNT exige aterramento adequado e compatibilidade de tensão. A IEC foca em isolamento, dissipação térmica e proteção contra sobrecarga. A UL exige testes rigorosos de resistência e durabilidade.</p>
+<p>Conhecer essas normas permite ao técnico avaliar se uma TV está em conformidade e aplicar reparos que respeitem os limites de segurança exigidos.</p>
+
+<h3>📊 Tabela: Normas Técnicas</h3>
+<table>
+  <thead>
+    <tr>
+      <th>Norma</th>
+      <th>Região</th>
+      <th>Foco técnico</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>IEC 60065</td><td>Global</td><td>Segurança eletrônica</td></tr>
+    <tr><td>UL 62368</td><td>EUA</td><td>Segurança funcional</td></tr>
+    <tr><td>NBR 14136</td><td>Brasil</td><td>Plugues e tomadas</td></tr>
+  </tbody>
+</table>
+
+<h3>🧪 Exemplo Prático</h3>
+<p>Durante uma visita técnica, o profissional encontra uma TV conectada a uma tomada sem aterramento. Utiliza um multímetro para verificar a polaridade e ausência de fuga. Recomenda a troca da tomada por uma compatível com a NBR 14136 e instala um adaptador com proteção contra surtos. A ação evita riscos futuros e garante conformidade.</p>
+`
+},
+
+{
+  title: "Capítulo 5: EPIs e Procedimentos Seguros",
+  content: `
+<h3>🧤 1. Proteção Pessoal: O Primeiro Passo</h3>
+<p>Equipamentos de Proteção Individual (EPIs) são essenciais para qualquer intervenção técnica. Luvas isolantes evitam choques, óculos protegem contra estilhaços, e calçados de segurança reduzem o risco de quedas e impactos. O uso correto dos EPIs é obrigatório em ambientes profissionais e altamente recomendado em atendimentos residenciais.</p>
+
+<h3>⚡ 2. Procedimentos de Segurança Elétrica</h3>
+<p>Antes de abrir qualquer televisor, o técnico deve desligar a alimentação da rede, descarregar capacitores e verificar a ausência de corrente com multímetro. Ferramentas isoladas devem ser utilizadas, e o ambiente precisa estar seco e bem iluminado. A negligência nesses cuidados pode resultar em acidentes graves.</p>
+
+<h3>📊 Tabela: EPIs e Funções</h3>
+<table>
+  <thead>
+    <tr>
+      <th>EPI</th>
+      <th>Proteção</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Luvas</td><td>Choque elétrico</td></tr>
+    <tr><td>Óculos</td><td>Estilhaços e faíscas</td></tr>
+    <tr><td>Calçado</td><td>Isolamento e impacto</td></tr>
+    <tr><td>Máscara</td><td>Vapores químicos</td></tr>
+  </tbody>
+</table>
+
+<h3>🧪 Exemplo Prático</h3>
+<p>Durante a troca de um capacitor estufado, o técnico utiliza luvas isolantes e óculos de proteção. Desliga a TV, descarrega o capacitor com resistor de alta potência e verifica a tensão residual. A substituição é feita com ferro de solda isolado e a área é limpa com álcool isopropílico. O uso dos EPIs evita queimaduras e choque elétrico.</p>
+`
+},
+{
+  title: "Capítulo 6: Ferramentas de Diagnóstico",
+  content: `
+<h3>🔧 1. Instrumentos Essenciais para Reparação</h3>
+<p>Diagnosticar uma TV exige ferramentas específicas. O multímetro mede tensão, corrente e continuidade. O osciloscópio analisa sinais digitais e analógicos. A fonte assimétrica permite alimentar placas fora da TV. O gerador de sinal testa entradas HDMI e AV. Cada ferramenta tem aplicação direta em falhas comuns.</p>
+
+<h3>🧠 2. Interpretação de Dados Técnicos</h3>
+<p>Saber usar as ferramentas é apenas parte do trabalho. O técnico precisa interpretar os dados coletados. Uma tensão fora do padrão pode indicar falha na fonte. Um sinal distorcido no osciloscópio pode apontar defeito no CI de vídeo. A análise correta evita trocas desnecessárias e acelera o reparo.</p>
+
+<h3>📊 Tabela: Ferramentas e Aplicações</h3>
+<table>
+  <thead>
+    <tr>
+      <th>Ferramenta</th>
+      <th>Função Técnica</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Multímetro</td><td>Tensão, corrente, continuidade</td></tr>
+    <tr><td>Osciloscópio</td><td>Sinais digitais e analógicos</td></tr>
+    <tr><td>Fonte assimétrica</td><td>Teste de placas fora da TV</td></tr>
+    <tr><td>Gerador de sinal</td><td>Verifica entradas de vídeo</td></tr>
+  </tbody>
+</table>
+
+<h3>🧪 Exemplo Prático</h3>
+<p>O técnico recebe uma TV que não liga. Com o multímetro, verifica que a fonte está recebendo 220V, mas não entrega 12V à placa principal. Com a fonte assimétrica, alimenta a placa diretamente e observa consumo normal. A falha está na fonte. Após substituição, a TV volta a funcionar. O uso combinado das ferramentas garante precisão no diagnóstico.</p>
+`
+},
+{
+  title: "Capítulo 7: Falhas Comuns em Televisores",
+  content: `
+<h3>🚨 1. Sintomas Recorrentes na Oficina</h3>
+<p>Os televisores modernos apresentam padrões de falhas que se repetem com frequência. Entre os mais comuns estão: tela preta, ausência de som, imagem distorcida, reinicializações constantes e falhas nas entradas HDMI. Cada sintoma pode ter múltiplas causas, e o técnico precisa saber como iniciar a investigação.</p>
+<p>A tela preta pode indicar falha no backlight, na T-Con ou na fonte de alimentação. A ausência de som pode estar relacionada ao circuito de áudio ou à placa principal. Imagens distorcidas geralmente apontam para problemas na T-Con ou na tela. Já as reinicializações podem ser causadas por falhas na fonte ou na memória da placa principal.</p>
+
+<h3>🧠 2. Estratégia de Diagnóstico Inicial</h3>
+<p>O primeiro passo é sempre observar o comportamento do aparelho: liga ou não liga? Há som sem imagem? As luzes indicadoras funcionam? Em seguida, o técnico deve realizar testes com multímetro, fonte assimétrica e gerador de sinal. A coleta de dados precisa ser organizada e comparada com os padrões esperados.</p>
+
+<h3>📊 Tabela: Sintomas e Diagnóstico</h3>
+<table>
+  <thead>
+    <tr>
+      <th>Sintoma</th>
+      <th>Causa provável</th>
+      <th>Ferramenta</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Tela preta</td><td>Fonte ou T-Con</td><td>Multímetro</td></tr>
+    <tr><td>Sem som</td><td>CI de áudio</td><td>Osciloscópio</td></tr>
+    <tr><td>Imagem distorcida</td><td>Placa T-Con</td><td>Gerador de sinal</td></tr>
+    <tr><td>Reinicialização</td><td>Fonte instável</td><td>Fonte assimétrica</td></tr>
+  </tbody>
+</table>
+
+<h3>🧪 Exemplo Prático</h3>
+<p>Uma TV LED apresenta tela preta, mas o som funciona. O técnico testa a tensão do backlight com multímetro e encontra 0V. Verifica a fonte e percebe que a saída de 12V está ausente. Substitui a fonte e a imagem volta ao normal. A análise por sintoma e ferramenta garante precisão no reparo.</p>
+`
+},
+{
+  title: "Capítulo 8: Técnicas de Diagnóstico Profissional",
+  content: `
+<h3>🧭 1. Roteiro de Diagnóstico Avançado</h3>
+<p>Diagnosticar uma TV exige mais do que ferramentas — exige método. O técnico deve seguir um roteiro que começa pela escuta do cliente: quando começou o problema? Ocorre com todos os canais? Há ruídos ou cheiros incomuns? Essas informações direcionam o foco da análise.</p>
+<p>Em seguida, realiza-se testes de continuidade, resistência e tensão. A medição nas bobinas do transformador, nos capacitores e nos conectores revela falhas ocultas. O uso de termômetro infravermelho permite verificar superaquecimento em CIs e fontes.</p>
+
+<h3>📐 2. Checklist Técnico Padronizado</h3>
+<p>Um bom diagnóstico segue uma sequência lógica. Verifica-se a alimentação, o estado dos conectores, a presença de sinal nas entradas, o funcionamento da placa principal e da T-Con. Cada etapa deve ser registrada para facilitar o acompanhamento e evitar retrabalho.</p>
+
+<h3>📊 Tabela: Etapas de Diagnóstico</h3>
+<table>
+  <thead>
+    <tr>
+      <th>Etapa</th>
+      <th>Ação</th>
+      <th>Ferramenta</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>1</td><td>Verificar tensão da fonte</td><td>Multímetro</td></tr>
+    <tr><td>2</td><td>Testar entrada HDMI</td><td>Gerador de sinal</td></tr>
+    <tr><td>3</td><td>Medir temperatura de CI</td><td>Termômetro IR</td></tr>
+    <tr><td>4</td><td>Verificar continuidade</td><td>Multímetro</td></tr>
+    <tr><td>5</td><td>Observar imagem/som</td><td>Visual/Audição</td></tr>
+  </tbody>
+</table>
+
+<h3>🧪 Exemplo Prático</h3>
+<p>Durante atendimento em domicílio, o técnico utiliza um checklist impresso. Verifica tensão da fonte (12V), testa entrada HDMI com gerador de sinal, mede temperatura do CI de vídeo (65°C) e confirma funcionamento da placa principal. O registro das etapas garante transparência e qualidade no serviço.</p>
+`
+},
+
+{
+  title: "Capítulo 9: Reparações e Testes Pós-Manutenção",
+  content: `
+<h3>🔧 1. Técnicas de Reparação Eficientes</h3>
+<p>Após o diagnóstico, o técnico realiza a reparação. Isso pode incluir troca de capacitores, reflow de CIs, substituição de fusíveis ou solda de trilhas rompidas. Cada intervenção deve respeitar as especificações do fabricante e utilizar componentes compatíveis.</p>
+<p>A solda deve ser feita com ferro de ponta fina, fluxo adequado e controle de temperatura. O reflow exige estação de ar quente e conhecimento dos limites térmicos dos componentes. A substituição de placas deve ser testada antes da instalação definitiva.</p>
+
+<h3>📊 2. Testes Funcionais e Estanqueidade</h3>
+<p>Após o reparo, é necessário testar o funcionamento completo da TV. Isso inclui imagem, som, conectividade e consumo elétrico. O técnico deve medir tensões, verificar resposta das entradas e observar a estabilidade do sistema por pelo menos 15 minutos.</p>
+
+<h3>📊 Tabela: Testes Pós-Reparo</h3>
+<table>
+  <thead>
+    <tr>
+      <th>Teste</th>
+      <th>Ferramenta</th>
+      <th>Parâmetro esperado</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Imagem</td><td>Vídeo padrão</td><td>Resolução nítida</td></tr>
+    <tr><td>Som</td><td>Sinal estéreo</td><td>Áudio limpo</td></tr>
+    <tr><td>HDMI</td><td>Gerador de sinal</td><td>Reconhecimento rápido</td></tr>
+    <tr><td>Consumo</td><td>Wattímetro</td><td>Estável e baixo</td></tr>
+  </tbody>
+</table>
+
+<h3>🧪 Exemplo Prático</h3>
+<p>Após trocar o CI de áudio, o técnico conecta a TV a um gerador de sinal HDMI e verifica imagem e som. Mede o consumo com wattímetro (45W em operação) e observa estabilidade por 20 minutos. Registra os dados em ficha técnica e entrega ao cliente com garantia de 6 meses.</p>
+`
+},
+{
+  title: "Capítulo 10: Testes Funcionais Após o Reparo",
+  content: `
+<h3>🎯 1. Verificar é Garantir</h3>
+<p>Após qualquer reparação, é essencial realizar testes funcionais para confirmar que o televisor voltou a operar dentro dos padrões técnicos. Esses testes devem abranger imagem, som, conectividade e estabilidade elétrica. Não basta ligar o aparelho — é preciso validar cada função com ferramentas adequadas.</p>
+<p>O teste de imagem deve utilizar um vídeo padrão em alta definição para verificar nitidez, contraste e cores. O teste de som exige sinal estéreo e análise de canais. As entradas HDMI, USB e RF devem ser testadas com dispositivos reais. Por fim, o consumo elétrico deve ser medido com wattímetro para garantir eficiência e segurança.</p>
+
+<h3>🧪 2. Ambiente Controlado e Tempo de Observação</h3>
+<p>Os testes devem ser realizados em ambiente controlado, com iluminação adequada e sem interferências externas. O tempo mínimo de observação recomendado é de 15 a 20 minutos, para detectar falhas intermitentes ou superaquecimento. O técnico deve registrar os resultados em ficha técnica.</p>
+
+<h3>📊 Tabela: Testes Pós-Reparo</h3>
+<table>
+  <thead>
+    <tr>
+      <th>Teste</th>
+      <th>Ferramenta</th>
+      <th>Parâmetro esperado</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Imagem</td><td>Vídeo padrão</td><td>Resolução nítida</td></tr>
+    <tr><td>Som</td><td>Sinal estéreo</td><td>Áudio limpo</td></tr>
+    <tr><td>HDMI</td><td>Gerador de sinal</td><td>Reconhecimento rápido</td></tr>
+    <tr><td>Consumo</td><td>Wattímetro</td><td>Estável e baixo</td></tr>
+  </tbody>
+</table>
+
+<h3>🧪 Exemplo Prático</h3>
+<p>Após trocar o CI de vídeo, o técnico conecta a TV a um gerador HDMI e reproduz um vídeo padrão. Verifica a imagem, testa o som com sinal estéreo, mede o consumo (48W em operação) e observa estabilidade por 20 minutos. Registra os dados e libera o equipamento com confiança.</p>
+`
+},
+{
+  title: "Capítulo 11: Checklist Técnico Padronizado",
+  content: `
+<h3>🧾 1. Organização e Rastreabilidade</h3>
+<p>Um checklist técnico é uma ferramenta essencial para padronizar o atendimento e garantir rastreabilidade. Ele permite que o técnico siga uma sequência lógica de verificação, evitando esquecimentos e facilitando o controle de qualidade. O checklist pode ser impresso ou digital, e deve acompanhar cada serviço realizado.</p>
+
+<h3>🧠 2. Etapas Fundamentais</h3>
+<p>As etapas incluem verificação da fonte de alimentação, teste das entradas, medição de temperatura dos componentes, inspeção visual de soldas e conectores, e teste final de imagem e som. Cada item deve ser marcado como “OK”, “Reparado” ou “Não aplicável”, com espaço para observações.</p>
+
+<h3>📊 Tabela: Estrutura de Checklist</h3>
+<table>
+  <thead>
+    <tr>
+      <th>Etapa</th>
+      <th>Ação</th>
+      <th>Ferramenta</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>1</td><td>Verificar tensão da fonte</td><td>Multímetro</td></tr>
+    <tr><td>2</td><td>Testar entrada HDMI</td><td>Gerador de sinal</td></tr>
+    <tr><td>3</td><td>Medir temperatura de CI</td><td>Termômetro IR</td></tr>
+    <tr><td>4</td><td>Inspecionar conectores</td><td>Visual</td></tr>
+    <tr><td>5</td><td>Testar imagem e som</td><td>Audiovisual</td></tr>
+  </tbody>
+</table>
+
+<h3>🧪 Exemplo Prático</h3>
+<p>Durante atendimento em oficina, o técnico preenche um checklist digital no tablet. Marca cada etapa com resultado, insere fotos dos testes e salva o documento no sistema da empresa. O cliente recebe uma cópia por e-mail, com garantia vinculada ao relatório.</p>
+`
+},
+{
+  title: "Capítulo 12: Relatório Técnico e Garantia",
+  content: `
+<h3>📋 1. Documentar é Profissionalizar</h3>
+<p>O relatório técnico é o documento final que registra o serviço realizado, os componentes trocados, os parâmetros medidos e a garantia oferecida. Ele deve ser claro, objetivo e assinado pelo técnico e pelo cliente. Além de proteger ambas as partes, valoriza o serviço prestado.</p>
+
+<h3>🔐 2. Conteúdo Mínimo do Relatório</h3>
+<p>O relatório deve conter: data do atendimento, descrição do problema, diagnóstico realizado, peças substituídas, testes aplicados, resultados obtidos e prazo de garantia. Pode incluir fotos, gráficos e QR code para rastreio digital. A padronização facilita auditorias e fideliza o cliente.</p>
+
+<h3>📊 Tabela: Estrutura de Relatório Técnico</h3>
+<table>
+  <thead>
+    <tr>
+      <th>Campo</th>
+      <th>Conteúdo</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Data</td><td>30/10/2025</td></tr>
+    <tr><td>Serviço</td><td>Troca de CI de áudio</td></tr>
+    <tr><td>Parâmetros</td><td>Tensão, temperatura, som</td></tr>
+    <tr><td>Garantia</td><td>6 meses</td></tr>
+    <tr><td>Assinaturas</td><td>Técnico e cliente</td></tr>
+  </tbody>
+</table>
+
+<h3>🧪 Exemplo Prático</h3>
+<p>Após reparar uma TV com falha de som, o técnico gera um relatório em PDF com todos os dados: diagnóstico, fotos da placa, testes realizados e garantia de 6 meses. O cliente assina digitalmente e recebe o documento por e-mail. O serviço é registrado no sistema da empresa com rastreabilidade total.</p>
+`
+}
+
+  ];
+
+  document.getElementById('lesson-title').textContent = lessons[id].title;
+  document.getElementById('lesson-content').innerHTML = lessons[id].content;
+}
+
+</script>
+
+</body>
+</html>

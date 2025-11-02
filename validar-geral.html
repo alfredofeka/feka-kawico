@@ -13,7 +13,7 @@ h1 { color:#004a80; }
 .user-status { background:#e0f2ff; padding:15px; border-radius:8px; margin-bottom:20px; border-left:5px solid #007bff; }
 .course-card { background:white; padding:20px; border-radius:8px; box-shadow:0 4px 8px rgba(0,0,0,0.1); margin-bottom:20px; }
 .course-card h3 { color:#0b1f3a; margin-top:0; }
-.btn { background:#28a745; color:white; border:none; padding:10px 15px; border-radius:6px; cursor:pointer; transition:background 0.3s; }
+.btn { background:#28a745; color:white; border:none; padding:10px 15px; border-radius:6px; cursor:pointer; transition:background 0.3s; text-decoration:none; display:inline-block; text-align:center;}
 .btn.login { background:#007bff; }
 .btn:hover { opacity:0.9; }
 
@@ -38,6 +38,15 @@ h1 { color:#004a80; }
   <div id="userStatusBox" class="user-status">Carregando status...</div>
 
   <div id="courseList">
+
+    <!-- Curso especial: Solicitar código -->
+    <div class="course-card">
+      <h3>Se não tiver um código, solicite aqui  &#128071;&#x1f3ff; via WhatsApp</h3>
+      <p>Nossos contactos disponíveis via WhatsApp.</p>
+      <a href="contactos.html" class="btn">Solicitar Código</a>
+    </div>
+
+    <!-- Cursos normais -->
     <div class="course-card" data-course-key="procurement">
       <h3>Procurement de Estruturas Metálicas</h3>
       <p>Domine o processo de compra e aquisição de materiais para projetos de estruturas metálicas.</p>
@@ -80,16 +89,41 @@ h1 { color:#004a80; }
       <button class="btn course-btn" onclick="abrirModal('Robotica')">Acessar / Validar</button>
     </div>
 
+
+<div class="course-card" data-course-key="refrigeracao">
+  <h3>Diagnóstico e Reparação de AC Residencial</h3>
+  <p>Curso intensivo com 9 dias de conteúdo técnico + 1 dia de avaliação final. Inclui teoria, prática e normas internacionais.</p>
+  <p id="refrigeracaoValidationStatus" style="font-weight:bold;color:#cc6600;">Status: Verificando...</p>
+  <button class="btn course-btn" onclick="abrirModal('refrigeracao')">Acessar / Validar</button>
+</div>
+
+
+<div class="course-card" data-course-key="REPARARTV">
+  <h3>Diagnóstico e Reparação de TV´s</h3>
+  <p>Curso intensivo com 4 semanas dias de conteúdo técnico + 1 semana de avaliação final. Inclui teoria, prática e normas internacionais.</p>
+  <p id="REPARARTVValidationStatus" style="font-weight:bold;color:#cc6600;">Status: Verificando...</p>
+  <button class="btn course-btn" onclick="abrirModal('REPARARTV')">Acessar / Validar</button>
+</div>
+
+
+<div class="course-card" data-course-key="AutoNmicra">
+  <h3>Manutenção Diagnóstico de Nissan Micra</h3>
+  <p>Curso intensivo com 4 semanas dias de conteúdo técnico + 1 semana de avaliação final. Inclui teoria, prática e normas internacionais.</p>
+  <p id="AutoNmicraValidationStatus" style="font-weight:bold;color:#cc6600;">Status: Verificando...</p>
+  <button class="btn course-btn" onclick="abrirModal('AutoNmicra')">Acessar / Validar</button>
+</div>
+
+
   </div>
 </div>
 
-<!-- Modal -->
+<!-- Modal de validação -->
 <div id="validationModal" class="modal">
   <div class="modal-content">
     <h1>Validar Código</h1>
     <p>Introduz o teu código de inscrição para desbloquear o curso.</p>
     <form id="validationForm">
-      <input type="text" id="codeInput" placeholder="Ex: PRC-2025-001" required>
+      <input type="text" id="codeInput" placeholder="Ex: XXX-XXXX-XXX" required>
       <button type="submit">Validar</button>
       <div class="loading" id="loadingMsg">⏳ A validar o teu código...</div>
     </form>
@@ -108,9 +142,27 @@ const VALIDATION_KEYS = {
   'QA-QC': 'QA-QC_validado',
   avaliador: 'avaliador_validado',
   Robotica: 'Robotica_validado',
+  refrigeracao: 'refrigeracao_validado', // ✅ NOVO CURSO
+REPARARTV: 'REPARARTV_validado', // ✅ NOVO CURSO
+AutoNmicra: 'AutoNmicra_validado' // ✅ NOVO CURSO
+
 };
 
-// --- Mapeamento de cursos para ficheiros ---
+const CODIGOS_VALIDOS = {
+  procurement: ["PRC-2025-001","PRC-2025-002"],
+  ingles: ["ING-2025-001","ING-2025-002"],
+  frances: ["FRA-2025-001"],
+  'QA-QC': ["QA-QC-2025-001"],
+  avaliador: ["AVL-2025-001"],
+  Robotica: ["RBT-2025-001"],
+  refrigeracao: ["REF-2025-001","REF-2025-002"], // ✅ NOVOS CÓDIGOS
+REPARARTV: ["MTV-2025-001","MTV-2025-002"], // ✅ NOVOS CÓDIGOS
+AutoNmicra: ["MNM-2025-001","MNM-2025-002"], // ✅ NOVOS CÓDIGOS
+
+
+};
+
+// Mapeamento de cursos para ficheiros reais
 const PAGE_MAP = {
   procurement: "curso-procurement.html",
   ingles: "ingles.html",
@@ -118,17 +170,10 @@ const PAGE_MAP = {
   avaliador: "avaliador.html",
   "QA-QC": "QA-QC.html",
   Robotica: "Robotica.html",
-};
+  refrigeracao: "curso-refrigeracao.html", // ✅ NOVO LINK
+REPARARTV: "curso-ManTV.html", // ✅ NOVO LINK
+AutoNmicra: "curso-Auto-Nmicra.html" // ✅ NOVO LINK
 
-  window.location.href = PAGE_MAP[cursoAtual];
-
-const CODIGOS_VALIDOS = {
-  procurement: ["PRC-2025-001","PRC-2025-002"],
-  ingles: ["ING-2025-001","ING-2025-002"],
-  frances: ["FRA-2025-001"],
-  'QA-QC': ["QA-QC-2025-001"],
-  avaliador: ["AVL-2025-001"], // ✅ corrigido, removido FOR-2025-001
-  Robotica: ["RBT-2025-001"],
 };
 
 let cursoAtual = null;
@@ -211,29 +256,7 @@ document.getElementById('validationForm').addEventListener('submit', e=>{
       msgEl.style.color='#28a745';
       msgEl.textContent='✅ Código validado! A aceder ao curso...';
       setTimeout(()=>{
-       <script>
-// --- Constantes ---
-const USER_KEY = 'feka_user';
-const VALIDATION_KEYS = {
-  procurement: 'procurement_validado',
-  ingles: 'ingles_validado',
-  frances: 'frances_validado',
-  'QA-QC': 'QA-QC_validado',
-  avaliador: 'avaliador_validado',
-  Robotica: 'Robotica_validado',
-};
-
-// --- Mapeamento de cursos para ficheiros ---
-const PAGE_MAP = {
-  procurement: "curso-procurement.html",
-  ingles: "ingles.html",
-  frances: "frances.html",
-  avaliador: "avaliador.html",
-  "QA-QC": "QA-QC.html",
-  Robotica: "Robotica.html",
-};
-
-  window.location.href = PAGE_MAP[cursoAtual]
+        window.location.href = PAGE_MAP[cursoAtual];
       },900);
     } else{
       msgEl.style.color='#dc3545';
@@ -248,12 +271,3 @@ document.addEventListener('DOMContentLoaded', updateUI);
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-

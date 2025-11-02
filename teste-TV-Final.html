@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Teste Final – Curso de Manutenção de Televisores</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: Inter, Arial, sans-serif;
+      background: #f4f7fb;
+      color: #222;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 980px;
+      margin: auto;
+      background: #fff;
+      padding: 24px;
+      border-radius: 12px;
+      box-shadow: 0 8px 26px rgba(0,0,0,.08);
+    }
+    h1 {
+      font-size: 1.5rem;
+      color: #004a80;
+      margin-bottom: 12px;
+    }
+    .quiz-question {
+      margin: 18px 0;
+      padding: 16px;
+      border-radius: 10px;
+      border: 1px solid #dce3f0;
+      background: #f9faff;
+    }
+    .quiz-question p {
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #004a80;
+    }
+    label {
+      display: block;
+      margin: 6px 0;
+      cursor: pointer;
+    }
+    textarea {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 0.95rem;
+    }
+    button {
+      padding: 10px 16px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      font-weight: 700;
+      margin-top: 12px;
+    }
+    .primary {
+      background: #004a80;
+      color: #fff;
+    }
+    .secondary {
+      background: #e0e6f0;
+      color: #222;
+    }
+    .small {
+      font-size: 0.85rem;
+      color: #666;
+    }
+    #resultadoBox {
+      margin-top: 20px;
+      padding: 12px;
+      background: #e6ffed;
+      border: 1px solid #b2f5ea;
+      border-radius: 8px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Teste Final – Curso de Manutenção de Televisores</h1>
+    <form id="quizForm">
+      <div class="quiz-question">
+        <p>Identificação do aluno</p>
+        <input id="alunoName" placeholder="Nome completo" required />
+        <input id="alunoEmail" placeholder="Email" required />
+        <p class="small">Esses dados serão usados para identificar o avaliador.</p>
+      </div>
+
+      <div id="perguntasTeoricas"></div>
+
+      <div class="quiz-question">
+        <p><strong>Estudo de Caso Prático</strong></p>
+        <p>Um cliente relata que sua TV LED de 43" não liga após uma queda de energia. O LED frontal pisca 5 vezes e depois apaga. Não há som, nem imagem. O técnico realiza uma inspeção visual e nota que o fusível da fonte está intacto, mas não há tensão de saída.</p>
+        <label><input type="radio" name="caso" value="a"> Substituir o painel LCD imediatamente</label>
+        <label><input type="radio" name="caso" value="b"> Atualizar o firmware da placa principal</label>
+        <label><input type="radio" name="caso" value="c"> Verificar o CI PWM e os MOSFETs da fonte</label>
+        <label><input type="radio" name="caso" value="d"> Trocar o cabo LVDS e a T-Con</label>
+        <p class="small">Descreve abaixo como resolverias o caso escolhido, incluindo ferramentas, etapas e justificativa técnica.</p>
+        <textarea name="resolucao" rows="6" required></textarea>
+      </div>
+
+      <button type="button" id="submitQuiz" class="primary">Submeter Teste</button>
+      <button type="reset" id="resetQuiz" class="secondary">Limpar Respostas</button>
+      <div id="resultadoBox"></div>
+    </form>
+  </div>
+
+  <script>
+    (function(){
+      const form = document.getElementById('quizForm');
+      const submitBtn = document.getElementById('submitQuiz');
+      const resetBtn = document.getElementById('resetQuiz');
+      const resultBox = document.getElementById('resultadoBox');
+      const perguntasTeoricas = document.getElementById('perguntasTeoricas');
+      const RESULTS_KEY = 'feka_results';
+      const CURSO = "Manutenção de Televisores";
+      const MODULO = "Final";
+      const TOTAL_QUESTOES = 20;
+
+      const perguntas = [
+  "Qual é a principal função da fonte de alimentação em um televisor?",
+  "O que diferencia os televisores OLED dos modelos LED convencionais?",
+  "Qual é a função da placa principal (main board)?",
+  "Qual bloco funcional é responsável por sincronizar os sinais com a tela?",
+  "Qual é a principal limitação dos televisores de plasma?",
+  "Qual ferramenta permite visualizar sinais digitais e analógicos?",
+  "Qual norma brasileira define padrões para plugues e tomadas?",
+  "Qual EPI protege contra vapores químicos durante a manutenção?",
+  "O que indica a ausência de tensão nos pinos de saída da T-Con?",
+  "Qual é a função do gerador de sinal HDMI?",
+  "Qual etapa do checklist técnico envolve o uso de termômetro infravermelho?",
+  "O que caracteriza o reballing em manutenção de CIs BGA?",
+  "Qual é o tempo mínimo recomendado para testes pós-reparo?",
+  "Qual norma internacional trata da segurança em equipamentos de áudio e vídeo?",
+  "Qual é a principal função do backlight em TVs LCD/LED?",
+  "O que pode causar reinicializações constantes em uma TV?",
+  "Qual é o primeiro passo ao iniciar um diagnóstico técnico?",
+  "Qual ferramenta é usada para alimentar placas fora da TV?",
+  "Qual é a finalidade do relatório técnico entregue ao cliente?",
+  "Qual é a ação correta ao encontrar uma TV sem aterramento?"
+];
+
+const alternativas = [
+  ["a) Controlar o brilho da tela", "b) Sincronizar sinais de vídeo", "c) Converter energia para os circuitos", "d) Processar sinal de entrada"],
+  ["a) Maior espessura e consumo", "b) Uso de tubo de raios catódicos", "c) Cada pixel emite sua própria luz", "d) Necessita de backlight externo"],
+  ["a) Iluminar a tela", "b) Controlar o áudio", "c) Processar sinais e controlar o sistema", "d) Sincronizar a imagem com a tela"],
+  ["a) Fonte de alimentação", "b) Main board", "c) T-Con", "d) Backlight"],
+  ["a) Baixo brilho", "b) Ângulo de visão limitado", "c) Alto consumo e desgaste", "d) Falta de contraste"],
+  ["a) Multímetro", "b) Osciloscópio", "c) Alicate amperímetro", "d) Wattímetro"],
+  ["a) NR-10", "b) ABNT NBR 14136", "c) ISO 9001", "d) UL 62368"],
+  ["a) Luvas isolantes", "b) Óculos de proteção", "c) Calçado de segurança", "d) Máscara"],
+  ["a) Falha no CI de áudio", "b) Falha no backlight", "c) Defeito na T-Con", "d) Curto no painel"],
+  ["a) Medir consumo elétrico", "b) Testar conectores", "c) Verificar entradas de vídeo", "d) Medir temperatura dos CIs"],
+  ["a) Testar entradas HDMI", "b) Verificar tensão da fonte", "c) Observar imagem e som", "d) Inspecionar conectores"],
+  ["a) Substituição de trilhas", "b) Troca de fusíveis", "c) Troca de esferas de solda", "d) Atualização de firmware"],
+  ["a) 5 minutos", "b) 10 minutos", "c) 15 a 20 minutos", "d) 30 minutos"],
+  ["a) ISO 14001", "b) IEC 60065", "c) RoHS", "d) FCC Part 15"],
+  ["a) Processar sinal de vídeo", "b) Iluminar o painel para formar imagem", "c) Controlar o volume", "d) Sincronizar pixels"],
+  ["a) Falha no CI de áudio", "b) Curto no painel", "c) Fonte instável ou memória corrompida", "d) Falta de sinal HDMI"],
+  ["a) Atualizar o firmware", "b) Fazer inspeção visual e ouvir o cliente", "c) Substituir a placa principal", "d) Aplicar reflow na T-Con"],
+  ["a) Osciloscópio", "b) Fonte assimétrica", "c) Testador de CI", "d) Gerador de sinal"],
+  ["a) Garantir rastreabilidade e profissionalismo", "b) Reduzir o tempo de reparo", "c) Substituir o orçamento", "d) Eliminar a necessidade de testes"],
+  ["a) Ignorar e seguir com o reparo", "b) Trocar a tomada por uma de três pinos", "c) Verificar polaridade e recomendar troca conforme NBR 14136", "d) Instalar um estabilizador"]
+];
+
+const answers = {
+  q1:'c', q2:'c', q3:'c', q4:'c', q5:'c',
+  q6:'b', q7:'b', q8:'d', q9:'c', q10:'c',
+  q11:'a', q12:'c', q13:'c', q14:'b', q15:'b',
+  q16:'c', q17:'b', q18:'b', q19:'a', q20:'c'
+};
+
+
+      perguntas.forEach((pergunta, i) => {
+        const div = document.createElement('div');
+        div.className = 'quiz-question';
+        div.innerHTML = `<p>${i + 1}) ${pergunta}</p>` +
+          alternativas[i].map((alt, j) => {
+            const letra = ['a','b','c','d'][j];
+            return `<label><input type="radio" name="q${i+1}" value="${letra}"> ${alt}</label>`;
+          }).join('');
+        perguntasTeoricas.appendChild(div);
+      });
+
+      function collectAnswers(){
+        const collected = {};
+        let allAnswered = true;
+        for (let i = 1; i <= TOTAL_QUESTOES; i++){
+          const sel = document.querySelector(`input[name="q${i}"]:checked`);
+          collected['q'+i] = sel ? sel.value : null;
+          if(!sel) allAnswered = false;
+        }
+        const casoSel = document.querySelector('input[name="caso"]:checked');
+        const resolucao = document.querySelector('textarea[name="resolucao"]');
+        collected['caso'] = casoSel ? casoSel.value : null;
+        collected['resolucao'] = resolucao ? resolucao.value.trim() : null;
+        return {collected, allAnswered};
+      }
+
+      function computeScore(collected){
+        let score = 0;
+        for (let i = 1; i <= TOTAL_QUESTOES; i++){
+          if(collected['q'+i] && collected['q'+i] === answers['q'+i]) score++;
+        }
+        return score;
+      }
+
+      function saveResultToLocalStorage(entry){
+        const raw = localStorage.getItem(RESULTS_KEY);
+        let arr = [];
+        try {
+          arr = raw ? JSON.parse(raw) : [];
+          if (!Array.isArray(arr)) arr = [];
+        } catch(e) { arr = []; }
+        arr.push(entry);
+        localStorage.setItem(RESULTS_KEY, JSON.stringify(arr));
+      }
+
+      submitBtn.addEventListener('click', function(){
+        const name = (document.getElementById('alunoName') || {value:''}).value.trim();
+        const email = (document.getElementById('alunoEmail') || {value:''}).value.trim();
+
+        if(!name || !email){
+          alert('Preenche nome e email antes de submeter.');
+          return;
+        }
+
+        const {collected, allAnswered} = collectAnswers();
+        if(!allAnswered){
+          if(!confirm('Nem todas as perguntas foram respondidas. Submeter na mesma?')) return;
+        }
+
+        const score = computeScore(collected);
+        const percent = Math.round((score / TOTAL_QUESTOES) * 100);
+
+        const entry = {
+          nome: name,
+          email: email,
+          curso: CURSO,
+          modulo: MODULO,
+          pontuacao: score,
+          total: TOTAL_QUESTOES,
+          percent: percent,
+          respostas: collected,
+          data: new Date().toISOString()
+        };
+
+        saveResultToLocalStorage(entry);
+
+        resultBox.style.display = 'block';
+        resultBox.innerHTML = `<p><strong>Obrigado, ${name}.</strong></p>
+          <p>Pontuação: <strong>${score}</strong> / ${TOTAL_QUESTOES} — <strong>${percent}%</strong></p>
+          <p class="small">As respostas foram gravadas e estarão disponíveis ao avaliador.</p>`;
+
+        submitBtn.disabled = true;
+      });
+
+      resetBtn.addEventListener('click', function(){
+        if(confirm('Limpar todas as escolhas desta página?')) {
+          form.reset();
+          resultBox.style.display = 'none';
+          submitBtn.disabled = false;
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

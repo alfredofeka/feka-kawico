@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Teste Final – Refrigeração Residencial | FEKA KAWIÇO</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --prim: #1e3a8a;
+      --bg: #f0f4f8;
+      --card: #ffffff;
+      --dark: #222;
+      --muted: #666;
+      --btn-hover: #3751a3;
+    }
+    body {
+      font-family: Inter, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--dark);
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 980px;
+      margin: auto;
+      background: var(--card);
+      padding: 24px;
+      border-radius: 12px;
+      box-shadow: 0 8px 26px rgba(0,0,0,.08);
+    }
+    h1 {
+      font-size: 1.5rem;
+      color: var(--prim);
+      margin-bottom: 12px;
+    }
+    .lead {
+      margin-bottom: 18px;
+    }
+    .quiz-question, .case-study {
+      margin: 18px 0;
+      padding: 16px;
+      border-radius: 10px;
+      border: 1px solid #dce3f0;
+      background: #f9faff;
+    }
+    .quiz-question p, .case-study p {
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: var(--prim);
+    }
+    label {
+      display: block;
+      margin: 6px 0;
+      cursor: pointer;
+    }
+    textarea {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 0.95rem;
+    }
+    button {
+      padding: 10px 16px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      font-weight: 700;
+      margin-top: 12px;
+    }
+    .primary {
+      background: var(--prim);
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(30,58,138,0.3);
+    }
+    .primary:hover {
+      background: var(--btn-hover);
+    }
+    .secondary {
+      background: #e0e6f0;
+      color: #222;
+    }
+    .notice {
+      background: #fff3cd;
+      color: #856404;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #ffeeba;
+      margin-bottom: 12px;
+    }
+    footer {
+      margin-top: 24px;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Teste Final – Refrigeração Residencial</h1>
+    <p class="lead">Este teste avalia tua compreensão teórica e prática sobre sistemas de refrigeração residencial. Responde com atenção e escolhe um dos estudos de caso para desenvolver uma solução técnica.</p>
+
+    <div class="notice">
+      <strong>Orientação:</strong> O teste é dividido em duas partes: <br>
+      <strong>1)</strong> 20 perguntas objetivas sobre teoria (50%)<br>
+      <strong>2)</strong> 1 estudo de caso prático (50%)<br>
+      Justifica tuas decisões com base em normas, boas práticas e raciocínio técnico.
+    </div>
+
+    <form id="quizForm">
+      <!-- Identificação -->
+      <div class="quiz-question">
+        <p>Identificação do aluno</p>
+        <label>Nome completo: <input type="text" name="nome" required></label>
+        <label>Email: <input type="email" name="email" required></label>
+      </div>
+
+      <!-- Perguntas teóricas (exemplo de 3, posso gerar as 20 completas depois) -->
+      <div class="quiz-question"><p>1) Qual é o princípio básico da refrigeração por compressão?</p>
+        <label><input type="radio" name="q1" value="a"> Transferência de calor por condução</label>
+        <label><input type="radio" name="q1" value="b"> Remoção de calor por ciclo termodinâmico</label>
+        <label><input type="radio" name="q1" value="c"> Aquecimento do ambiente por resistência</label>
+        <label><input type="radio" name="q1" value="d"> Circulação de ar sem troca térmica</label>
+      </div>
+
+      <div class="quiz-question"><p>2) Qual componente é responsável por comprimir o gás refrigerante?</p>
+        <label><input type="radio" name="q2" value="a"> Evaporador</label>
+        <label><input type="radio" name="q2" value="b"> Condensador</label>
+        <label><input type="radio" name="q2" value="c"> Compressor</label>
+        <label><input type="radio" name="q2" value="d"> Válvula de expansão</label>
+      </div>
+
+      <div class="quiz-question"><p>3) O que indica a presença de óleo no visor de líquido?</p>
+        <label><input type="radio" name="q3" value="a"> Sistema está em vácuo</label>
+        <label><input type="radio" name="q3" value="b"> Falta de gás refrigerante</label>
+        <label><input type="radio" name="q3" value="c"> Possível contaminação ou falha no compressor</label>
+        <label><input type="radio" name="q3" value="d"> Funcionamento normal</label>
+      </div>
+
+<div class="quiz-question"><p>4) Qual é a função da válvula de expansão?</p>
+  <label><input type="radio" name="q4" value="a"> Aumentar a pressão do gás</label>
+  <label><input type="radio" name="q4" value="b"> Controlar o fluxo de ar</label>
+  <label><input type="radio" name="q4" value="c"> Reduzir a pressão do líquido refrigerante</label>
+  <label><input type="radio" name="q4" value="d"> Aquecer o fluido</label>
+</div>
+
+<div class="quiz-question"><p>5) Qual gás é comumente usado em sistemas residenciais modernos?</p>
+  <label><input type="radio" name="q5" value="a"> R-22</label>
+  <label><input type="radio" name="q5" value="b"> R-134a</label>
+  <label><input type="radio" name="q5" value="c"> R-410A</label>
+  <label><input type="radio" name="q5" value="d"> CO₂</label>
+</div>
+
+<div class="quiz-question"><p>6) O que indica bolhas no visor de líquido?</p>
+  <label><input type="radio" name="q6" value="a"> Sistema em equilíbrio</label>
+  <label><input type="radio" name="q6" value="b"> Excesso de carga térmica</label>
+  <label><input type="radio" name="q6" value="c"> Falta de gás refrigerante</label>
+  <label><input type="radio" name="q6" value="d"> Compressor desligado</label>
+</div>
+
+<div class="quiz-question"><p>7) Qual é a sequência correta do ciclo de compressão?</p>
+  <label><input type="radio" name="q7" value="a"> Condensador → Compressor → Evaporador → Válvula</label>
+  <label><input type="radio" name="q7" value="b"> Compressor → Condensador → Válvula → Evaporador</label>
+  <label><input type="radio" name="q7" value="c"> Evaporador → Compressor → Válvula → Condensador</label>
+  <label><input type="radio" name="q7" value="d"> Válvula → Compressor → Condensador → Evaporador</label>
+</div>
+
+<div class="quiz-question"><p>8) Qual instrumento é usado para medir pressão de gás?</p>
+  <label><input type="radio" name="q8" value="a"> Termômetro infravermelho</label>
+  <label><input type="radio" name="q8" value="b"> Multímetro</label>
+  <label><input type="radio" name="q8" value="c"> Manifold</label>
+  <label><input type="radio" name="q8" value="d"> Alicate amperímetro</label>
+</div>
+
+<div class="quiz-question"><p>9) Qual é o objetivo do vácuo antes da carga de gás?</p>
+  <label><input type="radio" name="q9" value="a"> Aumentar a pressão interna</label>
+  <label><input type="radio" name="q9" value="b"> Remover umidade e ar do sistema</label>
+  <label><input type="radio" name="q9" value="c"> Testar o compressor</label>
+  <label><input type="radio" name="q9" value="d"> Aquecer o fluido refrigerante</label>
+</div>
+
+<div class="quiz-question"><p>10) O que pode causar superaquecimento no compressor?</p>
+  <label><input type="radio" name="q10" value="a"> Falta de carga térmica</label>
+  <label><input type="radio" name="q10" value="b"> Excesso de gás refrigerante</label>
+  <label><input type="radio" name="q10" value="c"> Falta de ventilação ou obstrução</label>
+  <label><input type="radio" name="q10" value="d"> Baixa tensão elétrica</label>
+</div>
+
+<div class="quiz-question"><p>11) Qual norma regula instalações de climatização no Brasil?</p>
+  <label><input type="radio" name="q11" value="a"> NBR 5410</label>
+  <label><input type="radio" name="q11" value="b"> NBR 16401</label>
+  <label><input type="radio" name="q11" value="c"> ISO 9001</label>
+  <label><input type="radio" name="q11" value="d"> NR-10</label>
+</div>
+
+<div class="quiz-question"><p>12) O que é COP (Coeficiente de Performance)?</p>
+  <label><input type="radio" name="q12" value="a"> Relação entre potência elétrica e térmica</label>
+  <label><input type="radio" name="q12" value="b"> Índice de ruído do sistema</label>
+  <label><input type="radio" name="q12" value="c"> Eficiência de ventilação</label>
+  <label><input type="radio" name="q12" value="d"> Temperatura de condensação</label>
+</div>
+
+<div class="quiz-question"><p>13) Qual é a função do condensador?</p>
+  <label><input type="radio" name="q13" value="a"> Evaporar o líquido refrigerante</label>
+  <label><input type="radio" name="q13" value="b"> Liberar calor para o ambiente externo</label>
+  <label><input type="radio" name="q13" value="c"> Comprimir o gás</label>
+  <label><input type="radio" name="q13" value="d"> Controlar o fluxo de ar</label>
+</div>
+
+<div class="quiz-question"><p>14) O que caracteriza um sistema inverter?</p>
+  <label><input type="radio" name="q14" value="a"> Compressor com velocidade fixa</label>
+  <label><input type="radio" name="q14" value="b"> Controle digital de temperatura</label>
+  <label><input type="radio" name="q14" value="c"> Variação contínua da rotação do compressor</label>
+  <label><input type="radio" name="q14" value="d"> Uso de gás natural</label>
+</div>
+
+<div class="quiz-question"><p>15) Qual é o risco de não usar EPIs durante manutenção?</p>
+  <label><input type="radio" name="q15" value="a"> Perda de eficiência térmica</label>
+  <label><input type="radio" name="q15" value="b"> Danos ao equipamento</label>
+  <label><input type="radio" name="q15" value="c"> Acidentes pessoais e contaminação química</label>
+  <label><input type="radio" name="q15" value="d"> Aumento da carga térmica</label>
+</div>
+
+<div class="quiz-question"><p>16) O que deve constar num relatório técnico de manutenção?</p>
+  <label><input type="radio" name="q16" value="a"> Apenas nome do técnico</label>
+  <label><input type="radio" name="q16" value="b"> Data, serviço, peças trocadas e assinatura</label>
+  <label><input type="radio" name="q16" value="c"> Valor do serviço e nota fiscal</label>
+  <label><input type="radio" name="q16" value="d"> Temperatura ambiente e umidade relativa</label>
+</div>
+
+<div class="quiz-question"><p>17) Qual é a função do filtro secador?</p>
+  <label><input type="radio" name="q17" value="a"> Aquecer o gás refrigerante</label>
+  <label><input type="radio" name="q17" value="b"> Reduzir a pressão do sistema</label>
+  <label><input type="radio" name="q17" value="c"> Remover umidade e impurezas</label>
+  <label><input type="radio" name="q17" value="d"> Controlar a rotação do compressor</label>
+</div>
+
+<div class="quiz-question"><p>18) Qual procedimento é correto para solda em tubulação de cobre?</p>
+  <label><input type="radio" name="q18" value="a"> Soldar sem limpar a área</label>
+  <label><input type="radio" name="q18" value="b"> Aplicar solda com maçarico após lixar e cortar</label>
+  <label><input type="radio" name="q18" value="c"> Usar cola térmica</label>
+  <label><input type="radio" name="q18" value="d"> Pressurizar antes de soldar</label>
+</div>
+
+<div class="quiz-question"><p>19) O que é carga térmica?</p>
+  <label><input type="radio" name="q19" value="a"> Quantidade de gás no sistema</label>
+  <label><input type="radio" name="q19" value="b"> Volume de ar circulado</label>
+  <label><input type="radio" name="q19" value="c"> Calor total a ser removido do ambiente</label>
+  <label><input type="radio" name="q19" value="d"> Potência elétrica do compressor</label>
+</div>
+
+<div class="quiz-question"><p>20) Qual é a vantagem dos sistemas split em relação aos de janela?</p>
+  <label><input type="radio" name="q20" value="a"> Maior consumo energético</label>
+  <label><input type="radio" name="q20" value="b"> Menor eficiência térmica</label>
+  <label><input type="radio" name="q20" value="c"> Menor ruído e melhor estética</label>
+  <label><input type="radio" name="q20" value="d"> Instalação mais complexa</label>
+</div>
+
+      <div class="case-study">
+  <p><strong>Estudo de Caso – Escolhe 1 para resolver:</strong></p>
+  <label><input type="radio" name="caso" value="1"> 🧊 Caso 1: Vazamento em sistema split em Luanda</label>
+  <label><input type="radio" name="caso" value="2"> 🌬️ Caso 2: Falha elétrica em compressor em Benguela</label>
+  <label><input type="radio" name="caso" value="3"> ❄️ Caso 3: Baixa eficiência térmica em sistema inverter em Viana</label>
+
+  <p class="small">
+    <strong>Orientação:</strong> Após escolher o caso, descreve como resolverias o problema técnico. A resposta deve incluir:
+    <ul style="margin-top:8px; margin-bottom:8px;">
+      <li>🔧 <strong>Ferramentas utilizadas</strong> (ex.: manifold, multímetro, bomba de vácuo)</li>
+      <li>📋 <strong>Etapas técnicas</strong> (diagnóstico, reparo, validação)</li>
+      <li>📐 <strong>Justificativa técnica</strong> (por que essa abordagem é eficaz?)</li>
+    </ul>
+    <strong>Exemplo de estrutura esperada:</strong><br>
+    <em>“Escolhi o Caso 1. Utilizei detector de vazamento, lixa, maçarico e bomba de vácuo. Primeiro identifiquei o ponto de fuga com detector eletrônico. Cortei e limpei a área com lixa fina. Apliquei solda com maçarico e pressurizei com nitrogênio. Após teste de estanqueidade, fiz vácuo e carga de gás R-410A. Testei funcionamento e registrei os dados no relatório técnico.”</em>
+  </p>
+
+  <textarea name="resolucao" rows="10" placeholder="Escreve aqui tua resposta técnica…" required></textarea>
+</div>
+
+      <button type="submit" class="primary">Submeter Teste</button>
+      <button type="reset" class="secondary">Limpar Respostas</button>
+    </form>
+
+    <footer>
+      <p>FEKA KAWIÇO – Avaliação final do módulo. Os resultados serão analisados por um avaliador técnico.</p>
+    </footer>
+  </div>
+
+
+<script>
+(function(){
+  const form = document.getElementById('quizForm');
+  const submitBtn = document.getElementById('submitQuiz');
+  const resetBtn = document.getElementById('resetQuiz');
+  const resultBox = document.getElementById('resultadoBox');
+  const userArea = document.getElementById('userArea');
+  const RESULTS_KEY = 'feka_results';
+
+  // Ajusta conforme o curso
+  const CURSO = "Refrigeração Residencial"; // ou "Procurement", etc.
+  const MODULO = "1";
+  const TOTAL_QUESTOES = 20;
+
+  const possibleNameKeys = ['fekaUser','fekaUserName','userName','username','name','user','feka_name'];
+  const possibleEmailKeys = ['fekaEmail','userEmail','email','user_email','feka_user_email'];
+
+  function readStoredUser(){
+    let name = null, email = null;
+    for (const k of possibleNameKeys){
+      const v = localStorage.getItem(k);
+      if (v && v.trim()) { name = v.trim(); break; }
+    }
+    for (const k of possibleEmailKeys){
+      const v = localStorage.getItem(k);
+      if (v && v.trim()) { email = v.trim(); break; }
+    }
+    return {name, email};
+  }
+
+  function renderUserInputs(){
+    const stored = readStoredUser();
+    userArea.innerHTML = '';
+    const nameInput = document.createElement('input');
+    nameInput.placeholder = 'Nome completo';
+    nameInput.id = 'alunoName';
+    const emailInput = document.createElement('input');
+    emailInput.placeholder = 'Email';
+    emailInput.id = 'alunoEmail';
+
+    if(stored.name) nameInput.value = stored.name;
+    if(stored.email) emailInput.value = stored.email;
+
+    const note = document.createElement('div');
+    note.className = 'small muted';
+    note.style.marginLeft = '6px';
+    note.innerText = 'Nome e email utilizados para identificação do avaliador.';
+
+    userArea.appendChild(nameInput);
+    userArea.appendChild(emailInput);
+    userArea.appendChild(note);
+  }
+
+  renderUserInputs();
+
+  // Gabarito (ajusta conforme o teste)
+  const answers = {
+    q1:'b', q2:'c', q3:'c', q4:'c', q5:'c',
+    q6:'c', q7:'b', q8:'c', q9:'b', q10:'c',
+    q11:'b', q12:'a', q13:'b', q14:'c', q15:'c',
+    q16:'b', q17:'c', q18:'b', q19:'c', q20:'c'
+  };
+
+  function collectAnswers(){
+    const collected = {};
+    let allAnswered = true;
+    for (let i = 1; i <= TOTAL_QUESTOES; i++){
+      const sel = document.querySelector(`input[name="q${i}"]:checked`);
+      collected['q'+i] = sel ? sel.value : null;
+      if(!sel) allAnswered = false;
+    }
+
+    const casoSel = document.querySelector('input[name="caso"]:checked');
+    const resolucao = document.querySelector('textarea[name="resolucao"]');
+    collected['caso'] = casoSel ? casoSel.value : null;
+    collected['resolucao'] = resolucao ? resolucao.value.trim() : null;
+
+    return {collected, allAnswered};
+  }
+
+  function saveResultToLocalStorage(entry){
+    const raw = localStorage.getItem(RESULTS_KEY);
+    let arr = [];
+    try {
+      arr = raw ? JSON.parse(raw) : [];
+      if (!Array.isArray(arr)) arr = [];
+    } catch(e) { arr = []; }
+    arr.push(entry);
+    localStorage.setItem(RESULTS_KEY, JSON.stringify(arr));
+  }
+
+  function computeScore(collected){
+    let score = 0;
+    for (let i = 1; i <= TOTAL_QUESTOES; i++){
+      if(collected['q'+i] && collected['q'+i] === answers['q'+i]) score++;
+    }
+    return score;
+  }
+
+  submitBtn.addEventListener('click', function(){
+    const name = (document.getElementById('alunoName') || {value:''}).value.trim();
+    const email = (document.getElementById('alunoEmail') || {value:''}).value.trim();
+
+    if(!name || !email){
+      alert('Preenche nome e email antes de submeter.');
+      return;
+    }
+
+    const {collected, allAnswered} = collectAnswers();
+    if(!allAnswered){
+      if(!confirm('Nem todas as perguntas foram respondidas. Submeter na mesma?')) return;
+    }
+
+    const score = computeScore(collected);
+    const percent = Math.round((score / TOTAL_QUESTOES) * 100);
+
+    const entry = {
+      nome: name,
+      email: email,
+      curso: CURSO,
+      modulo: MODULO,
+      pontuacao: score,
+      total: TOTAL_QUESTOES,
+      percent: percent,
+      respostas: collected,
+      data: new Date().toISOString()
+    };
+
+    saveResultToLocalStorage(entry);
+
+    resultBox.style.display = 'block';
+    resultBox.innerHTML = `<p><strong>Obrigado, ${name}.</strong></p>
+      <p>Pontuação: <strong>${score}</strong> / ${TOTAL_QUESTOES} — <strong>${percent}%</strong></p>
+      <p class="small">As respostas foram gravadas e estarão disponíveis ao avaliador.</p>`;
+
+    submitBtn.disabled = true;
+  });
+
+  resetBtn.addEventListener('click', function(){
+    if(confirm('Limpar todas as escolhas desta página?')) {
+      form.reset();
+      resultBox.style.display = 'none';
+      submitBtn.disabled = false;
+    }
+  });
+})();
+</script></body>
+</html>

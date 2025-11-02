@@ -1,0 +1,463 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Módulo I — Quiz Procurement | FEKA KAWIÇO</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --prim:#1e3a8a; /* Navy FEKA KAWIÇO */
+      --bg:#f0f4f8;
+      --card:#ffffff;
+      --dark:#222;
+      --muted:#666;
+      --btn-hover:#3751a3;
+    }
+
+    body {
+      font-family: Inter, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--dark);
+      margin: 0;
+      padding: 20px;
+    }
+
+    .container{
+      max-width: 980px;
+      margin: 20px auto;
+      background: var(--card);
+      padding: 24px;
+      border-radius: 12px;
+      box-shadow: 0 8px 26px rgba(0,0,0,.08);
+    }
+
+    h1{
+      font-size: 1.5rem;
+      color: var(--prim);
+      margin-bottom: 12px;
+    }
+
+    p.lead{
+      margin-bottom: 18px;
+      color: var(--dark);
+    }
+
+    .user-block{
+      display:flex;
+      gap:12px;
+      align-items:center;
+      margin-bottom:16px;
+    }
+
+    .user-block input{
+      padding:10px;
+      border-radius:8px;
+      border:1px solid #ccc;
+      font-size:0.95rem;
+    }
+
+    .quiz-question{
+      margin:18px 0;
+      padding:16px;
+      border-radius:10px;
+      border:1px solid #dce3f0;
+      background:#f9faff;
+    }
+
+    .quiz-question p{
+      margin:0 0 8px;
+      font-weight:600;
+      color: var(--prim);
+    }
+
+    .quiz-question label{
+      display:block;
+      margin:6px 0;
+      cursor:pointer;
+    }
+
+    button.primary{
+      background: var(--prim);
+      color:#fff;
+      padding:10px 16px;
+      border-radius:10px;
+      border:none;
+      cursor:pointer;
+      font-weight:700;
+      box-shadow:0 4px 12px rgba(30,58,138,0.3);
+      transition: all 0.2s ease;
+    }
+
+    button.primary:hover{
+      background: var(--btn-hover);
+      box-shadow:0 6px 16px rgba(30,58,138,0.4);
+    }
+
+    button.secondary{
+      background:#e0e6f0;
+      color:#222;
+      padding:10px 16px;
+      border-radius:10px;
+      border:none;
+      cursor:pointer;
+      font-weight:600;
+      transition: all 0.2s ease;
+    }
+
+    button.secondary:hover{
+      background:#d3d9e5;
+    }
+
+    #resultadoBox{
+      margin-top:18px;
+      padding:14px;
+      border-radius:10px;
+      background:#f1f5fb;
+      border:1px solid #cbd5e1;
+      font-weight:600;
+    }
+
+    .small{
+      font-size:.85rem;
+      color: var(--muted);
+    }
+
+    .topbar{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:12px;
+    }
+
+    .notice{
+      background:#fff3cd;
+      color:#856404;
+      padding:10px;
+      border-radius:6px;
+      border:1px solid #ffeeba;
+      margin-bottom:12px;
+    }
+
+    footer{
+      margin-top:18px;
+      font-size:.85rem;
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="topbar">
+      <h1>Módulo I — Quiz Procurement <a href="index.html" style="font-size:0.9rem;color:var(--prim);margin-left:12px;text-decoration:none;">-Home</a></h1>
+      <div class="small">FEKA KAWIÇO — Curso Procurement</div>
+    </div>
+
+    <p class="lead">Completa o quiz (4 perguntas por dia). No final verás a tua pontuação. As respostas serão guardadas localmente e disponibilizadas ao avaliador.</p>
+
+    <div id="userArea" class="user-block"></div>
+
+    <div class="notice">
+      <strong>Atenção:</strong> Se já estás autenticado no site principal, o nome e o email serão preenchidos automaticamente. Senão, preenche manualmente.
+    </div>
+
+    <form id="quizForm">
+
+      <!-- Perguntas: 16 perguntas de Procurement -->
+
+      <!-- Dia 1 -->
+      <div class="quiz-question" data-dia="1">
+        <p>Dia1 - 1) Qual é o objetivo principal do Procurement?</p>
+        <label><input type="radio" name="q1" value="a"> Comprar materiais ao menor custo sem planeamento.</label>
+        <label><input type="radio" name="q1" value="b"> Garantir aquisição eficiente e dentro do prazo, assegurando qualidade.</label>
+        <label><input type="radio" name="q1" value="c"> Apenas receber pedidos da obra sem análise.</label>
+        <label><input type="radio" name="q1" value="d"> Ignorar fornecedores e comprar localmente apenas.</label>
+      </div>
+
+      <div class="quiz-question" data-dia="1">
+        <p>Dia1 - 2) Qual documento define requisitos técnicos e comerciais?</p>
+        <label><input type="radio" name="q2" value="a"> Especificação de compras (Purchase Specification).</label>
+        <label><input type="radio" name="q2" value="b"> Apenas notas de reunião.</label>
+        <label><input type="radio" name="q2" value="c"> Fotografias da obra.</label>
+        <label><input type="radio" name="q2" value="d"> Documentos fiscais apenas.</label>
+      </div>
+
+      <div class="quiz-question" data-dia="1">
+        <p>Dia1 - 3) Qual é o papel do fornecedor no Procurement?</p>
+        <label><input type="radio" name="q3" value="a"> Fornecer materiais conforme requisitos e prazos acordados.</label>
+        <label><input type="radio" name="q3" value="b"> Só entregar materiais sem qualidade.</label>
+        <label><input type="radio" name="q3" value="c"> Apenas enviar faturas.</label>
+        <label><input type="radio" name="q3" value="d"> Não participar do processo.</label>
+      </div>
+
+      <div class="quiz-question" data-dia="1">
+        <p>Dia1 - 4) O que é um RFQ (Request for Quotation)?</p>
+        <label><input type="radio" name="q4" value="a"> Pedido de cotação a fornecedores.</label>
+        <label><input type="radio" name="q4" value="b"> Um contrato assinado.</label>
+        <label><input type="radio" name="q4" value="c"> Relatório de obra.</label>
+        <label><input type="radio" name="q4" value="d"> Documento financeiro interno.</label>
+      </div>
+
+      <!-- Dia 2 -->
+      <div class="quiz-question" data-dia="2">
+        <p>Dia2 - 5) Qual é a importância de comparar propostas de fornecedores?</p>
+        <label><input type="radio" name="q5" value="a"> Permite escolher a melhor relação custo-benefício e qualidade.</label>
+        <label><input type="radio" name="q5" value="b"> Apenas aumenta a burocracia.</label>
+        <label><input type="radio" name="q5" value="c"> Não tem impacto.</label>
+        <label><input type="radio" name="q5" value="d"> Apenas para cumprir normas internas.</label>
+      </div>
+
+      <div class="quiz-question" data-dia="2">
+        <p>Dia2 - 6) O que significa Lead Time?</p>
+        <label><input type="radio" name="q6" value="a"> Tempo entre pedido e entrega do material.</label>
+        <label><input type="radio" name="q6" value="b"> Tempo de reunião da equipa.</label>
+        <label><input type="radio" name="q6" value="c"> Tempo de desenho técnico.</label>
+        <label><input type="radio" name="q6" value="d"> Tempo gasto em transporte interno apenas.</label>
+      </div>
+
+      <div class="quiz-question" data-dia="2">
+        <p>Dia2 - 7) O que é um PO (Purchase Order)?</p>
+        <label><input type="radio" name="q7" value="a"> Documento que formaliza a compra junto do fornecedor.</label>
+        <label><input type="radio" name="q7" value="b"> Apenas uma nota interna.</label>
+        <label><input type="radio" name="q7" value="c"> Relatório de auditoria.</label>
+        <label><input type="radio" name="q7" value="d"> Documento fiscal do cliente.</label>
+      </div>
+
+      <div class="quiz-question" data-dia="2">
+        <p>Dia2 - 8) Qual é a função de inspeção de qualidade no Procurement?</p>
+        <label><input type="radio" name="q8" value="a"> Garantir que os materiais recebidos atendem às especificações técnicas.</label>
+        <label><input type="radio" name="q8" value="b"> Apenas preencher formulários.</label>
+        <label><input type="radio" name="q8" value="c"> Ignorar defeitos e aceitar todos os materiais.</label>
+        <label><input type="radio" name="q8" value="d"> Delegar ao transporte apenas.</label>
+      </div>
+
+      <!-- Dia 3 -->
+      <div class="quiz-question" data-dia="3">
+        <p>Dia3 - 9) O que é contrato marco (Framework Agreement)?</p>
+        <label><input type="radio" name="q9" value="a"> Acordo para compras futuras com condições pré-definidas.</label>
+        <label><input type="radio" name="q9" value="b"> Contrato diário apenas.</label>
+        <label><input type="radio" name="q9" value="c"> Documento fiscal.</label>
+        <label><input type="radio" name="q9" value="d"> Uma lista de fornecedores.</label>
+      </div>
+
+      <div class="quiz-question" data-dia="3">
+        <p>Dia3 - 10) O que é Supplier Evaluation?</p>
+        <label><input type="radio" name="q10" value="a"> Avaliação de desempenho de fornecedores.</label>
+        <label><input type="radio" name="q10" value="b"> Apenas envio de faturas.</label>
+        <label><input type="radio" name="q10" value="c"> Receber materiais sem conferência.</label>
+        <label><input type="radio" name="q10" value="d"> Contabilidade apenas.</label>
+      </div>
+
+      <div class="quiz-question" data-dia="3">
+        <p>Dia3 - 11) O que significa TCO (Total Cost of Ownership)?</p>
+        <label><input type="radio" name="q11" value="a"> Custo total de aquisição, incluindo manutenção e transporte.</label>
+        <label><input type="radio" name="q11" value="b"> Preço de compra apenas.</label>
+        <label><input type="radio" name="q11" value="c"> Tempo de entrega.</label>
+        <label><input type="radio" name="q11" value="d"> Quantidade mínima de pedido.</label>
+      </div>
+
+      <div class="quiz-question" data-dia="3">
+        <p>Dia3 - 12) Qual é a função do contrato de fornecimento?</p>
+        <label><input type="radio" name="q12" value="a"> Definir termos de entrega, preço, penalidades e garantias.</label>
+        <label><input type="radio" name="q12" value="b"> Apenas enviar pedidos sem contrato.</label>
+        <label><input type="radio" name="q12" value="c"> Ignorar fornecedores.</label>
+        <label><input type="radio" name="q12" value="d"> Apenas contabilizar materiais.</label>
+      </div>
+
+      <!-- Dia 4 -->
+      <div class="quiz-question" data-dia="4">
+        <p>Dia4 - 13) O que é Lead Time Buffer?</p>
+        <label><input type="radio" name="q13" value="a"> Tempo extra para imprevistos no fornecimento.</label>
+        <label><input type="radio" name="q13" value="b"> Apenas tempo de transporte interno.</label>
+        <label><input type="radio" name="q13" value="c"> Tempo de projeto de engenharia.</label>
+        <label><input type="radio" name="q13" value="d"> Tempo de reunião de equipa.</label>
+      </div>
+
+      <div class="quiz-question" data-dia="4">
+        <p>Dia4 - 14) Qual é o papel do Procurement no planeamento de obra?</p>
+        <label><input type="radio" name="q14" value="a"> Assegurar que materiais certos chegam no momento certo.</label>
+        <label><input type="radio" name="q14" value="b"> Apenas registrar pedidos.</label>
+        <label><input type="radio" name="q14" value="c"> Ignorar cronogramas.</label>
+        <label><input type="radio" name="q14" value="d"> Apenas comprar barato.</label>
+      </div>
+
+      <div class="quiz-question" data-dia="4">
+        <p>Dia4 - 15) O que é Vendor Managed Inventory?</p>
+        <label><input type="radio" name="q15" value="a"> Sistema onde o fornecedor gerencia os níveis de estoque.</label>
+        <label><input type="radio" name="q15" value="b"> Inventário interno da empresa apenas.</label>
+        <label><input type="radio" name="q15" value="c"> Contabilidade de custos apenas.</label>
+        <label><input type="radio" name="q15" value="d"> Auditoria fiscal.</label>
+      </div>
+
+      <div class="quiz-question" data-dia="4">
+        <p>Dia4 - 16) Qual é o benefício de uma boa gestão de Procurement?</p>
+        <label><input type="radio" name="q16" value="a"> Redução de custos, pontualidade e qualidade nos materiais.</label>
+        <label><input type="radio" name="q16" value="b"> Atrasos e desperdício.</label>
+        <label><input type="radio" name="q16" value="c"> Apenas burocracia.</label>
+        <label><input type="radio" name="q16" value="d"> Nenhum benefício.</label>
+      </div>
+
+      <div style="margin-top:18px;display:flex;gap:12px;flex-wrap:wrap;">
+        <button type="button" class="primary" id="submitQuiz">Enviar Avaliação</button>
+        <button type="button" class="secondary" id="resetQuiz">Limpar respostas</button>
+        <div style="flex:1"></div>
+        <div class="small muted">Resultados guardados localmente e visíveis apenas ao avaliador.</div>
+      </div>
+    </form>
+
+    <div id="resultadoBox" style="display:none;"></div>
+
+    <footer>
+      <div class="small">Nota: para o avaliador ver os resultados acede a <strong>avaliador.html</strong> (senha fornecida).</div>
+    </footer>
+  </div>
+
+<script>
+(function(){
+  const form = document.getElementById('quizForm');
+  const submitBtn = document.getElementById('submitQuiz');
+  const resetBtn = document.getElementById('resetQuiz');
+  const resultBox = document.getElementById('resultadoBox');
+  const userArea = document.getElementById('userArea');
+  const RESULTS_KEY = 'feka_results';
+
+  // Ajusta conforme o curso
+  const CURSO = "Refrigeração Residencial"; // ou "Procurement", etc.
+  const MODULO = "1";
+  const TOTAL_QUESTOES = 20;
+
+  const possibleNameKeys = ['fekaUser','fekaUserName','userName','username','name','user','feka_name'];
+  const possibleEmailKeys = ['fekaEmail','userEmail','email','user_email','feka_user_email'];
+
+  function readStoredUser(){
+    let name = null, email = null;
+    for (const k of possibleNameKeys){
+      const v = localStorage.getItem(k);
+      if (v && v.trim()) { name = v.trim(); break; }
+    }
+    for (const k of possibleEmailKeys){
+      const v = localStorage.getItem(k);
+      if (v && v.trim()) { email = v.trim(); break; }
+    }
+    return {name, email};
+  }
+
+  function renderUserInputs(){
+    const stored = readStoredUser();
+    userArea.innerHTML = '';
+    const nameInput = document.createElement('input');
+    nameInput.placeholder = 'Nome completo';
+    nameInput.id = 'alunoName';
+    const emailInput = document.createElement('input');
+    emailInput.placeholder = 'Email';
+    emailInput.id = 'alunoEmail';
+
+    if(stored.name) nameInput.value = stored.name;
+    if(stored.email) emailInput.value = stored.email;
+
+    const note = document.createElement('div');
+    note.className = 'small muted';
+    note.style.marginLeft = '6px';
+    note.innerText = 'Nome e email utilizados para identificação do avaliador.';
+
+    userArea.appendChild(nameInput);
+    userArea.appendChild(emailInput);
+    userArea.appendChild(note);
+  }
+
+  renderUserInputs();
+
+  // Gabarito (ajusta conforme o teste)
+  const answers = {
+    q1:'b', q2:'c', q3:'c', q4:'c', q5:'c',
+    q6:'c', q7:'b', q8:'c', q9:'b', q10:'c',
+    q11:'b', q12:'a', q13:'b', q14:'c', q15:'c',
+    q16:'b', q17:'c', q18:'b', q19:'c', q20:'c'
+  };
+
+  function collectAnswers(){
+    const collected = {};
+    let allAnswered = true;
+    for (let i = 1; i <= TOTAL_QUESTOES; i++){
+      const sel = document.querySelector(`input[name="q${i}"]:checked`);
+      collected['q'+i] = sel ? sel.value : null;
+      if(!sel) allAnswered = false;
+    }
+
+    const casoSel = document.querySelector('input[name="caso"]:checked');
+    const resolucao = document.querySelector('textarea[name="resolucao"]');
+    collected['caso'] = casoSel ? casoSel.value : null;
+    collected['resolucao'] = resolucao ? resolucao.value.trim() : null;
+
+    return {collected, allAnswered};
+  }
+
+  function saveResultToLocalStorage(entry){
+    const raw = localStorage.getItem(RESULTS_KEY);
+    let arr = [];
+    try {
+      arr = raw ? JSON.parse(raw) : [];
+      if (!Array.isArray(arr)) arr = [];
+    } catch(e) { arr = []; }
+    arr.push(entry);
+    localStorage.setItem(RESULTS_KEY, JSON.stringify(arr));
+  }
+
+  function computeScore(collected){
+    let score = 0;
+    for (let i = 1; i <= TOTAL_QUESTOES; i++){
+      if(collected['q'+i] && collected['q'+i] === answers['q'+i]) score++;
+    }
+    return score;
+  }
+
+  submitBtn.addEventListener('click', function(){
+    const name = (document.getElementById('alunoName') || {value:''}).value.trim();
+    const email = (document.getElementById('alunoEmail') || {value:''}).value.trim();
+
+    if(!name || !email){
+      alert('Preenche nome e email antes de submeter.');
+      return;
+    }
+
+    const {collected, allAnswered} = collectAnswers();
+    if(!allAnswered){
+      if(!confirm('Nem todas as perguntas foram respondidas. Submeter na mesma?')) return;
+    }
+
+    const score = computeScore(collected);
+    const percent = Math.round((score / TOTAL_QUESTOES) * 100);
+
+    const entry = {
+      nome: name,
+      email: email,
+      curso: CURSO,
+      modulo: MODULO,
+      pontuacao: score,
+      total: TOTAL_QUESTOES,
+      percent: percent,
+      respostas: collected,
+      data: new Date().toISOString()
+    };
+
+    saveResultToLocalStorage(entry);
+
+    resultBox.style.display = 'block';
+    resultBox.innerHTML = `<p><strong>Obrigado, ${name}.</strong></p>
+      <p>Pontuação: <strong>${score}</strong> / ${TOTAL_QUESTOES} — <strong>${percent}%</strong></p>
+      <p class="small">As respostas foram gravadas e estarão disponíveis ao avaliador.</p>`;
+
+    submitBtn.disabled = true;
+  });
+
+  resetBtn.addEventListener('click', function(){
+    if(confirm('Limpar todas as escolhas desta página?')) {
+      form.reset();
+      resultBox.style.display = 'none';
+      submitBtn.disabled = false;
+    }
+  });
+})();
+</script>
+</body>
+</html>

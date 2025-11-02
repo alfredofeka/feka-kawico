@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Curso: Refrigeração Residencial — FEKA KAWIÇO</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+<style>
+:root {
+  --primary-color: #004a80;
+  --secondary-color: #fca311;
+  --text-dark: #222;
+  --text-light: #fff;
+  --bg-light: #ffffff;
+  --bg-dark: #1f2937;
+  --border-color: #e0e0e0;
+}
+
+/* RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* GLOBAL */
+body {
+  background-color: var(--bg-light);
+  color: var(--text-dark);
+  font-family: "Segoe UI", "Roboto", "Helvetica Neue", "Ubuntu", "Arial", sans-serif;
+  font-weight: 400;
+  line-height: 1.7;
+  letter-spacing: 0.2px;
+  transition: all 0.3s ease-in-out;
+}
+
+/* HEADER */
+header {
+  background-color: var(--primary-color);
+  color: var(--text-light);
+  padding: 15px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: "Segoe UI Semibold", "Roboto", sans-serif;
+  font-weight: 500;
+}
+
+.brand-area {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.brand-area img {
+  height: 34px;
+  border-radius: 6px;
+}
+
+.brand-area a {
+  text-decoration: none;
+  color: var(--text-light);
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  transition: 0.3s;
+}
+
+.brand-area a:hover {
+  color: var(--secondary-color);
+}
+
+#login-status {
+  font-size: 0.9rem;
+  opacity: 0.85;
+}
+
+/* SIDEBAR */
+#course-container {
+  display: flex;
+  height: calc(100vh - 65px);
+  flex-shrink: 0;
+}
+
+#sidebar {
+  width: 500px;
+  min-width: 450px;
+  background-color: var(--bg-dark);
+  color: var(--text-light);
+  padding: 25px 25px 40px 25px;
+  overflow-y: auto;
+  font-family: "Segoe UI", "Roboto", sans-serif;
+  transition: width 0.3s ease;
+}
+
+.module h3 {
+  cursor: pointer;
+  margin-bottom: 8px;
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  transition: color 0.3s ease;
+}
+
+.module h3:hover {
+  color: var(--secondary-color);
+}
+
+.chapter-list {
+  display: none;
+  margin-left: 10px;
+}
+
+.chapter-link {
+  display: block;
+  padding: 7px 6px;
+  text-decoration: none;
+  color: var(--text-light);
+  font-size: 0.95rem;
+  font-weight: 400;
+  transition: all 0.3s ease;
+  border-left: 2px solid transparent;
+}
+
+.chapter-link:hover {
+  color: var(--secondary-color);
+  border-left: 2px solid var(--secondary-color);
+}
+
+/* MAIN CONTENT */
+#main-content {
+  flex-grow: 1;
+  padding: 40px;
+  overflow-y: auto;
+  font-family: "Segoe UI", "Roboto", "Helvetica Neue", sans-serif;
+}
+
+#lesson-title {
+  font-size: 2rem;
+  color: var(--primary-color);
+  font-weight: 700;
+  margin-bottom: 15px;
+  letter-spacing: 0.5px;
+  text-shadow: 0 1px 1px rgba(0,0,0,0.05);
+}
+
+#lesson-content h2 {
+  font-family: "Segoe UI Semibold", "Roboto", sans-serif;
+  font-weight: 600;
+  color: var(--primary-color);
+  margin-bottom: 10px;
+  letter-spacing: 0.4px;
+}
+
+#lesson-content p, 
+#lesson-content li {
+  font-size: 1rem;
+  color: var(--text-dark);
+}
+
+#lesson-content strong {
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+/* COURSE WRAPPER (foto direita) */
+.course-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  gap: 20px;
+  max-width: 1000px;
+  margin: auto;
+  line-height: 1.65;
+}
+
+.course-text {
+  grid-column: 1 / 2;
+}
+
+.course-wrapper img {
+  grid-column: 2 / 3;
+  width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.course-wrapper img:hover {
+  transform: scale(1.02);
+}
+
+.course-wrapper ul {
+  padding-left: 22px;
+  margin: 10px 0;
+}
+
+.course-wrapper li {
+  margin-bottom: 6px;
+}
+
+.course-wrapper p.quote {
+  font-style: italic;
+  color: #555;
+  margin-top: 30px;
+  grid-column: 1 / -1;
+  font-size: 1.05rem;
+  border-left: 3px solid var(--secondary-color);
+  padding-left: 15px;
+}
+
+@media (max-width: 800px) {
+  .course-wrapper {
+    grid-template-columns: 1fr;
+  }
+
+  .course-wrapper img {
+    grid-column: 1 / -1;
+    margin: 0 auto 20px auto;
+    max-width: 320px;
+  }
+}
+</style>
+
+
+
+</head>
+<body>
+
+<header>
+  <div class="brand-area">
+    <a href="index.html"><i class="fas fa-home"></i> Início</a>
+    <img src="FK.png" alt="FEKA KAWIÇO" />
+    <span><strong>FEKA KAWIÇO</strong> – <em>A terra natural do conhecimento !</em></span>
+  </div>
+  <div id="login-status">🔒 Verificando acesso…</div>
+</header>
+
+<div class="brand-area">
+  <a href="index.html"><i class="fas fa-home"></i> Início</a>
+  <img src="FK.png" alt="FEKA KAWIÇO" />
+  <span><strong>FEKA KAWIÇO</strong> – <em>A terra natural do conhecimento!</em></span>
+</div>
+<div id="login-status">🔒 Verificando acesso…</div>
+</header>
+
+<div id="course-container">
+  <aside id="sidebar">
+    <!-- MÓDULO 1 -->
+    <div class="module">
+      <h3 onclick="toggleModule(0)">📦 Módulo 1: Fundamentos do Nissan Micra e Eletroeletrónica Básica</h3>
+      <div class="chapter-list" id="module-0">
+        <div class="chapter">
+          <h4 onclick="toggleChapter(0)">📘 Capítulo 1: Introdução, História e Estrutura Geral</h4>
+          <div class="lesson-list" id="chapter-0">
+            <a href="#" onclick="loadLesson('1.1')">Aula 1.1 – Apresentação e História do Nissan Micra</a>
+            <a href="#" onclick="loadLesson('1.2')">Aula 1.2 – Estrutura Mecânica e Elétrica</a>
+            <a href="#" onclick="loadLesson('1.3')">Aula 1.3 – Identificação de Componentes Principais</a>
+          </div>
+        </div>
+        <div class="chapter">
+          <h4 onclick="toggleChapter(1)">📘 Capítulo 2: Eletricidade e Eletrónica Essencial para Diagnóstico</h4>
+          <div class="lesson-list" id="chapter-1">
+            <a href="#" onclick="loadLesson('2.1')">Aula 2.1 – Corrente, Tensão e Resistência</a>
+            <a href="#" onclick="loadLesson('2.2')">Aula 2.2 – Uso do Multímetro e Osciloscópio</a>
+            <a href="#" onclick="loadLesson('2.3')">Aula 2.3 – Interpretação de Diagramas Elétricos</a>
+          </div>
+        </div>
+        <div class="chapter">
+          <h4 onclick="toggleChapter(2)">📘 Capítulo 3: Ferramentas de Diagnóstico e Procedimentos Iniciais</h4>
+          <div class="lesson-list" id="chapter-2">
+            <a href="#" onclick="loadLesson('3.1')">Aula 3.1 – Introdução ao Scanner Automotivo</a>
+            <a href="#" onclick="loadLesson('3.2')">Aula 3.2 – Leitura de Códigos de Falha (DTCs)</a>
+            <a href="#" onclick="loadLesson('3.3')">Aula 3.3 – Procedimentos de Inspeção Inicial</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MÓDULO 2 -->
+    <div class="module">
+      <h3 onclick="toggleModule(1)">📐 Módulo 2: Diagnóstico Avançado de Sistemas Motor e Transmissão</h3>
+      <div class="chapter-list" id="module-1">
+        <div class="chapter">
+          <h4 onclick="toggleChapter(3)">📘 Capítulo 4: Diagnóstico do Sistema de Gestão do Motor (EMS)</h4>
+          <div class="lesson-list" id="chapter-3">
+            <a href="#" onclick="loadLesson('4.1')">Aula 4.1 – Sensores Chave: Função, Teste e Valores</a>
+            <a href="#" onclick="loadLesson('4.2')">Aula 4.2 – Atuadores: Injeção, Ignição e Acessórios</a>
+            <a href="#" onclick="loadLesson('4.3')">Aula 4.3 – Análise de Emissões e Sonda Lambda</a>
+          </div>
+        </div>
+        <div class="chapter">
+          <h4 onclick="toggleChapter(4)">📘 Capítulo 5: Avarias Comuns do Motor (Deteção e Solução)</h4>
+          <div class="lesson-list" id="chapter-4">
+            <a href="#" onclick="loadLesson('5.1')">Aula 5.1 – Problemas de Desempenho</a>
+            <a href="#" onclick="loadLesson('5.2')">Aula 5.2 – Sistemas Diesel Específicos (1.5 dCi)</a>
+            <a href="#" onclick="loadLesson('5.3')">Aula 5.3 – Diagnóstico de Ruídos e Vibrações</a>
+          </div>
+        </div>
+        <div class="chapter">
+          <h4 onclick="toggleChapter(5)">📘 Capítulo 6: Transmissão, Embraiagem e Sistema de Direção</h4>
+          <div class="lesson-list" id="chapter-5">
+            <a href="#" onclick="loadLesson('6.1')">Aula 6.1 – Diagnóstico da Transmissão Manual e CVT</a>
+            <a href="#" onclick="loadLesson('6.2')">Aula 6.2 – Sistema de Direção Assistida Elétrica (EPS)</a>
+            <a href="#" onclick="loadLesson('6.3')">Aula 6.3 – Suspensão, Rodas e Travões</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MÓDULO 3 -->
+    <div class="module">
+      <h3 onclick="toggleModule(2)">🔧 Módulo 3: Sistemas de Segurança, Conforto e Reparação Avançada</h3>
+      <div class="chapter-list" id="module-2">
+        <div class="chapter">
+          <h4 onclick="toggleChapter(6)">📘 Capítulo 7: Diagnóstico Avançado de Sistemas de Chassis</h4>
+          <div class="lesson-list" id="chapter-6">
+            <a href="#" onclick="loadLesson('7.1')">Aula 7.1 – Sistemas de Travagem (ABS/EBD)</a>
+            <a href="#" onclick="loadLesson('7.2')">Aula 7.2 – Sistema de Airbag e Segurança Ativa</a>
+            <a href="#" onclick="loadLesson('7.3')">Aula 7.3 – Controlo de Estabilidade e Tração (ESP/TCS)</a>
+          </div>
+        </div>
+        <div class="chapter">
+          <h4 onclick="toggleChapter(7)">📘 Capítulo 8: Sistemas de Conforto e Conveniência</h4>
+          <div class="lesson-list" id="chapter-7">
+            <a href="#" onclick="loadLesson('8.1')">Aula 8.1 – Sistema de Ar Condicionado e Climatização</a>
+            <a href="#" onclick="loadLesson('8.2')">Aula 8.2 – Vidros, Espelhos e Fechaduras Elétricas</a>
+            <a href="#" onclick="loadLesson('8.3')">Aula 8.3 – Iluminação e Painel de Instrumentos</a>
+          </div>
+        </div>
+        <div class="chapter">
+          <h4 onclick="toggleChapter(8)">📘 Capítulo 9: Reparação Avançada e Procedimentos Pós-Diagnóstico</h4>
+          <div class="lesson-list" id="chapter-8">
+            <a href="#" onclick="loadLesson('9.1')">Aula 9.1 – Reparação Segura e Boas Práticas</a>
+            <a href="#" onclick="loadLesson('9.2')">Aula 9.2 – Reprogramação e Atualização de Módulos</a>
+            <a href="#" onclick="loadLesson('9.3')">Aula 9.3 – Teste Final e Entrega do Veículo</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </aside>
+</div>
+
+  
+    <div class="module">
+      <h3>🧪 Teste Final</h3>
+      <div class="chapter-list" style="display:block;">
+        <a href="teste-TV-Final.html" class="chapter-link" style="font-weight:600;">Avaliação Teórica e Prática (100%)</a>
+        <p style="font-size:0.85rem; color:#ccc; margin-left:10px;">
+          • 50% teste de múltipla escolha<br>
+          • 50% diagnóstico e reparação de uma TV
+        </p>
+      </div>
+    </div>
+  </aside>
+
+ <main id="main-content">
+  <h2 id="lesson-title">🚗 Curso de Deteção de Avaria e Diagnóstico do Nissan Micra</h2>
+
+  <div id="lesson-content" style="display: flex; flex-wrap: wrap; align-items: flex-start; gap: 20px;">
+
+    <!-- Imagem à direita -->
+    <img src="Nissan-Micra-Diagnostico.png" alt="Diagnóstico automóvel Nissan Micra" 
+      style="width: 100%; max-width: 400px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); order: 2; flex: 1;">
+
+    <!-- Texto à esquerda -->
+    <div style="flex: 2; min-width: 300px; order: 1;">
+      <h2 style="color: var(--primary-color); margin-bottom: 10px;">🎯 Curso de Diagnóstico e Reparação do Nissan Micra</h2>
+
+      <p><strong>Objetivo do Curso:</strong></p>
+      <p>No final do curso, o formando deverá ser capaz de diagnosticar, interpretar e reparar falhas nos sistemas elétricos e eletrónicos do Nissan Micra (modelos K11 a K14), aplicando metodologias profissionais de deteção de avarias e uso de ferramentas de diagnóstico.</p>
+
+      <p><strong>Competências Desenvolvidas:</strong></p>
+      <ul>
+        <li><strong>Diagnóstico Preciso:</strong> Identificação e interpretação de códigos de falha (DTCs) nos sistemas EMS, ABS, SRS e transmissão.</li>
+        <li><strong>Leitura de Esquemas:</strong> Capacidade de interpretar diagramas elétricos e fluxos de sinal.</li>
+        <li><strong>Testes e Medições:</strong> Uso do multímetro, osciloscópio e scanner OBD-II em bancada e veículo.</li>
+        <li><strong>Reparação e Substituição:</strong> Técnicas seguras de substituição e programação de sensores, atuadores e módulos eletrónicos.</li>
+        <li><strong>Prevenção e Otimização:</strong> Aplicação de manutenção preventiva e correção de falhas recorrentes.</li>
+      </ul>
+
+      <p><strong>Para quem se destina:</strong> Técnicos de eletrónica automóvel, mecânicos, estudantes de engenharia automóvel e profissionais de diagnóstico que pretendam especializar-se em veículos Nissan.</p>
+
+      <p><strong>Duração:</strong> 3 semanas de formação intensiva + 1 semana de prática e avaliação final.</p>
+
+      <p><strong>Formato:</strong> Curso modular (3 módulos, 3 capítulos por módulo, 3 aulas por capítulo), com conteúdos teóricos, estudos de caso reais, tabelas técnicas e simulações práticas de diagnóstico.</p>
+    </div>
+  </div>
+
+  <div style="margin-top: 20px;">
+    <strong>🧑‍🔧 Público-Alvo:</strong>
+    <ul>
+      <li><strong>Técnicos de Oficina:</strong> Que desejam aprofundar o diagnóstico automóvel moderno com ferramentas OBD-II e análise de sensores.</li>
+      <li><strong>Entusiastas de Mecânica:</strong> Que desejam aprender a resolver falhas comuns e avançadas no Nissan Micra.</li>
+      <li><strong>Empreendedores:</strong> Que desejam abrir ou expandir um negócio de manutenção e diagnóstico automóvel.</li>
+      <li><strong>Estudantes:</strong> De cursos técnicos e de engenharia automóvel que procuram experiência prática e metodologia estruturada.</li>
+    </ul>
+
+    <p style="font-style: italic; color: #666;">
+      “Diagnosticar um veículo é como decifrar um código vivo — cada falha conta uma história, e cada sinal é uma pista para a solução.”
+    </p>
+  </div>
+</main>
+
+</div>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const user = JSON.parse(localStorage.getItem('feka_user'));
+  const validado = localStorage.getItem('micra_validado');
+  const loginStatus = document.getElementById('login-status');
+
+  // Se o utilizador não estiver logado
+  if (!user) {
+    loginStatus.textContent = '❌ Requer login';
+    alert('Faz login primeiro para acessar este curso.');
+    window.location.href = 'login.html';
+    return;
+  }
+
+  // Se o curso não estiver validado
+  if (validado !== 'true') {
+    loginStatus.textContent = '🔓 Falta validar código';
+    alert('Valida o teu código de inscrição para acessar este curso.');
+    window.location.href = 'index.html';
+    return;
+  }
+
+  // Acesso autorizado
+  loginStatus.textContent = `✅ Acesso autorizado — Olá, ${user.nome.split(' ')[0]}!`;
+});
+
+function toggleModule(index) {
+  const module = document.getElementById(`module-${index}`);
+  if (module.style.display === 'block') {
+    module.style.display = 'none';
+  } else {
+    module.style.display = 'block';
+  }
+}
+
+function loadLesson(id) {
+  const lessons = [
+    { title: "Capítulo 1: Introdução, História e Estrutura Geral", content: "<p>Conteúdo da Aula 1.1 a 1.3...</p>" },
+    { title: "Capítulo 2: Eletricidade e Eletrónica Essencial para Diagnóstico", content: "<p>Conteúdo da Aula 2.1 a 2.3...</p>" },
+    { title: "Capítulo 3: Ferramentas de Diagnóstico e Procedimentos Iniciais", content: "<p>Conteúdo da Aula 3.1 a 3.3...</p>" },
+    { title: "Capítulo 4: Diagnóstico do Sistema de Gestão do Motor (EMS)", content: "<p>Conteúdo da Aula 4.1 a 4.3...</p>" },
+    { title: "Capítulo 5: Avarias Comuns do Motor (Deteção e Solução)", content: "<p>Conteúdo da Aula 5.1 a 5.3...</p>" },
+    { title: "Capítulo 6: Transmissão, Embraiagem e Sistema de Direção", content: "<p>Conteúdo da Aula 6.1 a 6.3...</p>" },
+    { title: "Capítulo 7: Diagnóstico Avançado de Sistemas de Chassis", content: "<p>Conteúdo da Aula 7.1 a 7.3...</p>" },
+    { title: "Capítulo 8: Conforto, Climatização e Soluções Elétricas Complexas", content: "<p>Conteúdo da Aula 8.1 a 8.3...</p>" },
+    { title: "Capítulo 9: Reparação, Manutenção e Prática Final", content: "<p>Conteúdo da Aula 9.1 a 9.3...</p>" },
+  ];
+
+  const lesson = lessons[id];
+  if (!lesson) return;
+
+  document.getElementById('lesson-title').textContent = lesson.title;
+  document.getElementById('lesson-content').innerHTML = lesson.content;
+}
+</script>
+
+
+</body>
+</html>

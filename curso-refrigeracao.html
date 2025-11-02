@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Curso: Refrigeração Residencial — FEKA KAWIÇO</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <style>
+    :root {
+      --primary-color: #004a80;
+      --secondary-color: #fca311;
+      --text-dark: #333;
+      --text-light: #fff;
+      --bg-light: #fff;
+      --bg-dark: #1f2937;
+      --border-color: #e0e0e0;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+    body { background-color: var(--bg-light); color: var(--text-dark); }
+
+    header {
+      background-color: var(--primary-color);
+      color: var(--text-light);
+      padding: 15px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand-area {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .brand-area img {
+      height: 30px;
+      border-radius: 4px;
+    }
+
+    .brand-area a {
+      text-decoration: none;
+      color: var(--text-light);
+      font-size: 1.2rem;
+    }
+
+    #login-status {
+      font-size: 0.9rem;
+    }
+
+    #course-container {
+      display: flex;
+      height: calc(100vh - 65px);
+    }
+
+    #sidebar {
+      width: 280px;
+      background-color: var(--bg-dark);
+      color: var(--text-light);
+      padding: 20px;
+      overflow-y: auto;
+      flex-shrink: 0;
+    }
+
+    .module h3 {
+      cursor: pointer;
+      margin-bottom: 5px;
+    }
+
+    .chapter-list {
+      display: none;
+      margin-left: 10px;
+    }
+
+    .chapter-link {
+      display: block;
+      padding: 5px;
+      text-decoration: none;
+      color: var(--text-light);
+      font-size: 0.9rem;
+    }
+
+    #main-content {
+      flex-grow: 1;
+      padding: 30px;
+      overflow-y: auto;
+    }
+
+    #lesson-title {
+      font-size: 1.8rem;
+      color: var(--primary-color);
+      margin-bottom: 15px;
+    }
+
+    #lesson-content h3 {
+      color: var(--secondary-color);
+      margin-top: 20px;
+    }
+
+    #lesson-content table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    #lesson-content th, td {
+      border: 1px solid var(--border-color);
+      padding: 8px;
+      text-align: left;
+    }
+
+    @media (max-width: 850px) {
+      #course-container { flex-direction: column; }
+      #sidebar { width: 100%; }
+      #main-content { padding: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="brand-area">
+    <a href="index.html"><i class="fas fa-home"></i> Início</a>
+    <img src="FK.png" alt="FEKA KAWIÇO" />
+    <span><strong>FEKA KAWIÇO</strong> – <em>A terra natural do conhecimento !</em></span>
+  </div>
+  <div id="login-status">🔒 Verificando acesso…</div>
+</header>
+
+<div id="course-container">
+  <aside id="sidebar">
+    <div class="module">
+      <h3 onclick="toggleModule(0)">📦 Módulo 1: Fundamentos</h3>
+      <div class="chapter-list" id="module-0">
+        <a href="#" class="chapter-link" onclick="loadLesson(0)">Capítulo 1: Introdução</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(1)">Capítulo 2: Nomenclatura</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(2)">Capítulo 3: Funcionamento</a>
+      </div>
+    </div>
+    <div class="module">
+      <h3 onclick="toggleModule(1)">📐 Módulo 2: Normas e Segurança</h3>
+      <div class="chapter-list" id="module-1">
+        <a href="#" class="chapter-link" onclick="loadLesson(3)">Capítulo 4: Normas Técnicas</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(4)">Capítulo 5: Segurança</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(5)">Capítulo 6: Ferramentas</a>
+      </div>
+    </div>
+    <div class="module">
+      <h3 onclick="toggleModule(2)">🔧 Módulo 3: Diagnóstico e Reparação</h3>
+      <div class="chapter-list" id="module-2">
+        <a href="#" class="chapter-link" onclick="loadLesson(6)">Capítulo 7: Falhas Comuns</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(7)">Capítulo 8: Diagnóstico Profissional</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(8)">Capítulo 9: Reparações</a>
+      </div>
+    </div>
+    <div class="module">
+      <h3>🧪 Teste Final</h3>
+      <div class="chapter-list" style="display:block;">
+        <a href="teste-refrigeração.html" class="chapter-link" style="font-weight:600;">Avaliação Teórica e Prática (100%)</a>
+        <p style="font-size:0.85rem; color:#ccc; margin-left:10px;">
+          • 50% teste de múltipla escolha<br>
+          • 50% diagnóstico e reparação de um AC
+        </p>
+      </div>
+    </div>
+  </aside>
+
+  <main id="main-content">
+    <h2 id="lesson-title">📘 Curso de Refrigeração Residencial</h2>
+    <div id="lesson-content">
+       <h2 style="color: var(--primary-color); margin-bottom: 10px;">📘 Curso Intensivo: Diagnóstico e Reparação de AC Residencial</h2>
+  <p><strong>Objetivo:</strong> Capacitar profissionais e técnicos para diagnosticar, reparar e manter sistemas de ar condicionado residencial com base em normas internacionais e práticas reais de campo.</p>
+
+  <p><strong>Para quem se destina:</strong> Técnicos de manutenção, eletricistas, instaladores, estudantes de engenharia e profissionais da climatização que desejam aprofundar seus conhecimentos em sistemas de refrigeração.</p>
+
+  <p><strong>Duração:</strong> 3 semanas de estudo técnico + 1 semana de avaliação final (teórica e prática). Cada capítulo corresponde a 1 dia de formação intensiva.</p>
+
+  <p><strong>Formato:</strong> Curso modular com conteúdo teórico e prático, diagramas, tabelas técnicas, exemplos reais e checklist de diagnóstico. Acesso otimizado para desktop e dispositivos móveis.</p>
+
+  <img src="Jovens-técnicos-AC.png" alt="Jovens técnicos angolanos em manutenção de AC" style="width:100%; max-width:400px; margin:20px 0; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.1);" />
+
+  <p style="font-style: italic; color: #666;">“Dominar a refrigeração é mais do que saber consertar — é entender o conforto, a eficiência e a segurança que cada sistema deve oferecer.”</p>
+</div>
+
+  </main>
+</div>
+
+<script>
+const USER_KEY = 'feka_user';
+const VALIDATION_KEYS = { refrigeracao: 'refrigeracao_validado' };
+
+// Verifica se o usuário está autenticado e validado
+document.addEventListener('DOMContentLoaded', () => {
+  const user = JSON.parse(localStorage.getItem(USER_KEY) || 'null');
+  const validado = localStorage.getItem(VALIDATION_KEYS.refrigeracao) === 'true';
+  const loginStatus = document.getElementById('login-status');
+
+  if (!user) {
+    loginStatus.textContent = '❌ Requer login';
+    alert('Faz login primeiro para acessar este curso.');
+    window.location.href = 'login.html';
+    return;
+  }
+
+  if (!validado) {
+    loginStatus.textContent = '🔓 Falta validar código';
+    alert('Valida o teu código de inscrição para acessar este curso.');
+    window.location.href = 'index.html';
+    return;
+  }
+
+  loginStatus.textContent = `✅ Acesso autorizado — Olá, ${user.nome.split(' ')[0]}`;
+});
+
+// Sidebar toggle
+function toggleModule(index) {
+  const el = document.getElementById(`module-${index}`);
+  el.style.display = el.style.display === 'block' ? 'none' : 'block';
+}
+
+// Simulação de conteúdo (você pode carregar os capítulos aqui)
+function loadLesson(id) {
+     const lessons = [
+  { title: "Capítulo 1: Introdução à Refrigeração Residencial", content: `
+<h3>I. Definição e Aplicação</h3>
+<p>A refrigeração residencial é o processo de remoção de calor de ambientes internos para proporcionar conforto térmico. Utiliza sistemas de climatização que operam com base em ciclos termodinâmicos, geralmente por compressão de vapor. Esses sistemas são essenciais em regiões de clima quente, como Angola, onde o conforto térmico impacta diretamente na qualidade de vida.</p>
+
+<h3>II. Evolução dos Sistemas de AC</h3>
+<p>Os primeiros sistemas de climatização eram mecânicos, como ventiladores e trocadores de calor por água. Com o avanço da eletrônica e da termodinâmica, surgiram os sistemas de compressão de vapor, que dominam o mercado atual. A evolução passou por marcos como os modelos de janela, splits e, mais recentemente, os sistemas inverter, que oferecem maior eficiência energética e menor impacto ambiental.</p>
+
+<h3>III. Tipos de Sistemas Residenciais</h3>
+<table>
+  <thead>
+    <tr>
+      <th>Tipo</th>
+      <th>Características</th>
+      <th>Vantagens</th>
+      <th>Desvantagens</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Janela</td>
+      <td>Unidade única, fácil instalação</td>
+      <td>Baixo custo inicial</td>
+      <td>Menor eficiência, mais ruído</td>
+    </tr>
+    <tr>
+      <td>Split</td>
+      <td>Unidade interna e externa</td>
+      <td>Silencioso, eficiente</td>
+      <td>Instalação mais complexa</td>
+    </tr>
+    <tr>
+      <td>Inverter</td>
+      <td>Controle variável do compressor</td>
+      <td>Alta eficiência, menor consumo</td>
+      <td>Custo inicial mais alto</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>IV. Eficiência Energética</h3>
+<p>A eficiência energética é um fator crítico. Sistemas inverter ajustam a velocidade do compressor conforme a demanda térmica, evitando picos de consumo. Isso resulta em menor gasto de energia e maior durabilidade do equipamento. Em contextos residenciais, essa tecnologia pode reduzir o consumo em até 40% comparado aos modelos convencionais.</p>
+
+<h3>🔧 Exemplo Prático</h3>
+<p>Em uma residência de 80 m², um AC convencional de 12.000 BTU consome cerca de 1,2 kWh por hora. Um modelo inverter equivalente consome em média 0,7 kWh/h. Considerando 8 horas de uso diário, a economia mensal pode ultrapassar 120 kWh, o que representa uma redução significativa na fatura de energia. Essa diferença pode ser verificada com um medidor de consumo instalado na linha dedicada do equipamento.</p>
+` },
+
+{ title: "Capítulo 2: Nomenclatura e Componentes dos Sistemas", content: `
+<h3>I. Termos Técnicos Fundamentais</h3>
+<p>Para atuar com precisão na área de refrigeração, é essencial dominar a nomenclatura técnica. Os principais termos incluem:</p>
+<ul>
+  <li><strong>BTU (British Thermal Unit):</strong> Unidade de medida da capacidade térmica. 1 BTU equivale a aproximadamente 0,293 watts.</li>
+  <li><strong>COP (Coefficient of Performance):</strong> Relação entre a energia útil gerada e a energia elétrica consumida. Quanto maior o COP, mais eficiente é o sistema.</li>
+  <li><strong>SEER (Seasonal Energy Efficiency Ratio):</strong> Índice de eficiência energética sazonal, muito usado em normas americanas.</li>
+  <li><strong>Carga térmica:</strong> Quantidade de calor que deve ser removida de um ambiente para manter o conforto térmico.</li>
+</ul>
+
+<h3>II. Componentes Principais do Sistema de Refrigeração</h3>
+<p>Todo sistema de ar condicionado residencial é composto por elementos que trabalham em conjunto para realizar o ciclo frigorífico. A seguir, os principais componentes:</p>
+<table>
+  <thead>
+    <tr>
+      <th>Componente</th>
+      <th>Função</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Compressor</td>
+      <td>Comprime o gás refrigerante, elevando sua pressão e temperatura.</td>
+    </tr>
+    <tr>
+      <td>Condensador</td>
+      <td>Libera o calor para o ambiente externo, condensando o gás em líquido.</td>
+    </tr>
+    <tr>
+      <td>Evaporador</td>
+      <td>Absorve o calor do ambiente interno, evaporando o líquido refrigerante.</td>
+    </tr>
+    <tr>
+      <td>Válvula de expansão</td>
+      <td>Reduz a pressão do refrigerante antes de entrar no evaporador.</td>
+    </tr>
+    <tr>
+      <td>Termostato</td>
+      <td>Controla a temperatura desejada, ativando ou desativando o sistema.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>III. Ciclo de Refrigeração</h3>
+<p>O ciclo de compressão de vapor é composto por quatro etapas:</p>
+<ol>
+  <li><strong>Compressão:</strong> O gás refrigerante é comprimido e aquecido.</li>
+  <li><strong>Condensação:</strong> O gás quente libera calor e se liquefaz.</li>
+  <li><strong>Expansão:</strong> O líquido passa pela válvula de expansão e perde pressão.</li>
+  <li><strong>Evaporação:</strong> O líquido absorve calor do ambiente e volta ao estado gasoso.</li>
+</ol>
+
+<h3>🔧 Exemplo Prático</h3>
+<p>Desmontar um sistema split e identificar visualmente os componentes. Utilizar etiquetas para nomear compressor, evaporador, condensador e válvula de expansão. Com o auxílio de um diagrama funcional, o técnico pode mapear o fluxo do refrigerante e entender como cada parte contribui para o ciclo térmico. Essa prática reforça a associação entre teoria e realidade, preparando o profissional para diagnósticos precisos.</p>
+` },
+{ title: "Capítulo 3: Funcionamento e Tipos de Sistemas", content: `
+<h3>I. Funcionamento do Ciclo Frigorífico</h3>
+<p>O ciclo frigorífico é o coração dos sistemas de ar condicionado. Ele opera com base na compressão de vapor, utilizando um fluido refrigerante que circula por um circuito fechado. O objetivo é transferir calor do ambiente interno para o externo, promovendo resfriamento. O refrigerante passa por quatro etapas: compressão, condensação, expansão e evaporação. Cada etapa ocorre em um componente específico, e o equilíbrio entre elas determina a eficiência do sistema.</p>
+
+<h3>II. Tipos de Sistemas: Expansão Direta vs Indireta</h3>
+<p>Os sistemas de refrigeração podem ser classificados quanto ao tipo de expansão:</p>
+<table>
+  <thead>
+    <tr>
+      <th>Tipo</th>
+      <th>Características</th>
+      <th>Aplicações</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Expansão Direta</td>
+      <td>O refrigerante circula diretamente no evaporador que está no ambiente climatizado.</td>
+      <td>Residências, pequenos escritórios</td>
+    </tr>
+    <tr>
+      <td>Expansão Indireta</td>
+      <td>O refrigerante resfria um fluido secundário (água ou ar), que circula no ambiente.</td>
+      <td>Edifícios comerciais, hospitais, indústrias</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>III. Sistemas Inverter vs Convencionais</h3>
+<p>Os sistemas convencionais operam com ciclos de liga/desliga. Quando a temperatura desejada é atingida, o compressor desliga e só volta a funcionar quando há nova demanda. Isso gera picos de consumo e desgaste dos componentes. Já os sistemas inverter utilizam compressores de velocidade variável, ajustando continuamente a potência conforme a necessidade térmica. Isso resulta em maior conforto, menor ruído e economia de energia.</p>
+
+<h3>IV. Controle Eletrônico e Sensores</h3>
+<p>Os sistemas modernos contam com placas eletrônicas que gerenciam sensores de temperatura, pressão, umidade e presença. Esses sensores alimentam algoritmos que otimizam o funcionamento do compressor, ventiladores e válvulas. O controle pode ser local (termostato digital) ou remoto (Wi-Fi, aplicativos móveis), permitindo ajustes precisos e monitoramento em tempo real.</p>
+
+<h3>🔧 Exemplo Prático</h3>
+<p>Simular o ciclo de refrigeração com um diagrama funcional: desenhar o percurso do refrigerante desde o compressor até o evaporador. Utilizar termômetros infravermelhos para medir a temperatura na saída do evaporador (deve estar entre 10°C e 15°C) e na saída do condensador (entre 35°C e 50°C). Com um manômetro, verificar a pressão de sucção (60–75 psi) e de descarga (220–250 psi). Essa simulação permite compreender o comportamento térmico e identificar desvios operacionais.</p>
+` },
+
+{ title: "Capítulo 4: Normas Técnicas (Europa, EUA, Brasil)", content: `
+<h3>I. Normas ABNT (Brasil)</h3>
+<p>A Associação Brasileira de Normas Técnicas (ABNT) estabelece diretrizes para instalação e manutenção de sistemas de climatização. A <strong>NBR 16069</strong> trata da instalação de sistemas tipo split, exigindo disjuntor exclusivo, bitola adequada de cabos, drenagem correta e isolamento térmico. Já a <strong>NBR 16401</strong> aborda conforto térmico, qualidade do ar e eficiência energética.</p>
+
+<h3>II. Normas ASHRAE e ANSI (EUA)</h3>
+<p>Nos Estados Unidos, a ASHRAE define padrões como:</p>
+<ul>
+  <li><strong>ASHRAE 62.1:</strong> Ventilação e qualidade do ar interno.</li>
+  <li><strong>ASHRAE 15:</strong> Segurança em sistemas de refrigeração.</li>
+  <li><strong>ANSI/ACCA Standard 5:</strong> Manutenção preventiva de sistemas HVAC.</li>
+</ul>
+
+<h3>III. Normas EN (Europa)</h3>
+<p>Na Europa, destacam-se:</p>
+<ul>
+  <li><strong>EN 378:</strong> Segurança ambiental e operacional.</li>
+  <li><strong>EN 14511:</strong> Desempenho de unidades de climatização.</li>
+  <li><strong>Diretiva ErP:</strong> Eficiência energética mínima exigida.</li>
+</ul>
+
+<h3>IV. Comparativo</h3>
+<table>
+  <thead>
+    <tr><th>Norma</th><th>Região</th><th>Foco</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>NBR 16069</td><td>Brasil</td><td>Instalação de sistemas split</td></tr>
+    <tr><td>ASHRAE 62.1</td><td>EUA</td><td>Ventilação e qualidade do ar</td></tr>
+    <tr><td>EN 378</td><td>Europa</td><td>Segurança ambiental</td></tr>
+  </tbody>
+</table>
+
+<h3>🔧 Exemplo Prático</h3>
+<p>Verificar se uma instalação atende à NBR 16069: confirmar disjuntor exclusivo, bitola correta dos cabos, suporte metálico anticorrosivo, drenagem adequada e isolamento térmico das tubulações. Essa inspeção garante segurança e conformidade técnica.</p>
+` },
+
+{ title: "Capítulo 5: Segurança e Boas Práticas", content: `
+<h3>I. Equipamentos de Proteção Individual (EPIs)</h3>
+<ul>
+  <li>Luvas isolantes</li>
+  <li>Óculos de proteção</li>
+  <li>Máscara para vapores químicos</li>
+  <li>Calçado de segurança</li>
+</ul>
+
+<h3>II. Procedimentos de Evacuação e Carga de Gás</h3>
+<p>Evacuar o sistema com bomba de vácuo até atingir 500 microns. Verificar estanqueidade com nitrogênio seco. Carregar o gás com balança digital e manifold, respeitando a quantidade exata indicada pelo fabricante.</p>
+
+<h3>III. Prevenção de Acidentes</h3>
+<ul>
+  <li>Desligar a alimentação elétrica antes de qualquer intervenção</li>
+  <li>Usar ferramentas isoladas</li>
+  <li>Evitar contato com componentes quentes ou pressurizados</li>
+</ul>
+
+<h3>IV. Manuseio de Refrigerantes</h3>
+<table>
+  <thead>
+    <tr><th>Refrigerante</th><th>GWP</th><th>Observações</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>R-22</td><td>1810</td><td>Proibido em vários países</td></tr>
+    <tr><td>R-410A</td><td>2088</td><td>Alta eficiência, não inflamável</td></tr>
+    <tr><td>R-32</td><td>675</td><td>Menor GWP, levemente inflamável</td></tr>
+  </tbody>
+</table>
+
+<h3>🔧 Exemplo Prático</h3>
+<p>Realizar carga de gás R-410A: conectar manifold à unidade externa, usar balança digital, abrir válvula lentamente com sistema desligado, monitorar pressão e temperatura, registrar dados em ficha técnica.</p>
+` },
+
+{ title: "Capítulo 6: Ferramentas e Equipamentos de Diagnóstico", content: `
+<h3>I. Ferramentas Essenciais</h3>
+<ul>
+  <li><strong>Multímetro:</strong> Mede tensão, corrente e resistência elétrica.</li>
+  <li><strong>Manômetro:</strong> Verifica pressão do gás refrigerante.</li>
+  <li><strong>Termômetro infravermelho:</strong> Mede temperatura sem contato.</li>
+  <li><strong>Bomba de vácuo:</strong> Remove umidade e ar do sistema.</li>
+  <li><strong>Detector de vazamento:</strong> Identifica pontos de fuga de gás.</li>
+</ul>
+
+<h3>II. Software de Monitoramento</h3>
+<p>Aplicativos conectados via Wi-Fi ou Bluetooth permitem monitoramento em tempo real de temperatura, consumo e ciclos. Armazenam histórico para análise comparativa.</p>
+
+<h3>III. Interpretação de Dados</h3>
+<table>
+  <thead>
+    <tr><th>Sintoma</th><th>Ferramenta</th><th>Diagnóstico</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Ar quente</td><td>Manômetro</td><td>Pressão baixa indica vazamento</td></tr>
+    <tr><td>Compressor não liga</td><td>Multímetro</td><td>Falha no capacitor ou termostato</td></tr>
+    <tr><td>Evaporador quente</td><td>Termômetro</td><td>Obstrução ou carga insuficiente</td></tr>
+  </tbody>
+</table>
+
+<h3>🔧 Exemplo Prático</h3>
+<p>Diagnosticar falha de compressor: medir resistência entre terminais com multímetro, verificar continuidade do capacitor, medir pressão de sucção e descarga com manômetro, confirmar sobreaquecimento ou falha de partida.</p>
+` },
+
+{ title: "Capítulo 7: Falhas Comuns em Sistemas Residenciais", content: `
+<h3>I. Falta de Refrigeração</h3>
+<p>Esse é o sintoma mais relatado por usuários. Pode ser causado por diversos fatores, como carga de gás insuficiente, obstrução no evaporador, falha no compressor ou problemas elétricos. A análise deve começar pela verificação da pressão do sistema e da temperatura de saída do ar.</p>
+
+<h3>II. Vazamento de Gás</h3>
+<p>Ocorre geralmente em conexões mal vedadas, soldas mal executadas ou microfissuras em tubulações. Os sinais incluem baixa pressão de sucção, formação de gelo no evaporador e perda gradual de desempenho.</p>
+
+<h3>III. Problemas Elétricos</h3>
+<ul>
+  <li><strong>Capacitor:</strong> Quando danificado, impede o arranque do compressor ou do ventilador.</li>
+  <li><strong>Placa eletrônica:</strong> Pode apresentar falhas de controle, sensores inoperantes ou reinicializações constantes.</li>
+</ul>
+
+<h3>IV. Obstruções e Sujeira</h3>
+<p>Filtros de ar sujos, serpentinas obstruídas e drenos entupidos afetam o fluxo de ar e causam sobrecarga térmica. Isso pode levar ao desligamento por proteção ou à formação de gelo.</p>
+
+<h3>V. Diagnóstico Rápido</h3>
+<table>
+  <thead>
+    <tr><th>Sintoma</th><th>Causa Provável</th><th>Ferramenta</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Ar quente</td><td>Filtro sujo</td><td>Inspeção visual</td></tr>
+    <tr><td>Compressor não liga</td><td>Capacitor queimado</td><td>Multímetro</td></tr>
+    <tr><td>Gelo no evaporador</td><td>Vazamento de gás</td><td>Manômetro</td></tr>
+  </tbody>
+</table>
+
+<h3>🔧 Exemplo Prático</h3>
+<p>Diagnóstico de falha por filtro sujo: verificar o fluxo de ar na saída da evaporadora, remover e inspecionar o filtro, medir pressão de sucção com manômetro (valores abaixo de 60 psi indicam baixa carga), limpar o filtro e monitorar o retorno da pressão e da temperatura.</p>
+` },
+
+{ title: "Capítulo 8: Técnicas de Diagnóstico Profissional", content: `
+<h3>I. Análise de Sintomas e Histórico</h3>
+<p>Antes de qualquer medição, é essencial ouvir o cliente. Perguntas como “quando começou o problema?”, “ocorre em horários específicos?” ou “houve queda de energia recentemente?” ajudam a direcionar o diagnóstico. Observar ruídos, odores, ciclos de funcionamento e consumo também é fundamental.</p>
+
+<h3>II. Testes de Continuidade e Resistência</h3>
+<p>Com o multímetro, verifica-se a integridade de cabos, conectores e componentes. Medições de resistência nas bobinas do compressor e nos capacitores revelam falhas ocultas. A continuidade elétrica garante que não há interrupções no circuito.</p>
+
+<h3>III. Verificação de Pressão e Temperatura</h3>
+<p>Utilizando manômetros e termômetros infravermelhos, o técnico deve medir:</p>
+<ul>
+  <li>Pressão de sucção e descarga</li>
+  <li>Temperatura de entrada e saída do evaporador</li>
+  <li>Superaquecimento e sub-resfriamento</li>
+</ul>
+
+<h3>IV. Checklist Técnico</h3>
+<table>
+  <thead>
+    <tr><th>Etapa</th><th>Ação</th><th>Ferramenta</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>1</td><td>Verificar tensão de alimentação</td><td>Multímetro</td></tr>
+    <tr><td>2</td><td>Inspecionar filtro de ar</td><td>Visual</td></tr>
+    <tr><td>3</td><td>Medir pressão do sistema</td><td>Manômetro</td></tr>
+    <tr><td>4</td><td>Testar capacitor</td><td>Multímetro</td></tr>
+    <tr><td>5</td><td>Observar funcionamento do ventilador</td><td>Visual/Audição</td></tr>
+  </tbody>
+</table>
+
+<h3>🔧 Exemplo Prático</h3>
+<p>Criar um checklist de diagnóstico para atendimento técnico em domicílio: imprimir ou digitalizar uma ficha com os itens acima, registrar os valores medidos e as ações tomadas. Isso padroniza o serviço e facilita o acompanhamento técnico.</p>
+` },
+
+{ title: "Capítulo 9: Reparações e Testes Pós-Manutenção", content: `
+<h3>I. Substituição de Componentes</h3>
+<p>Capacitores, sensores, placas eletrônicas e ventiladores devem ser substituídos por peças compatíveis e originais. A troca deve ser feita com o sistema desligado, respeitando polaridade e especificações técnicas.</p>
+
+<h3>II. Reparo de Vazamentos</h3>
+<p>Após identificar o ponto de fuga com detector eletrônico ou espuma, realiza-se a solda com maçarico e vareta de prata. O teste de estanqueidade é feito com nitrogênio a 300 psi por 30 minutos. Se não houver queda de pressão, o sistema está selado.</p>
+
+<h3>III. Testes de Estanqueidade e Rendimento</h3>
+<ul>
+  <li>Evacuar o sistema com bomba de vácuo até 500 microns</li>
+  <li>Carregar o gás com balança digital</li>
+  <li>Medir pressão, temperatura e consumo elétrico</li>
+</ul>
+
+<h3>IV. Relatório Técnico e Garantia</h3>
+<p>Registrar data, serviço realizado, peças trocadas e parâmetros finais. O relatório deve ser assinado pelo técnico e pelo cliente. A garantia pode variar entre 3 e 6 meses, conforme política da empresa.</p>
+
+<h3>🔧 Exemplo Prático</h3>
+<p>Reparo de vazamento em tubulação de cobre: identificar o ponto com detector, cortar e limpar a área com lixa, aplicar solda com maçarico, pressurizar com nitrogênio e verificar estanqueidade. Após aprovação, realizar vácuo e carga de gás, testar funcionamento e registrar dados.</p>
+` },
+
+  ];
+
+  document.getElementById('lesson-title').textContent = lessons[id].title;
+  document.getElementById('lesson-content').innerHTML = lessons[id].content;
+}
+
+</script>
+
+</body>
+</html>
