@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Teste Módulo 3 – Sistemas de Segurança, Conforto e Reparação</title>
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f7fb;
+  color: #222;
+  margin: 0;
+  padding: 20px;
+}
+.container {
+  max-width: 980px;
+  margin: auto;
+  background: #fff;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 8px 26px rgba(0,0,0,.08);
+}
+h1 { font-size: 1.5rem; color: #004a80; text-align: center; }
+.quiz-question { margin: 18px 0; padding: 16px; border-radius: 10px; border: 1px solid #dce3f0; background: #f9faff; }
+.quiz-question p { font-weight: 600; margin-bottom: 8px; color: #004a80; }
+label { display: block; margin: 6px 0; cursor: pointer; }
+textarea { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ccc; font-size: 0.95rem; }
+button { padding: 10px 16px; border-radius: 10px; border: none; cursor: pointer; font-weight: 700; margin-top: 12px; }
+.primary { background: #004a80; color: #fff; }
+.secondary { background: #e0e6f0; color: #222; }
+.small { font-size: 0.85rem; color: #666; }
+#resultadoBox { margin-top: 20px; padding: 12px; background: #e6ffed; border: 1px solid #b2f5ea; border-radius: 8px; display: none; }
+.top-btn { display: inline-block; margin-bottom: 15px; text-decoration: none; background: #004a80; color: #fff; padding: 8px 14px; border-radius: 8px; font-weight: 600; }
+.top-btn:hover { background: #00345d; }
+</style>
+</head>
+
+<body>
+<div class="container">
+  <a href="curso-Auto-Nmicra.html" class="top-btn">⬅ Voltar ao Curso</a>
+  <h1>Teste Módulo 3 – Sistemas de Segurança, Conforto e Reparação</h1>
+
+  <form id="quizForm">
+    <div class="quiz-question">
+      <p>Identificação do formando</p>
+      <input id="alunoName" placeholder="Nome completo" required>
+      <input id="alunoEmail" placeholder="Email" required>
+      <p class="small">Preenche os dados para registo local.</p>
+    </div>
+
+    <div id="perguntasTeoricas"></div>
+
+    <div class="quiz-question">
+      <p><strong>🧩 Estudo de Caso Prático</strong></p>
+      <p>Um Nissan Micra apresenta falha intermitente nos vidros elétricos e consumo parasita da bateria à noite. O ABS não acusa falhas no scanner, mas a luz SRS permanece acesa após reset.</p>
+      <label><input type="radio" name="caso" value="a"> Substituir todos os módulos eletrónicos sem diagnóstico</label>
+      <label><input type="radio" name="caso" value="b"> Realizar medição de corrente parasita, testar vidros e BCM, limpar códigos SRS</label>
+      <label><input type="radio" name="caso" value="c"> Apenas recarregar bateria e desligar ABS</label>
+      <label><input type="radio" name="caso" value="d"> Resetar ECU e BCM sem verificar sinais de sensores</label>
+      <p class="small">Descreva passo a passo como resolveria este caso, incluindo ferramentas e justificativa técnica:</p>
+      <textarea name="resolucao" rows="6" required></textarea>
+    </div>
+
+    <button type="button" id="submitQuiz" class="primary">Submeter Teste</button>
+    <button type="reset" id="resetQuiz" class="secondary">Limpar Respostas</button>
+    <div id="resultadoBox"></div>
+  </form>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const perguntas = [
+    // Capítulo 7 – ABS/ESP e SRS
+    "1️⃣ Qual é a função principal do ABS?",
+    "2️⃣ Como o ESP mantém a estabilidade do veículo?",
+    "3️⃣ Qual a tensão esperada de um sensor de roda do ABS?",
+    "4️⃣ O que indica o DTC C0035?",
+    "5️⃣ Qual ferramenta é indicada para testar sensores ABS/ESP?",
+    "6️⃣ Antes de testar o SRS, qual procedimento obrigatório?",
+    "7️⃣ O que pode causar luz SRS acesa?",
+    "8️⃣ Qual a função do clock spring no SRS?",
+    "9️⃣ Como se mede a resistência correta na rede CAN?",
+    "10️⃣ Qual falha comum na linha LIN Bus?",
+    // Capítulo 8 – Climatização, elétricos do habitáculo e parasitas
+    "11️⃣ Sintoma de compressor de AC não acionando?",
+    "12️⃣ Causa provável de ar não resfriar?",
+    "13️⃣ Procedimento correto para testar atuadores de porta de ar?",
+    "14️⃣ Sintoma de vidro elétrico queimado?",
+    "15️⃣ O que verificar em falha intermitente do painel?",
+    "16️⃣ Origem comum de consumo parasita elevado à noite?",
+    "17️⃣ Ferramenta para medir corrente parasita?",
+    "18️⃣ Procedimento para localizar fuga de corrente?",
+    "19️⃣ Sintoma típico de falha no BCM?",
+    "20️⃣ Ação preventiva para evitar falhas em sistemas eletrónicos?",
+    // Capítulo 9 – Reparação, manutenção preventiva e estudo de caso
+    "21️⃣ O que deve ser feito antes de substituir sensores eletrónicos?",
+    "22️⃣ Por que programar a ECU após substituição?",
+    "23️⃣ Procedimento após instalar novo atuador?",
+    "24️⃣ Qual item de manutenção previne ruptura de correia?",
+    "25️⃣ Fluido a verificar periodicamente no Micra?",
+    "26️⃣ Como monitorar falhas intermitentes nos módulos eletrónicos?",
+    "27️⃣ Qual teste confirma comunicação correta entre ECU e BCM?",
+    "28️⃣ Benefício de registrar cada intervenção detalhadamente?",
+    "29️⃣ Passo inicial em estudo de caso de falha no AC?",
+    "30️⃣ Passo inicial em estudo de caso de consumo parasita da bateria?"
+  ];
+
+  const alternativas = [
+    // 7.1 e 7.2
+    ["a) Bloquear rodas em frenagem", "b) Evitar bloqueio de rodas", "c) Reduzir consumo de combustível", "d) Controlar ABS via ECU"],
+    ["a) Aumenta torque do motor", "b) Aplica travagem seletiva e ajusta torque", "c) Desliga motor em curva", "d) Controla climatização do habitáculo"],
+    ["a) 0,1–0,3 V", "b) 0,5–1,2 V AC variável", "c) 5 V constante", "d) 12 V DC"],
+    ["a) Sensor de roda dianteira esquerda com falha", "b) Sensor de ângulo do volante", "c) Sensor de pedal de travão", "d) Centralina SRS com erro"],
+    ["a) Multímetro comum", "b) Osciloscópio", "c) Scanner apenas", "d) Ferramenta de pressão do combustível"],
+    ["a) Ligar motor e acelerar", "b) Desligar bateria e aguardar 10 minutos", "c) Pressionar pedal 5 vezes", "d) Resetar ABS"],
+    ["a) Fusível queimado", "b) Conector solto ou clock spring danificado", "c) Sensor de temperatura", "d) Falha na bomba de combustível"],
+    ["a) Conectar módulo ABS", "b) Manter comunicação CAN", "c) Permitir rotação do volante sem romper fios", "d) Ajustar torque do motor"],
+    ["a) 120 Ω total", "b) 60 Ω entre pinos OBD", "c) 12 V constante", "d) 0 V em repouso"],
+    ["a) Falta de terminação ou módulo mestre defeituoso", "b) Tensão baixa do alternador", "c) Fusível queimado", "d) Sensor de pressão do óleo"],
+    // 8.1 a 8.3
+    ["a) Fusão interna do compressor", "b) Relé ou fusível defeituoso", "c) Sensor de pressão funcionando", "d) Circuito aberto no painel"],
+    ["a) Motor desligado", "b) Falta de gás refrigerante ou vazamento", "c) Atuador funcionando", "d) Filtro de cabine limpo"],
+    ["a) Substituir sensor de temperatura", "b) Testar e substituir atuadores de porta de ar", "c) Medir resistência do fusível", "d) Resetar BCM"],
+    ["a) Não sobe/descem", "b) Lentidão no ar condicionado", "c) Luz SRS acesa", "d) Travões bloqueados"],
+    ["a) Motor queimado", "b) Falha no BCM ou alimentação", "c) Fusível queimado", "d) Sensor EGR"],
+    ["a) Iluminação interna ou porta mal fechada", "b) Motor em curto", "c) Alternador desligado", "d) Falha na ECU"],
+    ["a) Multímetro", "b) Pinça amperimétrica ou multímetro em série", "c) Scanner", "d) Osciloscópio apenas"],
+    ["a) Desconectar bateria apenas", "b) Remover fusíveis sequencialmente e testar circuitos", "c) Substituir BCM", "d) Recarregar bateria"],
+    ["a) Luz do ABS acesa", "b) Falha intermitente em vidros ou travas", "c) Ruído do motor", "d) Luz SRS apagada"],
+    ["a) Substituir módulo sem teste", "b) Monitoramento periódico de DTCs e inspeção de cabos", "c) Resetar ECU", "d) Não fazer manutenção preventiva"],
+    // 9.1 a 9.3
+    ["a) Ligar o motor", "b) Desligar bateria, usar EPI e ferramentas certificadas", "c) Substituir e ligar imediatamente", "d) Apenas recalibrar"],
+    ["a) Ajustar torque do motor", "b) Integrar corretamente o módulo no sistema", "c) Aumentar pressão do fluido", "d) Evitar falha no ABS"],
+    ["a) Teste de pressão do freio", "b) Verificar alimentação e funcionamento", "c) Apenas observar LEDs", "d) Substituir fusível"],
+    ["a) Fluido de travão", "b) Correia de distribuição", "c) Filtro de ar", "d) Sensor de temperatura"],
+    ["a) Óleo do motor, líquido de travões e refrigerante", "b) Fluido de direção hidráulica apenas", "c) Combustível", "d) Fluido da embraiagem"],
+    ["a) Monitoramento de DTCs e inspeção de cabos", "b) Recarregar bateria", "c) Apenas observar sinais visuais", "d) Teste de pressão do óleo"],
+    ["a) Medir rotação do motor", "b) Testes dinâmicos via scanner e leitura DTCs", "c) Substituir todos sensores", "d) Resetar BCM"],
+    ["a) Aumentar torque do motor", "b) Garantir rastreabilidade e registro detalhado", "c) Substituir fusíveis preventivamente", "d) Medir corrente do alternador"],
+    ["a) Substituir ECU", "b) Identificar sintoma, isolar sistema e testar componentes", "c) Resetar módulos", "d) Desligar bateria e ligar novamente"],
+    ["a) Apenas recarregar bateria", "b) Medir corrente em série, localizar parasita e reparar", "c) Substituir BCM sem teste", "d) Resetar ABS"]
+  ];
+
+  const answers = {
+    q1:'b', q2:'b', q3:'b', q4:'a', q5:'b',
+    q6:'b', q7:'b', q8:'c', q9:'b', q10:'a',
+    q11:'b', q12:'b', q13:'b', q14:'a', q15:'b',
+    q16:'a', q17:'b', q18:'b', q19:'b', q20:'b',
+    q21:'b', q22:'b', q23:'b', q24:'b', q25:'a',
+    q26:'a', q27:'b', q28:'b', q29:'b', q30:'b'
+  };
+
+  const perguntasTeoricas = document.getElementById('perguntasTeoricas');
+  perguntas.forEach((pergunta, i) => {
+    const div = document.createElement('div');
+    div.className = 'quiz-question';
+    div.innerHTML = `<p>${pergunta}</p>` +
+      alternativas[i].map((alt, j) => {
+        const letra = ['a','b','c','d'][j];
+        return `<label><input type="radio" name="q${i+1}" value="${letra}"> ${alt}</label>`;
+      }).join('');
+    perguntasTeoricas.appendChild(div);
+  });
+
+  const submitBtn = document.getElementById('submitQuiz');
+  const resultBox = document.getElementById('resultadoBox');
+
+  submitBtn.addEventListener('click', () => {
+    const name = document.getElementById('alunoName').value.trim();
+    const email = document.getElementById('alunoEmail').value.trim();
+    if (!name || !email) return alert("Preenche nome e email antes de submeter.");
+
+    let score = 0;
+    for (let i = 1; i <= 30; i++) {
+      const sel = document.querySelector(`input[name="q${i}"]:checked`);
+      if (sel && sel.value === answers[`q${i}`]) score++;
+    }
+    const percent = Math.round((score / 30) * 100);
+
+    resultBox.style.display = 'block';
+    resultBox.innerHTML = `<p><strong>Obrigado, ${name}.</strong></p>
+      <p>Pontuação: <strong>${score}</strong> / 30 — <strong>${percent}%</strong></p>
+      <p class="small">As respostas foram registadas localmente (sem ligação externa).</p>`;
+    submitBtn.disabled = true;
+  });
+});
+</script>
+</body>
+</html>

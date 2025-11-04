@@ -17,109 +17,107 @@
 }
 
 /* RESET */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
 /* GLOBAL */
 body {
   background-color: var(--bg-light);
   color: var(--text-dark);
-  font-family: "Segoe UI", "Roboto", "Helvetica Neue", "Ubuntu", "Arial", sans-serif;
-  font-weight: 400;
-  line-height: 1.7;
-  letter-spacing: 0.2px;
+  font-family: "Segoe UI", "Roboto", sans-serif;
+  line-height: 1.6;
   transition: all 0.3s ease-in-out;
+  overflow-x: hidden;
 }
 
 /* HEADER */
 header {
   background-color: var(--primary-color);
   color: var(--text-light);
-  padding: 15px 20px;
+  padding: 10px 15px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-family: "Segoe UI Semibold", "Roboto", sans-serif;
   font-weight: 500;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 }
 
 .brand-area {
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 10px;
+  flex-wrap: nowrap;
 }
 
 .brand-area img {
-  height: 34px;
-  border-radius: 6px;
+  height: 30px;
+  border-radius: 5px;
 }
 
 .brand-area a {
   text-decoration: none;
   color: var(--text-light);
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 600;
-  letter-spacing: 0.3px;
-  transition: 0.3s;
-}
-
-.brand-area a:hover {
-  color: var(--secondary-color);
 }
 
 #login-status {
-  font-size: 0.9rem;
-  opacity: 0.85;
+  font-size: 0.85rem;
+  opacity: 0.9;
 }
 
 /* SIDEBAR */
 #course-container {
   display: flex;
   height: calc(100vh - 65px);
-  flex-shrink: 0;
+  overflow: hidden;
 }
 
 #sidebar {
-  width: 500px;
-  min-width: 450px;
+  width: 450px;
   background-color: var(--bg-dark);
   color: var(--text-light);
-  padding: 25px 25px 40px 25px;
+  padding: 20px;
   overflow-y: auto;
-  font-family: "Segoe UI", "Roboto", sans-serif;
-  transition: width 0.3s ease;
+  transition: transform 0.3s ease-in-out;
+}
+
+#sidebar.hidden {
+  transform: translateX(-100%);
+}
+
+#toggle-sidebar {
+  display: none;
+  background: var(--primary-color);
+  color: var(--text-light);
+  border: none;
+  font-size: 1.3rem;
+  padding: 8px 12px;
+  border-radius: 6px;
+  margin-right: 10px;
 }
 
 .module h3 {
   cursor: pointer;
+  font-size: 1rem;
   margin-bottom: 8px;
-  font-size: 1.05rem;
   font-weight: 600;
-  letter-spacing: 0.4px;
-  transition: color 0.3s ease;
-}
-
-.module h3:hover {
-  color: var(--secondary-color);
 }
 
 .chapter-list {
   display: none;
-  margin-left: 10px;
+  margin-left: 8px;
 }
 
 .chapter-link {
   display: block;
-  padding: 7px 6px;
-  text-decoration: none;
   color: var(--text-light);
+  padding: 5px;
   font-size: 0.95rem;
-  font-weight: 400;
-  transition: all 0.3s ease;
+  text-decoration: none;
   border-left: 2px solid transparent;
+  transition: all 0.3s ease;
 }
 
 .chapter-link:hover {
@@ -127,283 +125,723 @@ header {
   border-left: 2px solid var(--secondary-color);
 }
 
-/* MAIN CONTENT */
+/* MAIN */
 #main-content {
   flex-grow: 1;
-  padding: 40px;
+  padding: 30px;
   overflow-y: auto;
-  font-family: "Segoe UI", "Roboto", "Helvetica Neue", sans-serif;
+  text-align: justify;
 }
 
 #lesson-title {
-  font-size: 2rem;
+  font-size: 1.8rem;
   color: var(--primary-color);
-  font-weight: 700;
-  margin-bottom: 15px;
-  letter-spacing: 0.5px;
-  text-shadow: 0 1px 1px rgba(0,0,0,0.05);
-}
-
-#lesson-content h2 {
-  font-family: "Segoe UI Semibold", "Roboto", sans-serif;
-  font-weight: 600;
-  color: var(--primary-color);
+  text-align: center;
   margin-bottom: 10px;
-  letter-spacing: 0.4px;
 }
 
-#lesson-content p, 
-#lesson-content li {
-  font-size: 1rem;
-  color: var(--text-dark);
+/* ===============================
+   APRESENTAÇÃO — LADO A LADO
+/* ===============================
+   /* ===============================
+   FOLHA A4 COMPLETA E COMPACTA
+   =============================== */
+.intro-section {
+  background: #fff;
+  max-width: 850px; /* formato folha A4 */
+  margin: 30px auto;
+  padding: 35px 45px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  color: #222;
+  line-height: 1.6;
+  text-align: justify;
+  overflow: hidden; /* garante que nada saia da folha */
 }
 
-#lesson-content strong {
-  font-weight: 600;
-  color: var(--primary-color);
+/* título dentro da folha */
+.intro-section h2 {
+  color: #004a80;
+  text-align: center;
+  font-size: 1.8rem;
+  margin-bottom: 25px;
 }
 
-/* COURSE WRAPPER (foto direita) */
-.course-wrapper {
-  display: grid;
-  grid-template-columns: 1fr 280px;
+/* organização da imagem e texto */
+.intro-content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
   gap: 20px;
-  max-width: 1000px;
-  margin: auto;
-  line-height: 1.65;
 }
 
-.course-text {
-  grid-column: 1 / 2;
-}
-
-.course-wrapper img {
-  grid-column: 2 / 3;
-  width: 100%;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+/* imagem à esquerda */
+.intro-image {
+  flex: 0 0 30%;
+  width: 30%;
+  border-radius: 8px;
   object-fit: cover;
-  transition: transform 0.4s ease;
+  aspect-ratio: 4 / 3;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.15);
 }
 
-.course-wrapper img:hover {
-  transform: scale(1.02);
+/* texto à direita */
+.intro-text {
+  flex: 1 1 65%;
+  text-align: justify;
 }
 
-.course-wrapper ul {
-  padding-left: 22px;
-  margin: 10px 0;
-}
-
-.course-wrapper li {
+/* subtítulos e listas */
+.intro-text h3 {
+  color: #004a80;
+  margin-top: 10px;
   margin-bottom: 6px;
-}
-
-.course-wrapper p.quote {
-  font-style: italic;
-  color: #555;
-  margin-top: 30px;
-  grid-column: 1 / -1;
   font-size: 1.05rem;
-  border-left: 3px solid var(--secondary-color);
-  padding-left: 15px;
 }
 
-@media (max-width: 800px) {
-  .course-wrapper {
-    grid-template-columns: 1fr;
+.intro-text ul {
+  margin-left: 20px;
+  margin-bottom: 10px;
+}
+
+.intro-text li {
+  margin-bottom: 4px;
+}
+
+/* === Responsividade === */
+@media (max-width: 900px) {
+  .intro-section {
+    padding: 25px 20px;
+    max-width: 95%;
   }
 
-  .course-wrapper img {
-    grid-column: 1 / -1;
-    margin: 0 auto 20px auto;
-    max-width: 320px;
+  .intro-content {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .intro-image {
+    width: 90%;
+    max-width: 350px;
+    margin-bottom: 15px;
+  }
+
+  .intro-text {
+    width: 100%;
   }
 }
+
+
+/* === ESTILO DE VISUALIZAÇÃO "FOLHA A4" === */
+#main-content {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 40px 10px;
+  background-color: #f4f6f8;
+  overflow-y: auto;
+}
+
+/* a “folha” inclui o título e o conteúdo */
+.lesson-content,
+.lesson-wrapper {
+  background: #fff;
+  max-width: 850px;        /* largura tipo A4 */
+  margin: 0 auto;
+  padding: 40px 50px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  line-height: 1.7;
+  color: #222;
+  text-align: justify;
+}
+
+.lesson-wrapper h2,
+.lesson-content h2,
+.lesson-content h3,
+.lesson-content h4 {
+  color: #004a80;
+  margin-top: 20px;
+  text-align: center;
+}
+
+.lesson-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 0.95rem;
+}
+
+.lesson-content th,
+.lesson-content td {
+  border: 1px solid #ccc;
+  padding: 8px 10px;
+  text-align: left;
+}
+
+.lesson-content th {
+  background-color: #004a80;
+  color: #fff;
+}
+
+/* === Responsividade da folha === */
+@media (max-width: 900px) {
+  .lesson-content,
+  .lesson-wrapper {
+    padding: 20px;
+    margin: 10px;
+    max-width: 95%;
+  }
+
+  .lesson-content table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+}
+
+
+/* ===============================
+   CORREÇÃO FINAL — SIDEBAR MÓVEL
+   =============================== */
+@media (max-width: 900px) {
+  /* 🔹 Sidebar retraído por defeito no telemóvel */
+  #sidebar {
+    position: fixed;
+    left: 0;
+    top: 60px;
+    height: calc(100vh - 60px);
+    width: 450px;
+    background-color: var(--bg-dark);
+    color: var(--text-light);
+    transform: translateX(-100%); /* começa retraído */
+    transition: transform 0.3s ease-in-out;
+    z-index: 999;
+  }
+
+  /* 🔹 Quando o botão ☰ é clicado, a classe .hidden é removida → abre */
+  #sidebar.active {
+    transform: translateX(0); /* expande */
+  }
+
+  /* 🔹 Botão visível apenas no telemóvel */
+  #toggle-sidebar {
+    display: inline-block;
+  }
+}
+
+/* --- ESTILO DE LEITURA A4 --- */
+#main-content {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 30px;
+  background-color: #f8f9fa;
+}
+
+.lesson-wrapper {
+  background-color: #fff;
+  width: 100%;
+  max-width: 850px; /* largura tipo folha A4 */
+  padding: 40px 50px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  border-radius: 10px;
+  line-height: 1.7;
+  color: #222;
+}
+
+.lesson-wrapper h2,
+.lesson-wrapper h3,
+.lesson-wrapper h4 {
+  color: #004a80;
+  margin-top: 20px;
+}
+
+.lesson-wrapper table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 0.95rem;
+}
+
+.lesson-wrapper th,
+.lesson-wrapper td {
+  border: 1px solid #ccc;
+  padding: 8px 10px;
+  text-align: left;
+}
+
+.lesson-wrapper th {
+  background-color: #004a80;
+  color: white;
+}
+
+/* Responsividade para telemóveis */
+@media (max-width: 900px) {
+  .lesson-wrapper {
+    padding: 20px;
+    max-width: 95%;
+    font-size: 0.9rem;
+  }
+
+  .lesson-wrapper table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+}
+
+/* === ESTILO DE VISUALIZAÇÃO "FOLHA A4" === */
+.lesson-content {
+  background: #fff;
+  max-width: 850px;        /* largura tipo A4 */
+  margin: 30px auto;       /* centraliza no ecrã */
+  padding: 40px 50px;      /* espaço interno */
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  line-height: 1.7;
+  color: #222;
+  text-align: justify;
+}
+
+.lesson-content h2,
+.lesson-content h3,
+.lesson-content h4 {
+  color: #004a80;
+  margin-top: 20px;
+}
+
+.lesson-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 0.95rem;
+}
+
+.lesson-content th,
+.lesson-content td {
+  border: 1px solid #ccc;
+  padding: 8px 10px;
+  text-align: left;
+}
+
+.lesson-content th {
+  background-color: #004a80;
+  color: #fff;
+}
+
+/* Responsividade */
+@media (max-width: 900px) {
+  .lesson-content {
+    padding: 20px;
+    margin: 10px;
+    max-width: 95%;
+  }
+
+  .lesson-content table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+}
+
+/* ===============================
+   AJUSTE MOBILE — LOGO MAGRO + SIDEBAR VISÍVEL
+   =============================== */
+@media (max-width: 900px) {
+  /* 🔹 Reduz o tamanho do cabeçalho e logo */
+  header {
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    padding: 6px 10px;
+  }
+
+  .brand-area {
+    gap: 6px;
+  }
+
+  .brand-area img {
+    height: 22px;      /* diminui o logo */
+    width: auto;
+  }
+
+  .brand-area span {
+    font-size: 0.75rem; /* texto menor */
+    white-space: nowrap;
+  }
+
+  /* 🔹 Sidebar ocupa a tela toda, por cima do conteúdo */
+  #sidebar {
+    position: fixed;
+    top: 50px; /* abaixo do cabeçalho */
+    left: 0;
+    width: 85%; /* não precisa ser 100%, para dar um ar de menu lateral */
+    max-width: 350px;
+    height: calc(100vh - 50px);
+    overflow-y: auto;
+    background-color: #1f2937;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+    z-index: 9999; /* garante que fique por cima de tudo */
+    padding: 20px;
+  }
+
+  /* 🔹 Sidebar aberto */
+  #sidebar.active {
+    transform: translateX(0);
+  }
+
+  /* 🔹 Botão ☰ visível e clicável */
+  #toggle-sidebar {
+    display: inline-block;
+    font-size: 1.4rem;
+    padding: 6px 10px;
+    border-radius: 6px;
+  }
+
+  /* 🔹 O conteúdo principal se ajusta quando o sidebar abre */
+  #main-content {
+    margin-left: 0;
+    padding: 20px;
+  }
+}
+
+/* ===============================
+   TÍTULO DENTRO DA FOLHA A4
+   =============================== */
+.lesson-inner-title {
+  font-size: 1.6rem;
+  text-align: center;
+  color: #004a80;
+  font-weight: 700;
+  margin-bottom: 25px;
+  border-bottom: 2px solid #004a80;
+  padding-bottom: 8px;
+}
+
+
+/* ===============================
+   FOLHA A4 RESPONSIVA E PROPORCIONAL
+   =============================== */
+.lesson-content {
+  background: #fff;
+  max-width: 850px;          /* largura tipo A4 */
+  margin: 30px auto;         /* centraliza */
+  padding: 40px 50px;        /* margens internas */
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  line-height: 1.6;
+  color: #222;
+  text-align: justify;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.lesson-content h2,
+.lesson-content h3,
+.lesson-content h4 {
+  color: #004a80;
+  margin-top: 20px;
+  text-align: center;
+}
+
+.lesson-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 0.95rem;
+  table-layout: fixed;
+  word-wrap: break-word;
+}
+
+.lesson-content th,
+.lesson-content td {
+  border: 1px solid #ccc;
+  padding: 8px 10px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.lesson-content th {
+  background-color: #004a80;
+  color: #fff;
+}
+
+
+/* ===============================
+   📏 TABELAS DISCIPLINADAS 😎
+   =============================== */
+.lesson-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 0.95rem;
+  table-layout: auto;
+  word-wrap: break-word;
+  overflow: hidden;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.lesson-content th,
+.lesson-content td {
+  border: 1px solid #ccc;
+  padding: 8px 10px;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.lesson-content th {
+  background-color: #004a80;
+  color: #fff;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* ⚖️ Modo disciplinar: reduz proporção suavemente */
+@media (max-width: 900px) {
+  .lesson-content table {
+    font-size: 0.85rem;
+    transform: scale(0.95);
+    transform-origin: top center;
+  }
+}
+
+@media (max-width: 700px) {
+  .lesson-content table {
+    font-size: 0.8rem;
+    transform: scale(0.9);
+    transform-origin: top center;
+  }
+
+  .lesson-content th,
+  .lesson-content td {
+    padding: 5px 6px;
+  }
+}
+
+@media (max-width: 500px) {
+  .lesson-content table {
+    font-size: 0.75rem;
+    transform: scale(0.85);
+    transform-origin: top center;
+  }
+
+  .lesson-content th,
+  .lesson-content td {
+    padding: 4px 5px;
+  }
+}
+
+
+/* ------------------------------
+   AJUSTE DE ESCALA PARA TABLET
+   ------------------------------ */
+@media (max-width: 1100px) {
+  .lesson-content {
+    padding: 30px 35px;
+    max-width: 700px;
+    font-size: 0.95rem;
+  }
+}
+
+/* ------------------------------
+   AJUSTE PARA TELEMÓVEL
+   ------------------------------ */
+@media (max-width: 768px) {
+  .lesson-content {
+    max-width: 95%;
+    padding: 20px;
+    font-size: 0.88rem;       /* reduz fonte */
+    line-height: 1.5;
+    border-radius: 6px;
+  }
+
+  .lesson-inner-title {
+    font-size: 1.2rem;
+  }
+
+  .lesson-content h3 {
+    font-size: 1rem;
+  }
+
+  .lesson-content table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+    font-size: 0.85rem;
+    border-radius: 6px;
+  }
+
+  .lesson-content th,
+  .lesson-content td {
+    padding: 6px 8px;
+  }
+}
+
+/* ------------------------------
+   AJUSTE EXTREMO (ECRÃS PEQUENOS)
+   ------------------------------ */
+@media (max-width: 480px) {
+  .lesson-content {
+    padding: 15px;
+    font-size: 0.8rem;
+  }
+
+  .lesson-inner-title {
+    font-size: 1rem;
+  }
+
+  .lesson-content table {
+    font-size: 0.8rem;
+  }
+}
+
+
 </style>
 
-
-
 </head>
+
 <body>
 
 <header>
   <div class="brand-area">
-    <a href="index.html"><i class="fas fa-home"></i> Início</a>
+    <button id="toggle-sidebar">☰</button>
+    <a href="index.html"><i class="fas fa-home"></i></a>
     <img src="FK.png" alt="FEKA KAWIÇO" />
-    <span><strong>FEKA KAWIÇO</strong> – <em>A terra natural do conhecimento !</em></span>
+    <span><strong>FEKA KAWIÇO</strong> – <em>A terra natural do conhecimento!</em></span>
   </div>
   <div id="login-status">🔒 Verificando acesso…</div>
 </header>
 
-<div class="brand-area">
-  <a href="index.html"><i class="fas fa-home"></i> Início</a>
-  <img src="FK.png" alt="FEKA KAWIÇO" />
-  <span><strong>FEKA KAWIÇO</strong> – <em>A terra natural do conhecimento!</em></span>
-</div>
-<div id="login-status">🔒 Verificando acesso…</div>
-</header>
-
 <div id="course-container">
   <aside id="sidebar">
-    <!-- MÓDULO 1 -->
     <div class="module">
-      <h3 onclick="toggleModule(0)">📦 Módulo 1: Fundamentos do Nissan Micra e Eletroeletrónica Básica</h3>
-      <div class="chapter-list" id="module-0">
-        <div class="chapter">
-          <h4 onclick="toggleChapter(0)">📘 Capítulo 1: Introdução, História e Estrutura Geral</h4>
-          <div class="lesson-list" id="chapter-0">
-            <a href="#" onclick="loadLesson('1.1')">Aula 1.1 – Apresentação e História do Nissan Micra</a>
-            <a href="#" onclick="loadLesson('1.2')">Aula 1.2 – Estrutura Mecânica e Elétrica</a>
-            <a href="#" onclick="loadLesson('1.3')">Aula 1.3 – Identificação de Componentes Principais</a>
-          </div>
-        </div>
-        <div class="chapter">
-          <h4 onclick="toggleChapter(1)">📘 Capítulo 2: Eletricidade e Eletrónica Essencial para Diagnóstico</h4>
-          <div class="lesson-list" id="chapter-1">
-            <a href="#" onclick="loadLesson('2.1')">Aula 2.1 – Corrente, Tensão e Resistência</a>
-            <a href="#" onclick="loadLesson('2.2')">Aula 2.2 – Uso do Multímetro e Osciloscópio</a>
-            <a href="#" onclick="loadLesson('2.3')">Aula 2.3 – Interpretação de Diagramas Elétricos</a>
-          </div>
-        </div>
-        <div class="chapter">
-          <h4 onclick="toggleChapter(2)">📘 Capítulo 3: Ferramentas de Diagnóstico e Procedimentos Iniciais</h4>
-          <div class="lesson-list" id="chapter-2">
-            <a href="#" onclick="loadLesson('3.1')">Aula 3.1 – Introdução ao Scanner Automotivo</a>
-            <a href="#" onclick="loadLesson('3.2')">Aula 3.2 – Leitura de Códigos de Falha (DTCs)</a>
-            <a href="#" onclick="loadLesson('3.3')">Aula 3.3 – Procedimentos de Inspeção Inicial</a>
-          </div>
-        </div>
-      </div>
-    </div>
+      <h3 onclick="toggleModule(0)">📘 Módulo 1: Fundamentos do Nissan Micra e Eletroeletrónica Básica</h3>
+    
 
-    <!-- MÓDULO 2 -->
+      <div class="chapter-list" id="module-0">
+         
+ <h4 > 📦CAPITULO 1: Introdução, História e Estrutura Geral</h4>
+        <a href="#" class="chapter-link" onclick="loadLesson(0)">Aula 1.1 — Introdução ao Diagnóstico e Evolução do Micra</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(1)">🚗 Aula 1.2 – Nomenclatura e Componentes Principais (Visão Geral)a</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(2)"> ⚙️ Aula 1.3 – Função dos Componentes e Fluxo de Informação</a>
+
+<h4 > 📦CAPITULO 2: Eletricidade e Eletrónica Essencial para Diagnóstico</h4>
+        <a href="#" class="chapter-link" onclick="loadLesson(3)">Aula 2.1 — Fundamentos de Eletricidade Automóvel</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(4)">Aula 2.2 — Bateria, Carga e Arranque</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(5)">Aula 2.3 — Relés, Fusíveis e Esquemas Elétricos</a>
+
+<h4 > 📦CAPITULO 3: Ferramentas de Diagnóstico e Procedimentos Iniciais</h4>
+        <a href="#" class="chapter-link" onclick="loadLesson(6)">Aula 3.1 — Utilização do Scanner/Ferramenta de Diagnóstico (OBD-II)</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(7)">Aula 3.2 — Outras Ferramentas Essenciais e Manutenção</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(8)">Aula 3.3 — Metodologia de Deteção de Avaria (Passos Iniciais)</a>
+
+      </div>
+<a href="teste-Auto-Nmicra.html" class="chapter-link" style="font-weight:600;">Avaliação Teórica e Prática M1(100%)</a>
+
+    </div>
     <div class="module">
       <h3 onclick="toggleModule(1)">📐 Módulo 2: Diagnóstico Avançado de Sistemas Motor e Transmissão</h3>
       <div class="chapter-list" id="module-1">
-        <div class="chapter">
-          <h4 onclick="toggleChapter(3)">📘 Capítulo 4: Diagnóstico do Sistema de Gestão do Motor (EMS)</h4>
-          <div class="lesson-list" id="chapter-3">
-            <a href="#" onclick="loadLesson('4.1')">Aula 4.1 – Sensores Chave: Função, Teste e Valores</a>
-            <a href="#" onclick="loadLesson('4.2')">Aula 4.2 – Atuadores: Injeção, Ignição e Acessórios</a>
-            <a href="#" onclick="loadLesson('4.3')">Aula 4.3 – Análise de Emissões e Sonda Lambda</a>
-          </div>
-        </div>
-        <div class="chapter">
-          <h4 onclick="toggleChapter(4)">📘 Capítulo 5: Avarias Comuns do Motor (Deteção e Solução)</h4>
-          <div class="lesson-list" id="chapter-4">
-            <a href="#" onclick="loadLesson('5.1')">Aula 5.1 – Problemas de Desempenho</a>
-            <a href="#" onclick="loadLesson('5.2')">Aula 5.2 – Sistemas Diesel Específicos (1.5 dCi)</a>
-            <a href="#" onclick="loadLesson('5.3')">Aula 5.3 – Diagnóstico de Ruídos e Vibrações</a>
-          </div>
-        </div>
-        <div class="chapter">
-          <h4 onclick="toggleChapter(5)">📘 Capítulo 6: Transmissão, Embraiagem e Sistema de Direção</h4>
-          <div class="lesson-list" id="chapter-5">
-            <a href="#" onclick="loadLesson('6.1')">Aula 6.1 – Diagnóstico da Transmissão Manual e CVT</a>
-            <a href="#" onclick="loadLesson('6.2')">Aula 6.2 – Sistema de Direção Assistida Elétrica (EPS)</a>
-            <a href="#" onclick="loadLesson('6.3')">Aula 6.3 – Suspensão, Rodas e Travões</a>
-          </div>
-        </div>
-      </div>
-    </div>
 
-    <!-- MÓDULO 3 -->
-    <div class="module">
-      <h3 onclick="toggleModule(2)">🔧 Módulo 3: Sistemas de Segurança, Conforto e Reparação Avançada</h3>
+<h4 > 📦CAPITULO 4: Diagnóstico do Sistema de Gestão do Motor (EMS)</h4>
+        <a href="#" class="chapter-link" onclick="loadLesson(9)">Aula 4.1 — Sensores Chave: Função, Teste e Valores de Referência</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(10)">Aula 4.2 — Atuadores: Injeção, Ignição e Acessórios</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(11)">Aula 4.3 — Análise de Emissões e Sonda Lambda</a>
+
+<h4 > 📦CAPITULO 5: Avarias Comuns do Motor (Detenção e Solução)</h4>
+        <a href="#" class="chapter-link" onclick="loadLesson(12)">Aula 5.1 — Problemas de Desempenho (Perda de Potência e Falhas)</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(13)">Aula 5.2 — Sistemas Diesel Específicos (1.5 dCi)</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(14)">Aula 5.3 — Diagnóstico de Ruídos e Vibrações no Motor</a>
+
+<h4 > 📦CAPITULO 6: Transmissão, Embraiagem e Sistema de Direção</h4>
+        <a href="#" class="chapter-link" onclick="loadLesson(15)">Aula 6.1 — Diagnóstico da Transmissão Manual e Automática (CVT)</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(16)">Aula 6.2 — Sistema de Direção Assistida Elétrica (EPS)</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(17)">Aula 6.3 — Suspensão, Rodas e Travões (Não Eletrónicos)</a>
+
+
+      </div>
+
+<a href="teste-modulo2.html" class="chapter-link" style="font-weight:600;">Avaliação Teórica e Prática M2(100%)</a>
+
+    </div>
+ 
+   <div class="module">
+      <h3 onclick="toggleModule(2)">📐 Módulo 3: Sistemas de Segurança, Conforto e Reparação Avançada</h3>
       <div class="chapter-list" id="module-2">
-        <div class="chapter">
-          <h4 onclick="toggleChapter(6)">📘 Capítulo 7: Diagnóstico Avançado de Sistemas de Chassis</h4>
-          <div class="lesson-list" id="chapter-6">
-            <a href="#" onclick="loadLesson('7.1')">Aula 7.1 – Sistemas de Travagem (ABS/EBD)</a>
-            <a href="#" onclick="loadLesson('7.2')">Aula 7.2 – Sistema de Airbag e Segurança Ativa</a>
-            <a href="#" onclick="loadLesson('7.3')">Aula 7.3 – Controlo de Estabilidade e Tração (ESP/TCS)</a>
-          </div>
-        </div>
-        <div class="chapter">
-          <h4 onclick="toggleChapter(7)">📘 Capítulo 8: Sistemas de Conforto e Conveniência</h4>
-          <div class="lesson-list" id="chapter-7">
-            <a href="#" onclick="loadLesson('8.1')">Aula 8.1 – Sistema de Ar Condicionado e Climatização</a>
-            <a href="#" onclick="loadLesson('8.2')">Aula 8.2 – Vidros, Espelhos e Fechaduras Elétricas</a>
-            <a href="#" onclick="loadLesson('8.3')">Aula 8.3 – Iluminação e Painel de Instrumentos</a>
-          </div>
-        </div>
-        <div class="chapter">
-          <h4 onclick="toggleChapter(8)">📘 Capítulo 9: Reparação Avançada e Procedimentos Pós-Diagnóstico</h4>
-          <div class="lesson-list" id="chapter-8">
-            <a href="#" onclick="loadLesson('9.1')">Aula 9.1 – Reparação Segura e Boas Práticas</a>
-            <a href="#" onclick="loadLesson('9.2')">Aula 9.2 – Reprogramação e Atualização de Módulos</a>
-            <a href="#" onclick="loadLesson('9.3')">Aula 9.3 – Teste Final e Entrega do Veículo</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </aside>
-</div>
 
+
+<h4> 📦CAPITULO 7: Diagnóstico Avançado de Sistemas de Chassis</h4>
+        <a href="#" class="chapter-link" onclick="loadLesson(18)">Aula 7.1 — Sistema de Travagem Anti-bloqueio (ABS/ESP)</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(19)">Aula 7.2 — Sistema de Airbag (SRS)</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(20)">Aula 7.3 — Redes de Comunicação (CAN Bus e Lin Bus)</a>
+
+<h4> 📦CAPITULO 8: Conforto, Climatização e Soluções Elétricas Complexas</h4>
+        <a href="#" class="chapter-link" onclick="loadLesson(21)">Aula 8.1 — Climatização e Ar Condicionado (AC)</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(22)">Aula 8.2 — Avarias Elétricas do Habitáculo (Vidros, Fechos, Painel)</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(23)">Aula 8.3 — Localização de "Parasitas" e Fugas de Corrente</a>
+
+<h4> 📦CAPITULO 9: Reparação, Manutenção e Prática Final</h4>
+        <a href="#" class="chapter-link" onclick="loadLesson(24)">Aula 9.1 — Soluções e Reparação (Substituição e Programação)</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(25)">Aula 9.2 — Manutenção Preventiva Focada no Diagnóstico</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(26)">Aula 9.3 — Estudos de Caso e Prática em Oficina </a>
+
+
+      </div>
+
+<a href="teste-modulo3.html" class="chapter-link" style="font-weight:600;">Avaliação Teórica e Prática M3(100%)</a>
+
+    </div>
   
     <div class="module">
       <h3>🧪 Teste Final</h3>
       <div class="chapter-list" style="display:block;">
-        <a href="teste-TV-Final.html" class="chapter-link" style="font-weight:600;">Avaliação Teórica e Prática (100%)</a>
+        <a href="teste-Auto-Nmicra.html" class="chapter-link" style="font-weight:600;">Avaliação Teórica e Prática (100%)</a>
         <p style="font-size:0.85rem; color:#ccc; margin-left:10px;">
           • 50% teste de múltipla escolha<br>
           • 50% diagnóstico e reparação de uma TV
         </p>
       </div>
     </div>
+
+
+
+
   </aside>
 
  <main id="main-content">
-  <h2 id="lesson-title">🚗 Curso de Deteção de Avaria e Diagnóstico do Nissan Micra</h2>
+ 
 
-  <div id="lesson-content" style="display: flex; flex-wrap: wrap; align-items: flex-start; gap: 20px;">
+  <div class="intro-section">
+  <h2 id="lesson-title">🚗 Curso de Diagnóstico do Nissan Micra</h2>
+    <img src="Nissan-Micra-Diagnostico.png" alt="Diagnóstico Nissan Micra" class="intro-image">
 
-    <!-- Imagem à direita -->
-    <img src="Nissan-Micra-Diagnostico.png" alt="Diagnóstico automóvel Nissan Micra" 
-      style="width: 100%; max-width: 400px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); order: 2; flex: 1;">
-
-    <!-- Texto à esquerda -->
-    <div style="flex: 2; min-width: 300px; order: 1;">
-      <h2 style="color: var(--primary-color); margin-bottom: 10px;">🎯 Curso de Diagnóstico e Reparação do Nissan Micra</h2>
-
-      <p><strong>Objetivo do Curso:</strong></p>
+    <div class="intro-text">
+      <h3>🎯 Objetivo do Curso</h3>
       <p>No final do curso, o formando deverá ser capaz de diagnosticar, interpretar e reparar falhas nos sistemas elétricos e eletrónicos do Nissan Micra (modelos K11 a K14), aplicando metodologias profissionais de deteção de avarias e uso de ferramentas de diagnóstico.</p>
 
-      <p><strong>Competências Desenvolvidas:</strong></p>
+      <h3>💡 Competências Desenvolvidas</h3>
       <ul>
-        <li><strong>Diagnóstico Preciso:</strong> Identificação e interpretação de códigos de falha (DTCs) nos sistemas EMS, ABS, SRS e transmissão.</li>
-        <li><strong>Leitura de Esquemas:</strong> Capacidade de interpretar diagramas elétricos e fluxos de sinal.</li>
-        <li><strong>Testes e Medições:</strong> Uso do multímetro, osciloscópio e scanner OBD-II em bancada e veículo.</li>
-        <li><strong>Reparação e Substituição:</strong> Técnicas seguras de substituição e programação de sensores, atuadores e módulos eletrónicos.</li>
-        <li><strong>Prevenção e Otimização:</strong> Aplicação de manutenção preventiva e correção de falhas recorrentes.</li>
+        <li>Diagnóstico e interpretação de códigos de falha (DTCs).</li>
+        <li>Leitura e análise de esquemas elétricos.</li>
+        <li>Utilização de multímetro, osciloscópio e scanner OBD-II.</li>
+        <li>Reparação e substituição de sensores e módulos.</li>
+        <li>Manutenção preventiva e otimização de sistemas.</li>
       </ul>
 
-      <p><strong>Para quem se destina:</strong> Técnicos de eletrónica automóvel, mecânicos, estudantes de engenharia automóvel e profissionais de diagnóstico que pretendam especializar-se em veículos Nissan.</p>
-
-      <p><strong>Duração:</strong> 3 semanas de formação intensiva + 1 semana de prática e avaliação final.</p>
-
-      <p><strong>Formato:</strong> Curso modular (3 módulos, 3 capítulos por módulo, 3 aulas por capítulo), com conteúdos teóricos, estudos de caso reais, tabelas técnicas e simulações práticas de diagnóstico.</p>
+      <h3>👥 A quem se destina</h3>
+      <ul>
+        <li>Técnicos de eletrónica automóvel e mecânicos.</li>
+        <li>Estudantes de engenharia e cursos técnicos.</li>
+        <li>Entusiastas e empreendedores da reparação automóvel.</li>
+      </ul>
     </div>
-  </div>
-
-  <div style="margin-top: 20px;">
-    <strong>🧑‍🔧 Público-Alvo:</strong>
-    <ul>
-      <li><strong>Técnicos de Oficina:</strong> Que desejam aprofundar o diagnóstico automóvel moderno com ferramentas OBD-II e análise de sensores.</li>
-      <li><strong>Entusiastas de Mecânica:</strong> Que desejam aprender a resolver falhas comuns e avançadas no Nissan Micra.</li>
-      <li><strong>Empreendedores:</strong> Que desejam abrir ou expandir um negócio de manutenção e diagnóstico automóvel.</li>
-      <li><strong>Estudantes:</strong> De cursos técnicos e de engenharia automóvel que procuram experiência prática e metodologia estruturada.</li>
-    </ul>
-
-    <p style="font-style: italic; color: #666;">
-      “Diagnosticar um veículo é como decifrar um código vivo — cada falha conta uma história, e cada sinal é uma pista para a solução.”
-    </p>
   </div>
 </main>
 
 </div>
-
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
@@ -411,56 +849,863 @@ document.addEventListener('DOMContentLoaded', () => {
   const validado = localStorage.getItem('micra_validado');
   const loginStatus = document.getElementById('login-status');
 
-  // Se o utilizador não estiver logado
-  if (!user) {
-    loginStatus.textContent = '❌ Requer login';
-    alert('Faz login primeiro para acessar este curso.');
-    window.location.href = 'login.html';
-    return;
+  if (user && validado === 'true') {
+    loginStatus.textContent = `✅ Acesso autorizado — Olá, ${user.nome.split(' ')[0]}!`;
+  } else if (user && validado !== 'true') {
+    loginStatus.textContent = '⚠️ Falta validar o código de inscrição.';
+  } else {
+    loginStatus.textContent = '🔒 Sessão não encontrada.';
   }
-
-  // Se o curso não estiver validado
-  if (validado !== 'true') {
-    loginStatus.textContent = '🔓 Falta validar código';
-    alert('Valida o teu código de inscrição para acessar este curso.');
-    window.location.href = 'index.html';
-    return;
-  }
-
-  // Acesso autorizado
-  loginStatus.textContent = `✅ Acesso autorizado — Olá, ${user.nome.split(' ')[0]}!`;
 });
 
 function toggleModule(index) {
   const module = document.getElementById(`module-${index}`);
-  if (module.style.display === 'block') {
-    module.style.display = 'none';
-  } else {
-    module.style.display = 'block';
-  }
+  module.style.display = module.style.display === 'block' ? 'none' : 'block';
 }
+
+document.getElementById('toggle-sidebar').addEventListener('click', () => {
+  document.getElementById('sidebar').classList.toggle('active');
+});
 
 function loadLesson(id) {
+  // Lista de aulas exatamente conforme o sidebar
   const lessons = [
-    { title: "Capítulo 1: Introdução, História e Estrutura Geral", content: "<p>Conteúdo da Aula 1.1 a 1.3...</p>" },
-    { title: "Capítulo 2: Eletricidade e Eletrónica Essencial para Diagnóstico", content: "<p>Conteúdo da Aula 2.1 a 2.3...</p>" },
-    { title: "Capítulo 3: Ferramentas de Diagnóstico e Procedimentos Iniciais", content: "<p>Conteúdo da Aula 3.1 a 3.3...</p>" },
-    { title: "Capítulo 4: Diagnóstico do Sistema de Gestão do Motor (EMS)", content: "<p>Conteúdo da Aula 4.1 a 4.3...</p>" },
-    { title: "Capítulo 5: Avarias Comuns do Motor (Deteção e Solução)", content: "<p>Conteúdo da Aula 5.1 a 5.3...</p>" },
-    { title: "Capítulo 6: Transmissão, Embraiagem e Sistema de Direção", content: "<p>Conteúdo da Aula 6.1 a 6.3...</p>" },
-    { title: "Capítulo 7: Diagnóstico Avançado de Sistemas de Chassis", content: "<p>Conteúdo da Aula 7.1 a 7.3...</p>" },
-    { title: "Capítulo 8: Conforto, Climatização e Soluções Elétricas Complexas", content: "<p>Conteúdo da Aula 8.1 a 8.3...</p>" },
-    { title: "Capítulo 9: Reparação, Manutenção e Prática Final", content: "<p>Conteúdo da Aula 9.1 a 9.3...</p>" },
-  ];
+    // CAPITULO 1- 
+   // 🛠️ Aula 1.1 – Introdução ao Diagnóstico e Evolução do Micra
+  {
+    title: "🛠️ Aula 1.1 – Introdução ao Diagnóstico e Evolução do Micra",
+    content: `
+    <h3>🌟 Objetivo da Aula</h3>
+    <p>Compreender a importância do diagnóstico automotivo no Nissan Micra, conhecer a evolução histórica e técnica do modelo e identificar as principais diferenças entre as gerações K11, K12, K13 e K14.</p>
 
+    <h3>📖 Conteúdo Central</h3>
+    <p>O diagnóstico automotivo é o processo de identificação de falhas mecânicas e eletrónicas em veículos, utilizando ferramentas de análise (como scanners OBD-II) e interpretação de sinais dos sensores e atuadores.
+    No caso do Nissan Micra, a evolução tecnológica do modelo tornou o diagnóstico cada vez mais dependente da eletrónica e da comunicação entre módulos.
+    A história do Nissan Micra (também conhecido como Nissan March em alguns mercados) reflete a transição global da mecânica simples para a engenharia eletrónica inteligente.
+    Desde o lançamento do Micra K10 (1982) até o K14 (2017-presente), o veículo passou por quatro gerações principais, cada uma introduzindo novos sistemas de gestão eletrónica, maior eficiência energética e integração de sensores.</p>
+
+    <h4>📊 Tabela 1 – Evolução Técnica do Nissan Micra</h4>
+    <table border="1" cellspacing="0" cellpadding="4">
+    <tr><th>Geração</th><th>Ano de Produção</th><th>Principais Tecnologias Introduzidas</th><th>Observações Técnicas</th></tr>
+    <tr><td>K11</td><td>1992–2002</td><td>Injeção eletrónica multiponto, ECU básica</td><td>Diagnóstico OBD-I, sensores limitados</td></tr>
+    <tr><td>K12</td><td>2002–2010</td><td>Sistema CAN inicial, ABS e Airbag</td><td>Comunicação entre módulos simples</td></tr>
+    <tr><td>K13</td><td>2010–2016</td><td>ECU mais avançada, controle de emissões</td><td>Leitura OBD-II, sensores de oxigénio duplos</td></tr>
+    <tr><td>K14</td><td>2017–Presente</td><td>Rede CAN Bus completa, start-stop, sensores inteligentes</td><td>Diagnóstico avançado via scanner multimarca</td></tr>
+    </table>
+
+    <h3>⚙️ Importância do Diagnóstico no Micra</h3>
+    <p>O diagnóstico preciso reduz custos de manutenção, evita substituições desnecessárias e melhora a confiabilidade do veículo.
+    Nos modelos recentes (K13–K14), o técnico deve compreender protocolos de comunicação, análise de códigos de falha (DTCs) e interpretação de dados em tempo real (Live Data).</p>
+
+    <h3>📘 Resumo</h3>
+    <ul>
+      <li>O Nissan Micra evoluiu de sistemas puramente mecânicos para plataformas eletrónicas complexas.</li>
+      <li>A análise por diagnóstico eletrónico é essencial para a manutenção moderna.</li>
+      <li>O conhecimento da evolução técnica ajuda a identificar rapidamente diferenças entre gerações, facilitando o diagnóstico correto.</li>
+    </ul>
+    `
+  },
+
+  // 🚗 Aula 1.2 – Nomenclatura e Componentes Principais (Visão Geral)
+  {
+    title: "🚗 Aula 1.2 – Nomenclatura e Componentes Principais (Visão Geral)",
+    content: `
+    <h3>🌟 Objetivo da Aula</h3>
+    <p>Identificar e compreender a nomenclatura técnica usada pela Nissan, reconhecer os principais componentes do Nissan Micra e localizar os sistemas estruturais e funcionais essenciais (motor, transmissão, chassis e carroçaria).</p>
+
+    <h3>📖 Conteúdo Central</h3>
+    <p>A nomenclatura técnica na Nissan segue padrões internacionais de designação de peças e sistemas, facilitando a comunicação entre técnicos e o uso de softwares de diagnóstico.
+    No caso do Micra (K11 a K14), cada sistema possui um código ou sigla que representa o seu tipo e função, como ECM (Engine Control Module), BCM (Body Control Module) e ABS ECU (Electronic Brake Control Unit).
+    Os componentes do Micra estão divididos em quatro grupos principais:
+    1. Carroçaria e Estrutura: inclui painéis, portas, reforços e estrutura monobloco.
+    2. Motor e Sistema de Alimentação: motores 1.0, 1.2 (gasolina) e 1.5 dCi (diesel), com injeção eletrónica controlada por ECU.
+    3. Transmissão e Suspensão: transmissões manuais e CVT, eixo dianteiro tipo McPherson e traseiro de torção.
+    4. Sistema Elétrico e Eletrónico: módulos de controlo, sensores e atuadores interligados pela rede CAN Bus.</p>
+
+    <h4>📊 Tabela 1 – Principais Componentes e Suas Funções</h4>
+    <table border="1" cellspacing="0" cellpadding="4">
+    <tr><th>Sistema</th><th>Componente</th><th>Designação Técnica</th><th>Função Principal</th></tr>
+    <tr><td>Motor</td><td>ECU / ECM</td><td>Engine Control Module</td><td>Garante a gestão da combustão e injeção</td></tr>
+    <tr><td>Travagem</td><td>ABS ECU</td><td>Anti-lock Brake System</td><td>Controla pressão de travagem e evita bloqueio das rodas</td></tr>
+    <tr><td>Carroçaria</td><td>BCM</td><td>Body Control Module</td><td>Controla iluminação, fechos e vidros elétricos</td></tr>
+    <tr><td>Transmissão</td><td>TCM</td><td>Transmission Control Module</td><td>Gere trocas automáticas (CVT)</td></tr>
+    <tr><td>Segurança</td><td>AIRBAG ECU</td><td>Airbag Control Unit</td><td>Aciona airbags em caso de colisão</td></tr>
+    </table>
+
+    <h3>⚙️ Interligação dos Componentes</h3>
+    <p>Nos modelos recentes (K13 e K14), a comunicação entre módulos é feita pela Rede CAN (Controller Area Network), onde cada unidade envia e recebe sinais de forma sincronizada.
+    Isso permite diagnósticos mais rápidos, mas também exige atenção ao interpretar códigos DTCs múltiplos, já que uma falha num sensor pode gerar erros em vários módulos.</p>
+
+    <h3>📘 Resumo</h3>
+    <ul>
+      <li>A Nissan usa nomenclaturas padronizadas para identificar componentes eletrónicos e mecânicos.</li>
+      <li>O técnico deve saber relacionar cada módulo ao seu sistema e compreender como interagem.</li>
+      <li>O domínio da rede CAN e das designações técnicas é essencial para diagnósticos modernos.</li>
+    </ul>
+    `
+  },
+
+  // ⚙️ Aula 1.3 – Função dos Componentes e Fluxo de Informação
+  {
+    title: "⚙️ Aula 1.3 – Função dos Componentes e Fluxo de Informação",
+    content: `
+    <h3>🌟 Objetivo da Aula</h3>
+    <p>Compreender a função dos principais sistemas do Nissan Micra e analisar como as informações são processadas e trocadas entre os módulos eletrónicos através da Rede CAN Bus, essencial no diagnóstico moderno.</p>
+
+    <h3>📖 Conteúdo Central</h3>
+    <p>O Nissan Micra integra diversos subsistemas eletrónicos e mecânicos que comunicam entre si para garantir o desempenho, segurança e conforto do veículo.
+    Cada módulo tem uma função específica, mas todos trocam dados constantemente através da CAN Bus, formando uma “rede nervosa” que coordena o veículo.</p>
+
+    <h4>📊 Tabela 1 – Fluxo de Informação entre Módulos (Micra K13–K14)</h4>
+    <table border="1" cellspacing="0" cellpadding="4">
+    <tr><th>Origem do Sinal</th><th>Módulo Receptor</th><th>Tipo de Informação</th><th>Função Diagnóstica</th></tr>
+    <tr><td>Sensor de rotação do motor</td><td>ECM</td><td>RPM e posição do virabrequim</td><td>Base para injeção e ignição</td></tr>
+    <tr><td>Sensor ABS</td><td>BCM / ECU Motor</td><td>Velocidade das rodas</td><td>Auxilia controlo de tração</td></tr>
+    <tr><td>Sensor de impacto</td><td>Airbag ECU</td><td>Aceleração / choque</td><td>Disparo do sistema de airbag</td></tr>
+    <tr><td>Interruptor do travão</td><td>ECM / TCM</td><td>Estado do pedal</td><td>Ajusta rotação e trocas de marcha</td></tr>
+    <tr><td>Sensor de temperatura do motor</td><td>ECM / Painel</td><td>Temperatura de arrefecimento</td><td>Proteção térmica e leitura no painel</td></tr>
+    </table>
+
+    <h3>🧩 Fluxo de Dados e Diagnóstico</h3>
+    <p>A Rede CAN Bus (Controller Area Network) funciona como uma autoestrada de sinais digitais que permite aos módulos trocarem informações a alta velocidade (até 500 kbps).
+    Cada módulo envia mensagens com um ID único, e todos os outros podem “ouvir” essas mensagens, reagindo conforme necessário.
+    Durante o diagnóstico, o técnico usa um scanner OBD-II para aceder a esta rede, lendo códigos de falha (DTCs) e dados em tempo real (Live Data).
+    Com isso, é possível identificar falhas de sensores, atuadores e comunicações entre módulos — essencial para reparos de precisão.</p>
+
+    <h3>📘 Resumo</h3>
+    <ul>
+      <li>Cada módulo tem função própria, mas atua em sinergia através da Rede CAN.</li>
+      <li>O fluxo de informação é contínuo e bidirecional.</li>
+      <li>O domínio da arquitetura CAN e dos sinais de entrada/saída é a base de qualquer diagnóstico eletrónico profissional no Micra.</li>
+    </ul>
+
+    <h4>🔥 Encerramento do Capítulo 1</h4>
+    <p>Neste primeiro capítulo aprendeste: a evolução histórica e tecnológica do Nissan Micra, a identificação e nomenclatura dos principais componentes, e o funcionamento da rede de informação eletrónica e seu papel no diagnóstico moderno.</p>
+    `
+  },
+
+    // ==============================
+// 📘 CAPITULO 2 — ELETRICIDADE E ELETRÓNICA
+// ==============================
+{
+  title: "⚡ Aula 2.1 – Fundamentos de Eletricidade Automóvel",
+  content: `
+  <h3>🎯 Objetivo da Aula</h3>
+  <p>Revisar os princípios fundamentais da eletricidade aplicados ao diagnóstico automóvel, compreender as Leis de Ohm e da Potência e aprender o uso prático do multímetro no Nissan Micra.</p>
+
+  <h3>📖 Conteúdo Central</h3>
+  <p>O sistema elétrico do Nissan Micra depende de uma rede complexa de circuitos que obedecem às Leis de Ohm (V = I × R) e da Potência (P = V × I).  
+  Esses princípios determinam o comportamento da corrente elétrica nos circuitos em série e paralelo.</p>
+  <ul>
+    <li><strong>Circuito em Série:</strong> a corrente é constante, mas a tensão divide-se entre os componentes.</li>
+    <li><strong>Circuito em Paralelo:</strong> a tensão é igual em todos os ramos, mas a corrente divide-se conforme a resistência de cada um.</li>
+  </ul>
+  <p>A medição com o multímetro é essencial para detectar falhas elétricas, verificar continuidade e medir resistências. O técnico deve compreender:</p>
+  <ul>
+    <li><strong>Tensão (Volts):</strong> diferença de potencial entre dois pontos.</li>
+    <li><strong>Corrente (Amperes):</strong> fluxo de elétrons num circuito.</li>
+    <li><strong>Resistência (Ohms):</strong> oposição ao fluxo elétrico.</li>
+  </ul>
+
+  <h4>📊 Tabela 1 – Leituras Elétricas Básicas no Diagnóstico</h4>
+  <table>
+    <tr><th>Tipo de Medição</th><th>Faixa Normal no Micra</th><th>Ferramenta</th><th>Interpretação</th></tr>
+    <tr><td>Tensão Bateria (parado)</td><td>12.4 – 12.8 V</td><td>Multímetro DC</td><td>Bateria em bom estado</td></tr>
+    <tr><td>Tensão de Carga (ligado)</td><td>13.8 – 14.4 V</td><td>Multímetro DC</td><td>Alternador funcional</td></tr>
+    <tr><td>Resistência de Sensor</td><td>0.2 – 2 kΩ</td><td>Multímetro Ohm</td><td>Sensor dentro da faixa normal</td></tr>
+    <tr><td>Continuidade de Fio</td><td>0 Ω</td><td>Multímetro continuidade</td><td>Fiação íntegra</td></tr>
+  </table>
+
+  <h3>📘 Resumo</h3>
+  <ul>
+    <li>A eletricidade automóvel baseia-se nas leis de Ohm e da Potência.</li>
+    <li>O uso correto do multímetro permite identificar anomalias elétricas.</li>
+    <li>Entender circuitos em série/paralelo é essencial para o diagnóstico eficiente.</li>
+  </ul>
+  `
+},
+
+{
+  title: "🔋 Aula 2.2 – Bateria, Carga e Arranque",
+  content: `
+  <h3>🎯 Objetivo da Aula</h3>
+  <p>Compreender o funcionamento e diagnóstico do sistema de carga e arranque do Nissan Micra, incluindo a bateria, o alternador e o motor de arranque, e aplicar testes de queda de tensão e verificação de fugas de corrente.</p>
+
+  <h3>📖 Conteúdo Central</h3>
+  <p>O sistema elétrico de partida do Micra depende de três componentes principais:</p>
+  <ol>
+    <li><strong>Bateria:</strong> fornece energia inicial.</li>
+    <li><strong>Alternador:</strong> recarrega a bateria enquanto o motor está em funcionamento.</li>
+    <li><strong>Motor de Arranque:</strong> converte energia elétrica em mecânica para girar o motor.</li>
+  </ol>
+  <p>O alternador pilotado, presente em versões K13–K14, é controlado pela ECU para otimizar o consumo de energia e reduzir emissões.  
+  Durante o diagnóstico, o técnico deve realizar testes de queda de tensão e fugas de corrente com o multímetro:</p>
+  <ul>
+    <li><strong>Teste de Queda de Tensão:</strong> mede a diferença de potencial entre os terminais para detectar resistências anormais.</li>
+    <li><strong>Teste de Fuga de Corrente:</strong> verifica consumo elétrico com o carro desligado (ideal &lt; 50 mA).</li>
+  </ul>
+
+  <h4>📊 Tabela 2 – Parâmetros do Sistema de Carga e Arranque</h4>
+  <table>
+    <tr><th>Componente</th><th>Valor Normal</th><th>Condição de Teste</th><th>Interpretação</th></tr>
+    <tr><td>Bateria</td><td>12.4 – 12.8 V (parado)</td><td>Sem carga</td><td>Estado ideal</td></tr>
+    <tr><td>Alternador</td><td>13.8 – 14.4 V</td><td>Motor ligado</td><td>Carregamento correto</td></tr>
+    <tr><td>Queda de tensão no cabo positivo</td><td>&lt; 0.5 V</td><td>Durante a partida</td><td>Resistência aceitável</td></tr>
+    <tr><td>Corrente de fuga</td><td>&lt; 50 mA</td><td>Veículo desligado</td><td>Sem fuga significativa</td></tr>
+  </table>
+
+  <h3>📘 Resumo</h3>
+  <ul>
+    <li>O alternador pilotado regula a carga conforme a necessidade da ECU.</li>
+    <li>Testes de queda e fuga de corrente prevêm falhas prematuras.</li>
+    <li>O diagnóstico elétrico correto aumenta a vida útil do sistema de arranque.</li>
+  </ul>
+  `
+},
+
+{
+  title: "🧠 Aula 2.3 – Relés, Fusíveis e Esquemas Elétricos",
+  content: `
+  <h3>🎯 Objetivo da Aula</h3>
+  <p>Identificar tipos e funções de relés e fusíveis no Nissan Micra, interpretar esquemas elétricos e compreender a leitura de diagramas de pinagem para diagnósticos precisos.</p>
+
+  <h3>📖 Conteúdo Central</h3>
+  <p>Os fusíveis e relés protegem e controlam os circuitos elétricos do veículo.  
+  Um fusível atua como dispositivo de segurança, interrompendo o circuito em caso de sobrecorrente,  
+  enquanto o relé permite o controle de altas correntes através de sinais de baixa corrente.</p>
+  <p>Os esquemas elétricos da Nissan utilizam símbolos normalizados e códigos de cores para identificar fios e componentes.  
+  A leitura correta desses diagramas é essencial para localizar falhas e realizar reparos seguros.</p>
+
+  <h4>📊 Tabela 3 – Tipos de Fusíveis e Relés no Nissan Micra</h4>
+  <table>
+    <tr><th>Tipo</th><th>Localização</th><th>Função</th><th>Valor Nominal</th></tr>
+    <tr><td>Fusível mini-blade</td><td>Caixa de fusíveis interna</td><td>Protege circuitos de iluminação e painel</td><td>10–15 A</td></tr>
+    <tr><td>Fusível maxi-blade</td><td>Caixa do compartimento do motor</td><td>Protege sistemas de carga e ventoinha</td><td>30–60 A</td></tr>
+    <tr><td>Relé de arranque</td><td>Perto do motor de arranque</td><td>Aciona o motor de partida</td><td>12 V / 30 A</td></tr>
+    <tr><td>Relé de ventoinha</td><td>Compartimento do motor</td><td>Controla a ventoinha de arrefecimento</td><td>12 V / 40 A</td></tr>
+  </table>
+
+  <h3>📘 Resumo</h3>
+  <ul>
+    <li>Fusíveis protegem, relés controlam e ambos são vitais à segurança elétrica.</li>
+    <li>A leitura de esquemas elétricos permite rastrear falhas com precisão.</li>
+    <li>O domínio da pinagem e simbologia Nissan é essencial no diagnóstico profissional.</li>
+  </ul>
+
+  <h4>🔚 Encerramento do Capítulo 2</h4>
+  <p>Neste capítulo aprendeste os fundamentos de eletricidade aplicados ao diagnóstico,  
+  os testes de bateria, carga e arranque, e a identificação de fusíveis e relés.</p>
+  `
+},
+
+
+// ==============================
+// 📘 CAPITULO 3 — FERRAMENTAS E PROCEDIMENTOS INICIAIS
+// ==============================
+{
+  title: "🔧 Aula 3.1 – Utilização do Scanner/Ferramenta de Diagnóstico (OBD-II)",
+  content: `
+  <h3>🎯 Objetivo da Aula</h3>
+  <p>Compreender o funcionamento do sistema OBD-II do Nissan Micra, realizar ligações corretas ao scanner e interpretar códigos de avaria (DTCs) e dados em tempo real para diagnóstico preciso.</p>
+
+  <h3>📖 Conteúdo Central</h3>
+  <p>O sistema OBD-II (On-Board Diagnostics) é o ponto de partida para qualquer diagnóstico moderno.  
+  O conector de 16 pinos, localizado geralmente sob o painel de instrumentos, permite comunicação entre a ECU e o scanner automotivo.</p>
+  <p>O processo de diagnóstico envolve:</p>
+  <ol>
+    <li><strong>Conexão do Scanner:</strong> ligar o conector OBD-II e ligar a ignição.</li>
+    <li><strong>Leitura de Códigos DTC:</strong> identificar falhas registadas pela ECU.</li>
+    <li><strong>Limpeza de Códigos:</strong> eliminar DTCs após o reparo.</li>
+    <li><strong>Análise do Data Stream:</strong> observar valores em tempo real (RPM, tensão, temperatura, etc.).</li>
+  </ol>
+
+  <h4>📊 Tabela 1 – Parâmetros OBD-II e Interpretação</h4>
+  <table>
+    <tr><th>Parâmetro</th><th>Valor Normal</th><th>Unidade</th><th>Interpretação</th></tr>
+    <tr><td>RPM</td><td>700–900</td><td>rpm</td><td>Marcha lenta estável</td></tr>
+    <tr><td>Tensão da Bateria</td><td>13.8–14.4</td><td>V</td><td>Sistema de carga funcional</td></tr>
+    <tr><td>Sensor MAP</td><td>20–40</td><td>kPa</td><td>Pressão normal em marcha lenta</td></tr>
+    <tr><td>Temperatura do Motor</td><td>80–95</td><td>°C</td><td>Sistema de arrefecimento correto</td></tr>
+  </table>
+
+  <h3>📘 Resumo</h3>
+  <ul>
+    <li>O scanner OBD-II é essencial para leitura e análise de DTCs.</li>
+    <li>O Data Stream auxilia na confirmação do funcionamento dos sensores.</li>
+    <li>A limpeza de códigos deve ser feita apenas após o reparo real da avaria.</li>
+  </ul>
+  `
+},
+
+{
+  title: "🧰 Aula 3.2 – Outras Ferramentas Essenciais e Manutenção",
+  content: `
+  <h3>🎯 Objetivo da Aula</h3>
+  <p>Aprender a utilizar ferramentas complementares como osciloscópio, manómetro e termómetro infravermelho no diagnóstico automotivo, e compreender as boas práticas de calibração e conservação.</p>
+
+  <h3>📖 Conteúdo Central</h3>
+  <p>Além do scanner, o técnico precisa dominar o uso de ferramentas de medição avançadas:</p>
+  <ul>
+    <li><strong>Osciloscópio:</strong> Permite visualizar sinais elétricos de sensores e atuadores (exemplo: forma de onda do sensor de rotação).</li>
+    <li><strong>Manómetro:</strong> Mede pressões de combustível, óleo e compressão dos cilindros.</li>
+    <li><strong>Termómetro Infravermelho:</strong> Mede temperaturas de componentes como radiador e catalisador.</li>
+    <li><strong>Multímetro:</strong> Mede tensão, resistência e continuidade de forma básica.</li>
+  </ul>
+  <p>A calibração regular garante medições confiáveis, e a manutenção preventiva — limpeza, armazenamento correto e proteção contra humidade — prolonga a vida útil dos equipamentos.</p>
+
+  <h4>📊 Tabela 2 – Ferramentas Essenciais e Aplicações</h4>
+  <table>
+    <tr><th>Ferramenta</th><th>Função Principal</th><th>Aplicação no Micra</th><th>Observações</th></tr>
+    <tr><td>Osciloscópio</td><td>Captura de sinais elétricos</td><td>Sensor de rotação, bobina</td><td>Exige conhecimento técnico</td></tr>
+    <tr><td>Manómetro</td><td>Medição de pressão</td><td>Sistema de combustível</td><td>Comparar com valores do manual</td></tr>
+    <tr><td>Termómetro IR</td><td>Medição de temperatura</td><td>Radiador, catalisador</td><td>Verificar superaquecimento</td></tr>
+    <tr><td>Multímetro</td><td>Medição elétrica</td><td>Bateria, sensores</td><td>Usar faixas corretas</td></tr>
+  </table>
+
+  <h3>📘 Resumo</h3>
+  <ul>
+    <li>Ferramentas complementares aumentam a precisão diagnóstica.</li>
+    <li>O osciloscópio é ideal para verificar sensores ativos.</li>
+    <li>Calibração e limpeza periódica previnem leituras incorretas.</li>
+  </ul>
+  `
+},
+
+{
+  title: "🧠 Aula 3.3 – Metodologia de Deteção de Avaria (Passos Iniciais)",
+  content: `
+  <h3>🎯 Objetivo da Aula</h3>
+  <p>Compreender o protocolo de diagnóstico passo a passo: entrevista ao cliente, verificação visual e confirmação da avaria, aplicando raciocínio lógico e eficiência.</p>
+
+  <h3>📖 Conteúdo Central</h3>
+  <p>O diagnóstico automotivo deve seguir uma metodologia estruturada, evitando substituições desnecessárias de peças.</p>
+  <ol>
+    <li><strong>Entrevista ao Cliente:</strong> coletar sintomas, histórico e condições da falha.</li>
+    <li><strong>Verificação Visual:</strong> inspecionar cabos, conectores, fusíveis e fluidos.</li>
+    <li><strong>Confirmação da Avaria:</strong> reproduzir o sintoma relatado para validar o problema.</li>
+    <li><strong>Lógica Diagnóstica:</strong> começar pelos sistemas mais simples antes de testar módulos complexos.</li>
+  </ol>
+  <p>Documentar cada etapa é essencial para rastreabilidade e garantia de qualidade.</p>
+
+  <h4>📊 Tabela 3 – Etapas Iniciais do Diagnóstico</h4>
+  <table>
+    <tr><th>Etapa</th><th>Ação</th><th>Objetivo</th><th>Ferramenta</th></tr>
+    <tr><td>Entrevista</td><td>Ouvir o cliente</td><td>Entender o sintoma</td><td>Ficha de diagnóstico</td></tr>
+    <tr><td>Inspeção Visual</td><td>Verificar conexões e cabos</td><td>Identificar danos evidentes</td><td>Lanterna, lupa</td></tr>
+    <tr><td>Teste Prático</td><td>Reproduzir falha</td><td>Confirmar avaria</td><td>Scanner, multímetro</td></tr>
+    <tr><td>Análise Lógica</td><td>Eliminar hipóteses simples</td><td>Direcionar teste final</td><td>Manual técnico</td></tr>
+  </table>
+
+  <h3>📘 Resumo</h3>
+  <ul>
+    <li>O diagnóstico começa com observação e método.</li>
+    <li>A entrevista e inspeção visual são tão importantes quanto o uso do scanner.</li>
+    <li>Seguir o protocolo reduz erros e tempo de reparação.</li>
+  </ul>
+
+  <h4>🔚 Encerramento do Capítulo 3</h4>
+  <p>Neste capítulo aprendeste: a utilização correta do scanner OBD-II, as funções das ferramentas de diagnóstico complementares e a metodologia lógica para deteção de avarias.</p>
+  `
+},
+
+  { 
+    title: "Aula 4.1 — Sensores Chave: Função, Teste e Valores de Referência", 
+    content: `
+    <p><strong>🎯 Objetivo da Aula:</strong> Entender em detalhe a função, o princípio de operação e os métodos de diagnóstico dos sensores mais importantes do sistema de gestão do motor (EMS) do Nissan Micra. Aprender a testar sinais elétricos com multímetro e osciloscópio, e comparar com valores de referência.</p>
+
+    <p>O sistema EMS depende dos sensores para monitorizar o estado do motor e ajustar parâmetros em tempo real. A ECU utiliza os sinais para calcular tempo de injeção, avanço de ignição e controle de mistura. Entre os sensores principais do Micra, destacam-se:</p>
+    <ul>
+      <li><strong>Sensor CKP (Cambota):</strong> gera sinal digital que informa rotação e posição do virabrequim, essencial para ignição e injeção.</li>
+      <li><strong>Sensor CMP (Árvore de Cames):</strong> sincroniza abertura das válvulas com a sequência de injeção.</li>
+      <li><strong>Sensor MAF:</strong> mede a quantidade de ar admitido no motor, ajudando no cálculo da mistura ideal.</li>
+      <li><strong>Sensor MAP:</strong> mede a pressão absoluta no coletor, útil para calcular a carga do motor.</li>
+      <li><strong>Sensor ECT:</strong> informa a temperatura do líquido de arrefecimento, ajustando a mistura e o acionamento do ventilador.</li>
+    </ul>
+
+    <p>O uso do osciloscópio permite observar a forma de onda dos sensores CKP e CMP, confirmando integridade e alinhamento. Valores fora do padrão indicam falhas de alimentação, interferência eletromagnética ou problemas mecânicos.</p>
+
+    <table>
+      <thead><tr><th>Sensor</th><th>Tipo de Sinal</th><th>Valor Normal</th><th>Observação</th></tr></thead>
+      <tbody>
+        <tr><td>CKP</td><td>Digital</td><td>0–5 V alternado</td><td>Pulso uniforme por rotação</td></tr>
+        <tr><td>CMP</td><td>Digital</td><td>0–5 V</td><td>Sincronizado com CKP</td></tr>
+        <tr><td>MAF</td><td>Analógico</td><td>0.8–4.5 V</td><td>Aumenta com aceleração</td></tr>
+        <tr><td>MAP</td><td>Analógico</td><td>1.0–4.0 V</td><td>Depende da carga do motor</td></tr>
+        <tr><td>ECT</td><td>Resistência</td><td>200–3000 Ω</td><td>Varia conforme temperatura</td></tr>
+      </tbody>
+    </table>
+
+    <p><strong>Resumo:</strong> Cada sensor é vital para o controlo do motor. A leitura correta garante combustão eficiente e baixo consumo. Comparar sinais reais com os valores de referência é a base de um diagnóstico preciso e profissional.</p>
+    `
+  },
+
+  { 
+    title: "Aula 4.2 — Atuadores: Injeção, Ignição e Acessórios", 
+    content: `
+    <p><strong>🎯 Objetivo da Aula:</strong> Identificar e diagnosticar os principais atuadores do sistema de gestão do motor do Nissan Micra, compreendendo seu funcionamento, medições elétricas e testes via scanner de diagnóstico.</p>
+
+    <p>Os atuadores transformam sinais elétricos da ECU em ações físicas que controlam combustível, ar e emissões. Quando um atuador falha, o motor perde desempenho e podem surgir códigos de erro (DTC). No Micra, os principais atuadores são:</p>
+    <ul>
+      <li><strong>Injetores:</strong> controlam a quantidade e pulverização de combustível. Em motores a gasolina, funcionam com resistência elétrica; nos diesel (1.5 dCi), operam sob alta pressão.</li>
+      <li><strong>Bobinas de Ignição:</strong> geram a faísca de combustão. Cada cilindro possui sua bobina individual, garantindo precisão e força de ignição.</li>
+      <li><strong>Válvula EGR:</strong> recircula parte dos gases de escape para reduzir emissões de NOx.</li>
+      <li><strong>Borboleta Eletrónica:</strong> regula a entrada de ar conforme o pedal do acelerador, comunicando-se com a ECU via sensor de posição.</li>
+    </ul>
+
+    <p>O scanner automotivo permite ativar manualmente cada atuador para testar resposta, consumo de corrente e funcionamento em tempo real. Essa técnica é essencial para localizar falhas intermitentes e avaliar o desempenho da ECU.</p>
+
+    <table>
+      <thead><tr><th>Atuador</th><th>Tipo</th><th>Valor Normal</th><th>Teste Recomendado</th></tr></thead>
+      <tbody>
+        <tr><td>Injetor gasolina</td><td>Resistência</td><td>12–16 Ω</td><td>Multímetro</td></tr>
+        <tr><td>Injetor diesel</td><td>Pressão</td><td>250–1500 bar</td><td>Teste de retorno</td></tr>
+        <tr><td>Bobina de ignição</td><td>Primário</td><td>0.3–1.0 Ω</td><td>Osciloscópio</td></tr>
+        <tr><td>Válvula EGR</td><td>Posição</td><td>0–100%</td><td>Scanner</td></tr>
+        <tr><td>Borboleta eletrónica</td><td>Tensão</td><td>0.5–4.5 V</td><td>Teste dinâmico</td></tr>
+      </tbody>
+    </table>
+
+    <p><strong>Resumo:</strong> Atuadores são o “braço mecânico” da ECU. O diagnóstico correto combina testes elétricos, medições dinâmicas e análise via scanner, garantindo resposta eficiente e funcionamento estável do motor.</p>
+    `
+  },
+
+  { 
+    title: "Aula 4.3 — Análise de Emissões e Sonda Lambda", 
+    content: `
+    <p><strong>🎯 Objetivo da Aula:</strong> Compreender o funcionamento da sonda Lambda e do sistema de controlo de emissões do Nissan Micra, interpretando leituras de mistura (Fuel Trim) e desempenho do catalisador.</p>
+
+    <p>A sonda Lambda é o sensor que mede o teor de oxigénio nos gases de escape, permitindo à ECU corrigir a mistura ar/combustível para máxima eficiência e redução de poluentes. Ela trabalha em conjunto com o catalisador, que converte CO, HC e NOx em substâncias menos nocivas.</p>
+
+    <p>Existem dois tipos principais:</p>
+    <ul>
+      <li><strong>Narrowband (banda estreita):</strong> emite tensão entre 0.1–0.9 V, alternando conforme a mistura rica ou pobre.</li>
+      <li><strong>Wideband (banda larga):</strong> fornece leitura mais precisa (2.0–3.3 V), comum nos modelos recentes do Micra.</li>
+    </ul>
+
+    <p>Os parâmetros <strong>STFT</strong> (Short Term Fuel Trim) e <strong>LTFT</strong> (Long Term Fuel Trim) indicam as correções momentâneas e permanentes feitas pela ECU para manter a proporção estequiométrica (14.7:1 em gasolina). Leituras fora dos limites indicam mistura incorreta, fugas ou falhas em sensores.</p>
+
+    <table>
+      <thead><tr><th>Parâmetro</th><th>Valor Normal</th><th>Interpretação</th></tr></thead>
+      <tbody>
+        <tr><td>Sonda Lambda (narrow)</td><td>0.1–0.9 V</td><td>Mistura alternando normal</td></tr>
+        <tr><td>Sonda Lambda (wideband)</td><td>2.0–3.3 V</td><td>Correção dentro do ideal</td></tr>
+        <tr><td>STFT</td><td>-5% a +5%</td><td>Ajuste momentâneo estável</td></tr>
+        <tr><td>LTFT</td><td>-10% a +10%</td><td>Equilíbrio de longo prazo</td></tr>
+        <tr><td>Catalisador</td><td>> 400 °C</td><td>Conversão eficiente</td></tr>
+      </tbody>
+    </table>
+
+    <p><strong>Resumo:</strong> O bom funcionamento da sonda Lambda garante consumo equilibrado e emissões controladas. Diagnósticos precisos preservam o desempenho, reduzem falhas e asseguram conformidade ambiental.</p>
+    `
+  },
+
+  { 
+    title: "Aula 5.1 – Problemas de Desempenho (Perda de Potência e Falhas)", 
+    content: `
+    <p><strong>🎯 Objetivo:</strong> Diagnosticar e resolver falhas de desempenho no motor do Nissan Micra, incluindo perda de potência, marcha irregular e consumo excessivo.</p>
+
+    <p><strong>📖 Conteúdo Central:</strong>  
+    A perda de potência e as falhas de ignição (misfire) são sintomas críticos que afetam diretamente o rendimento do veículo. As causas podem ser elétricas (bobinas, velas), mecânicas (compressão baixa) ou de alimentação (combustível e ar).  
+    O primeiro passo é a leitura dos códigos DTC, que orientam o técnico na análise. Em seguida, realizam-se testes de faísca, medições de compressão e verificação do estado dos filtros e do sistema de injeção.</p>
+
+    <p>O diagnóstico deve seguir uma ordem lógica: iniciar pelas causas mais simples (limpeza de filtros, inspeção de cabos) antes de avançar para testes avançados. O scanner OBD-II é uma ferramenta essencial, permitindo visualizar parâmetros como tempo de injeção, avanço de ignição e mistura ar/combustível.</p>
+
+    <table>
+      <thead>
+        <tr><th>Sintoma</th><th>Causa Provável</th><th>Teste Recomendado</th><th>Solução</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Falhas de ignição</td><td>Bobina ou vela defeituosa</td><td>Teste de faísca</td><td>Substituir componente</td></tr>
+        <tr><td>Perda de potência</td><td>Filtro de ar/combustível sujo</td><td>Inspeção visual</td><td>Limpeza ou troca</td></tr>
+        <tr><td>Dificuldade de arranque</td><td>Compressão baixa</td><td>Teste de compressão</td><td>Revisão mecânica</td></tr>
+        <tr><td>Consumo elevado</td><td>Sensor MAF defeituoso</td><td>Leitura via scanner</td><td>Limpeza/substituição</td></tr>
+      </tbody>
+    </table>
+
+    <p><strong>📘 Resumo:</strong>  
+    O diagnóstico metódico evita substituições desnecessárias. Testar, comparar e confirmar valores antes de agir é a chave para a precisão técnica.</p>
+    `
+  },
+
+  { 
+    title: "Aula 5.2 – Sistemas Diesel Específicos (1.5 dCi)", 
+    content: `
+    <p><strong>🎯 Objetivo:</strong> Diagnosticar avarias no motor diesel 1.5 dCi do Nissan Micra, com foco no sistema Common Rail, válvula EGR e DPF (filtro de partículas).</p>
+
+    <p><strong>📖 Conteúdo Central:</strong>  
+    O sistema Common Rail é o coração do motor diesel moderno. Ele mantém combustível pressurizado entre 250 e 1500 bar, distribuindo-o aos injetores de forma controlada. Qualquer variação anormal nessa pressão indica falha em componentes como bomba, regulador ou injetores.  
+    O técnico deve analisar o retorno dos injetores — diferenças superiores a 20 ml/min sugerem fuga interna.</p>
+
+    <p>A válvula EGR e o DPF são elementos de controlo de emissões. EGR entupida gera fumo preto e falhas de potência; DPF saturado ativa o modo de segurança (“limp mode”). O scanner permite verificar a pressão do rail, posição da EGR e saturação do DPF, além de realizar regenerações forçadas.</p>
+
+    <table>
+      <thead>
+        <tr><th>Parâmetro</th><th>Valor Normal</th><th>Condição</th><th>Interpretação</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Pressão do Rail</td><td>250–1500 bar</td><td>Marcha lenta / carga</td><td>Deve aumentar com aceleração</td></tr>
+        <tr><td>Retorno de Injetores</td><td>≤ 20 ml/min</td><td>Teste de retorno</td><td>Diferencial indica fuga</td></tr>
+        <tr><td>Saturação DPF</td><td>&lt; 60%</td><td>Motor quente</td><td>Regeneração não necessária</td></tr>
+        <tr><td>Posição EGR</td><td>0–100%</td><td>Marcha lenta</td><td>Fixação indica travamento</td></tr>
+      </tbody>
+    </table>
+
+    <p><strong>📘 Resumo:</strong>  
+    O 1.5 dCi exige medições precisas e manutenção preventiva. Diagnósticos incorretos podem resultar em reparos dispendiosos e falhas recorrentes.</p>
+    `
+  },
+
+  { 
+    title: "Aula 5.3 – Diagnóstico de Ruídos e Vibrações no Motor", 
+    content: `
+    <p><strong>🎯 Objetivo:</strong> Reconhecer e interpretar ruídos e vibrações anormais no motor, identificando suas origens mecânicas e estruturais.</p>
+
+    <p><strong>📖 Conteúdo Central:</strong>  
+    Os ruídos e vibrações fornecem indícios valiosos sobre falhas internas. É essencial distinguir entre sons metálicos, chiados, batimentos e vibrações.  
+    O estetoscópio automotivo e o analisador de vibrações ajudam a localizar a origem do problema sem desmontagem prematura.</p>
+
+    <p>Ruídos metálicos ao arranque são típicos de corrente de distribuição folgada. Vibrações em marcha lenta indicam suportes do motor danificados. Chiados contínuos apontam correias desalinhadas, enquanto batimentos cíclicos sugerem desgaste interno.  
+    O técnico deve correlacionar o tipo de ruído à condição de funcionamento (marcha lenta, aceleração, carga) para definir a intervenção correta.</p>
+
+    <table>
+      <thead>
+        <tr><th>Tipo de Ruído/Vibração</th><th>Localização Provável</th><th>Causa</th><th>Ação Recomendada</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Metálico ao arranque</td><td>Frente do motor</td><td>Corrente de distribuição</td><td>Substituir tensor/corrente</td></tr>
+        <tr><td>Vibração em marcha lenta</td><td>Compartimento do motor</td><td>Suporte danificado</td><td>Substituir suporte</td></tr>
+        <tr><td>Chiado contínuo</td><td>Polias/acessórios</td><td>Correia desalinhada</td><td>Alinhar ou trocar correia</td></tr>
+        <tr><td>Batimento cíclico</td><td>Interior do motor</td><td>Desgaste interno</td><td>Revisão parcial</td></tr>
+      </tbody>
+    </table>
+
+    <p><strong>📘 Resumo:</strong>  
+    O diagnóstico acústico e vibracional é uma ferramenta poderosa. O ouvido e a sensibilidade técnica continuam insubstituíveis na deteção precoce de avarias.</p>
+    `
+  },
+
+{
+    title: "Aula 6.1 – Diagnóstico da Transmissão Manual e Automática (CVT)",
+    content: `
+    <p><strong>🎯 Objetivo:</strong> Compreender o funcionamento dos sistemas de transmissão manual e CVT do Nissan Micra, identificando sintomas de falhas e aplicando métodos precisos de diagnóstico e manutenção.</p>
+
+    <p><strong>📖 Conteúdo Principal:</strong>  
+    A transmissão é responsável por transferir a potência do motor para as rodas, garantindo desempenho e eficiência. No Micra, podem ser encontradas transmissões manuais e CVT (Continuously Variable Transmission).  
+    Na <strong>transmissão manual</strong>, os principais sintomas de falhas incluem patinagem, dificuldade de engrenagem e ruídos ao trocar de marcha. As causas mais comuns são desgaste do disco de embraiagem, folga excessiva no cabo de comando, ou rolamento de encosto danificado. O diagnóstico inclui inspeção da folga do pedal, análise da pressão hidráulica (quando aplicável) e verificação de vazamentos.</p>
+
+    <p>Já a <strong>transmissão CVT</strong> utiliza polias variáveis e uma correia metálica para ajustar continuamente a relação de transmissão. O diagnóstico deve incluir leitura de DTCs (como P0746 – pressão de controlo da CVT), medição da temperatura do fluido e inspeção visual. O uso do fluido correto (Nissan NS-2 ou NS-3) é essencial para evitar desgaste prematuro.</p>
+
+    <table>
+      <thead>
+        <tr><th>Elemento</th><th>Função</th><th>Sinais de Avaria</th><th>Ação Recomendada</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Fluido CVT</td><td>Lubrificação e arrefecimento</td><td>Cor escura, odor a queimado</td><td>Trocar fluido</td></tr>
+        <tr><td>Polia Primária</td><td>Ajusta a relação de transmissão</td><td>Ruído metálico, vibração</td><td>Verificar alinhamento e rolamentos</td></tr>
+        <tr><td>Embraiagem</td><td>Transmite força do motor</td><td>Patinagem, ruído ao arrancar</td><td>Substituição e ajuste</td></tr>
+      </tbody>
+    </table>
+
+    <p><strong>📘 Resumo:</strong>  
+    O diagnóstico eficaz da transmissão exige observar sintomas, medir pressões e confirmar códigos via scanner. A manutenção preventiva e a substituição correta do fluido são fundamentais para a longevidade da CVT.</p>
+    `
+  },
+
+  {
+    title: "Aula 6.2 – Sistema de Direção Assistida Elétrica (EPS)",
+    content: `
+    <p><strong>🎯 Objetivo:</strong> Analisar o funcionamento e diagnóstico do sistema EPS (Electric Power Steering) do Nissan Micra, abordando códigos de falha, medições e calibrações essenciais.</p>
+
+    <p><strong>📖 Conteúdo Principal:</strong>  
+    O sistema EPS substitui o tradicional circuito hidráulico por um motor elétrico acoplado à coluna de direção, controlado por um módulo eletrónico que interpreta dados de sensores de ângulo e torque.  
+    As principais vantagens do EPS são a redução de consumo, a resposta variável e a ausência de fluido hidráulico. No entanto, o sistema depende diretamente da tensão da bateria e da integridade da rede CAN.</p>
+
+    <p>O diagnóstico inicia-se com a leitura de códigos DTC (ex.: C1604 – falha no sensor de torque). Verifica-se também o circuito de alimentação e massa do módulo EPS, a integridade dos conectores e a comunicação entre ECU e módulo. Após substituições, a recalibração do sensor de torque e do ângulo de direção é obrigatória para evitar assistência incorreta.</p>
+
+    <table>
+      <thead>
+        <tr><th>Sintoma</th><th>Causa Provável</th><th>Solução Recomendada</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Direção dura</td><td>Motor EPS ou fusível queimado</td><td>Verificar fusíveis e continuidade</td></tr>
+        <tr><td>Direção leve demais</td><td>Sensor de torque fora de calibração</td><td>Recalibrar com scanner</td></tr>
+        <tr><td>Luz EPS acesa</td><td>Código de falha ativo no módulo</td><td>Ler DTC e seguir procedimento Nissan</td></tr>
+      </tbody>
+    </table>
+
+    <p><strong>📘 Resumo:</strong>  
+    O EPS depende de alimentação estável e calibração precisa. Um diagnóstico cuidadoso, com leitura de falhas e testes elétricos, garante segurança, conforto e resposta precisa da direção.</p>
+    `
+  },
+
+  {
+    title: "Aula 6.3 – Suspensão, Rodas e Travões (Não Eletrónicos)",
+    content: `
+    <p><strong>🎯 Objetivo:</strong> Identificar e diagnosticar falhas mecânicas nos sistemas de suspensão, rodas e travagem do Nissan Micra, aplicando técnicas de inspeção e reparação seguras.</p>
+
+    <p><strong>📖 Conteúdo Principal:</strong>  
+    Os sistemas de suspensão e travagem são vitais para o conforto e segurança do veículo. Mesmo sem eletrónica, exigem atenção rigorosa.  
+    A inspeção começa pela verificação de folgas nas rótulas, apoios e terminais. Amortecedores com fuga de óleo ou balanço excessivo indicam necessidade de substituição. Desgaste irregular dos pneus sugere desalinhamento ou molas fatigadas.</p>
+
+    <p>No sistema de travagem, avaliam-se a espessura das pastilhas e dos discos, a condição dos tubos e o nível do fluido. Travagens com vibração ou ruído são sinais de empeno no disco ou material contaminado. Após qualquer intervenção, o circuito deve ser purgado para eliminar ar e restaurar a eficiência.</p>
+
+    <table>
+      <thead>
+        <tr><th>Componente</th><th>Sintoma de Avaria</th><th>Teste/Reparação</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Amortecedor</td><td>Vazamento de óleo, balanço excessivo</td><td>Substituir em pares</td></tr>
+        <tr><td>Rolamento de roda</td><td>Zumbido ao rolar</td><td>Rodar e escutar ruído</td></tr>
+        <tr><td>Disco de travão</td><td>Vibração ao travar</td><td>Verificar empeno e espessura</td></tr>
+      </tbody>
+    </table>
+
+    <p><strong>📘 Resumo:</strong>  
+    Uma inspeção visual detalhada, acompanhada de testes dinâmicos, permite detetar falhas precocemente. A manutenção regular da suspensão e dos travões garante estabilidade, conforto e segurança em todas as condições de condução.</p>
+    `
+  },
+
+
+  {
+    title: "Aula 7.1 – Sistema de Travagem Anti-bloqueio (ABS/ESP)",
+    content: `
+    <p><strong>🎯 Objetivo:</strong> Compreender o funcionamento dos sistemas ABS (Anti-lock Braking System) e ESP (Electronic Stability Program) no Nissan Micra, e aplicar métodos de diagnóstico com ferramentas adequadas.</p>
+
+    <p><strong>📖 Conteúdo Principal:</strong>  
+    O sistema ABS evita o bloqueio das rodas durante travagens bruscas, permitindo manter a direção do veículo. O ESP, por sua vez, atua na estabilidade dinâmica, aplicando travagem seletiva e ajustando o torque do motor para corrigir desvios de trajetória. Ambos os sistemas trabalham integrados e dependem da leitura precisa dos sensores e da atuação rápida da unidade hidráulica.</p>
+
+    <p><strong>Componentes principais:</strong> sensores de velocidade das rodas, unidade hidráulica e módulo ABS/ESP, interruptor do pedal do travão, sensores de ângulo de direção e de aceleração lateral.  
+    O diagnóstico começa pela leitura de DTCs (ex.: <em>C0035 – Sensor de roda dianteira esquerda</em>), seguido de testes de continuidade, medição de alimentação da centralina e verificação de forma de onda dos sensores por osciloscópio.  
+    Sensores sujos, cabos partidos e falhas na comunicação CAN são causas recorrentes.</p>
+
+    <table>
+      <thead>
+        <tr><th>Componente</th><th>Sinal Esperado</th><th>Falha Comum</th><th>Ação Recomendada</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Sensor de roda</td><td>0,5–1,2 V AC variável</td><td>Sujidade metálica ou fio partido</td><td>Limpeza e verificação de continuidade</td></tr>
+        <tr><td>Centralina ABS</td><td>Comunicação CAN ativa</td><td>Ausência de alimentação</td><td>Verificar fusíveis e massa</td></tr>
+        <tr><td>Interruptor do travão</td><td>12 V ao pressionar pedal</td><td>Conector desgastado</td><td>Substituir interruptor</td></tr>
+      </tbody>
+    </table>
+
+    <p><strong>📘 Resumo:</strong>  
+    O diagnóstico de ABS/ESP deve seguir uma sequência lógica: leitura de DTCs, inspeção elétrica e testes dinâmicos. A substituição de sensores deve ser feita em pares, garantindo equilíbrio de leitura e funcionamento seguro do sistema.</p>
+    `
+  },
+
+  {
+    title: "Aula 7.2 – Sistema de Airbag (SRS)",
+    content: `
+    <p><strong>🎯 Objetivo:</strong> Analisar a estrutura e o diagnóstico do Sistema de Retenção Suplementar (SRS) do Nissan Micra, com foco na segurança durante intervenções e correção de falhas elétricas.</p>
+
+    <p><strong>📖 Conteúdo Principal:</strong>  
+    O sistema SRS é responsável pela ativação dos airbags e pré-tensores em caso de colisão. Ele opera de forma integrada com sensores de impacto, controlados pela centralina SRS, que processa os sinais e aciona os dispositivos em milissegundos.  
+    Antes de qualquer diagnóstico, é obrigatório desligar a bateria e aguardar pelo menos 10 minutos para evitar disparos acidentais. O sistema inclui airbags frontais, laterais e de cortina, além de pré-tensores nos cintos de segurança.</p>
+
+    <p>Os testes devem ser realizados com ferramentas específicas — <strong>nunca com multímetro comum</strong> — para evitar danos ao circuito. As falhas mais frequentes estão relacionadas a conectores soltos, enrolamento do volante (clock spring) danificado ou falhas na centralina.</p>
+
+    <table>
+      <thead>
+        <tr><th>Sintoma</th><th>Causa Provável</th><th>Solução Recomendada</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Luz SRS acesa</td><td>Circuito aberto no airbag frontal</td><td>Verificar conectores e clock spring</td></tr>
+        <tr><td>Código B1018</td><td>Pré-tensor do cinto defeituoso</td><td>Substituir componente</td></tr>
+        <tr><td>Sem disparo após colisão</td><td>Falha na centralina SRS</td><td>Verificar alimentação e massa</td></tr>
+      </tbody>
+    </table>
+
+    <p><strong>📘 Resumo:</strong>  
+    O diagnóstico do SRS exige total atenção à segurança e ao isolamento elétrico. O técnico deve seguir o procedimento oficial Nissan, limpar códigos DTC após reparo e confirmar a integridade de todos os circuitos de disparo antes de reconectar a bateria.</p>
+    `
+  },
+
+  {
+    title: "Aula 7.3 – Redes de Comunicação (CAN Bus e LIN Bus)",
+    content: `
+    <p><strong>🎯 Objetivo:</strong> Entender o funcionamento das redes de comunicação CAN Bus e LIN Bus utilizadas no Nissan Micra e aplicar técnicas práticas de diagnóstico de falhas de comunicação entre módulos.</p>
+
+    <p><strong>📖 Conteúdo Principal:</strong>  
+    As redes CAN e LIN são responsáveis pela comunicação entre as unidades eletrónicas do veículo, garantindo a troca de dados entre sistemas como motor, ABS, direção elétrica e airbags.  
+    A <strong>rede CAN</strong> opera com duas linhas diferenciais: CAN High (~3,5 V) e CAN Low (~1,5 V). Nas extremidades da rede, existem resistências terminais de 120 Ω, totalizando 60 Ω em paralelo.  
+    A <strong>rede LIN</strong> é usada para sistemas secundários (vidros, espelhos, travas), operando a 12 V em arquitetura mestre-escravo.</p>
+
+    <p>Durante o diagnóstico, o técnico deve medir a resistência entre os pinos 6 e 14 do conector OBD-II (espera-se 60 Ω). Qualquer valor diferente indica curto, ruptura ou terminação incorreta. O osciloscópio mostra a forma de onda diferencial entre CAN H e CAN L, essencial para confirmar integridade de comunicação.</p>
+
+    <table>
+      <thead>
+        <tr><th>Rede</th><th>Tensão Normal</th><th>Falha Típica</th><th>Correção</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>CAN High</td><td>3,5 V</td><td>Curto a 12 V ou massa</td><td>Isolar e reparar fio danificado</td></tr>
+        <tr><td>CAN Low</td><td>1,5 V</td><td>Falta de terminação</td><td>Verificar resistores de 120 Ω</td></tr>
+        <tr><td>LIN</td><td>12 V</td><td>Comunicação ausente</td><td>Testar módulo mestre</td></tr>
+      </tbody>
+    </table>
+
+    <p><strong>📘 Resumo:</strong>  
+    As redes CAN e LIN formam a espinha dorsal eletrónica do Micra. Um diagnóstico eficaz exige medições elétricas precisas, inspeção de conectores e interpretação de sinais no osciloscópio, evitando substituições desnecessárias de módulos e garantindo fiabilidade no sistema.</p>
+    `
+  },
+
+   // Capítulo 8
+  { 
+    title: "Aula 8.1 – Climatização e Ar Condicionado (AC)", 
+    content: `
+      <p>O sistema de climatização e ar condicionado (A/C) do Nissan Micra é um componente crítico para conforto, segurança e eficiência energética. Ele regula temperatura, umidade e fluxo de ar no habitáculo, prevenindo fadiga do condutor e mantendo desempenho adequado do veículo. Sistemas modernos incluem compressores acionados eletromagneticamente, evaporadores, condensadores, sensores de temperatura ambiente e interna, válvulas de expansão e módulos de controlo eletrônico que ajustam dinamicamente a operação do sistema.</p>
+
+      <p>O diagnóstico técnico deve incluir: inspeção visual de tubagens, conexões e rolamentos do compressor; medição de pressão do gás refrigerante (R134a ou R1234yf); teste de sensores de temperatura e atuadores de porta de ar; verificação de relés, fusíveis e módulos de controlo. Testes de estanquidade e recarga do sistema são essenciais para identificar fugas, garantindo eficiência e evitando sobrecarga do compressor. A análise de DTCs (Diagnostic Trouble Codes) permite identificar falhas eletrónicas, como B10A6 – sensor de pressão A/C, ou defeitos de comunicação com o módulo de controlo.</p>
+
+      <table border="1" cellpadding="5">
+        <thead>
+          <tr><th>Sintoma</th><th>Causa Provável</th><th>Teste/Reparo</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Ar não resfria</td><td>Falta de gás refrigerante ou vazamento</td><td>Inspeção de fugas e recarga de gás</td></tr>
+          <tr><td>Compressor não aciona</td><td>Relé ou fusível defeituoso</td><td>Verificar continuidade elétrica e substituir se necessário</td></tr>
+          <tr><td>Fluxo de ar irregular</td><td>Sensor interno ou atuador com falha</td><td>Testar e substituir componente</td></tr>
+        </tbody>
+      </table>
+
+      <p>Resumo: Um diagnóstico completo combina inspeção visual, testes elétricos, medições de pressão e análise de DTCs. A manutenção preventiva, aliada à verificação periódica de sensores e atuadores, garante eficiência do sistema, prolonga a vida útil do compressor e mantém o habitáculo confortável e seguro.</p>
+    `
+  },
+  { 
+    title: "Aula 8.2 – Avarias Elétricas do Habitáculo (Vidros, Fechos, Painel)", 
+    content: `
+      <p>Os sistemas elétricos do habitáculo do Nissan Micra incluem vidros elétricos, fechaduras centralizadas e painel de instrumentos. Estes dispositivos são controlados pelo BCM (Body Control Module) e são críticos para conveniência e segurança. Problemas comuns envolvem motores de vidros queimados, cabos rompidos, atuadores de fecho defeituosos e falhas de comunicação entre módulos eletrónicos internos.</p>
+
+      <p>O diagnóstico técnico deve incluir: teste de continuidade e tensão nos motores de vidros, verificação de alimentação de atuadores de portas e fechaduras, inspeção visual de fios e conectores, análise de comandos via scanner e avaliação de sinais de comunicação do BCM. Uma abordagem sistemática permite identificar rapidamente falhas intermitentes, evitando substituições desnecessárias. Ferramentas como multímetro, osciloscópio e scanner automotivo são essenciais para precisão.</p>
+
+      <table border="1" cellpadding="5">
+        <thead>
+          <tr><th>Sistema</th><th>Sintoma</th><th>Causa Comum</th><th>Solução</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Vidros elétricos</td><td>Não sobem/descem</td><td>Motor queimado ou cabo rompido</td><td>Substituição do motor ou cabo</td></tr>
+          <tr><td>Fechaduras</td><td>Porta não tranca</td><td>Atuador defeituoso</td><td>Testar e substituir atuador</td></tr>
+          <tr><td>Painel de instrumentos</td><td>Indicadores falham</td><td>Falha no BCM ou alimentação</td><td>Testar e reprogramar módulo</td></tr>
+        </tbody>
+      </table>
+
+      <p>Resumo: O diagnóstico estruturado de avarias elétricas do habitáculo envolve inspeção, medições e leitura de DTCs. O BCM deve ser monitorado em casos de falhas múltiplas. Procedimentos organizados e documentados aumentam a eficiência e reduzem erros de intervenção.</p>
+    `
+  },
+  { 
+    title: "Aula 8.3 – Localização de 'Parasitas' e Fugas de Corrente", 
+    content: `
+      <p>Fugas de corrente elétrica ou consumos parasitas podem descarregar a bateria do Nissan Micra, causando problemas de arranque e funcionamento irregular de sistemas eletrónicos. A identificação de "parasitas" requer metodologia sistemática e ferramentas adequadas, como multímetro em série, pinça amperimétrica e análise de esquemas elétricos do veículo.</p>
+
+      <p>O procedimento inicia com medição da corrente de repouso, desconectando alternador ou sistemas auxiliares conforme manual técnico. Em seguida, fusíveis individuais são removidos sequencialmente para localizar circuitos responsáveis pelo consumo excessivo. Componentes comuns que causam fuga de corrente incluem módulos BCM com defeito, iluminação interna, sensores e atuadores que permanecem energizados ou curtos intermitentes em fios.</p>
+
+      <table border="1" cellpadding="5">
+        <thead>
+          <tr><th>Fuga Detectada</th><th>Origem Provável</th><th>Procedimento de Correção</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Descarregamento noturno</td><td>Iluminação interna ou porta mal fechada</td><td>Verificar interruptores, ajustar sensores de porta</td></tr>
+          <tr><td>Corrente elevada em repouso</td><td>BCM com defeito</td><td>Testar módulo e substituir se necessário</td></tr>
+          <tr><td>Consumo intermitente</td><td>Cabo danificado ou curto parcial</td><td>Inspecionar cablagem e reparar circuito</td></tr>
+        </tbody>
+      </table>
+
+      <p>Resumo: Localização de consumos parasitas exige medição precisa, análise de esquemas elétricos e testes estruturados. Esta abordagem reduz falhas de bateria, previne avarias em módulos eletrónicos e aumenta confiabilidade do veículo.</p>
+    `
+  },
+
+  // Capítulo 9
+  { 
+    title: "Aula 9.1 – Soluções e Reparação (Substituição e Programação)", 
+    content: `
+      <p>A reparação avançada do Nissan Micra inclui substituição de componentes eletrónicos e programação de novas peças via scanner. Sensores, centralinas (ECU/BCM) e atuadores frequentemente requerem codificação para integração correta no sistema. Procedimentos seguros envolvem desligamento da bateria, uso de EPI e ferramentas certificadas, além de registro detalhado de cada etapa para rastreabilidade.</p>
+
+      <p>O diagnóstico inicial deve identificar se a falha é mecânica, elétrica ou de software. Após substituição do componente, o scanner automotivo realiza programação ou codificação do módulo. Parâmetros críticos, como calibração de sensores e comunicação entre ECU e BCM, são verificados. Testes dinâmicos e leituras de DTCs confirmam a operação adequada.</p>
+
+      <table border="1" cellpadding="5">
+        <thead>
+          <tr><th>Componente</th><th>Falha Comum</th><th>Procedimento</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Sensor de temperatura</td><td>Leitura incorreta</td><td>Substituir e recalibrar via scanner</td></tr>
+          <tr><td>Centralina (ECU/BCM)</td><td>Falha intermitente ou incompatibilidade</td><td>Substituir e programar com software oficial</td></tr>
+          <tr><td>Atuadores</td><td>Não respondem</td><td>Verificar alimentação e substituir se necessário</td></tr>
+        </tbody>
+      </table>
+
+      <p>Resumo: A reparação e programação de componentes eletrónicos garantem integração correta no sistema, confiabilidade operacional e prevenção de falhas recorrentes. Registro detalhado e verificação completa são essenciais.</p>
+    `
+  },
+  { 
+    title: "Aula 9.2 – Manutenção Preventiva Focada no Diagnóstico", 
+    content: `
+      <p>A manutenção preventiva do Nissan Micra visa reduzir falhas recorrentes e prolongar a vida útil do veículo. Inclui verificação de corrente de distribuição, fluidos, filtros, correias, cablagem e sistemas eletrónicos. Planos preventivos ajudam a detectar desgaste prematuro de componentes, prevenindo falhas mecânicas e elétricas.</p>
+
+      <p>O diagnóstico preventivo combina inspeção visual, medições elétricas e leituras via scanner. Fluídos como óleo do motor, líquido de travões e refrigerante devem ser verificados periodicamente. Filtros de ar e combustível, cabos e terminais da bateria precisam de atenção. Monitoramento de DTCs e análise de comunicação entre módulos permite antecipar falhas antes que comprometam operação segura.</p>
+
+      <table border="1" cellpadding="5">
+        <thead>
+          <tr><th>Item</th><th>Risco</th><th>Ação Preventiva</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Correia de distribuição</td><td>Ruptura ou desgaste</td><td>Substituição conforme quilometragem</td></tr>
+          <tr><td>Fluidos</td><td>Contaminação ou baixo nível</td><td>Verificação e reposição periódica</td></tr>
+          <tr><td>Sistemas eletrónicos</td><td>Falhas intermitentes</td><td>Monitoramento de DTCs e inspeção de cablagem</td></tr>
+        </tbody>
+      </table>
+
+      <p>Resumo: Manutenção preventiva estruturada reduz avarias inesperadas, prolonga vida útil do veículo e aumenta segurança. O diagnóstico frequente e ações corretivas antecipadas são fundamentais para confiabilidade do Micra.</p>
+    `
+  },
+  { 
+    title: "Aula 9.3 – Estudos de Caso e Prática em Oficina", 
+    content: `
+      <p>Esta aula envolve análise de casos reais de falha no Nissan Micra, combinando diagnóstico teórico e prática em oficina. Problemas podem incluir falhas no sistema de climatização, vidros elétricos, fecho centralizado, módulos eletrónicos e consumo parasita de corrente. Metodologia: identificação do sintoma, isolamento do sistema, testes elétricos e mecânicos, análise de DTCs e aplicação de soluções corretivas.</p>
+
+      <p>O estudo de caso permite aplicar ferramentas como scanner automotivo, multímetro, osciloscópio e equipamento de teste de corrente. Cada intervenção é registrada detalhadamente, permitindo rastreabilidade. A simulação prática inclui teste dinâmico, verificação de funcionamento completo e feedback técnico, reforçando aprendizado prático e teórico.</p>
+
+      <table border="1" cellpadding="5">
+        <thead>
+          <tr><th>Estudo de Caso</th><th>Sintoma</th><th>Ação Realizada</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Vidro elétrico</td><td>Não sobe</td><td>Substituição do motor e teste de continuidade</td></tr>
+          <tr><td>BCM</td><td>Falha intermitente</td><td>Reprogramação via scanner e verificação de comunicação</td></tr>
+          <tr><td>Corrente parasita</td><td>Descarga da bateria</td><td>Medição série, fusível isolado, reparo de cabo danificado</td></tr>
+        </tbody>
+      </table>
+
+      <p>Resumo: Estudos de caso consolidam aprendizado, aplicando diagnóstico e reparação em situações reais. Permitem desenvolvimento de habilidades práticas, entendimento completo do sistema e confiança na intervenção profissional, garantindo qualidade e segurança na oficina.</p>
+    `
+  }
+];
+
+
+  const main = document.getElementById("main-content");
   const lesson = lessons[id];
-  if (!lesson) return;
 
-  document.getElementById('lesson-title').textContent = lesson.title;
-  document.getElementById('lesson-content').innerHTML = lesson.content;
+  if (!lesson) {
+    main.innerHTML = `
+      <h2 id="lesson-title">🚧 Conteúdo não disponível</h2>
+      <p>Esta aula ainda não foi carregada. Por favor, selecione outra.</p>
+    `;
+    return;
+  }
+
+  main.innerHTML = `
+  <div class="lesson-content">
+    <h2 class="lesson-inner-title">${lesson.title}</h2>
+    ${lesson.content}
+  </div>
+`;
+
+
+  // Fecha o sidebar automaticamente no telemóvel
+  const sidebar = document.getElementById("sidebar");
+  if (window.innerWidth <= 900 && sidebar.classList.contains("active")) {
+    sidebar.classList.remove("active");
+  }
 }
 </script>
-
-
 </body>
 </html>

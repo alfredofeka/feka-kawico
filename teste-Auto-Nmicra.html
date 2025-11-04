@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Teste Final – Curso de Diagnóstico Nissan Micra</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: Inter, Arial, sans-serif;
+      background: #f4f7fb;
+      color: #222;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 980px;
+      margin: auto;
+      background: #fff;
+      padding: 24px;
+      border-radius: 12px;
+      box-shadow: 0 8px 26px rgba(0,0,0,.08);
+    }
+    h1 {
+      font-size: 1.6rem;
+      color: #004a80;
+      margin-bottom: 12px;
+      text-align: center;
+    }
+    .quiz-question {
+      margin: 18px 0;
+      padding: 16px;
+      border-radius: 10px;
+      border: 1px solid #dce3f0;
+      background: #f9faff;
+    }
+    .quiz-question p {
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #004a80;
+    }
+    label {
+      display: block;
+      margin: 6px 0;
+      cursor: pointer;
+    }
+    textarea {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 0.95rem;
+    }
+    button {
+      padding: 10px 16px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      font-weight: 700;
+      margin-top: 12px;
+    }
+    .primary {
+      background: #004a80;
+      color: #fff;
+    }
+    .secondary {
+      background: #e0e6f0;
+      color: #222;
+    }
+    .small {
+      font-size: 0.85rem;
+      color: #666;
+    }
+    #resultadoBox {
+      margin-top: 20px;
+      padding: 12px;
+      background: #e6ffed;
+      border: 1px solid #b2f5ea;
+      border-radius: 8px;
+      display: none;
+    }
+    .top-btn {
+      display: inline-block;
+      margin-bottom: 15px;
+      text-decoration: none;
+      background: #004a80;
+      color: #fff;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-weight: 600;
+      transition: 0.3s;
+    }
+    .top-btn:hover {
+      background: #00345d;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="curso-Auto-Nmicra.html" class="top-btn">⬅ Voltar ao Curso</a>
+    <h1>Teste Final – Diagnóstico e Reparação do Nissan Micra</h1>
+
+    <form id="quizForm">
+      <div class="quiz-question">
+        <p>Identificação do formando</p>
+        <input id="alunoName" placeholder="Nome completo" required />
+        <input id="alunoEmail" placeholder="Email" required />
+        <p class="small">Esses dados servem para identificação no sistema FEKA KAWIÇO.</p>
+      </div>
+
+      <div id="perguntasTeoricas"></div>
+
+      <div class="quiz-question">
+        <p><strong>Estudo de Caso Prático</strong></p>
+        <p>Um Nissan Micra K13 chega à oficina com a luz de injeção acesa e falhas intermitentes no arranque. O scanner indica código de falha P0335 (Sensor de rotação do motor). Após inspeção, o técnico observa que o conector do sensor está intacto e há tensão de alimentação. O motor de arranque gira normalmente.</p>
+        <label><input type="radio" name="caso" value="a"> Substituir o módulo de injeção (ECU)</label>
+        <label><input type="radio" name="caso" value="b"> Limpar os injetores e testar compressão</label>
+        <label><input type="radio" name="caso" value="c"> Verificar o sensor de rotação e o sinal com o osciloscópio</label>
+        <label><input type="radio" name="caso" value="d"> Atualizar o firmware do painel de instrumentos</label>
+        <p class="small">Descreve como resolverias este caso, incluindo ferramentas, etapas e justificativa técnica.</p>
+        <textarea name="resolucao" rows="6" required></textarea>
+      </div>
+
+      <button type="button" id="submitQuiz" class="primary">Submeter Teste</button>
+      <button type="reset" id="resetQuiz" class="secondary">Limpar Respostas</button>
+      <div id="resultadoBox"></div>
+    </form>
+  </div>
+
+  <script>
+  (function(){
+    const perguntas = [
+      "Qual é a função principal da ECU (Engine Control Unit)?",
+      "O que representa o código DTC P0335 no Nissan Micra?",
+      "Qual é a função do sensor MAF?",
+      "O que significa a sigla OBD-II?",
+      "Qual é o principal equipamento para medir tensão e resistência?",
+      "Qual a voltagem ideal da bateria em repouso?",
+      "O que indica uma leitura de 0Ω num teste de continuidade?",
+      "Qual sistema comunica módulos através do CAN Bus?",
+      "O que é uma fuga de corrente elétrica?",
+      "Qual a unidade de medida da resistência elétrica?",
+      "O que é analisado com o osciloscópio?",
+      "Qual a diferença entre circuito em série e em paralelo?",
+      "O que faz o relé de arranque?",
+      "O que caracteriza uma falha intermitente?",
+      "Em qual situação se usa o scanner OBD-II?",
+      "Qual é o objetivo do teste de queda de tensão?",
+      "O que deve ser verificado antes de substituir um sensor?",
+      "Qual é o papel do fusível num circuito elétrico?",
+      "O que causa o erro U1000 (falha de comunicação CAN)?",
+      "O que fazer após apagar códigos de falha com o scanner?"
+    ];
+
+    const alternativas = [
+      ["a) Controlar travagem ABS", "b) Gerir injeção e ignição do motor", "c) Alimentar sensores", "d) Controlar iluminação"],
+      ["a) Falha no sensor de fase", "b) Falha no sensor de rotação", "c) Falha na bomba de combustível", "d) Falha na ECU"],
+      ["a) Medir massa de ar admitida", "b) Medir temperatura do óleo", "c) Medir pressão de combustível", "d) Controlar o alternador"],
+      ["a) On Board Diagnostic II", "b) Over Brake Detection", "c) Output Balance Device", "d) Open Base Diagnosis"],
+      ["a) Wattímetro", "b) Multímetro", "c) Osciloscópio", "d) Amperímetro"],
+      ["a) 11.0V", "b) 12.6V", "c) 13.5V", "d) 14.4V"],
+      ["a) Curto-circuito", "b) Circuito aberto", "c) Continuidade elétrica", "d) Resistência alta"],
+      ["a) Rede de comunicação dos módulos", "b) Sistema de travagem", "c) Controle da iluminação", "d) Sensor de combustível"],
+      ["a) Tensão insuficiente da bateria", "b) Corrente que flui mesmo com o veículo desligado", "c) Falha de massa", "d) Falha de alternador"],
+      ["a) Volt", "b) Ampere", "c) Ohm", "d) Watt"],
+      ["a) Corrente elétrica", "b) Forma de onda de sinais", "c) Pressão de óleo", "d) Temperatura ambiente"],
+      ["a) A tensão é igual e corrente divide-se", "b) A corrente é igual e tensão divide-se", "c) Ambas têm tensão constante", "d) Ambas dividem corrente"],
+      ["a) Controlar o motor de arranque", "b) Alimentar o painel", "c) Controlar o ventilador", "d) Regular o alternador"],
+      ["a) Ocorre apenas no inverno", "b) Surge de forma esporádica e difícil de reproduzir", "c) É permanente", "d) É falha no chicote"],
+      ["a) Após o reparo ou quando há luz de avaria acesa", "b) Antes de ligar a ignição", "c) Apenas em revisões anuais", "d) Durante a lavagem"],
+      ["a) Medir potência elétrica", "b) Identificar perdas de tensão por resistência", "c) Verificar fuga de corrente", "d) Controlar temperatura"],
+      ["a) Integridade do chicote e conectores", "b) Tensão da rede elétrica", "c) Nível de combustível", "d) Pressão de óleo"],
+      ["a) Proteger o circuito contra sobrecorrente", "b) Armazenar energia", "c) Regular tensão", "d) Controlar relés"],
+      ["a) Curto no painel", "b) Falha de comunicação entre módulos", "c) Erro na leitura da ECU", "d) Falha mecânica"],
+      ["a) Desligar a bateria", "b) Testar novamente o sistema", "c) Substituir sensores", "d) Reiniciar a ECU manualmente"]
+    ];
+
+    const answers = {
+      q1:'b', q2:'b', q3:'a', q4:'a', q5:'b',
+      q6:'b', q7:'c', q8:'a', q9:'b', q10:'c',
+      q11:'b', q12:'b', q13:'a', q14:'b', q15:'a',
+      q16:'b', q17:'a', q18:'a', q19:'b', q20:'b'
+    };
+
+    const perguntasTeoricas = document.getElementById('perguntasTeoricas');
+    perguntas.forEach((pergunta, i) => {
+      const div = document.createElement('div');
+      div.className = 'quiz-question';
+      div.innerHTML = `<p>${i + 1}) ${pergunta}</p>` +
+        alternativas[i].map((alt, j) => {
+          const letra = ['a','b','c','d'][j];
+          return `<label><input type="radio" name="q${i+1}" value="${letra}"> ${alt}</label>`;
+        }).join('');
+      perguntasTeoricas.appendChild(div);
+    });
+
+    const submitBtn = document.getElementById('submitQuiz');
+    const resultBox = document.getElementById('resultadoBox');
+
+    submitBtn.addEventListener('click', () => {
+      const name = document.getElementById('alunoName').value.trim();
+      const email = document.getElementById('alunoEmail').value.trim();
+      if (!name || !email) return alert("Preenche nome e email antes de submeter.");
+
+      let score = 0;
+      for (let i = 1; i <= 20; i++) {
+        const sel = document.querySelector(`input[name="q${i}"]:checked`);
+        if (sel && sel.value === answers[`q${i}`]) score++;
+      }
+      const percent = Math.round((score / 20) * 100);
+
+      resultBox.style.display = 'block';
+      resultBox.innerHTML = `<p><strong>Obrigado, ${name}.</strong></p>
+        <p>Pontuação: <strong>${score}</strong> / 20 — <strong>${percent}%</strong></p>
+        <p class="small">As respostas foram registadas localmente.</p>`;
+      submitBtn.disabled = true;
+    });
+  })();
+  </script>
+</body>
+</html>

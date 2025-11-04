@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Teste Módulo 2 – Diagnóstico Avançado Nissan Micra</title>
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f7fb;
+  color: #222;
+  margin: 0;
+  padding: 20px;
+}
+.container {
+  max-width: 980px;
+  margin: auto;
+  background: #fff;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 8px 26px rgba(0,0,0,.08);
+}
+h1 {
+  font-size: 1.5rem;
+  color: #004a80;
+  text-align: center;
+}
+.quiz-question {
+  margin: 18px 0;
+  padding: 16px;
+  border-radius: 10px;
+  border: 1px solid #dce3f0;
+  background: #f9faff;
+}
+.quiz-question p {
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #004a80;
+}
+label { display: block; margin: 6px 0; cursor: pointer; }
+textarea {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 0.95rem;
+}
+button {
+  padding: 10px 16px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-weight: 700;
+  margin-top: 12px;
+}
+.primary { background: #004a80; color: #fff; }
+.secondary { background: #e0e6f0; color: #222; }
+.small { font-size: 0.85rem; color: #666; }
+#resultadoBox {
+  margin-top: 20px;
+  padding: 12px;
+  background: #e6ffed;
+  border: 1px solid #b2f5ea;
+  border-radius: 8px;
+  display: none;
+}
+.top-btn {
+  display: inline-block;
+  margin-bottom: 15px;
+  text-decoration: none;
+  background: #004a80;
+  color: #fff;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-weight: 600;
+}
+.top-btn:hover { background: #00345d; }
+</style>
+</head>
+
+<body>
+<div class="container">
+  <a href="curso-Auto-Nmicra.html" class="top-btn">⬅ Voltar ao Curso</a>
+  <h1>Teste Módulo 2 – Diagnóstico Avançado Nissan Micra</h1>
+
+  <form id="quizForm">
+    <div class="quiz-question">
+      <p>Identificação do formando</p>
+      <input id="alunoName" placeholder="Nome completo" required>
+      <input id="alunoEmail" placeholder="Email" required>
+      <p class="small">Preenche os dados para registo local.</p>
+    </div>
+
+    <div id="perguntasTeoricas"></div>
+
+    <div class="quiz-question">
+      <p><strong>🧩 Estudo de Caso Prático</strong></p>
+      <p>Um Nissan Micra 1.5 dCi entra em modo de segurança com o código P2002 (eficiência do DPF abaixo do limiar). O DPF não regenera e a EGR mostra 80% de abertura fixa.</p>
+      <label><input type="radio" name="caso" value="a"> Substituir DPF e EGR sem testar</label>
+      <label><input type="radio" name="caso" value="b"> Executar regeneração forçada e testar a posição da EGR via scanner</label>
+      <label><input type="radio" name="caso" value="c"> Limpar injetores e verificar compressão</label>
+      <label><input type="radio" name="caso" value="d"> Atualizar firmware da ECU</label>
+      <p class="small">Descreve como resolverias este caso, incluindo ferramentas e justificativa técnica:</p>
+      <textarea name="resolucao" rows="6" required></textarea>
+    </div>
+
+    <button type="button" id="submitQuiz" class="primary">Submeter Teste</button>
+    <button type="reset" id="resetQuiz" class="secondary">Limpar Respostas</button>
+    <div id="resultadoBox"></div>
+  </form>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const perguntas = [
+    "1️⃣ Qual é a função principal do sensor CKP no Micra?",
+    "2️⃣ O que indica sinal irregular do sensor CMP?",
+    "3️⃣ Qual o valor normal do sensor ECT a 90°C?",
+    "4️⃣ Que equipamento mede forma de onda dos sensores?",
+    "5️⃣ O que faz o sensor MAF no controlo da mistura?",
+    "6️⃣ O que provoca falha P030X (misfire)?",
+    "7️⃣ Como se identifica baixa compressão num cilindro?",
+    "8️⃣ Sintoma típico de filtro de combustível entupido?",
+    "9️⃣ O que caracteriza o sistema Common Rail do 1.5 dCi?",
+    "🔟 Que ação ao encontrar DPF com 80% de saturação?",
+    "11️⃣ Qual fluido recomendado para CVT do Micra?",
+    "12️⃣ O código P0746 refere-se a quê?",
+    "13️⃣ Sintoma de falha na embraiagem do Micra manual?",
+    "14️⃣ Causa provável de ruído metálico ao arranque?",
+    "15️⃣ O que representa o código C1604 no EPS?",
+    "16️⃣ Após trocar o sensor de torque, que passo seguir?",
+    "17️⃣ Que teste confirma falha num amortecedor?",
+    "18️⃣ Sintoma típico de rolamento de roda danificado?",
+    "19️⃣ O que indica vibração ao travar?",
+    "20️⃣ Por que calibrar sensor de ângulo da direção após reparo?"
+  ];
+
+  const alternativas = [
+    ["a) Controlar pressão do combustível", "b) Medir rotação e posição do virabrequim", "c) Ajustar avanço", "d) Corrigir mistura de ar"],
+    ["a) Falha de sincronismo mecânico", "b) Falha no sensor MAF", "c) Falha no catalisador", "d) Falha no alternador"],
+    ["a) 200–300 Ω", "b) 2–3 kΩ", "c) 20–30 kΩ", "d) 10–20 Ω"],
+    ["a) Multímetro", "b) Osciloscópio", "c) Scanner", "d) Wattímetro"],
+    ["a) Medir pressão do rail", "b) Controlar temperatura do motor", "c) Medir massa de ar admitida", "d) Regular alternador"],
+    ["a) Falha na ECU", "b) Falha em bobina, vela ou injetor", "c) Vazamento de óleo", "d) Sensor ECT em curto"],
+    ["a) Teste de resistência elétrica", "b) Teste de compressão", "c) Teste de combustível", "d) Leitura do scanner"],
+    ["a) Fumo branco", "b) Motor falha em alta rotação", "c) Perda de potência", "d) Luz ABS acesa"],
+    ["a) Sistema de injeção mecânica", "b) Injeção elétrica de alta pressão", "c) Sistema de carburação", "d) Mistura por vácuo"],
+    ["a) Substituir sensor MAF", "b) Regenerar DPF forçadamente", "c) Trocar bomba de combustível", "d) Reiniciar ECU"],
+    ["a) ATF Dexron II", "b) Fluido NS-2 ou NS-3", "c) Óleo 10W40", "d) DOT-4"],
+    ["a) Sensor de temperatura CVT", "b) Pressão de controlo hidráulico CVT", "c) Sensor de ângulo", "d) Bobina de ignição"],
+    ["a) Ruído ao travar", "b) Patinagem e cheiro de queimado", "c) Luz EPS acesa", "d) Consumo alto"],
+    ["a) Corrente de distribuição folgada", "b) Sensor ECT em curto", "c) Falha no alternador", "d) EGR entupida"],
+    ["a) Falha no motor elétrico", "b) Falha no sensor de torque", "c) Falha na ECU", "d) Falha na bomba hidráulica"],
+    ["a) Nada", "b) Recalibrar via scanner", "c) Substituir módulo ABS", "d) Atualizar ECU"],
+    ["a) Teste de compressão", "b) Teste de oscilação", "c) Teste de amortecimento", "d) Teste de fuga"],
+    ["a) Zumbido contínuo", "b) Estalo no pedal", "c) Perda de travagem", "d) Marcha irregular"],
+    ["a) Pastilha gasta", "b) Disco empenado", "c) Suporte partido", "d) Pneu murcho"],
+    ["a) Evitar recalibração", "b) Garantir alinhamento entre direção e rodas", "c) Reduzir consumo elétrico", "d) Desligar sistema CAN"]
+  ];
+
+  const answers = {
+    q1:'b', q2:'a', q3:'b', q4:'b', q5:'c',
+    q6:'b', q7:'b', q8:'c', q9:'b', q10:'b',
+    q11:'b', q12:'b', q13:'b', q14:'a', q15:'b',
+    q16:'b', q17:'c', q18:'a', q19:'b', q20:'b'
+  };
+
+  const perguntasTeoricas = document.getElementById('perguntasTeoricas');
+  perguntas.forEach((pergunta, i) => {
+    const div = document.createElement('div');
+    div.className = 'quiz-question';
+    div.innerHTML = `<p>${pergunta}</p>` +
+      alternativas[i].map((alt, j) => {
+        const letra = ['a','b','c','d'][j];
+        return `<label><input type="radio" name="q${i+1}" value="${letra}"> ${alt}</label>`;
+      }).join('');
+    perguntasTeoricas.appendChild(div);
+  });
+
+  const submitBtn = document.getElementById('submitQuiz');
+  const resultBox = document.getElementById('resultadoBox');
+
+  submitBtn.addEventListener('click', () => {
+    const name = document.getElementById('alunoName').value.trim();
+    const email = document.getElementById('alunoEmail').value.trim();
+    if (!name || !email) return alert("Preenche nome e email antes de submeter.");
+
+    let score = 0;
+    for (let i = 1; i <= 20; i++) {
+      const sel = document.querySelector(`input[name="q${i}"]:checked`);
+      if (sel && sel.value === answers[`q${i}`]) score++;
+    }
+    const percent = Math.round((score / 20) * 100);
+
+    resultBox.style.display = 'block';
+    resultBox.innerHTML = `<p><strong>Obrigado, ${name}.</strong></p>
+      <p>Pontuação: <strong>${score}</strong> / 20 — <strong>${percent}%</strong></p>
+      <p class="small">As respostas foram registadas localmente (sem ligação externa).</p>`;
+    submitBtn.disabled = true;
+  });
+});
+</script>
+</body>
+</html>
