@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FEKA KAWIÇO — Inscrição</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-client.js"></script>
+<style>
+  body { font-family:'Segoe UI', sans-serif; background:#f4f4f8; margin:0; padding:0; display:flex; justify-content:center; align-items:flex-start; min-height:100vh;}
+  .container { background:#fff; padding:30px; margin-top:50px; border-radius:12px; box-shadow:0 4px 16px rgba(0,0,0,0.15); max-width:500px; width:100%;}
+  h2 { text-align:center; color:#333; margin-bottom:20px;}
+  label { display:block; margin:10px 0 5px; color:#555;}
+  input { width:100%; padding:10px 12px; border-radius:8px; border:1px solid #ccc; margin-bottom:15px; font-size:14px; box-sizing:border-box;}
+  input[readonly] { background:#e9e9e9;}
+  button { width:100%; background:#4A90E2; color:#fff; padding:12px; border:none; border-radius:8px; font-size:16px; cursor:pointer; transition:all 0.3s ease;}
+  button:disabled { background:#9bbce4; cursor:not-allowed;}
+  button:hover:not(:disabled) { background:#357ABD; transform:translateY(-2px);}
+  .feedback { text-align:center; margin-top:15px; font-weight:bold;}
+  .feedback.error { color:#a00000; }
+  .feedback.success { color:#006600; }
+  .progress { height:8px; width:100%; background:#ddd; border-radius:4px; overflow:hidden; margin-bottom:20px;}
+  .progress-bar { height:100%; width:0; background:#4A90E2; transition:width 0.3s ease;}
+  .senha-regras { font-size:12px; color:#888; margin-top:-10px; margin-bottom:10px;}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h2>FEKA KAWIÇO — Inscrição</h2>
+
+  <div class="progress"><div class="progress-bar" id="progressBar"></div></div>
+
+  <form id="formCadastro">
+    <label for="nome">Nome Completo *</label>
+    <input type="text" id="nome" name="nome" required>
+
+    <label for="email">Email *</label>
+    <input type="email" id="email" name="email" required>
+
+    <label for="cidade">Cidade *</label>
+    <input type="text" id="cidade" name="cidade" required>
+
+    <label for="pais">País de Registo *</label>
+    <input type="text" id="pais" name="pais" required>
+
+    <label for="password">Password *</label>
+    <input type="password" id="password" name="password" required>
+    <div class="senha-regras" id="senhaRegras">A password deve ter letras, números e não conter o seu nome (mínimo 6 caracteres).</div>
+
+    <label for="telefone">Telefone</label>
+    <input type="text" id="telefone" name="telefone">
+
+    <button type="submit" id="submitBtn">Criar Conta</button>
+  </form>
+
+  <div class="feedback" id="feedback"></div>
+</div>
+
+<script>
+const form = document.getElementById('formCadastro');
+const feedback = document.getElementById('feedback');
+const progressBar = document.getElementById('progressBar');
+const submitBtn = document.getElementById('submitBtn');
+const senhaInput = document.getElementById('password');
+const senhaRegras = document.getElementById('senhaRegras');
+
+function passwordValida(val, nome) {
+  const primeiroNome = nome.trim().split(' ')[0].toLowerCase();
+  return /[A-Za-z]/.test(val) && /\d/.test(val) && val.length >= 6 &&
+         (primeiroNome === '' || !val.toLowerCase().includes(primeiroNome));
+}
+
+// Validação de password em tempo real
+senhaInput.addEventListener('input', () => {
+  const nome = document.getElementById('nome').value;
+  const valid = passwordValida(senhaInput.value, nome);
+  senhaRegras.style.color = valid ? 'green' : 'red';
+});
+
+// Barra de progresso
+form.addEventListener('input', () => {
+  const campos = form.querySelectorAll('input[required]');
+  const total = campos.length;
+  let filled = 0;
+  campos.forEach(i => { if (i.value.trim() !== '') filled++; });
+  progressBar.style.width = `${(filled / total) * 100}%`;
+});
+
+// Gera um username simples (só cosmético — o login é feito por email)
+function gerarUsername(nome) {
+  const base = nome.trim().split(' ')[0].toLowerCase().replace(/[^a-z0-9]/g, '');
+  const sufixo = Math.floor(100 + Math.random() * 900); // 3 dígitos
+  return base + sufixo;
+}
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  const nome = form.nome.value.trim();
+  const email = form.email.value.trim();
+  const cidade = form.cidade.value.trim();
+  const pais = form.pais.value.trim();
+  const password = form.password.value;
+  const telefone = form.telefone.value.trim();
+
+  feedback.className = 'feedback';
+  feedback.textContent = '';
+
+  if (!passwordValida(password, nome)) {
+    feedback.textContent = 'Password inválida. Verifique as regras acima.';
+    feedback.classList.add('error');
+    return;
+  }
+
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'A criar conta...';
+  feedback.textContent = 'A processar registo...';
+
+  // Tenta até 3 vezes caso o username gerado colida com um já existente
+  let tentativa = 0;
+  let resultado = null;
+
+  while (tentativa < 3) {
+    const username = gerarUsername(nome);
+
+    resultado = await supabaseClient.auth.signUp({
+      email,
+      password,
+      options: {
+        data: { nome, username, cidade, pais, telefone }
+      }
+    });
+
+    // Se o erro não for de username duplicado, não vale a pena repetir
+    const msg = resultado.error?.message?.toLowerCase() || '';
+    if (!resultado.error || !msg.includes('duplicate')) break;
+    tentativa++;
+  }
+
+  const { data, error } = resultado;
+
+  if (error) {
+    if (error.message.toLowerCase().includes('already registered')) {
+      feedback.textContent = 'Este email já está registado. Tente fazer login.';
+    } else {
+      feedback.textContent = 'Erro ao criar conta: ' + error.message;
+    }
+    feedback.classList.add('error');
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Criar Conta';
+    return;
+  }
+
+  feedback.innerHTML = 'Conta criada com sucesso! Verifique o seu email (incluindo spam) e clique no link de confirmação antes de fazer login.';
+  feedback.classList.add('success');
+  submitBtn.style.display = 'none';
+
+  setTimeout(() => {
+    window.location.href = 'login.html';
+  }, 4000);
+});
+</script>
+</body>
+</html>
