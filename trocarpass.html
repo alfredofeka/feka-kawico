@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Trocar Password - FEKA KAWIÇO</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-client.js"></script>
+<style>
+body{font-family:Arial,Helvetica,sans-serif;background:#f4f6f8;margin:0;padding:0;color:#333;display:flex;justify-content:center;align-items:center;height:100vh}
+.card{background:#fff;padding:22px;border-radius:8px;border:1px solid #ddd;width:360px;box-shadow:0 8px 30px rgba(0,0,0,0.06)}
+input{width:100%;padding:10px;margin-top:10px;border-radius:6px;border:1px solid #ccc;box-sizing:border-box}
+button{width:100%;background:#0055a5;color:#fff;padding:10px;border:0;border-radius:6px;margin-top:12px;cursor:pointer;transition:background 0.3s;}
+button:disabled{background:#9bbce4;cursor:not-allowed;}
+button:hover:not(:disabled){background:#00407a}
+.link{display:block;margin-top:10px;color:#0055a5;text-decoration:none}
+.msg{display:none;padding:8px;border-radius:6px;margin-top:8px;text-align:center;font-weight:bold;}
+.msg.error{background:#ffe0e0;color:#a00000}
+.msg.success{background:#e0ffe0;color:#006600}
+p.info{font-size:0.9em;color:#666;margin-top:5px;}
+</style>
+</head>
+<body>
+<div class="card">
+  <h3>Recuperar Password</h3>
+  <p class="info">Indique o email da sua conta. Vamos enviar-lhe um link para definir uma nova password.</p>
+  <form id="resetForm">
+    <input id="email" type="email" placeholder="Email" required>
+    <button type="submit" id="resetBtn">Enviar Link de Recuperação</button>
+  </form>
+  <a class="link" href="login.html">Voltar ao Login</a>
+  <div id="msg" class="msg"></div>
+</div>
+
+<script>
+// IMPORTANTE: ajuste esta URL para o endereço público real do site
+const SITE_URL = 'https://alfredofeka.github.io/feka-kawico';
+
+const form = document.getElementById('resetForm');
+const resetBtn = document.getElementById('resetBtn');
+const msg = document.getElementById('msg');
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const email = document.getElementById('email').value.trim();
+
+  msg.style.display = 'none';
+  msg.classList.remove('error', 'success');
+  resetBtn.disabled = true;
+  resetBtn.textContent = 'A enviar...';
+
+  const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
+    redirectTo: `${SITE_URL}/nova-password.html`
+  });
+
+  resetBtn.disabled = false;
+  resetBtn.textContent = 'Enviar Link de Recuperação';
+
+  if (error) {
+    msg.textContent = 'Erro: ' + error.message;
+    msg.classList.add('error');
+  } else {
+    msg.textContent = 'Se existir uma conta com este email, foi enviado um link de recuperação. Verifique a caixa de entrada (e o spam).';
+    msg.classList.add('success');
+  }
+  msg.style.display = 'block';
+});
+</script>
+</body>
+</html>
