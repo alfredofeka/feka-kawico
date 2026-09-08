@@ -589,16 +589,14 @@
 
             if (session) {
                 // Usuário ONLINE — vai buscar o nome ao perfil
-               const { data: profile, error } = await supabaseClient
-    .from('profiles')
-    .select('*')
-    .eq('id', session.user.id)
-    .single();
+                const { data: profile } = await supabaseClient
+                    .from('profiles')
+                    .select('nome')
+                    .eq('id', session.user.id)
+                    .single();
 
-console.log('PROFILE=', profile);
-console.log('ERROR JSON=', JSON.stringify(error));
-console.log('ERROR=', error);
-console.log('SESSION=', session.user.id);
+                const firstName = profile?.nome ? profile.nome.split(' ')[0] : 'Usuário';
+
                 statusIndicator.innerHTML = `
                     <a href="perfil.html" style="text-decoration:none; color:inherit; display:flex; align-items:center;" title="Ver Perfil (Online)">
                         <i class="fas fa-circle status-icon online"></i>
