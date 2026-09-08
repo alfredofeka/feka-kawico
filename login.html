@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Login - FEKA KAWIÇO</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-client.js"></script>
+<style>
+body{font-family:Arial,Helvetica,sans-serif;background:#f4f6f8;margin:0;padding:0;color:#333;display:flex;justify-content:center;align-items:center;height:100vh}
+.card{background:#fff;padding:22px;border-radius:8px;border:1px solid #ddd;width:360px;box-shadow:0 8px 30px rgba(0,0,0,0.06)}
+input{width:100%;padding:10px;margin-top:10px;border-radius:6px;border:1px solid #ccc;box-sizing:border-box}
+button{width:100%;background:#0055a5;color:#fff;padding:10px;border:0;border-radius:6px;margin-top:12px;cursor:pointer;transition:background 0.3s;}
+button:disabled{background:#9bbce4;cursor:not-allowed;}
+button:hover:not(:disabled){background:#00407a}
+.link{display:block;margin-top:10px;color:#0055a5;text-decoration:none}
+.msg{display:none;padding:8px;border-radius:6px;margin-top:8px;text-align:center;font-weight:bold;}
+.msg.error{background:#ffe0e0;color:#a00000}
+.msg.success{background:#e0ffe0;color:#006600}
+</style>
+</head>
+<body>
+<div class="card">
+  <h3>Entrar na FEKA KAWIÇO</h3>
+  <form id="loginForm">
+    <input id="email" type="email" placeholder="Email" required>
+    <input id="password" type="password" placeholder="Password" required>
+    <button type="submit" id="loginBtn">Entrar</button>
+  </form>
+  <a class="link" href="Inscricaogeral.html">Ainda não tens conta? Inscrever-me</a>
+  <a class="link" href="trocarpass.html">Esqueci a password / Trocar</a>
+
+  <div id="msgErr" class="msg"></div>
+</div>
+
+<script>
+const form = document.getElementById('loginForm');
+const loginBtn = document.getElementById('loginBtn');
+const msgErr = document.getElementById('msgErr');
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  const email = document.getElementById('email').value.trim();
+  const password = document.getElementById('password').value;
+
+  msgErr.style.display = 'none';
+  msgErr.classList.remove('error', 'success');
+  loginBtn.disabled = true;
+  loginBtn.textContent = 'A entrar...';
+
+  let resultado;
+  try {
+    resultado = await supabaseClient.auth.signInWithPassword({ email, password });
+  } catch (ex) {
+    msgErr.textContent = 'Erro técnico: ' + ex.message + ' (verifique se supabase-client.js está a carregar corretamente)';
+    msgErr.classList.add('error');
+    msgErr.style.display = 'block';
+    loginBtn.disabled = false;
+    loginBtn.textContent = 'Entrar';
+    return;
+  }
+
+  const { data, error } = resultado;
+
+  if (error) {
+    if (error.message.toLowerCase().includes('email not confirmed')) {
+      msgErr.innerHTML = 'O seu email ainda não foi confirmado. Verifique a caixa de entrada (e o spam).<br><a href="#" id="resendLink" style="color:#a00000;text-decoration:underline;">Reenviar email de confirmação</a>';
+      document.getElementById('resendLink').addEventListener('click', async (ev) => {
+        ev.preventDefault();
+        await supabaseClient.auth.resend({ type: 'signup', email });
+        msgErr.textContent = 'Email de confirmação reenviado. Verifique a caixa de entrada.';
+      });
+    } else if (error.message.toLowerCase().includes('invalid login credentials')) {
+      msgErr.textContent = 'Email ou password incorretos.';
+    } else {
+      msgErr.textContent = 'Erro ao entrar: ' + error.message;
+    }
+    msgErr.classList.add('error');
+    msgErr.style.display = 'block';
+    loginBtn.disabled = false;
+    loginBtn.textContent = 'Entrar';
+    return;
+  }
+
+  // Vai buscar o nome do perfil (tabela profiles) para a mensagem de boas-vindas
+  const { data: profile } = await supabaseClient
+    .from('profiles')
+    .select('nome')
+    .eq('id', data.user.id)
+    .single();
+
+  const primeiroNome = profile?.nome ? profile.nome.split(' ')[0] : 'aluno';
+
+  msgErr.textContent = `Login efetuado com sucesso! Bem-vindo, ${primeiroNome}.`;
+  msgErr.classList.add('success');
+  msgErr.style.display = 'block';
+
+  setTimeout(() => {
+    location.href = 'index.html';
+  }, 1000);
+});
+
+// Se o utilizador já tiver sessão ativa, redireciona logo para a home
+(async () => {
+  const { data: { session } } = await supabaseClient.auth.getSession();
+  if (session) location.href = 'index.html';
+})();
+</script>
+</body>
+</html>
