@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Catálogo de Cursos — FEKA KAWIÇO</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-client.js"></script>
+<style>
+body { font-family: Arial, sans-serif; background: #f0f2f5; margin:0; padding:0;}
+.fk-header { display:flex; justify-content:space-between; align-items:center; background:#004a80; color:white; padding:15px 30px;}
+.fk-header a { color:white; text-decoration:none; margin-left:15px; font-weight:bold; }
+.main-content { max-width:1000px; margin:30px auto; padding:0 20px; }
+h1 { color:#004a80; }
+.user-status { background:#e0f2ff; padding:15px; border-radius:8px; margin-bottom:20px; border-left:5px solid #007bff; }
+.course-card { background:white; padding:20px; border-radius:8px; box-shadow:0 4px 8px rgba(0,0,0,0.1); margin-bottom:20px; }
+.course-card h3 { color:#0b1f3a; margin-top:0; }
+.btn { background:#28a745; color:white; border:none; padding:10px 15px; border-radius:6px; cursor:pointer; transition:background 0.3s; text-decoration:none; display:inline-block; text-align:center;}
+.btn.login { background:#007bff; }
+.btn:disabled { background:#9bbce4; cursor:not-allowed; }
+.btn:hover:not(:disabled) { opacity:0.9; }
+
+/* Modal */
+.modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); justify-content:center; align-items:center; }
+.modal-content { background:white; padding:30px; border-radius:12px; width:90%; max-width:400px; text-align:center; position:relative; }
+.modal-content input { width:100%; padding:10px; margin-bottom:10px; border-radius:6px; border:1px solid #ccc; box-sizing:border-box; text-transform:uppercase; }
+.modal-content button { width:100%; }
+.loading { display:none; margin:10px 0; color:#004a80; font-size:13px; }
+.message { margin-top:15px; font-weight:600; font-size:14px; min-height:20px; }
+</style>
+</head>
+<body>
+
+<header class="fk-header">
+  <div class="brand"><a href="index.html" style="color:white;text-decoration:none;">FEKA KAWIÇO</a></div>
+  <nav id="headerStatus">
+    <a href="login.html" class="btn login">Entrar / Inscrever-me</a>
+  </nav>
+</header>
+
+<div class="main-content">
+  <h1>Catálogo de Cursos</h1>
+  <div id="userStatusBox" class="user-status">A carregar estado...</div>
+
+  <div id="courseList">
+    <!-- Card fixo: pedir código via WhatsApp -->
+    <div class="course-card">
+      <h3>Se não tiver um código, solicite aqui &#128071; via WhatsApp</h3>
+      <p>Nossos contactos disponíveis via WhatsApp.</p>
+      <button class="btn" onclick="solicitarCodigo()">Solicitar Código</button>
+      <p id="solicitarMsg" style="display:none;margin-top:10px;font-weight:600;color:#28a745;"></p>
+    </div>
+    <!-- Os cursos reais são inseridos aqui dinamicamente -->
+  </div>
+</div>
+
+<!-- Modal de validação -->
+<div id="validationModal" class="modal">
+  <div class="modal-content">
+    <h1>Validar Código</h1>
+    <p>Introduz o teu código de inscrição para desbloquear o curso.</p>
+    <form id="validationForm">
+      <input type="text" id="codeInput" placeholder="Ex: XXX-XXXX-XXX" required>
+      <button type="submit" id="validateBtn">Validar</button>
+      <div class="loading" id="loadingMsg">⏳ A validar o teu código...</div>
+    </form>
+    <div id="message" class="message"></div>
+    <button type="button" onclick="fecharModal()" style="margin-top:10px;background:#888;">Cancelar</button>
+  </div>
+</div>
+
+<script>
+// Mapeamento de course_id para a página real do curso
+const PAGE_MAP = {
+  desenhador: "tdpm.html",
+  procurement: "curso-procurement.html",
+  ingles: "ingles.html",
+  frances: "frances.html",
+  avaliador: "avaliador.html",
+  "QA-QC": "QA-QC.html",
+  Robotica: "Robotica.html",
+  refrigeracao: "curso-refrigeracao.html",
+  REPARARTV: "curso-ManTV.html",
+  AutoNmicra: "curso-Auto-Nmicra.html"
+};
+
+let cursoAtual = null;
+let sessaoAtual = null;
+let enrollmentMap = {};
+
+async function updateHeader() {
+  const headerStatus = document.getElementById('headerStatus');
+  const userStatusBox = document.getElementById('userStatusBox');
+
+  const { data: { session } } = await supabaseClient.auth.getSession();
+  sessaoAtual = session;
+
+  if (session) {
+    const { data: profile } = await supabaseClient
+      .from('profiles').select('nome').eq('id', session.user.id).single();
+    const nome = profile?.nome || 'Aluno';
+
+    headerStatus.innerHTML = `<span>Olá, ${nome.split(' ')[0]}</span>
+      <a href="#" onclick="logout(event)" class="btn login">Sair</a>`;
+    userStatusBox.innerHTML = `<strong>Bem-vindo(a), ${nome}!</strong><br>
+      Verifica o estado de validação dos cursos abaixo.`;
+  } else {
+    headerStatus.innerHTML = `<a href="login.html" class="btn login">Entrar</a>
+      <a href="Inscricaogeral.html" class="btn login" style="background:#009688;">Inscrever-me</a>`;
+    userStatusBox.innerHTML = `<strong>És Visitante.</strong><br>
+      <a href="login.html">Faz login</a> ou <a href="Inscricaogeral.html">Cria uma conta</a> para prosseguir.`;
+  }
+}
+
+async function logout(e) {
+  e.preventDefault();
+  if (!confirm('Tens certeza que queres sair?')) return;
+  await supabaseClient.auth.signOut();
+  location.reload();
+}
+
+async function loadCourses() {
+  const { data: courses, error } = await supabaseClient
+    .from('courses')
+    .select('id, nome, descricao')
+    .eq('ativo', true)
+    .order('nome');
+
+  if (error || !courses) {
+    console.error('Erro a carregar cursos:', error);
+    return;
+  }
+
+  if (sessaoAtual) {
+    const { data: enrollments } = await supabaseClient
+      .from('enrollments')
+      .select('course_id, status')
+      .eq('user_id', sessaoAtual.user.id);
+    enrollmentMap = {};
+    (enrollments || []).forEach(en => { enrollmentMap[en.course_id] = en.status; });
+  }
+
+  const list = document.getElementById('courseList');
+
+  courses.forEach(curso => {
+    const status = enrollmentMap[curso.id];
+    let statusTexto, statusCor, btnTexto, btnClick;
+
+    if (!sessaoAtual) {
+      statusTexto = 'Status: ❌ Requer Login';
+      statusCor = '#dc3545';
+      btnTexto = 'Fazer Login Primeiro';
+      btnClick = "window.location.href='login.html'";
+    } else if (status === 'validado') {
+      statusTexto = 'Status: ✅ Inscrição Validada';
+      statusCor = '#28a745';
+      btnTexto = 'Continuar Curso';
+      btnClick = `window.location.href='${PAGE_MAP[curso.id] || 'index.html'}'`;
+    } else {
+      statusTexto = 'Status: 🔓 Falta Validar Código';
+      statusCor = '#007bff';
+      btnTexto = 'Validar Código';
+      btnClick = `abrirModal('${curso.id}')`;
+    }
+
+    const div = document.createElement('div');
+    div.className = 'course-card';
+    div.dataset.courseKey = curso.id;
+    div.innerHTML = `
+      <h3>${curso.nome}</h3>
+      <p>${curso.descricao || ''}</p>
+      <p style="font-weight:bold;color:${statusCor};">${statusTexto}</p>
+      <button class="btn course-btn" onclick="${btnClick}">${btnTexto}</button>
+    `;
+    list.appendChild(div);
+  });
+}
+
+function solicitarCodigo() {
+  const numero = '244924433318';
+  const nome = sessaoAtual ? '' : ''; // poderíamos incluir o nome se quiséssemos
+  const texto = encodeURIComponent(
+    'Olá! Gostaria de solicitar um código de inscrição para um curso da FEKA KAWIÇO.'
+  );
+  window.open(`https://wa.me/${numero}?text=${texto}`, '_blank');
+
+  const msg = document.getElementById('solicitarMsg');
+  msg.textContent = '✅ Pedido preparado no WhatsApp — envia a mensagem por lá. Assim que confirmarmos, o teu código fica disponível aqui.';
+  msg.style.display = 'block';
+}
+
+function abrirModal(curso) {
+  if (!sessaoAtual) { alert('Faz login primeiro!'); return; }
+  cursoAtual = curso;
+  document.getElementById('validationModal').style.display = 'flex';
+  document.getElementById('message').textContent = '';
+  document.getElementById('codeInput').value = '';
+}
+function fecharModal() {
+  document.getElementById('validationModal').style.display = 'none';
+}
+
+document.getElementById('validationForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  if (!cursoAtual) return;
+
+  const code = document.getElementById('codeInput').value.trim().toUpperCase();
+  const msgEl = document.getElementById('message');
+  const loading = document.getElementById('loadingMsg');
+  const validateBtn = document.getElementById('validateBtn');
+
+  msgEl.textContent = '';
+  loading.style.display = 'block';
+  validateBtn.disabled = true;
+
+  try {
+    const { error } = await supabaseClient.rpc('redeem_course_code', {
+      p_course_id: cursoAtual,
+      p_code: code
+    });
+
+    loading.style.display = 'none';
+    validateBtn.disabled = false;
+
+    if (error) {
+      msgEl.style.color = '#dc3545';
+      if (error.message.includes('invalid_code')) {
+        msgEl.textContent = '❌ Código inválido ou já utilizado.';
+      } else if (error.message.includes('not_authenticated')) {
+        msgEl.textContent = '⚠️ Sessão expirada. Faz login novamente.';
+      } else {
+        msgEl.textContent = 'Erro: ' + error.message;
+      }
+      return;
+    }
+
+    msgEl.style.color = '#28a745';
+    msgEl.textContent = '✅ Código validado! A aceder ao curso...';
+    setTimeout(() => {
+      window.location.href = PAGE_MAP[cursoAtual] || 'index.html';
+    }, 900);
+
+  } catch (ex) {
+    loading.style.display = 'none';
+    validateBtn.disabled = false;
+    msgEl.style.color = '#dc3545';
+    msgEl.textContent = 'Erro técnico: ' + ex.message;
+  }
+});
+
+async function init() {
+  await updateHeader();
+  await loadCourses();
+}
+document.addEventListener('DOMContentLoaded', init);
+</script>
+
+</body>
+</html>
