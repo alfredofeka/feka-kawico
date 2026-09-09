@@ -1,0 +1,1327 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Curso Intensivo de Robótica — FEKA KAWIÇO</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-client.js"></script>
+<style>
+:root {
+  --primary-color: #004a80;
+  --secondary-color: #fca311;
+  --text-dark: #222;
+  --text-light: #fff;
+  --bg-light: #ffffff;
+  --bg-dark: #1f2937;
+  --border-color: #e0e0e0;
+}
+
+/* RESET */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* GLOBAL */
+body {
+  background-color: var(--bg-light);
+  color: var(--text-dark);
+  font-family: "Segoe UI", "Roboto", sans-serif;
+  line-height: 1.6;
+  transition: all 0.3s ease-in-out;
+  overflow-x: hidden;
+}
+
+/* HEADER */
+header {
+  background-color: var(--primary-color);
+  color: var(--text-light);
+  padding: 10px 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: 500;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.brand-area {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: nowrap;
+}
+
+.brand-area img {
+  height: 30px;
+  border-radius: 5px;
+}
+
+.brand-area a {
+  text-decoration: none;
+  color: var(--text-light);
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+#login-status {
+  font-size: 0.85rem;
+  opacity: 0.9;
+}
+
+/* SIDEBAR */
+#course-container {
+  display: flex;
+  height: calc(100vh - 65px);
+  overflow: hidden;
+}
+
+#sidebar {
+  width: 450px;
+  background-color: var(--bg-dark);
+  color: var(--text-light);
+  padding: 20px;
+  overflow-y: auto;
+  transition: transform 0.3s ease-in-out;
+}
+
+#sidebar.hidden {
+  transform: translateX(-100%);
+}
+
+#toggle-sidebar {
+  display: none;
+  background: var(--primary-color);
+  color: var(--text-light);
+  border: none;
+  font-size: 1.3rem;
+  padding: 8px 12px;
+  border-radius: 6px;
+  margin-right: 10px;
+}
+
+.module h3 {
+  cursor: pointer;
+  font-size: 1rem;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.chapter-list {
+  display: none;
+  margin-left: 8px;
+}
+
+.chapter-link {
+  display: block;
+  color: var(--text-light);
+  padding: 5px;
+  font-size: 0.95rem;
+  text-decoration: none;
+  border-left: 2px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.chapter-link:hover {
+  color: var(--secondary-color);
+  border-left: 2px solid var(--secondary-color);
+}
+
+/* MAIN */
+#main-content {
+  flex-grow: 1;
+  padding: 30px;
+  overflow-y: auto;
+  text-align: justify;
+}
+
+#lesson-title {
+  font-size: 1.8rem;
+  color: var(--primary-color);
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+/* ===============================
+   APRESENTAÇÃO — LADO A LADO
+/* ===============================
+   /* ===============================
+   FOLHA A4 COMPLETA E COMPACTA
+   =============================== */
+.intro-section {
+  background: #fff;
+  max-width: 850px; /* formato folha A4 */
+  margin: 30px auto;
+  padding: 35px 45px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  color: #222;
+  line-height: 1.6;
+  text-align: justify;
+  overflow: hidden; /* garante que nada saia da folha */
+}
+
+/* título dentro da folha */
+.intro-section h2 {
+  color: #004a80;
+  text-align: center;
+  font-size: 1.8rem;
+  margin-bottom: 25px;
+}
+
+/* organização da imagem e texto */
+.intro-content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+/* imagem à esquerda */
+.intro-image {
+  flex: 0 0 30%;
+  width: 30%;
+  border-radius: 8px;
+  object-fit: cover;
+  aspect-ratio: 4 / 3;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+}
+
+/* texto à direita */
+.intro-text {
+  flex: 1 1 65%;
+  text-align: justify;
+}
+
+/* subtítulos e listas */
+.intro-text h3 {
+  color: #004a80;
+  margin-top: 10px;
+  margin-bottom: 6px;
+  font-size: 1.05rem;
+}
+
+.intro-text ul {
+  margin-left: 20px;
+  margin-bottom: 10px;
+}
+
+.intro-text li {
+  margin-bottom: 4px;
+}
+
+/* === Responsividade === */
+@media (max-width: 900px) {
+  .intro-section {
+    padding: 25px 20px;
+    max-width: 95%;
+  }
+
+  .intro-content {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .intro-image {
+    width: 90%;
+    max-width: 350px;
+    margin-bottom: 15px;
+  }
+
+  .intro-text {
+    width: 100%;
+  }
+}
+
+
+/* === ESTILO DE VISUALIZAÇÃO "FOLHA A4" === */
+#main-content {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 40px 10px;
+  background-color: #f4f6f8;
+  overflow-y: auto;
+}
+
+/* a “folha” inclui o título e o conteúdo */
+.lesson-content,
+.lesson-wrapper {
+  background: #fff;
+  max-width: 850px;        /* largura tipo A4 */
+  margin: 0 auto;
+  padding: 40px 50px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  line-height: 1.7;
+  color: #222;
+  text-align: justify;
+}
+
+.lesson-wrapper h2,
+.lesson-content h2,
+.lesson-content h3,
+.lesson-content h4 {
+  color: #004a80;
+  margin-top: 20px;
+  text-align: center;
+}
+
+.lesson-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 0.95rem;
+}
+
+.lesson-content th,
+.lesson-content td {
+  border: 1px solid #ccc;
+  padding: 8px 10px;
+  text-align: left;
+}
+
+.lesson-content th {
+  background-color: #004a80;
+  color: #fff;
+}
+
+/* === Responsividade da folha === */
+@media (max-width: 900px) {
+  .lesson-content,
+  .lesson-wrapper {
+    padding: 20px;
+    margin: 10px;
+    max-width: 95%;
+  }
+
+  .lesson-content table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+}
+
+
+/* ===============================
+   CORREÇÃO FINAL — SIDEBAR MÓVEL
+   =============================== */
+@media (max-width: 900px) {
+  /* 🔹 Sidebar retraído por defeito no telemóvel */
+  #sidebar {
+    position: fixed;
+    left: 0;
+    top: 60px;
+    height: calc(100vh - 60px);
+    width: 450px;
+    background-color: var(--bg-dark);
+    color: var(--text-light);
+    transform: translateX(-100%); /* começa retraído */
+    transition: transform 0.3s ease-in-out;
+    z-index: 999;
+  }
+
+  /* 🔹 Quando o botão ☰ é clicado, a classe .hidden é removida → abre */
+  #sidebar.active {
+    transform: translateX(0); /* expande */
+  }
+
+  /* 🔹 Botão visível apenas no telemóvel */
+  #toggle-sidebar {
+    display: inline-block;
+  }
+}
+
+/* --- ESTILO DE LEITURA A4 --- */
+#main-content {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 30px;
+  background-color: #f8f9fa;
+}
+
+.lesson-wrapper {
+  background-color: #fff;
+  width: 100%;
+  max-width: 850px; /* largura tipo folha A4 */
+  padding: 40px 50px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  border-radius: 10px;
+  line-height: 1.7;
+  color: #222;
+}
+
+.lesson-wrapper h2,
+.lesson-wrapper h3,
+.lesson-wrapper h4 {
+  color: #004a80;
+  margin-top: 20px;
+}
+
+.lesson-wrapper table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 0.95rem;
+}
+
+.lesson-wrapper th,
+.lesson-wrapper td {
+  border: 1px solid #ccc;
+  padding: 8px 10px;
+  text-align: left;
+}
+
+.lesson-wrapper th {
+  background-color: #004a80;
+  color: white;
+}
+
+/* Responsividade para telemóveis */
+@media (max-width: 900px) {
+  .lesson-wrapper {
+    padding: 20px;
+    max-width: 95%;
+    font-size: 0.9rem;
+  }
+
+  .lesson-wrapper table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+}
+
+/* === ESTILO DE VISUALIZAÇÃO "FOLHA A4" === */
+.lesson-content {
+  background: #fff;
+  max-width: 850px;        /* largura tipo A4 */
+  margin: 30px auto;       /* centraliza no ecrã */
+  padding: 40px 50px;      /* espaço interno */
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  line-height: 1.7;
+  color: #222;
+  text-align: justify;
+}
+
+.lesson-content h2,
+.lesson-content h3,
+.lesson-content h4 {
+  color: #004a80;
+  margin-top: 20px;
+}
+
+.lesson-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 0.95rem;
+}
+
+.lesson-content th,
+.lesson-content td {
+  border: 1px solid #ccc;
+  padding: 8px 10px;
+  text-align: left;
+}
+
+.lesson-content th {
+  background-color: #004a80;
+  color: #fff;
+}
+
+/* Responsividade */
+@media (max-width: 900px) {
+  .lesson-content {
+    padding: 20px;
+    margin: 10px;
+    max-width: 95%;
+  }
+
+  .lesson-content table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+}
+
+/* ===============================
+   AJUSTE MOBILE — LOGO MAGRO + SIDEBAR VISÍVEL
+   =============================== */
+@media (max-width: 900px) {
+  /* 🔹 Reduz o tamanho do cabeçalho e logo */
+  header {
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    padding: 6px 10px;
+  }
+
+  .brand-area {
+    gap: 6px;
+  }
+
+  .brand-area img {
+    height: 22px;      /* diminui o logo */
+    width: auto;
+  }
+
+  .brand-area span {
+    font-size: 0.75rem; /* texto menor */
+    white-space: nowrap;
+  }
+
+  /* 🔹 Sidebar ocupa a tela toda, por cima do conteúdo */
+  #sidebar {
+    position: fixed;
+    top: 50px; /* abaixo do cabeçalho */
+    left: 0;
+    width: 85%; /* não precisa ser 100%, para dar um ar de menu lateral */
+    max-width: 350px;
+    height: calc(100vh - 50px);
+    overflow-y: auto;
+    background-color: #1f2937;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+    z-index: 9999; /* garante que fique por cima de tudo */
+    padding: 20px;
+  }
+
+  /* 🔹 Sidebar aberto */
+  #sidebar.active {
+    transform: translateX(0);
+  }
+
+  /* 🔹 Botão ☰ visível e clicável */
+  #toggle-sidebar {
+    display: inline-block;
+    font-size: 1.4rem;
+    padding: 6px 10px;
+    border-radius: 6px;
+  }
+
+  /* 🔹 O conteúdo principal se ajusta quando o sidebar abre */
+  #main-content {
+    margin-left: 0;
+    padding: 20px;
+  }
+}
+
+/* ===============================
+   TÍTULO DENTRO DA FOLHA A4
+   =============================== */
+.lesson-inner-title {
+  font-size: 1.6rem;
+  text-align: center;
+  color: #004a80;
+  font-weight: 700;
+  margin-bottom: 25px;
+  border-bottom: 2px solid #004a80;
+  padding-bottom: 8px;
+}
+
+
+/* ===============================
+   FOLHA A4 RESPONSIVA E PROPORCIONAL
+   =============================== */
+.lesson-content {
+  background: #fff;
+  max-width: 850px;          /* largura tipo A4 */
+  margin: 30px auto;         /* centraliza */
+  padding: 40px 50px;        /* margens internas */
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  line-height: 1.6;
+  color: #222;
+  text-align: justify;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.lesson-content h2,
+.lesson-content h3,
+.lesson-content h4 {
+  color: #004a80;
+  margin-top: 20px;
+  text-align: center;
+}
+
+.lesson-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 0.95rem;
+  table-layout: fixed;
+  word-wrap: break-word;
+}
+
+.lesson-content th,
+.lesson-content td {
+  border: 1px solid #ccc;
+  padding: 8px 10px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.lesson-content th {
+  background-color: #004a80;
+  color: #fff;
+}
+
+
+/* ===============================
+   📏 TABELAS DISCIPLINADAS 😎
+   =============================== */
+.lesson-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 0.95rem;
+  table-layout: auto;
+  word-wrap: break-word;
+  overflow: hidden;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.lesson-content th,
+.lesson-content td {
+  border: 1px solid #ccc;
+  padding: 8px 10px;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.lesson-content th {
+  background-color: #004a80;
+  color: #fff;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* ⚖️ Modo disciplinar: reduz proporção suavemente */
+@media (max-width: 900px) {
+  .lesson-content table {
+    font-size: 0.85rem;
+    transform: scale(0.95);
+    transform-origin: top center;
+  }
+}
+
+@media (max-width: 700px) {
+  .lesson-content table {
+    font-size: 0.8rem;
+    transform: scale(0.9);
+    transform-origin: top center;
+  }
+
+  .lesson-content th,
+  .lesson-content td {
+    padding: 5px 6px;
+  }
+}
+
+@media (max-width: 500px) {
+  .lesson-content table {
+    font-size: 0.75rem;
+    transform: scale(0.85);
+    transform-origin: top center;
+  }
+
+  .lesson-content th,
+  .lesson-content td {
+    padding: 4px 5px;
+  }
+}
+
+
+/* ------------------------------
+   AJUSTE DE ESCALA PARA TABLET
+   ------------------------------ */
+@media (max-width: 1100px) {
+  .lesson-content {
+    padding: 30px 35px;
+    max-width: 700px;
+    font-size: 0.95rem;
+  }
+}
+
+/* ------------------------------
+   AJUSTE PARA TELEMÓVEL
+   ------------------------------ */
+@media (max-width: 768px) {
+  .lesson-content {
+    max-width: 95%;
+    padding: 20px;
+    font-size: 0.88rem;       /* reduz fonte */
+    line-height: 1.5;
+    border-radius: 6px;
+  }
+
+  .lesson-inner-title {
+    font-size: 1.2rem;
+  }
+
+  .lesson-content h3 {
+    font-size: 1rem;
+  }
+
+  .lesson-content table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+    font-size: 0.85rem;
+    border-radius: 6px;
+  }
+
+  .lesson-content th,
+  .lesson-content td {
+    padding: 6px 8px;
+  }
+}
+
+/* ------------------------------
+   AJUSTE EXTREMO (ECRÃS PEQUENOS)
+   ------------------------------ */
+@media (max-width: 480px) {
+  .lesson-content {
+    padding: 15px;
+    font-size: 0.8rem;
+  }
+
+  .lesson-inner-title {
+    font-size: 1rem;
+  }
+
+  .lesson-content table {
+    font-size: 0.8rem;
+  }
+}
+
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+  <div class="brand-area">
+    <button id="toggle-sidebar">☰</button>
+    <a href="index.html"><i class="fas fa-home"></i></a>
+    <img src="FK.png" alt="FEKA KAWIÇO" />
+    <span><strong>FEKA KAWIÇO</strong> – <em>A terra natural do conhecimento!</em></span>
+  </div>
+  <div id="login-status">🔒 Verificando acesso…</div>
+</header>
+
+<div id="course-container">
+  <aside id="sidebar">
+    <div class="module">
+      <h3 onclick="toggleModule(0)">📘 Módulo 1: Robótica Fundamental</h3>
+      <div class="chapter-list" id="module-0">
+        <a href="#" class="chapter-link" onclick="loadLesson(0)">Aula 1.1 — Introdução à Robótica e Arquitetura dos Robôs</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(1)">Aula 1.2 — Eletricidade e Eletrónica Aplicada à Robótica</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(2)">Aula 1.3 — Sensores e Sistemas de Aquisição de Dados</a>
+      </div>
+      <a href="#" class="chapter-link" style="font-weight:600;">Avaliação do Módulo 1 (Teórica 40% + Prática 60%)</a>
+    </div>
+
+    <div class="module">
+      <h3 onclick="toggleModule(1)">📐 Módulo 2: Robótica Intermédia e Integração Mecatrónica</h3>
+      <div class="chapter-list" id="module-1">
+        <a href="#" class="chapter-link" onclick="loadLesson(3)">Aula 2.1 — Acionamentos Elétricos e Sistemas de Movimento</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(4)">Aula 2.2 — Engenharia de Software para Robótica</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(5)">Aula 2.3 — Projeto: Robô Autónomo Evitador de Obstáculos</a>
+      </div>
+      <a href="#" class="chapter-link" style="font-weight:600;">Avaliação do Módulo 2 (Teórica 40% + Prática 60%)</a>
+    </div>
+
+    <div class="module">
+      <h3 onclick="toggleModule(2)">🏭 Módulo 3: Robótica Avançada e Automação Industrial</h3>
+      <div class="chapter-list" id="module-2">
+        <a href="#" class="chapter-link" onclick="loadLesson(6)">Aula 3.1 — Sensores Industriais e Instrumentação</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(7)">Aula 3.2 — PLC, Automação Industrial e HMI</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(8)">Aula 3.3 — Cinemática e Braços Robóticos</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(9)">Aula 3.4 — Visão Artificial e Inteligência Visual</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(10)">Aula 3.5 — Manutenção e Troubleshooting</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(11)">Aula 3.6 — Projeto Final: Célula Robotizada Automatizada</a>
+      </div>
+      <a href="#" class="chapter-link" style="font-weight:600;">Avaliação Final e Projeto de Certificação (Teórica 40% + Prática 60%)</a>
+    </div>
+  </aside>
+
+
+
+ <main id="main-content">
+ 
+
+    <div class="intro-section">
+  <h2 id="lesson-title">🤖 Curso Intensivo de Robótica</h2>
+    <img src="Introdução a Robotica.png" alt="Curso Intensivo de Robótica" class="intro-image">
+
+    <div class="intro-text">
+      <h3>🎯 Objetivo do Curso</h3>
+      <p>Ao longo de 4 semanas (12 aulas técnicas, 3 discussões técnicas, 3 avaliações modulares e 1 projeto final integrador — cerca de 60 a 70 horas), o formando desenvolve competências em eletrónica, programação, sensores, atuadores, sistemas embarcados, automação industrial e integração robótica, culminando num projeto de certificação real.</p>
+
+      <h3>💡 Competências Desenvolvidas</h3>
+      <ul>
+        <li>Interpretar diagramas elétricos e aplicar a Lei de Ohm.</li>
+        <li>Programar Arduino e desenvolver algoritmos estruturados (IF/ELSE, máquinas de estados).</li>
+        <li>Integrar sensores (digitais, analógicos e industriais) e atuadores.</li>
+        <li>Controlar motores DC, Servo e Passo-a-Passo (torque, PWM, drivers).</li>
+        <li>Compreender fundamentos de PLC, HMI e automação industrial.</li>
+        <li>Aplicar cinemática básica e programar braços robóticos.</li>
+        <li>Implementar visão artificial com OpenCV.</li>
+        <li>Diagnosticar falhas e executar manutenção preventiva, preditiva e corretiva.</li>
+        <li>Elaborar documentação técnica profissional (BOM, esquemas, relatórios).</li>
+      </ul>
+
+      <h3>👥 A quem se destina</h3>
+      <ul>
+        <li>Técnicos de eletrónica, mecatrónica e manutenção eletromecânica.</li>
+        <li>Estudantes de engenharia e cursos técnicos.</li>
+        <li>Entusiastas e empreendedores de automação e robótica.</li>
+      </ul>
+
+      <h3>🧭 Perfil de Saída</h3>
+      <p>Técnico Júnior de Robótica e Automação, apto para: indústria fabril, construção industrial, manutenção eletromecânica, automação industrial, centros de formação técnica e integradores de sistemas robóticos.</p>
+      <p style="font-size:0.85rem;color:#666;"><em>Nota: para o nível profissional completo exigido por grandes fabricantes (ABB, KUKA, FANUC, Yaskawa, Siemens) são normalmente necessários 6 a 12 meses adicionais de especialização e prática industrial real. Este programa fornece uma base técnica sólida orientada para o mercado.</em></p>
+    </div>
+  </div>
+</main>
+
+</div>
+
+
+<script>
+// ====================================================================
+// CONTROLO DE ACESSO (Supabase) — este curso exige login + validação
+// ====================================================================
+const COURSE_ID = 'Robotica';
+
+async function verificarAcesso() {
+  const loginStatus = document.getElementById('login-status');
+  const { data: { session } } = await supabaseClient.auth.getSession();
+
+  if (!session) {
+    loginStatus.innerHTML = '🔒 Sessão não encontrada — <a href="login.html" style="color:#fca311;">Fazer Login</a>';
+    return false;
+  }
+
+  const { data: profile } = await supabaseClient
+    .from('profiles').select('nome').eq('id', session.user.id).single();
+  const nome = profile?.nome ? profile.nome.split(' ')[0] : 'Aluno';
+
+  const { data: enrollment } = await supabaseClient
+    .from('enrollments')
+    .select('status')
+    .eq('user_id', session.user.id)
+    .eq('course_id', COURSE_ID)
+    .single();
+
+  if (enrollment?.status !== 'validado') {
+    loginStatus.innerHTML = `⚠️ Olá, ${nome} — falta validar o código. <a href="validar-geral.html" style="color:#fca311;">Validar Código</a>`;
+    return false;
+  }
+
+  loginStatus.textContent = `✅ Acesso autorizado — Olá, ${nome}!`;
+  return true;
+}
+
+function toggleModule(index) {
+  const module = document.getElementById(`module-${index}`);
+  module.style.display = module.style.display === 'block' ? 'none' : 'block';
+}
+
+document.getElementById('toggle-sidebar').addEventListener('click', () => {
+  document.getElementById('sidebar').classList.toggle('active');
+});
+
+function loadLesson(id) {
+
+  const lessons = [
+    // ===== MÓDULO 1 =====
+    {
+      title: "Aula 1.1 – Introdução à Robótica e Arquitetura dos Robôs",
+      content: `
+        <p>Segundo a definição da ISO, um robô é um <strong>manipulador ou sistema programável capaz de executar tarefas automaticamente com diferentes graus de autonomia</strong>. A diferença fundamental entre uma simples máquina e um robô está na capacidade deste último de <strong>perceber o ambiente, tomar decisões e executar ações</strong> — uma furadeira ou uma bomba de água executam sempre a mesma função; já um braço robótico ABB, um aspirador inteligente ou um drone adaptam o seu comportamento ao que sentem.</p>
+
+        <h3>Os 4 Sistemas Fundamentais de um Robô</h3>
+        <table border="1" cellpadding="5">
+          <thead><tr><th>Sistema</th><th>Função</th><th>Exemplos</th></tr></thead>
+          <tbody>
+            <tr><td>Estrutura Mecânica</td><td>Sustentar os componentes</td><td>Chassis, braços, rodas</td></tr>
+            <tr><td>Sensores</td><td>Captar informação do ambiente</td><td>Distância, temperatura, luz, pressão</td></tr>
+            <tr><td>Controlador</td><td>Processar dados e decidir</td><td>Arduino, ESP32, PLC</td></tr>
+            <tr><td>Atuadores</td><td>Executar ações</td><td>Motores, relés, cilindros pneumáticos</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Atividade 1 — Identificação de Componentes</h3>
+        <p>Analisar 5 vídeos de aplicações industriais e identificar, em cada um, se estão presentes: sensor, atuador, controlador e estrutura mecânica.</p>
+
+        <h3>O Arduino</h3>
+        <p>O Arduino é uma placa microcontrolada baseada no ATmega328P, capaz de ler sensores, processar informação e controlar atuadores — é o "cérebro" que vamos usar ao longo de todo o Módulo 1 e 2.</p>
+        <table border="1" cellpadding="5">
+          <thead><tr><th>Tipo de Pino</th><th>Faixa</th><th>Comportamento</th></tr></thead>
+          <tbody>
+            <tr><td>Digitais</td><td>0–13</td><td>HIGH = 5V &nbsp;|&nbsp; LOW = 0V</td></tr>
+            <tr><td>Analógicos</td><td>A0–A5</td><td>Leem valores de 0 a 1023</td></tr>
+            <tr><td>Alimentação</td><td>5V / GND / VIN</td><td>—</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Laboratório 1 — LED Piscante (Blink)</h3>
+        <p>Montagem: LED + Resistência 220 Ω + Arduino.</p>
+        <pre style="background:#f4f6f8;padding:12px;border-radius:6px;overflow-x:auto;"><code>void setup() {
+  pinMode(13, OUTPUT);
+}
+
+void loop() {
+  digitalWrite(13, HIGH);
+  delay(1000);
+  digitalWrite(13, LOW);
+  delay(1000);
+}</code></pre>
+        <p><strong>Exercício prático:</strong> modificar os tempos de <code>delay()</code> para 0,5 s, 2 s e 5 s, e registar os resultados observados.</p>
+
+        <h3>Tarefa de Consolidação</h3>
+        <ol>
+          <li>O que é um atuador?</li>
+          <li>O que é um sensor?</li>
+          <li>Qual a diferença entre robô e máquina?</li>
+          <li>O que faz o Arduino?</li>
+        </ol>
+      `
+    },
+    {
+      title: "Aula 1.2 – Eletricidade e Eletrónica Aplicada à Robótica",
+      content: `
+        <h3>Grandezas Elétricas</h3>
+        <table border="1" cellpadding="5">
+          <thead><tr><th>Grandeza</th><th>Definição</th><th>Unidade</th></tr></thead>
+          <tbody>
+            <tr><td>Tensão (V)</td><td>Força que impulsiona os eletrões</td><td>Volt (V)</td></tr>
+            <tr><td>Corrente (I)</td><td>Fluxo de eletrões</td><td>Ampere (A)</td></tr>
+            <tr><td>Resistência (R)</td><td>Oposição à passagem da corrente</td><td>Ohm (Ω)</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Lei de Ohm</h3>
+        <p style="text-align:center;font-size:1.2rem;font-weight:600;">V = I × R &nbsp;&nbsp;|&nbsp;&nbsp; I = V/R &nbsp;&nbsp;|&nbsp;&nbsp; R = V/I</p>
+
+        <h3>Exercício 1</h3>
+        <p>Fonte de 12V, corrente desejada de 0,02A. Calcular a resistência:</p>
+        <pre style="background:#f4f6f8;padding:12px;border-radius:6px;">R = V / I = 12 / 0,02 = <strong>600 Ω</strong></pre>
+
+        <h3>Exercício 2</h3>
+        <p>LED de 2V, fonte de 5V, corrente de 20 mA. Calcular a resistência limitadora:</p>
+        <pre style="background:#f4f6f8;padding:12px;border-radius:6px;">R = (5 − 2) / 0,02 = <strong>150 Ω</strong> → selecionar valor comercial mais próximo: <strong>220 Ω</strong></pre>
+
+        <h3>Leitura de Esquemas Elétricos</h3>
+        <p>Aprender a interpretar os símbolos de: fonte, interruptor, resistência, LED e terra.</p>
+
+        <h3>Laboratório 2 — Semáforo Eletrónico</h3>
+        <p>Componentes: LED Verde, LED Amarelo, LED Vermelho.</p>
+        <p><strong>Desafio:</strong> programar a sequência Verde (5s) → Amarelo (2s) → Vermelho (5s).</p>
+
+        <h3>Laboratório 3 — Botão de Comando</h3>
+        <p>Objetivo: ao pressionar o botão, o LED liga; ao soltar, o LED apaga.</p>
+
+        <h3>Teste de Diagnóstico</h3>
+        <p>O formador introduz 3 falhas propositadas para o aluno identificar e corrigir:</p>
+        <table border="1" cellpadding="5">
+          <thead><tr><th>Falha</th><th>Ação do Aluno</th></tr></thead>
+          <tbody>
+            <tr><td>LED invertido</td><td>Identificar</td></tr>
+            <tr><td>Resistência removida</td><td>Identificar</td></tr>
+            <tr><td>Jumper desconectado</td><td>Corrigir</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Relatório a Entregar</h3>
+        <ul>
+          <li>Esquema do circuito</li>
+          <li>Fotografia da montagem</li>
+          <li>Código</li>
+          <li>Problemas encontrados e soluções aplicadas</li>
+        </ul>
+      `
+    },
+    {
+      title: "Aula 1.3 – Sensores e Sistemas de Aquisição de Dados",
+      content: `
+        <p>Um sensor é um dispositivo que <strong>converte um fenómeno físico em sinal elétrico</strong>. Sensores digitais têm saída binária (0 ou 1, ex: botão); sensores analógicos têm saída variável (ex: LDR).</p>
+
+        <h3>Sensor LDR (Fotorresistência)</h3>
+        <p>Quanto mais luz incide sobre o sensor, menor a sua resistência; quanto menos luz, maior a resistência.</p>
+        <p><strong>Laboratório 4:</strong> o Arduino deve indicar "Claro", "Médio" ou "Escuro" conforme o nível de iluminação lido.</p>
+
+        <h3>Sensor Ultrassónico HC-SR04</h3>
+        <p>Aplicações: robôs móveis, estacionamento automático, drones.</p>
+        <p><strong>Princípio de funcionamento:</strong> o sensor emite uma onda ultrassónica, o objeto reflete-a, o tempo de retorno é medido e a distância é calculada.</p>
+        <p style="text-align:center;font-weight:600;">Distância = (Velocidade do Som × Tempo) ÷ 2</p>
+
+        <h3>Exercício</h3>
+        <p>Tempo medido: 0,002 s. Velocidade do som: 340 m/s.</p>
+        <pre style="background:#f4f6f8;padding:12px;border-radius:6px;">D = (340 × 0,002) / 2 = 0,34 m = <strong>34 cm</strong></pre>
+
+        <h3>Laboratório 5 — Detetor de Proximidade</h3>
+        <table border="1" cellpadding="5">
+          <thead><tr><th>Zona</th><th>Distância</th><th>Cor do LED</th></tr></thead>
+          <tbody>
+            <tr><td>Segura</td><td>&gt; 50 cm</td><td>Verde</td></tr>
+            <tr><td>Atenção</td><td>20 a 50 cm</td><td>Amarelo</td></tr>
+            <tr><td>Crítica</td><td>&lt; 20 cm</td><td>Vermelho</td></tr>
+          </tbody>
+        </table>
+        <p><strong>Desafio avançado:</strong> adicionar um buzzer cuja frequência sonora aumenta quanto menor for a distância.</p>
+
+        <h3>Mini-Projeto do Módulo — Sistema de Alerta de Colisão</h3>
+        <p><strong>Componentes:</strong> Arduino, HC-SR04, 3 LEDs, Buzzer.</p>
+        <p><strong>Requisitos:</strong> detetar zona segura, zona de atenção e zona crítica.</p>
+        <p><strong>Entregáveis:</strong> esquema elétrico, código comentado, vídeo de funcionamento, relatório técnico.</p>
+
+        <h3>Discussão Técnica 1</h3>
+        <p><em>"A Robótica Vai Eliminar ou Criar Empregos?"</em> — cada aluno apresenta (10 min): impactos positivos, impactos negativos e opinião técnica pessoal.</p>
+
+        <h3>Avaliação do Módulo 1</h3>
+        <p><strong>Prova Teórica (40%):</strong> 20 questões de escolha múltipla + 10 questões de cálculo (Lei de Ohm, potência, sensores, Arduino). Nota mínima: 70%.</p>
+        <p><strong>Prova Prática (60%):</strong> montar sozinho um sistema com Botão + HC-SR04 + LEDs, com leitura de distância, acionamento visual e alarme sonoro.</p>
+        <table border="1" cellpadding="5">
+          <thead><tr><th>Critério</th><th>Peso</th></tr></thead>
+          <tbody>
+            <tr><td>Montagem</td><td>20%</td></tr>
+            <tr><td>Programação</td><td>25%</td></tr>
+            <tr><td>Diagnóstico</td><td>25%</td></tr>
+            <tr><td>Segurança</td><td>15%</td></tr>
+            <tr><td>Documentação</td><td>15%</td></tr>
+          </tbody>
+        </table>
+      `
+    },
+
+    // ===== MÓDULO 2 =====
+    {
+      title: "Aula 2.1 – Acionamentos Elétricos e Sistemas de Movimento",
+      content: `
+        <p>A partir deste módulo, deixamos de pensar em componentes isolados e passamos a pensar como <strong>Técnico de Robótica e Automação</strong> — em sistemas integrados. Todo robô industrial necessita de: fonte de energia, sistema de controlo, sistema de acionamento e estrutura mecânica.</p>
+
+        <h3>Cinemática Básica</h3>
+        <p><strong>Posição:</strong> onde o robô está. <strong>Velocidade:</strong> quão rápido se move. <strong>Aceleração:</strong> quão rápido varia a velocidade.</p>
+        <p><strong>Exercício:</strong> um robô percorre 2 metros em 4 segundos.</p>
+        <pre style="background:#f4f6f8;padding:12px;border-radius:6px;">V = D/T = 2/4 = <strong>0,5 m/s</strong></pre>
+
+        <h3>Motores Utilizados em Robótica</h3>
+        <table border="1" cellpadding="5">
+          <thead><tr><th>Motor</th><th>Aplicações</th><th>Vantagens / Desvantagens</th></tr></thead>
+          <tbody>
+            <tr><td>DC</td><td>Robôs móveis, veículos autónomos</td><td>Simples e económico / pouca precisão</td></tr>
+            <tr><td>Servo</td><td>Braços robóticos, garras</td><td>Posicionamento preciso</td></tr>
+            <tr><td>Passo-a-Passo</td><td>CNC, impressão 3D</td><td>Precisão elevada</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Torque</h3>
+        <p>Torque é a capacidade do motor gerar força de rotação (unidade: N.m).</p>
+        <p><strong>Exercício de engenharia:</strong> carga de 2 kg num braço de 0,20 m — determinar o torque mínimo:</p>
+        <pre style="background:#f4f6f8;padding:12px;border-radius:6px;">F = m × g = 2 × 9,81 = 19,62 N
+T = F × d = 19,62 × 0,20 = <strong>3,92 N.m</strong></pre>
+
+        <h3>Laboratório 1 — Controlo de Motor DC</h3>
+        <p>Material: Arduino, Driver L298N, Motor DC, Fonte 12V. Objetivo: controlar avanço, recuo e paragem.</p>
+
+        <h3>Laboratório 2 — Controlo PWM</h3>
+        <p>Compreender Pulse Width Modulation (PWM) e ajustar o motor a 25%, 50%, 75% e 100% de potência, medindo corrente, tensão e RPM em cada nível.</p>
+
+        <h3>Relatório</h3>
+        <ul>
+          <li>Circuito elétrico</li>
+          <li>Diagrama funcional</li>
+          <li>Consumo elétrico</li>
+          <li>Conclusões</li>
+        </ul>
+      `
+    },
+    {
+      title: "Aula 2.2 – Engenharia de Software para Robótica",
+      content: `
+        <h3>Pensamento Algorítmico</h3>
+        <p>Problema: um robô encontra um obstáculo. Ações possíveis: parar, virar à direita, virar à esquerda, recuar. Antes de programar, a lógica deve ser desenhada em fluxograma:</p>
+        <pre style="background:#f4f6f8;padding:12px;border-radius:6px;">Início → Ler sensor → Existe obstáculo?
+   Sim → Desviar
+   Não → Avançar</pre>
+
+        <h3>Estruturas de Decisão</h3>
+        <pre style="background:#f4f6f8;padding:12px;border-radius:6px;overflow-x:auto;"><code>if (distancia < 20) {
+  parar();
+}</code></pre>
+        <pre style="background:#f4f6f8;padding:12px;border-radius:6px;overflow-x:auto;"><code>if (distancia < 20) {
+  parar();
+} else {
+  avancar();
+}</code></pre>
+
+        <h3>Máquina de Estados</h3>
+        <p>Conceito fundamental utilizado na indústria — o robô só pode estar num estado de cada vez: <strong>PARADO, MOVIMENTO, ALARME, EMERGÊNCIA.</strong></p>
+        <p><strong>Exercício profissional:</strong> criar os estados de um robô transportador — OFF, Inicialização, Operação, Erro, Emergência.</p>
+
+        <h3>Deteção e Tratamento de Erros</h3>
+        <p>Um robô industrial nunca deve ignorar erros. Exemplos: sensor desconectado, motor bloqueado, bateria baixa, falha de comunicação.</p>
+        <p><strong>Laboratório:</strong> se o sensor não responder, o sistema deve acionar um LED vermelho, emitir um alarme sonoro e parar os motores.</p>
+
+        <h3>Versionamento e Documentação</h3>
+        <p>Introdução a comentários no código, revisões e histórico de alterações:</p>
+        <pre style="background:#f4f6f8;padding:12px;border-radius:6px;">Versão 1.0 — Controlo manual
+Versão 2.0 — Adição do sensor ultrassónico</pre>
+      `
+    },
+    {
+      title: "Aula 2.3 – Projeto: Robô Autónomo Evitador de Obstáculos",
+      content: `
+        <h3>Requisitos Funcionais</h3>
+        <p>O robô deverá: mover-se autonomamente, detetar obstáculos, desviar automaticamente, recuperar a trajetória e trabalhar sem intervenção humana.</p>
+
+        <h3>Requisitos Técnicos</h3>
+        <table border="1" cellpadding="5">
+          <thead><tr><th>Parâmetro</th><th>Valor</th></tr></thead>
+          <tbody>
+            <tr><td>Velocidade mínima</td><td>0,3 m/s</td></tr>
+            <tr><td>Tempo de resposta</td><td>&lt; 0,5 s</td></tr>
+            <tr><td>Autonomia</td><td>30 minutos</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Etapas do Projeto</h3>
+        <ol>
+          <li><strong>Desenho mecânico</strong> — vista superior, frontal e lateral.</li>
+          <li><strong>Lista de materiais (BOM):</strong>
+            <table border="1" cellpadding="5">
+              <thead><tr><th>Item</th><th>Quantidade</th></tr></thead>
+              <tbody>
+                <tr><td>Arduino UNO</td><td>1</td></tr>
+                <tr><td>HC-SR04</td><td>1</td></tr>
+                <tr><td>L298N</td><td>1</td></tr>
+                <tr><td>Motor DC</td><td>2</td></tr>
+                <tr><td>Roda</td><td>2</td></tr>
+                <tr><td>Bateria</td><td>1</td></tr>
+              </tbody>
+            </table>
+          </li>
+          <li><strong>Esquema elétrico</strong> — alimentação, proteção, motores, sensores.</li>
+          <li><strong>Algoritmo</strong> — fluxograma profissional.</li>
+          <li><strong>Programação</strong> — avançar, recuar, virar, parar, emergência.</li>
+          <li><strong>Testes:</strong> obstáculo frontal, obstáculo lateral, múltiplos obstáculos, bateria fraca.</li>
+          <li><strong>Validação:</strong> registar distância de deteção, tempo de resposta e taxa de sucesso (mínimo exigido: 95%).</li>
+        </ol>
+
+        <h3>Discussão Técnica 2 — Indústria 4.0 e Robótica Industrial</h3>
+        <p>Pesquisa obrigatória sobre ABB Robotics, FANUC, KUKA, Yaskawa e Universal Robots. Questões de debate: como a robótica aumenta a produtividade? Que profissões serão criadas? Angola está preparada para a indústria 4.0?</p>
+
+        <h3>Avaliação 2</h3>
+        <p><strong>Teórica (40%):</strong> cálculos (torque, potência, RPM, autonomia), programação (IF, LOOP, máquinas de estados), integração (motores, drivers, sensores).</p>
+        <p><strong>Prática (60%):</strong> desafio — construir um robô autónomo completo, sem apoio do formador.</p>
+        <table border="1" cellpadding="5">
+          <thead><tr><th>Critério</th><th>Peso</th></tr></thead>
+          <tbody>
+            <tr><td>Segurança elétrica</td><td>10%</td></tr>
+            <tr><td>Qualidade da montagem</td><td>10%</td></tr>
+            <tr><td>Programação</td><td>20%</td></tr>
+            <tr><td>Diagnóstico de falhas</td><td>20%</td></tr>
+            <tr><td>Engenharia da solução</td><td>20%</td></tr>
+            <tr><td>Funcionamento</td><td>20%</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Projeto Final do Módulo — Robô Patrulheiro Autónomo</h3>
+        <p>Deve circular num percurso, evitar obstáculos, gerar alarmes, operar autonomamente e registar eventos.</p>
+      `
+    },
+
+    // ===== MÓDULO 3 =====
+    {
+      title: "Aula 3.1 – Sensores Industriais e Instrumentação",
+      content: `
+        <p>Na indústria moderna, os sensores são os "olhos e ouvidos" dos sistemas automatizados. Um técnico deve saber selecionar, instalar, configurar, calibrar e diagnosticar.</p>
+
+        <h3>Sensores Industriais Mais Utilizados</h3>
+        <table border="1" cellpadding="5">
+          <thead><tr><th>Sensor</th><th>Deteta</th><th>Aplicações</th></tr></thead>
+          <tbody>
+            <tr><td>Indutivo</td><td>Metais</td><td>Transportadores, CNC, linhas automáticas</td></tr>
+            <tr><td>Capacitivo</td><td>Madeira, plástico, líquidos, metais</td><td>Deteção geral de materiais</td></tr>
+            <tr><td>Fotoelétrico</td><td>Feixe luminoso interrompido</td><td>Contagem, posicionamento, segurança</td></tr>
+            <tr><td>Encoder</td><td>Posição, velocidade, rotação</td><td>Servo/malhas de controlo</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Exercício Industrial</h3>
+        <p>Um transportador move-se a 0,5 m/s, com peças espaçadas de 300 mm. Calcular a quantidade máxima de peças por minuto.</p>
+
+        <h3>Laboratório</h3>
+        <p>Montar um sistema de contagem automática com: sensor fotoelétrico, Arduino e display LCD.</p>
+      `
+    },
+    {
+      title: "Aula 3.2 – PLC, Automação Industrial e HMI",
+      content: `
+        <h3>O que é um PLC?</h3>
+        <p>Um Controlador Lógico Programável (PLC) substitui centenas de relés. Fabricantes de referência: Siemens, Allen Bradley, Schneider, Mitsubishi.</p>
+
+        <h3>Estrutura de um PLC</h3>
+        <p>Fonte → CPU → Entradas → Saídas → Comunicação.</p>
+
+        <h3>Linguagem Ladder</h3>
+        <p>A linguagem mais utilizada na indústria:</p>
+        <pre style="background:#f4f6f8;padding:12px;border-radius:6px;">Botão START → Liga Motor
+Botão STOP  → Desliga Motor</pre>
+        <p><strong>Laboratório:</strong> criar um sistema com START, STOP e botão de Emergência.</p>
+
+        <h3>Introdução ao HMI (Human Machine Interface)</h3>
+        <p>Objetivos: visualização, alarmes e operação.</p>
+        <p><strong>Projeto:</strong> construir um ecrã simples contendo Estado do Motor, Estado do Sensor e Alarme.</p>
+      `
+    },
+    {
+      title: "Aula 3.3 – Cinemática e Braços Robóticos",
+      content: `
+        <h3>Conceitos Fundamentais</h3>
+        <p><strong>Grau de Liberdade (DOF):</strong> número de movimentos independentes possíveis (ex: braço industrial de 6 eixos).</p>
+        <p><strong>Posição:</strong> coordenadas X, Y, Z. <strong>Orientação:</strong> rotações RX, RY, RZ.</p>
+        <p><strong>Precisão:</strong> capacidade de alcançar a posição desejada. <strong>Repetibilidade:</strong> capacidade de repetir a mesma posição.</p>
+
+        <h3>Exercício</h3>
+        <p>Um braço robótico alcança 500 mm com erro de ±0,1 mm — determinar a precisão do sistema.</p>
+
+        <h3>Laboratório</h3>
+        <p>Programar a sequência: Ponto A → Ponto B → Ponto C → Retorno.</p>
+
+        <h3>Aplicação Industrial</h3>
+        <p>Sistema Pick and Place — recolha e colocação automática de peças.</p>
+      `
+    },
+    {
+      title: "Aula 3.4 – Visão Artificial e Inteligência Visual",
+      content: `
+        <p>Muitos robôs modernos utilizam câmaras para reconhecimento, contagem, inspeção e navegação.</p>
+
+        <h3>Conceitos</h3>
+        <p><strong>Pixel:</strong> menor unidade da imagem. <strong>Resolução:</strong> quantidade de pixels. <strong>Processamento:</strong> captura → filtro → identificação → decisão.</p>
+
+        <h3>Laboratório (OpenCV)</h3>
+        <p>Detetar as cores vermelho, verde e azul numa imagem em tempo real.</p>
+
+        <h3>Projeto</h3>
+        <p>Separador automático por cor.</p>
+
+        <h3>Aplicação Industrial</h3>
+        <p>Inspeção de qualidade — garrafas, embalagens, componentes metálicos.</p>
+      `
+    },
+    {
+      title: "Aula 3.5 – Manutenção e Troubleshooting",
+      content: `
+        <h3>Tipos de Manutenção</h3>
+        <table border="1" cellpadding="5">
+          <thead><tr><th>Tipo</th><th>Quando ocorre</th></tr></thead>
+          <tbody>
+            <tr><td>Corretiva</td><td>Após a falha</td></tr>
+            <tr><td>Preventiva</td><td>Antes da falha (calendário)</td></tr>
+            <tr><td>Preditiva</td><td>Baseada na condição real do equipamento</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Metodologia de Diagnóstico (5 passos)</h3>
+        <ol>
+          <li>Definir o sintoma</li>
+          <li>Localizar a área da falha</li>
+          <li>Medir</li>
+          <li>Corrigir</li>
+          <li>Validar</li>
+        </ol>
+
+        <h3>Caso Prático 1 — Motor não arranca</h3>
+        <p>Possíveis causas: falta de energia, fusível queimado, driver avariado, programa incorreto.</p>
+
+        <h3>Caso Prático 2 — Sensor não responde</h3>
+        <p>Analisar: alimentação, cablagem, configuração, defeito interno.</p>
+
+        <h3>Exercício Profissional</h3>
+        <p>Elaborar um procedimento estruturado de troubleshooting para um dos dois casos práticos acima.</p>
+      `
+    },
+    {
+      title: "Aula 3.6 – Projeto Final: Célula Robotizada Automatizada",
+      content: `
+        <h3>Integração Completa</h3>
+        <p>Nesta aula final, o aluno integra: sensores, motores, PLC, HMI e sistema de segurança — tudo o que foi aprendido nos 3 módulos.</p>
+
+        <h3>Conceito de Célula Robotizada</h3>
+        <p>Composta por: robô, sensores, atuadores, painel elétrico e sistema de segurança.</p>
+
+        <h3>Segurança Industrial</h3>
+        <p>Normas básicas: botão E-STOP, bloqueio elétrico, barreiras de segurança, delimitação de área.</p>
+
+        <h3>Projeto Industrial Integrado — Sistema de Paletização Automática</h3>
+        <p>Funções: detetar caixa → transportar → posicionar → confirmar posição → reiniciar ciclo.</p>
+
+        <h3>Discussão Técnica Final</h3>
+        <p><em>"O Técnico de Robótica da Próxima Década"</em> (15 min) — evolução tecnológica, inteligência artificial, robótica colaborativa, oportunidades em Angola, plano pessoal de carreira.</p>
+
+        <h3>Avaliação Final</h3>
+        <p><strong>Teórica (40%):</strong> instrumentação, PLC, HMI, robótica, visão artificial, segurança industrial, diagnóstico.</p>
+        <p><strong>Prática (60%, máx. 4 horas):</strong> montar sistema completo, programar lógica de operação, diagnosticar falha criada pelo formador, apresentar documentação.</p>
+
+        <h3>Projeto de Certificação — Célula Robotizada Automatizada</h3>
+        <p>Requisitos obrigatórios: sensor de deteção, atuador, sistema de controlo, interface do operador, sistema de segurança, relatório técnico e apresentação oral.</p>
+
+        <h3>Documentação Exigida</h3>
+        <table border="1" cellpadding="5">
+          <thead><tr><th>Área</th><th>Documentos</th></tr></thead>
+          <tbody>
+            <tr><td>Engenharia</td><td>Lista de materiais (BOM), diagrama elétrico, diagrama funcional, fluxograma</td></tr>
+            <tr><td>Operação</td><td>Manual de operação, procedimento de arranque, procedimento de paragem</td></tr>
+            <tr><td>Manutenção</td><td>Plano preventivo, lista de inspeção, registo de falhas</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Perfil Final do Formando</h3>
+        <p>Ao concluir os 3 módulos, o formando estará preparado para os cargos de: Técnico Júnior de Robótica, Técnico de Automação Industrial, Técnico de Instrumentação, Técnico de Manutenção Eletromecânica, Técnico de Comissionamento, Operador de Sistemas Automatizados e Assistente de Engenharia de Robótica e Mecatrónica.</p>
+      `
+    }
+  ];
+
+  const main = document.getElementById("main-content");
+  const lesson = lessons[id];
+
+  if (!lesson) {
+    main.innerHTML = `
+      <h2 id="lesson-title">🚧 Conteúdo não disponível</h2>
+      <p>Esta aula ainda não foi carregada. Por favor, selecione outra.</p>
+    `;
+    return;
+  }
+
+  main.innerHTML = `
+  <div class="lesson-content">
+    <h2 class="lesson-inner-title">${lesson.title}</h2>
+    ${lesson.content}
+  </div>
+`;
+
+  const sidebar = document.getElementById("sidebar");
+  if (window.innerWidth <= 900 && sidebar.classList.contains("active")) {
+    sidebar.classList.remove("active");
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  verificarAcesso();
+});
+</script>
+
+</body>
+</html>
