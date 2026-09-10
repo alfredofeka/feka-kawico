@@ -1,0 +1,1179 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Curso de Manutenção e Reparação de TVs — FEKA KAWIÇO</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-client.js"></script>
+<style>
+:root {
+  --primary-color: #004a80;
+  --secondary-color: #fca311;
+  --text-dark: #222;
+  --text-light: #fff;
+  --bg-light: #ffffff;
+  --bg-dark: #1f2937;
+  --border-color: #e0e0e0;
+}
+
+/* RESET */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* GLOBAL */
+body {
+  background-color: var(--bg-light);
+  color: var(--text-dark);
+  font-family: "Segoe UI", "Roboto", sans-serif;
+  line-height: 1.6;
+  transition: all 0.3s ease-in-out;
+  overflow-x: hidden;
+}
+
+/* HEADER */
+header {
+  background-color: var(--primary-color);
+  color: var(--text-light);
+  padding: 10px 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: 500;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.brand-area {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: nowrap;
+}
+
+.brand-area img {
+  height: 30px;
+  border-radius: 5px;
+}
+
+.brand-area a {
+  text-decoration: none;
+  color: var(--text-light);
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+#login-status {
+  font-size: 0.85rem;
+  opacity: 0.9;
+}
+
+/* SIDEBAR */
+#course-container {
+  display: flex;
+  height: calc(100vh - 65px);
+  overflow: hidden;
+}
+
+#sidebar {
+  width: 450px;
+  background-color: var(--bg-dark);
+  color: var(--text-light);
+  padding: 20px;
+  overflow-y: auto;
+  transition: transform 0.3s ease-in-out;
+}
+
+#sidebar.hidden {
+  transform: translateX(-100%);
+}
+
+#toggle-sidebar {
+  display: none;
+  background: var(--primary-color);
+  color: var(--text-light);
+  border: none;
+  font-size: 1.3rem;
+  padding: 8px 12px;
+  border-radius: 6px;
+  margin-right: 10px;
+}
+
+.module h3 {
+  cursor: pointer;
+  font-size: 1rem;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.chapter-list {
+  display: none;
+  margin-left: 8px;
+}
+
+.chapter-link {
+  display: block;
+  color: var(--text-light);
+  padding: 5px;
+  font-size: 0.95rem;
+  text-decoration: none;
+  border-left: 2px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.chapter-link:hover {
+  color: var(--secondary-color);
+  border-left: 2px solid var(--secondary-color);
+}
+
+/* MAIN */
+#main-content {
+  flex-grow: 1;
+  padding: 30px;
+  overflow-y: auto;
+  text-align: justify;
+}
+
+#lesson-title {
+  font-size: 1.8rem;
+  color: var(--primary-color);
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+/* ===============================
+   APRESENTAÇÃO — LADO A LADO
+/* ===============================
+   /* ===============================
+   FOLHA A4 COMPLETA E COMPACTA
+   =============================== */
+.intro-section {
+  background: #fff;
+  max-width: 850px; /* formato folha A4 */
+  margin: 30px auto;
+  padding: 35px 45px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  color: #222;
+  line-height: 1.6;
+  text-align: justify;
+  overflow: hidden; /* garante que nada saia da folha */
+}
+
+/* título dentro da folha */
+.intro-section h2 {
+  color: #004a80;
+  text-align: center;
+  font-size: 1.8rem;
+  margin-bottom: 25px;
+}
+
+/* organização da imagem e texto */
+.intro-content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+/* imagem à esquerda */
+.intro-image {
+  flex: 0 0 30%;
+  width: 30%;
+  border-radius: 8px;
+  object-fit: cover;
+  aspect-ratio: 4 / 3;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+}
+
+/* texto à direita */
+.intro-text {
+  flex: 1 1 65%;
+  text-align: justify;
+}
+
+/* subtítulos e listas */
+.intro-text h3 {
+  color: #004a80;
+  margin-top: 10px;
+  margin-bottom: 6px;
+  font-size: 1.05rem;
+}
+
+.intro-text ul {
+  margin-left: 20px;
+  margin-bottom: 10px;
+}
+
+.intro-text li {
+  margin-bottom: 4px;
+}
+
+/* === Responsividade === */
+@media (max-width: 900px) {
+  .intro-section {
+    padding: 25px 20px;
+    max-width: 95%;
+  }
+
+  .intro-content {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .intro-image {
+    width: 90%;
+    max-width: 350px;
+    margin-bottom: 15px;
+  }
+
+  .intro-text {
+    width: 100%;
+  }
+}
+
+
+/* === ESTILO DE VISUALIZAÇÃO "FOLHA A4" === */
+#main-content {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 40px 10px;
+  background-color: #f4f6f8;
+  overflow-y: auto;
+}
+
+/* a “folha” inclui o título e o conteúdo */
+.lesson-content,
+.lesson-wrapper {
+  background: #fff;
+  max-width: 850px;        /* largura tipo A4 */
+  margin: 0 auto;
+  padding: 40px 50px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  line-height: 1.7;
+  color: #222;
+  text-align: justify;
+}
+
+.lesson-wrapper h2,
+.lesson-content h2,
+.lesson-content h3,
+.lesson-content h4 {
+  color: #004a80;
+  margin-top: 20px;
+  text-align: center;
+}
+
+.lesson-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 0.95rem;
+}
+
+.lesson-content th,
+.lesson-content td {
+  border: 1px solid #ccc;
+  padding: 8px 10px;
+  text-align: left;
+}
+
+.lesson-content th {
+  background-color: #004a80;
+  color: #fff;
+}
+
+/* === Responsividade da folha === */
+@media (max-width: 900px) {
+  .lesson-content,
+  .lesson-wrapper {
+    padding: 20px;
+    margin: 10px;
+    max-width: 95%;
+  }
+
+  .lesson-content table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+}
+
+
+/* ===============================
+   CORREÇÃO FINAL — SIDEBAR MÓVEL
+   =============================== */
+@media (max-width: 900px) {
+  /* 🔹 Sidebar retraído por defeito no telemóvel */
+  #sidebar {
+    position: fixed;
+    left: 0;
+    top: 60px;
+    height: calc(100vh - 60px);
+    width: 450px;
+    background-color: var(--bg-dark);
+    color: var(--text-light);
+    transform: translateX(-100%); /* começa retraído */
+    transition: transform 0.3s ease-in-out;
+    z-index: 999;
+  }
+
+  /* 🔹 Quando o botão ☰ é clicado, a classe .hidden é removida → abre */
+  #sidebar.active {
+    transform: translateX(0); /* expande */
+  }
+
+  /* 🔹 Botão visível apenas no telemóvel */
+  #toggle-sidebar {
+    display: inline-block;
+  }
+}
+
+/* --- ESTILO DE LEITURA A4 --- */
+#main-content {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 30px;
+  background-color: #f8f9fa;
+}
+
+.lesson-wrapper {
+  background-color: #fff;
+  width: 100%;
+  max-width: 850px; /* largura tipo folha A4 */
+  padding: 40px 50px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  border-radius: 10px;
+  line-height: 1.7;
+  color: #222;
+}
+
+.lesson-wrapper h2,
+.lesson-wrapper h3,
+.lesson-wrapper h4 {
+  color: #004a80;
+  margin-top: 20px;
+}
+
+.lesson-wrapper table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 0.95rem;
+}
+
+.lesson-wrapper th,
+.lesson-wrapper td {
+  border: 1px solid #ccc;
+  padding: 8px 10px;
+  text-align: left;
+}
+
+.lesson-wrapper th {
+  background-color: #004a80;
+  color: white;
+}
+
+/* Responsividade para telemóveis */
+@media (max-width: 900px) {
+  .lesson-wrapper {
+    padding: 20px;
+    max-width: 95%;
+    font-size: 0.9rem;
+  }
+
+  .lesson-wrapper table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+}
+
+/* === ESTILO DE VISUALIZAÇÃO "FOLHA A4" === */
+.lesson-content {
+  background: #fff;
+  max-width: 850px;        /* largura tipo A4 */
+  margin: 30px auto;       /* centraliza no ecrã */
+  padding: 40px 50px;      /* espaço interno */
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  line-height: 1.7;
+  color: #222;
+  text-align: justify;
+}
+
+.lesson-content h2,
+.lesson-content h3,
+.lesson-content h4 {
+  color: #004a80;
+  margin-top: 20px;
+}
+
+.lesson-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 0.95rem;
+}
+
+.lesson-content th,
+.lesson-content td {
+  border: 1px solid #ccc;
+  padding: 8px 10px;
+  text-align: left;
+}
+
+.lesson-content th {
+  background-color: #004a80;
+  color: #fff;
+}
+
+/* Responsividade */
+@media (max-width: 900px) {
+  .lesson-content {
+    padding: 20px;
+    margin: 10px;
+    max-width: 95%;
+  }
+
+  .lesson-content table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+}
+
+/* ===============================
+   AJUSTE MOBILE — LOGO MAGRO + SIDEBAR VISÍVEL
+   =============================== */
+@media (max-width: 900px) {
+  /* 🔹 Reduz o tamanho do cabeçalho e logo */
+  header {
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    padding: 6px 10px;
+  }
+
+  .brand-area {
+    gap: 6px;
+  }
+
+  .brand-area img {
+    height: 22px;      /* diminui o logo */
+    width: auto;
+  }
+
+  .brand-area span {
+    font-size: 0.75rem; /* texto menor */
+    white-space: nowrap;
+  }
+
+  /* 🔹 Sidebar ocupa a tela toda, por cima do conteúdo */
+  #sidebar {
+    position: fixed;
+    top: 50px; /* abaixo do cabeçalho */
+    left: 0;
+    width: 85%; /* não precisa ser 100%, para dar um ar de menu lateral */
+    max-width: 350px;
+    height: calc(100vh - 50px);
+    overflow-y: auto;
+    background-color: #1f2937;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+    z-index: 9999; /* garante que fique por cima de tudo */
+    padding: 20px;
+  }
+
+  /* 🔹 Sidebar aberto */
+  #sidebar.active {
+    transform: translateX(0);
+  }
+
+  /* 🔹 Botão ☰ visível e clicável */
+  #toggle-sidebar {
+    display: inline-block;
+    font-size: 1.4rem;
+    padding: 6px 10px;
+    border-radius: 6px;
+  }
+
+  /* 🔹 O conteúdo principal se ajusta quando o sidebar abre */
+  #main-content {
+    margin-left: 0;
+    padding: 20px;
+  }
+}
+
+/* ===============================
+   TÍTULO DENTRO DA FOLHA A4
+   =============================== */
+.lesson-inner-title {
+  font-size: 1.6rem;
+  text-align: center;
+  color: #004a80;
+  font-weight: 700;
+  margin-bottom: 25px;
+  border-bottom: 2px solid #004a80;
+  padding-bottom: 8px;
+}
+
+
+/* ===============================
+   FOLHA A4 RESPONSIVA E PROPORCIONAL
+   =============================== */
+.lesson-content {
+  background: #fff;
+  max-width: 850px;          /* largura tipo A4 */
+  margin: 30px auto;         /* centraliza */
+  padding: 40px 50px;        /* margens internas */
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  line-height: 1.6;
+  color: #222;
+  text-align: justify;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.lesson-content h2,
+.lesson-content h3,
+.lesson-content h4 {
+  color: #004a80;
+  margin-top: 20px;
+  text-align: center;
+}
+
+.lesson-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 0.95rem;
+  table-layout: fixed;
+  word-wrap: break-word;
+}
+
+.lesson-content th,
+.lesson-content td {
+  border: 1px solid #ccc;
+  padding: 8px 10px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.lesson-content th {
+  background-color: #004a80;
+  color: #fff;
+}
+
+
+/* ===============================
+   📏 TABELAS DISCIPLINADAS 😎
+   =============================== */
+.lesson-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 0.95rem;
+  table-layout: auto;
+  word-wrap: break-word;
+  overflow: hidden;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.lesson-content th,
+.lesson-content td {
+  border: 1px solid #ccc;
+  padding: 8px 10px;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.lesson-content th {
+  background-color: #004a80;
+  color: #fff;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* ⚖️ Modo disciplinar: reduz proporção suavemente */
+@media (max-width: 900px) {
+  .lesson-content table {
+    font-size: 0.85rem;
+    transform: scale(0.95);
+    transform-origin: top center;
+  }
+}
+
+@media (max-width: 700px) {
+  .lesson-content table {
+    font-size: 0.8rem;
+    transform: scale(0.9);
+    transform-origin: top center;
+  }
+
+  .lesson-content th,
+  .lesson-content td {
+    padding: 5px 6px;
+  }
+}
+
+@media (max-width: 500px) {
+  .lesson-content table {
+    font-size: 0.75rem;
+    transform: scale(0.85);
+    transform-origin: top center;
+  }
+
+  .lesson-content th,
+  .lesson-content td {
+    padding: 4px 5px;
+  }
+}
+
+
+/* ------------------------------
+   AJUSTE DE ESCALA PARA TABLET
+   ------------------------------ */
+@media (max-width: 1100px) {
+  .lesson-content {
+    padding: 30px 35px;
+    max-width: 700px;
+    font-size: 0.95rem;
+  }
+}
+
+/* ------------------------------
+   AJUSTE PARA TELEMÓVEL
+   ------------------------------ */
+@media (max-width: 768px) {
+  .lesson-content {
+    max-width: 95%;
+    padding: 20px;
+    font-size: 0.88rem;       /* reduz fonte */
+    line-height: 1.5;
+    border-radius: 6px;
+  }
+
+  .lesson-inner-title {
+    font-size: 1.2rem;
+  }
+
+  .lesson-content h3 {
+    font-size: 1rem;
+  }
+
+  .lesson-content table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+    font-size: 0.85rem;
+    border-radius: 6px;
+  }
+
+  .lesson-content th,
+  .lesson-content td {
+    padding: 6px 8px;
+  }
+}
+
+/* ------------------------------
+   AJUSTE EXTREMO (ECRÃS PEQUENOS)
+   ------------------------------ */
+@media (max-width: 480px) {
+  .lesson-content {
+    padding: 15px;
+    font-size: 0.8rem;
+  }
+
+  .lesson-inner-title {
+    font-size: 1rem;
+  }
+
+  .lesson-content table {
+    font-size: 0.8rem;
+  }
+}
+
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+  <div class="brand-area">
+    <button id="toggle-sidebar">☰</button>
+    <a href="index.html"><i class="fas fa-home"></i></a>
+    <img src="FK.png" alt="FEKA KAWIÇO" />
+    <span><strong>FEKA KAWIÇO</strong> – <em>A terra natural do conhecimento!</em></span>
+  </div>
+  <div id="login-status">🔒 Verificando acesso…</div>
+</header>
+
+<div id="course-container">
+  <aside id="sidebar">
+    <div class="module">
+      <h3 onclick="toggleModule(0)">📦 Módulo 1: Fundamentos</h3>
+      <div class="chapter-list" id="module-0">
+        <a href="#" class="chapter-link" onclick="loadLesson(0)">Capítulo 1: Evolução e Tipos de Televisores</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(1)">Capítulo 2: Blocos Funcionais e Arquitetura dos Televisores</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(2)">Capítulo 3: Interfaces e Conectividade</a>
+      </div>
+    </div>
+    <div class="module">
+      <h3 onclick="toggleModule(1)">📐 Módulo 2: Normas e Segurança</h3>
+      <div class="chapter-list" id="module-1">
+        <a href="#" class="chapter-link" onclick="loadLesson(3)">Capítulo 4: Normas Técnicas em Equipamentos de TV</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(4)">Capítulo 5: EPIs e Procedimentos Seguros</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(5)">Capítulo 6: Ferramentas de Diagnóstico</a>
+      </div>
+    </div>
+    <div class="module">
+      <h3 onclick="toggleModule(2)">🔧 Módulo 3: Diagnóstico e Reparação</h3>
+      <div class="chapter-list" id="module-2">
+        <a href="#" class="chapter-link" onclick="loadLesson(6)">Capítulo 7: Falhas Comuns em Televisores</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(7)">Capítulo 8: Técnicas de Diagnóstico Profissional</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(8)">Capítulo 9: Reparações e Testes Pós-Manutenção</a>
+      </div>
+    </div>
+    <div class="module">
+      <h3 onclick="toggleModule(3)">📋 Módulo 4: Documentação e Garantia</h3>
+      <div class="chapter-list" id="module-3">
+        <a href="#" class="chapter-link" onclick="loadLesson(9)">Capítulo 10: Testes Funcionais Após o Reparo</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(10)">Capítulo 11: Checklist Técnico Padronizado</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(11)">Capítulo 12: Relatório Técnico e Garantia</a>
+      </div>
+    </div>
+    <div class="module">
+      <h3>🧪 Teste Final</h3>
+      <div class="chapter-list" style="display:block;">
+        <a href="teste-TV-Final.html" class="chapter-link" style="font-weight:600;">Avaliação Teórica e Prática (100%)</a>
+        <p style="font-size:0.85rem; color:#ccc; margin-left:10px;">
+          • 50% teste de múltipla escolha<br>
+          • 50% diagnóstico e reparação de uma TV
+        </p>
+      </div>
+    </div>
+  </aside>
+
+
+
+ <main id="main-content">
+ 
+
+    <div class="intro-section">
+  <h2 id="lesson-title">🛠️ Curso de Manutenção e Reparação de Televisores</h2>
+    <img src="Quatro-JovensTV.png" alt="Manutenção e Reparação de Televisores" class="intro-image">
+
+    <div class="intro-text">
+      <h3>🎯 Objetivo do Curso</h3>
+      <p>No final do curso, os formandos deverão ser capazes de diagnosticar e solucionar falhas elétricas e eletrónicas comuns em televisores de diversas tecnologias (CRT, Plasma, LCD, LED e OLED), compreender a arquitetura dos principais blocos funcionais (fonte, main board, T-Con e painel), utilizar instrumentos de teste (multímetro, osciloscópio, gerador de sinal), realizar reparações a nível de componente (SMD e TH) e aplicar normas de segurança e proteção antiestática (ESD).</p>
+
+      <h3>💡 Competências Desenvolvidas</h3>
+      <ul>
+        <li>Diagnóstico de falhas por tecnologia (CRT, Plasma, LCD, LED, OLED).</li>
+        <li>Leitura da arquitetura interna: fonte, main board, T-Con e backlight.</li>
+        <li>Teste de interfaces (HDMI, USB, RF, Wi-Fi) e conectividade.</li>
+        <li>Aplicação de normas técnicas (IEC 60065, UL 62368, NBR 14136) e EPIs.</li>
+        <li>Utilização de multímetro, osciloscópio, fonte assimétrica e gerador de sinal.</li>
+        <li>Reparação, testes pós-manutenção e elaboração de relatório técnico com garantia.</li>
+      </ul>
+
+      <h3>👥 A quem se destina</h3>
+      <ul>
+        <li>Técnicos de eletrónica que desejam especializar-se em televisores.</li>
+        <li>Entusiastas e hobbistas com conhecimentos básicos de eletrónica.</li>
+        <li>Empreendedores que pretendem abrir um negócio de assistência técnica audiovisual.</li>
+        <li>Estudantes de Eletrónica, Eletrotécnica ou Telecomunicações.</li>
+      </ul>
+
+      <h3>🗓️ Duração e Formato</h3>
+      <p>Curso intensivo com 4 semanas de conteúdo técnico (4 módulos, 12 capítulos) + 1 semana de avaliação final teórica e prática. Formato modular com teoria, tabelas técnicas, exemplos práticos reais e checklist de diagnóstico — otimizado para desktop e telemóvel.</p>
+    </div>
+  </div>
+</main>
+
+</div>
+
+
+<script>
+// ====================================================================
+// CONTROLO DE ACESSO (Supabase) — este curso exige login + validação
+// ====================================================================
+const COURSE_ID = 'REPARARTV';
+
+async function verificarAcesso() {
+  const loginStatus = document.getElementById('login-status');
+  const { data: { session } } = await supabaseClient.auth.getSession();
+
+  if (!session) {
+    loginStatus.innerHTML = '🔒 Sessão não encontrada — <a href="login.html" style="color:#fca311;">Fazer Login</a>';
+    return false;
+  }
+
+  const { data: profile } = await supabaseClient
+    .from('profiles').select('nome').eq('id', session.user.id).single();
+  const nome = profile?.nome ? profile.nome.split(' ')[0] : 'Aluno';
+
+  const { data: enrollment } = await supabaseClient
+    .from('enrollments')
+    .select('status')
+    .eq('user_id', session.user.id)
+    .eq('course_id', COURSE_ID)
+    .single();
+
+  if (enrollment?.status !== 'validado') {
+    loginStatus.innerHTML = `⚠️ Olá, ${nome} — falta validar o código. <a href="validar-geral.html" style="color:#fca311;">Validar Código</a>`;
+    return false;
+  }
+
+  loginStatus.textContent = `✅ Acesso autorizado — Olá, ${nome}!`;
+  return true;
+}
+
+function toggleModule(index) {
+  const module = document.getElementById(`module-${index}`);
+  module.style.display = module.style.display === 'block' ? 'none' : 'block';
+}
+
+document.getElementById('toggle-sidebar').addEventListener('click', () => {
+  document.getElementById('sidebar').classList.toggle('active');
+});
+
+function loadLesson(id) {
+
+  const lessons = [
+    {
+      title: "Capítulo 1: Evolução e Tipos de Televisores",
+      content: `
+        <h3>🕰️ 1. A História da Televisão: Da Caixa ao Pixel</h3>
+        <p>A televisão começou como um equipamento volumoso e analógico, com os famosos modelos CRT (tubo de raios catódicos). Esses aparelhos funcionavam com feixes de eletrões que atingiam uma tela fosforescente, gerando imagem. Eram robustos, fáceis de reparar e dominaram o mercado até ao início dos anos 2000.</p>
+        <p>Com a chegada dos televisores de Plasma, houve um salto em tamanho e qualidade de imagem. Embora mais finos e com melhor contraste, tinham alto consumo e desgaste acelerado.</p>
+        <p>A tecnologia LCD (Liquid Crystal Display) trouxe leveza, resolução superior e menor consumo, tornando-se padrão global. Em seguida, os modelos LED (Light Emitting Diode) refinaram a iluminação traseira, melhorando brilho e eficiência.</p>
+        <p>Hoje, os televisores OLED (Organic LED) representam o topo da evolução: cada pixel ilumina-se individualmente, permitindo pretos reais, contraste extremo e design ultrafino.</p>
+
+        <h3>⚙️ 2. Vantagens e Limitações de Cada Tecnologia</h3>
+        <table border="1" cellpadding="5">
+          <thead><tr><th>Tipo</th><th>Tecnologia</th><th>Vantagens</th><th>Limitações</th></tr></thead>
+          <tbody>
+            <tr><td>CRT</td><td>Tubo de raios catódicos</td><td>Fácil de reparar, robusto</td><td>Grande, pesado, obsoleto</td></tr>
+            <tr><td>Plasma</td><td>Gás ionizado</td><td>Boa imagem, tamanho grande</td><td>Alto consumo, desgaste</td></tr>
+            <tr><td>LCD</td><td>Cristais líquidos</td><td>Leve, baixo consumo</td><td>Ângulo de visão limitado</td></tr>
+            <tr><td>LED</td><td>Iluminação por LED</td><td>Brilho intenso, fino</td><td>Backlight pode falhar</td></tr>
+            <tr><td>OLED</td><td>Pixels orgânicos</td><td>Preto real, contraste alto</td><td>Custo elevado, sensível</td></tr>
+          </tbody>
+        </table>
+
+        <h3>🧪 Exemplo Prático</h3>
+        <p>Durante uma triagem técnica, o profissional recebe uma TV sem imagem. Ao abrir o equipamento, identifica que se trata de um modelo LED. Com base nisso, verifica a alimentação do backlight e testa a placa T-Con. A identificação correta da tecnologia permite direcionar o diagnóstico, evitar trocas desnecessárias e aplicar o reparo com precisão.</p>
+      `
+    },
+    {
+      title: "Capítulo 2: Blocos Funcionais e Arquitetura dos Televisores",
+      content: `
+        <h3>🧩 1. Anatomia Interna: Como uma TV é Organizada</h3>
+        <p>Todo televisor moderno é composto por blocos funcionais que trabalham em conjunto para gerar imagem, som e conectividade. Os principais blocos incluem a fonte de alimentação, que converte a energia da rede elétrica em tensões específicas para os circuitos internos; a placa principal (main board), que processa os sinais de entrada e controla o funcionamento geral; a placa T-Con (Timing Controller), responsável pela sincronização da imagem; e o sistema de iluminação traseira (backlight), que garante a visibilidade da tela em modelos LCD e LED.</p>
+
+        <h3>🧠 2. Funções Técnicas de Cada Bloco</h3>
+        <p>A fonte de alimentação é o coração energético do sistema — se falha, a TV não liga ou apresenta comportamento instável. A main board é o cérebro, responsável por interpretar sinais e controlar os demais blocos. A T-Con atua como ponte entre a main board e a tela; qualquer falha nela pode gerar imagem distorcida ou ausência total de vídeo. O backlight é essencial para a visibilidade — mesmo com a T-Con a funcionar, sem iluminação a tela parecerá apagada.</p>
+
+        <h3>📊 Tabela: Blocos Funcionais e Suas Funções</h3>
+        <table border="1" cellpadding="5">
+          <thead><tr><th>Bloco</th><th>Função Técnica</th></tr></thead>
+          <tbody>
+            <tr><td>Fonte</td><td>Converte energia para os circuitos</td></tr>
+            <tr><td>Main Board</td><td>Processa sinal e controla o sistema</td></tr>
+            <tr><td>T-Con</td><td>Sincroniza imagem com a tela</td></tr>
+            <tr><td>Backlight</td><td>Ilumina a tela LCD/LED</td></tr>
+            <tr><td>Interfaces</td><td>Recebem sinal externo (HDMI, USB)</td></tr>
+          </tbody>
+        </table>
+
+        <h3>🧪 Exemplo Prático</h3>
+        <p>O técnico recebe uma TV que liga mas não mostra imagem. Verifica que a fonte está a funcionar e a main board está ativa. Testa a T-Con com multímetro e percebe ausência de tensão nos pinos de saída — a falha está na T-Con. Após substituição, a imagem retorna. O diagnóstico por blocos evita trocas desnecessárias e economiza tempo.</p>
+      `
+    },
+    {
+      title: "Capítulo 3: Interfaces e Conectividade",
+      content: `
+        <h3>🌐 1. Portas de Entrada: Como a TV se Comunica</h3>
+        <p>As interfaces de conectividade são os canais pelos quais a TV recebe sinais externos: HDMI (áudio e vídeo digital), USB (mídia e atualizações), RF (sinal de antena), AV (áudio e vídeo analógico) e conexões sem fio como Wi-Fi e Bluetooth. Cada interface tem padrões específicos e pode apresentar falhas distintas.</p>
+
+        <h3>🧭 2. Diagnóstico de Interfaces</h3>
+        <p>Falhas em interfaces podem manifestar-se como ausência de imagem, som distorcido ou não reconhecimento de dispositivos. O técnico deve usar gerador de sinal HDMI, pen drives de teste, cabos coaxiais e aplicações de rede para verificar a integridade das conexões.</p>
+
+        <h3>📊 Tabela: Interfaces e Testes Recomendados</h3>
+        <table border="1" cellpadding="5">
+          <thead><tr><th>Interface</th><th>Aplicação</th><th>Teste recomendado</th></tr></thead>
+          <tbody>
+            <tr><td>HDMI</td><td>Vídeo digital</td><td>Gerador de sinal</td></tr>
+            <tr><td>USB</td><td>Mídia externa</td><td>Pen drive funcional</td></tr>
+            <tr><td>RF</td><td>TV aberta</td><td>Cabo coaxial + sinal</td></tr>
+            <tr><td>Wi-Fi</td><td>Streaming</td><td>App de diagnóstico</td></tr>
+          </tbody>
+        </table>
+
+        <h3>🧪 Exemplo Prático</h3>
+        <p>Um cliente relata que a TV não reconhece o descodificador via HDMI. O técnico conecta um gerador de sinal HDMI à entrada e verifica que a imagem aparece normalmente — o problema está no cabo ou no descodificador. Após troca do cabo, o sinal é restabelecido, evitando substituições de placa desnecessárias.</p>
+      `
+    },
+    {
+      title: "Capítulo 4: Normas Técnicas em Equipamentos de TV",
+      content: `
+        <h3>📜 1. A Importância das Normas Técnicas</h3>
+        <p>Normas técnicas estabelecem critérios de segurança, desempenho e compatibilidade para equipamentos eletrónicos. Garantem que os procedimentos estejam alinhados com boas práticas internacionais, evitando riscos elétricos, incêndios e falhas funcionais.</p>
+        <p>A norma <strong>ABNT NBR 14136</strong> define padrões para plugues e tomadas; a <strong>IEC 60065</strong> (internacional) trata da segurança em equipamentos de áudio e vídeo; a <strong>UL 62368</strong> (EUA) foca na segurança funcional, considerando riscos térmicos, elétricos e mecânicos.</p>
+
+        <h3>🌍 2. Normas por Região e Aplicação</h3>
+        <p>A ABNT exige aterramento adequado e compatibilidade de tensão. A IEC foca em isolamento, dissipação térmica e proteção contra sobrecarga. A UL exige testes rigorosos de resistência e durabilidade. Conhecer estas normas permite avaliar se uma TV está em conformidade e aplicar reparos dentro dos limites de segurança exigidos.</p>
+
+        <h3>📊 Tabela: Normas Técnicas</h3>
+        <table border="1" cellpadding="5">
+          <thead><tr><th>Norma</th><th>Região</th><th>Foco técnico</th></tr></thead>
+          <tbody>
+            <tr><td>IEC 60065</td><td>Global</td><td>Segurança eletrónica</td></tr>
+            <tr><td>UL 62368</td><td>EUA</td><td>Segurança funcional</td></tr>
+            <tr><td>NBR 14136</td><td>Brasil</td><td>Plugues e tomadas</td></tr>
+          </tbody>
+        </table>
+
+        <h3>🧪 Exemplo Prático</h3>
+        <p>Durante uma visita técnica, o profissional encontra uma TV ligada a uma tomada sem aterramento. Usa um multímetro para verificar a polaridade e ausência de fuga, recomenda a troca da tomada por uma compatível com a NBR 14136 e instala um adaptador com proteção contra surtos, evitando riscos futuros.</p>
+      `
+    },
+    {
+      title: "Capítulo 5: EPIs e Procedimentos Seguros",
+      content: `
+        <h3>🧤 1. Proteção Pessoal: O Primeiro Passo</h3>
+        <p>Equipamentos de Proteção Individual (EPIs) são essenciais para qualquer intervenção técnica. Luvas isolantes evitam choques, óculos protegem contra estilhaços, e calçado de segurança reduz o risco de quedas e impactos. O uso correto dos EPIs é obrigatório em ambientes profissionais.</p>
+
+        <h3>⚡ 2. Procedimentos de Segurança Elétrica</h3>
+        <p>Antes de abrir qualquer televisor, o técnico deve desligar a alimentação da rede, descarregar os condensadores e verificar a ausência de corrente com multímetro. Devem usar-se ferramentas isoladas, num ambiente seco e bem iluminado — a negligência nestes cuidados pode resultar em acidentes graves.</p>
+
+        <h3>📊 Tabela: EPIs e Funções</h3>
+        <table border="1" cellpadding="5">
+          <thead><tr><th>EPI</th><th>Proteção</th></tr></thead>
+          <tbody>
+            <tr><td>Luvas</td><td>Choque elétrico</td></tr>
+            <tr><td>Óculos</td><td>Estilhaços e faíscas</td></tr>
+            <tr><td>Calçado</td><td>Isolamento e impacto</td></tr>
+            <tr><td>Máscara</td><td>Vapores químicos</td></tr>
+          </tbody>
+        </table>
+
+        <h3>🧪 Exemplo Prático</h3>
+        <p>Durante a troca de um condensador estufado, o técnico usa luvas isolantes e óculos de proteção. Desliga a TV, descarrega o condensador com resistor de alta potência e verifica a tensão residual. A substituição é feita com ferro de solda isolado e a área é limpa com álcool isopropílico — o uso dos EPIs evita queimaduras e choque elétrico.</p>
+      `
+    },
+    {
+      title: "Capítulo 6: Ferramentas de Diagnóstico",
+      content: `
+        <h3>🔧 1. Instrumentos Essenciais para Reparação</h3>
+        <p>Diagnosticar uma TV exige ferramentas específicas. O multímetro mede tensão, corrente e continuidade. O osciloscópio analisa sinais digitais e analógicos. A fonte assimétrica permite alimentar placas fora da TV. O gerador de sinal testa entradas HDMI e AV. Cada ferramenta tem aplicação direta em falhas comuns.</p>
+
+        <h3>🧠 2. Interpretação de Dados Técnicos</h3>
+        <p>Saber usar as ferramentas é apenas parte do trabalho — o técnico precisa interpretar os dados. Uma tensão fora do padrão pode indicar falha na fonte. Um sinal distorcido no osciloscópio pode apontar defeito no CI de vídeo. A análise correta evita trocas desnecessárias e acelera o reparo.</p>
+
+        <h3>📊 Tabela: Ferramentas e Aplicações</h3>
+        <table border="1" cellpadding="5">
+          <thead><tr><th>Ferramenta</th><th>Função Técnica</th></tr></thead>
+          <tbody>
+            <tr><td>Multímetro</td><td>Tensão, corrente, continuidade</td></tr>
+            <tr><td>Osciloscópio</td><td>Sinais digitais e analógicos</td></tr>
+            <tr><td>Fonte assimétrica</td><td>Teste de placas fora da TV</td></tr>
+            <tr><td>Gerador de sinal</td><td>Verifica entradas de vídeo</td></tr>
+          </tbody>
+        </table>
+
+        <h3>🧪 Exemplo Prático</h3>
+        <p>O técnico recebe uma TV que não liga. Com o multímetro, verifica que a fonte está a receber 220V, mas não entrega 12V à placa principal. Com a fonte assimétrica, alimenta a placa diretamente e observa consumo normal — a falha está na fonte. Após substituição, a TV volta a funcionar.</p>
+      `
+    },
+    {
+      title: "Capítulo 7: Falhas Comuns em Televisores",
+      content: `
+        <h3>🚨 1. Sintomas Recorrentes na Oficina</h3>
+        <p>Os televisores modernos apresentam padrões de falhas que se repetem com frequência: tela preta, ausência de som, imagem distorcida, reinicializações constantes e falhas nas entradas HDMI. A tela preta pode indicar falha no backlight, na T-Con ou na fonte. A ausência de som pode estar relacionada ao circuito de áudio ou à placa principal. Imagens distorcidas geralmente apontam para problemas na T-Con ou na tela. As reinicializações podem ser causadas por falhas na fonte ou na memória da placa principal.</p>
+
+        <h3>🧠 2. Estratégia de Diagnóstico Inicial</h3>
+        <p>O primeiro passo é observar o comportamento do aparelho: liga ou não liga? Há som sem imagem? As luzes indicadoras funcionam? Depois, realizam-se testes com multímetro, fonte assimétrica e gerador de sinal, comparando os dados com os padrões esperados.</p>
+
+        <h3>📊 Tabela: Sintomas e Diagnóstico</h3>
+        <table border="1" cellpadding="5">
+          <thead><tr><th>Sintoma</th><th>Causa provável</th><th>Ferramenta</th></tr></thead>
+          <tbody>
+            <tr><td>Tela preta</td><td>Fonte ou T-Con</td><td>Multímetro</td></tr>
+            <tr><td>Sem som</td><td>CI de áudio</td><td>Osciloscópio</td></tr>
+            <tr><td>Imagem distorcida</td><td>Placa T-Con</td><td>Gerador de sinal</td></tr>
+            <tr><td>Reinicialização</td><td>Fonte instável</td><td>Fonte assimétrica</td></tr>
+          </tbody>
+        </table>
+
+        <h3>🧪 Exemplo Prático</h3>
+        <p>Uma TV LED apresenta tela preta, mas o som funciona. O técnico testa a tensão do backlight com multímetro e encontra 0V. Verifica a fonte e percebe que a saída de 12V está ausente. Substitui a fonte e a imagem volta ao normal.</p>
+      `
+    },
+    {
+      title: "Capítulo 8: Técnicas de Diagnóstico Profissional",
+      content: `
+        <h3>🧭 1. Roteiro de Diagnóstico Avançado</h3>
+        <p>Diagnosticar uma TV exige mais do que ferramentas — exige método. O técnico começa por ouvir o cliente: quando começou o problema? Ocorre com todos os canais? Há ruídos ou cheiros incomuns? Em seguida, realizam-se testes de continuidade, resistência e tensão. A medição nas bobinas do transformador, nos condensadores e nos conectores revela falhas ocultas. Um termómetro infravermelho permite verificar sobreaquecimento em CIs e fontes.</p>
+
+        <h3>📐 2. Checklist Técnico Padronizado</h3>
+        <p>Um bom diagnóstico segue uma sequência lógica: alimentação → estado dos conectores → presença de sinal nas entradas → funcionamento da placa principal e da T-Con. Cada etapa deve ser registada para facilitar o acompanhamento e evitar retrabalho.</p>
+
+        <h3>📊 Tabela: Etapas de Diagnóstico</h3>
+        <table border="1" cellpadding="5">
+          <thead><tr><th>Etapa</th><th>Ação</th><th>Ferramenta</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>Verificar tensão da fonte</td><td>Multímetro</td></tr>
+            <tr><td>2</td><td>Testar entrada HDMI</td><td>Gerador de sinal</td></tr>
+            <tr><td>3</td><td>Medir temperatura de CI</td><td>Termómetro IR</td></tr>
+            <tr><td>4</td><td>Verificar continuidade</td><td>Multímetro</td></tr>
+            <tr><td>5</td><td>Observar imagem/som</td><td>Visual/Audição</td></tr>
+          </tbody>
+        </table>
+
+        <h3>🧪 Exemplo Prático</h3>
+        <p>Durante um atendimento no domicílio, o técnico usa um checklist impresso: verifica a tensão da fonte (12V), testa a entrada HDMI com gerador de sinal, mede a temperatura do CI de vídeo (65°C) e confirma o funcionamento da placa principal. O registo das etapas garante transparência e qualidade no serviço.</p>
+      `
+    },
+    {
+      title: "Capítulo 9: Reparações e Testes Pós-Manutenção",
+      content: `
+        <h3>🔧 1. Técnicas de Reparação Eficientes</h3>
+        <p>Após o diagnóstico, o técnico realiza a reparação: troca de condensadores, reflow de CIs, substituição de fusíveis ou solda de trilhas rompidas. Cada intervenção deve respeitar as especificações do fabricante e usar componentes compatíveis. A solda deve ser feita com ferro de ponta fina, fluxo adequado e controlo de temperatura; o reflow exige estação de ar quente e conhecimento dos limites térmicos dos componentes.</p>
+
+        <h3>📊 2. Testes Funcionais e Estabilidade</h3>
+        <p>Após o reparo, testa-se o funcionamento completo: imagem, som, conectividade e consumo elétrico. O técnico deve medir tensões, verificar a resposta das entradas e observar a estabilidade do sistema por, no mínimo, 15 minutos.</p>
+
+        <h3>📊 Tabela: Testes Pós-Reparo</h3>
+        <table border="1" cellpadding="5">
+          <thead><tr><th>Teste</th><th>Ferramenta</th><th>Parâmetro esperado</th></tr></thead>
+          <tbody>
+            <tr><td>Imagem</td><td>Vídeo padrão</td><td>Resolução nítida</td></tr>
+            <tr><td>Som</td><td>Sinal estéreo</td><td>Áudio limpo</td></tr>
+            <tr><td>HDMI</td><td>Gerador de sinal</td><td>Reconhecimento rápido</td></tr>
+            <tr><td>Consumo</td><td>Wattímetro</td><td>Estável e baixo</td></tr>
+          </tbody>
+        </table>
+
+        <h3>🧪 Exemplo Prático</h3>
+        <p>Após trocar o CI de áudio, o técnico conecta a TV a um gerador de sinal HDMI e verifica imagem e som. Mede o consumo com wattímetro (45W em operação) e observa estabilidade por 20 minutos. Regista os dados em ficha técnica e entrega ao cliente com garantia de 6 meses.</p>
+      `
+    },
+    {
+      title: "Capítulo 10: Testes Funcionais Após o Reparo",
+      content: `
+        <h3>🎯 1. Verificar é Garantir</h3>
+        <p>Após qualquer reparação, é essencial realizar testes funcionais para confirmar que o televisor voltou a operar dentro dos padrões técnicos — imagem, som, conectividade e estabilidade elétrica. Não basta ligar o aparelho, é preciso validar cada função com as ferramentas adequadas.</p>
+        <p>O teste de imagem deve usar um vídeo padrão em alta definição (nitidez, contraste, cores). O teste de som exige sinal estéreo e análise de canais. As entradas HDMI, USB e RF devem ser testadas com dispositivos reais. O consumo elétrico deve ser medido com wattímetro para garantir eficiência e segurança.</p>
+
+        <h3>🧪 2. Ambiente Controlado e Tempo de Observação</h3>
+        <p>Os testes devem realizar-se em ambiente controlado, com iluminação adequada e sem interferências externas. O tempo mínimo de observação recomendado é de 15 a 20 minutos, para detetar falhas intermitentes ou sobreaquecimento. Os resultados devem ser registados em ficha técnica.</p>
+
+        <h3>📊 Tabela: Testes Pós-Reparo</h3>
+        <table border="1" cellpadding="5">
+          <thead><tr><th>Teste</th><th>Ferramenta</th><th>Parâmetro esperado</th></tr></thead>
+          <tbody>
+            <tr><td>Imagem</td><td>Vídeo padrão</td><td>Resolução nítida</td></tr>
+            <tr><td>Som</td><td>Sinal estéreo</td><td>Áudio limpo</td></tr>
+            <tr><td>HDMI</td><td>Gerador de sinal</td><td>Reconhecimento rápido</td></tr>
+            <tr><td>Consumo</td><td>Wattímetro</td><td>Estável e baixo</td></tr>
+          </tbody>
+        </table>
+
+        <h3>🧪 Exemplo Prático</h3>
+        <p>Após trocar o CI de vídeo, o técnico conecta a TV a um gerador HDMI e reproduz um vídeo padrão. Verifica a imagem, testa o som com sinal estéreo, mede o consumo (48W em operação) e observa estabilidade por 20 minutos, libertando o equipamento com confiança.</p>
+      `
+    },
+    {
+      title: "Capítulo 11: Checklist Técnico Padronizado",
+      content: `
+        <h3>🧾 1. Organização e Rastreabilidade</h3>
+        <p>Um checklist técnico é uma ferramenta essencial para padronizar o atendimento e garantir rastreabilidade. Permite ao técnico seguir uma sequência lógica de verificação, evitando esquecimentos e facilitando o controlo de qualidade. Pode ser impresso ou digital, e deve acompanhar cada serviço realizado.</p>
+
+        <h3>🧠 2. Etapas Fundamentais</h3>
+        <p>As etapas incluem: verificação da fonte de alimentação, teste das entradas, medição de temperatura dos componentes, inspeção visual de soldas e conectores, e teste final de imagem e som. Cada item deve ser marcado como "OK", "Reparado" ou "Não aplicável", com espaço para observações.</p>
+
+        <h3>📊 Tabela: Estrutura de Checklist</h3>
+        <table border="1" cellpadding="5">
+          <thead><tr><th>Etapa</th><th>Ação</th><th>Ferramenta</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>Verificar tensão da fonte</td><td>Multímetro</td></tr>
+            <tr><td>2</td><td>Testar entrada HDMI</td><td>Gerador de sinal</td></tr>
+            <tr><td>3</td><td>Medir temperatura de CI</td><td>Termómetro IR</td></tr>
+            <tr><td>4</td><td>Inspecionar conectores</td><td>Visual</td></tr>
+            <tr><td>5</td><td>Testar imagem e som</td><td>Audiovisual</td></tr>
+          </tbody>
+        </table>
+
+        <h3>🧪 Exemplo Prático</h3>
+        <p>Durante um atendimento na oficina, o técnico preenche um checklist digital no tablet: marca cada etapa com o resultado, insere fotos dos testes e guarda o documento no sistema da empresa. O cliente recebe uma cópia por email, com garantia vinculada ao relatório.</p>
+      `
+    },
+    {
+      title: "Capítulo 12: Relatório Técnico e Garantia",
+      content: `
+        <h3>📋 1. Documentar é Profissionalizar</h3>
+        <p>O relatório técnico é o documento final que regista o serviço realizado, os componentes trocados, os parâmetros medidos e a garantia oferecida. Deve ser claro, objetivo e assinado pelo técnico e pelo cliente — além de proteger ambas as partes, valoriza o serviço prestado.</p>
+
+        <h3>🔐 2. Conteúdo Mínimo do Relatório</h3>
+        <p>Deve conter: data do atendimento, descrição do problema, diagnóstico realizado, peças substituídas, testes aplicados, resultados obtidos e prazo de garantia. Pode incluir fotos, gráficos e QR code para rastreio digital — a padronização facilita auditorias e fideliza o cliente.</p>
+
+        <h3>📊 Tabela: Estrutura de Relatório Técnico</h3>
+        <table border="1" cellpadding="5">
+          <thead><tr><th>Campo</th><th>Conteúdo</th></tr></thead>
+          <tbody>
+            <tr><td>Data</td><td>Data do atendimento</td></tr>
+            <tr><td>Serviço</td><td>Ex.: Troca de CI de áudio</td></tr>
+            <tr><td>Parâmetros</td><td>Tensão, temperatura, som</td></tr>
+            <tr><td>Garantia</td><td>Ex.: 6 meses</td></tr>
+            <tr><td>Assinaturas</td><td>Técnico e cliente</td></tr>
+          </tbody>
+        </table>
+
+        <h3>🧪 Exemplo Prático</h3>
+        <p>Após reparar uma TV com falha de som, o técnico gera um relatório em PDF com todos os dados: diagnóstico, fotos da placa, testes realizados e garantia de 6 meses. O cliente assina digitalmente e recebe o documento por email — o serviço fica registado no sistema da empresa com rastreabilidade total.</p>
+      `
+    }
+  ];
+
+  const main = document.getElementById("main-content");
+  const lesson = lessons[id];
+
+  if (!lesson) {
+    main.innerHTML = `
+      <h2 id="lesson-title">🚧 Conteúdo não disponível</h2>
+      <p>Esta aula ainda não foi carregada. Por favor, selecione outra.</p>
+    `;
+    return;
+  }
+
+  main.innerHTML = `
+  <div class="lesson-content">
+    <h2 class="lesson-inner-title">${lesson.title}</h2>
+    ${lesson.content}
+  </div>
+`;
+
+  const sidebar = document.getElementById("sidebar");
+  if (window.innerWidth <= 900 && sidebar.classList.contains("active")) {
+    sidebar.classList.remove("active");
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  verificarAcesso();
+});
+</script>
+
+</body>
+</html>
