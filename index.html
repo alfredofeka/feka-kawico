@@ -575,6 +575,23 @@
                 </div>
             </div>
 
+            <div class="curso-card" data-curso="Formação Completa em Violão" data-curso-key="violao">
+                <a href="#" class="curso-link" onclick="iniciarCurso('violao', event)">
+                    <img src="FK.png" alt="Formação Completa em Violão">
+                </a>
+                <div class="card-body">
+                    <h3>Formação Completa em Violão</h3>
+                    <p>Aprenda a tocar violão do zero até níveis avançados de técnica e repertório.</p>
+                    <p id="violaoValidationStatus" style="font-weight:bold;margin-top:10px;"></p>
+                    <a href="#" class="btn btn-inscricao course-btn" onclick="iniciarCurso('violao', event)">Inscrever</a>
+                    <div class="social-share">
+                        <button class="share-btn share-whatsapp" onclick="shareCourse('whatsapp', this)"><i class="fab fa-whatsapp"></i></button>
+                        <button class="share-btn share-facebook" onclick="shareCourse('facebook', this)"><i class="fab fa-facebook"></i></button>
+                        <button class="share-btn share-email" onclick="shareCourse('email', this)"><i class="fas fa-envelope"></i> Enviar</button>
+                    </div>
+                </div>
+            </div>
+
         </section>
     </main>
     
@@ -754,7 +771,7 @@
 
 // Cursos com cartão dinâmico na homepage (o "Desenhador" ainda não está
 // migrado para esta tabela — ver nota no próprio cartão)
-const CURSO_KEYS = ['desenhador', 'ingles', 'frances', 'QA-QC', 'procurement', 'Robotica', 'refrigeracao', 'REPARARTV', 'AutoNmicra'];
+const CURSO_KEYS = ['desenhador', 'ingles', 'frances', 'QA-QC', 'procurement', 'Robotica', 'refrigeracao', 'REPARARTV', 'AutoNmicra', 'Curso_DJ', 'violao'];
 
 const PAGE_MAP = {
     desenhador: "tdpm.html",
@@ -765,7 +782,8 @@ const PAGE_MAP = {
     Robotica: "curso_robotica.html",
     refrigeracao: "curso-refrigeracao.html",
     REPARARTV: "curso-ManTV.html",
-    AutoNmicra: "curso-Auto-Nmicra.html"
+    AutoNmicra: "curso-Auto-Nmicra.html",
+    violao: "curso-Violao_html.html"
 };
 
 /**
