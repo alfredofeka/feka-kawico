@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Curso Intensivo de DJ — FEKA KAWIÇO</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-client.js"></script>
+<style>
+:root {
+  --primary-color: #004a80;
+  --secondary-color: #fca311;
+  --text-dark: #222;
+  --text-light: #fff;
+  --bg-light: #ffffff;
+  --bg-dark: #1f2937;
+  --border-color: #e0e0e0;
+}
+
+/* RESET */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* GLOBAL */
+body {
+  background-color: var(--bg-light);
+  color: var(--text-dark);
+  font-family: "Segoe UI", "Roboto", sans-serif;
+  line-height: 1.6;
+  transition: all 0.3s ease-in-out;
+  overflow-x: hidden;
+}
+
+/* HEADER */
+header {
+  background-color: var(--primary-color);
+  color: var(--text-light);
+  padding: 10px 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: 500;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.brand-area {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: nowrap;
+}
+
+.brand-area img {
+  height: 30px;
+  border-radius: 5px;
+}
+
+.brand-area a {
+  text-decoration: none;
+  color: var(--text-light);
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+#login-status {
+  font-size: 0.85rem;
+  opacity: 0.9;
+}
+
+/* SIDEBAR */
+#course-container {
+  display: flex;
+  height: calc(100vh - 65px);
+  overflow: hidden;
+}
+
+#sidebar {
+  width: 450px;
+  background-color: var(--bg-dark);
+  color: var(--text-light);
+  padding: 20px;
+  overflow-y: auto;
+  transition: transform 0.3s ease-in-out;
+}
+
+#sidebar.hidden {
+  transform: translateX(-100%);
+}
+
+#toggle-sidebar {
+  display: none;
+  background: var(--primary-color);
+  color: var(--text-light);
+  border: none;
+  font-size: 1.3rem;
+  padding: 8px 12px;
+  border-radius: 6px;
+  margin-right: 10px;
+}
+
+.module h3 {
+  cursor: pointer;
+  font-size: 1rem;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.chapter-list {
+  display: none;
+  margin-left: 8px;
+}
+
+.chapter-link {
+  display: block;
+  color: var(--text-light);
+  padding: 5px;
+  font-size: 0.95rem;
+  text-decoration: none;
+  border-left: 2px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.chapter-link:hover {
+  color: var(--secondary-color);
+  border-left: 2px solid var(--secondary-color);
+}
+
+/* MAIN */
+#main-content {
+  flex-grow: 1;
+  padding: 30px;
+  overflow-y: auto;
+  text-align: justify;
+}
+
+#lesson-title {
+  font-size: 1.8rem;
+  color: var(--primary-color);
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+/* FOLHA A4 INTRODUÇÃO */
+.intro-section {
+  background: #fff;
+  max-width: 850px;
+  margin: 30px auto;
+  padding: 35px 45px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  color: #222;
+  line-height: 1.6;
+  text-align: justify;
+  overflow: hidden;
+}
+
+.intro-section h2 {
+  color: #004a80;
+  text-align: center;
+  font-size: 1.8rem;
+  margin-bottom: 25px;
+}
+
+.intro-content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.intro-image {
+  flex: 0 0 30%;
+  width: 30%;
+  border-radius: 8px;
+  object-fit: cover;
+  aspect-ratio: 4 / 3;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+}
+
+.intro-text {
+  flex: 1 1 65%;
+  text-align: justify;
+}
+
+.intro-text h3 {
+  color: #004a80;
+  margin-top: 10px;
+  margin-bottom: 6px;
+  font-size: 1.05rem;
+}
+
+.intro-text ul {
+  margin-left: 20px;
+  margin-bottom: 10px;
+}
+
+.intro-text li {
+  margin-bottom: 4px;
+}
+
+@media (max-width: 900px) {
+  .intro-section {
+    padding: 25px 20px;
+    max-width: 95%;
+  }
+
+  .intro-content {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .intro-image {
+    width: 90%;
+    max-width: 350px;
+    margin-bottom: 15px;
+  }
+
+  .intro-text {
+    width: 100%;
+  }
+}
+
+/* VISUALIZAÇÃO FOLHA A4 */
+#main-content {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 40px 10px;
+  background-color: #f4f6f8;
+  overflow-y: auto;
+}
+
+.lesson-content,
+.lesson-wrapper {
+  background: #fff;
+  max-width: 850px;
+  margin: 0 auto;
+  padding: 40px 50px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  line-height: 1.7;
+  color: #222;
+  text-align: justify;
+}
+
+.lesson-wrapper h2,
+.lesson-content h2,
+.lesson-content h3,
+.lesson-content h4 {
+  color: #004a80;
+  margin-top: 20px;
+  text-align: center;
+}
+
+.lesson-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 0.95rem;
+}
+
+.lesson-content th,
+.lesson-content td {
+  border: 1px solid #ccc;
+  padding: 8px 10px;
+  text-align: left;
+}
+
+.lesson-content th {
+  background-color: #004a80;
+  color: #fff;
+}
+
+@media (max-width: 900px) {
+  .lesson-content,
+  .lesson-wrapper {
+    padding: 20px;
+    margin: 10px;
+    max-width: 95%;
+  }
+
+  .lesson-content table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+}
+
+/* CORREÇÃO SIDEBAR MÓVEL */
+@media (max-width: 900px) {
+  header {
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    padding: 6px 10px;
+  }
+
+  .brand-area {
+    gap: 6px;
+  }
+
+  .brand-area img {
+    height: 22px;
+    width: auto;
+  }
+
+  .brand-area span {
+    font-size: 0.75rem;
+    white-space: nowrap;
+  }
+
+  #sidebar {
+    position: fixed;
+    top: 50px;
+    left: 0;
+    width: 85%;
+    max-width: 350px;
+    height: calc(100vh - 50px);
+    overflow-y: auto;
+    background-color: #1f2937;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+    z-index: 9999;
+    padding: 20px;
+  }
+
+  #sidebar.active {
+    transform: translateX(0);
+  }
+
+  #toggle-sidebar {
+    display: inline-block;
+    font-size: 1.4rem;
+    padding: 6px 10px;
+    border-radius: 6px;
+  }
+
+  #main-content {
+    margin-left: 0;
+    padding: 20px;
+  }
+}
+
+.lesson-inner-title {
+  font-size: 1.6rem;
+  text-align: center;
+  color: #004a80;
+  font-weight: 700;
+  margin-bottom: 25px;
+  border-bottom: 2px solid #004a80;
+  padding-bottom: 8px;
+}
+
+.lesson-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 0.95rem;
+  table-layout: auto;
+  word-wrap: break-word;
+  overflow: hidden;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.lesson-content th,
+.lesson-content td {
+  border: 1px solid #ccc;
+  padding: 8px 10px;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.lesson-content th {
+  background-color: #004a80;
+  color: #fff;
+  font-weight: 600;
+  text-align: center;
+}
+
+@media (max-width: 900px) {
+  .lesson-content table {
+    font-size: 0.85rem;
+    transform: scale(0.95);
+    transform-origin: top center;
+  }
+}
+
+@media (max-width: 700px) {
+  .lesson-content table {
+    font-size: 0.8rem;
+    transform: scale(0.9);
+    transform-origin: top center;
+  }
+
+  .lesson-content th,
+  .lesson-content td {
+    padding: 5px 6px;
+  }
+}
+
+@media (max-width: 500px) {
+  .lesson-content table {
+    font-size: 0.75rem;
+    transform: scale(0.85);
+    transform-origin: top center;
+  }
+
+  .lesson-content th,
+  .lesson-content td {
+    padding: 4px 5px;
+  }
+}
+
+@media (max-width: 1100px) {
+  .lesson-content {
+    padding: 30px 35px;
+    max-width: 700px;
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .lesson-content {
+    max-width: 95%;
+    padding: 20px;
+    font-size: 0.88rem;
+    line-height: 1.5;
+    border-radius: 6px;
+  }
+
+  .lesson-inner-title {
+    font-size: 1.2rem;
+  }
+
+  .lesson-content h3 {
+    font-size: 1rem;
+  }
+
+  .lesson-content table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+    font-size: 0.85rem;
+    border-radius: 6px;
+  }
+
+  .lesson-content th,
+  .lesson-content td {
+    padding: 6px 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .lesson-content {
+    padding: 15px;
+    font-size: 0.8rem;
+  }
+
+  .lesson-inner-title {
+    font-size: 1rem;
+  }
+
+  .lesson-content table {
+    font-size: 0.8rem;
+  }
+}
+</style>
+
+</head>
+
+<body>
+
+<header>
+  <div class="brand-area">
+    <button id="toggle-sidebar">☰</button>
+    <a href="index.html"><i class="fas fa-home"></i></a>
+    <img src="FK.png" alt="FEKA KAWIÇO" />
+    <span><strong>FEKA KAWIÇO</strong> – <em>A terra natural do conhecimento!</em></span>
+  </div>
+  <div id="login-status">🔒 Verificando acesso…</div>
+</header>
+
+<div id="course-container">
+  <aside id="sidebar">
+    <div class="module">
+      <h3 onclick="toggleModule(0)">📘 Módulo 1: Equipamento, Estrutura Musical & Beatmatching</h3>
+      <div class="chapter-list" id="module-0">
+        <h4>📦 DIA 1: Equipamento & Estrutura Musical</h4>
+        <a href="#" class="chapter-link" onclick="loadLesson(0)">🎧 Aula 1.1 — Anatomia do Controlador & Navegação</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(1)">🎼 Aula 1.2 — Teoria do Ritmo: BPM, Compassos & Phrasing</a>
+
+        <h4>📦 DIA 2: Ajuste de Tempo (Beatmatching)</h4>
+        <a href="#" class="chapter-link" onclick="loadLesson(2)">👂 Aula 2.1 — Treino de Ouvido & Alinhamento Manual de BPM</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(3)">🎛️ Aula 2.2 — Prática de Beatmatching & Downbeat</a>
+      </div>
+      <a href="teste-dj-m1.html" class="chapter-link" style="font-weight:600;">Avaliação Teórica e Prática M1(100%)</a>
+    </div>
+
+    <div class="module">
+      <h3 onclick="toggleModule(1)">📐 Módulo 2: Equalização, Transições & Efeitos (FX)</h3>
+      <div class="chapter-list" id="module-1">
+        <h4>📦 DIA 3: Equalização & Controlo de Ganho</h4>
+        <a href="#" class="chapter-link" onclick="loadLesson(4)">🎚️ Aula 3.1 — Gestão de Frequências & Controlo de Ganho</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(5)">🔄 Aula 3.2 — Técnicas de Transição com EQ</a>
+
+        <h4>📦 DIA 4: Técnicas de Transição (Mistura)</h4>
+        <a href="#" class="chapter-link" onclick="loadLesson(6)">🔀 Aula 4.1 — Estrutura de uma Transição Limpa</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(7)">⏱️ Aula 4.2 — Intro, Outro & Phrasing Mix</a>
+
+        <h4>📦 DIA 5: Efeitos (FX) & Loops</h4>
+        <a href="#" class="chapter-link" onclick="loadLesson(8)">🔁 Aula 5.1 — Utilização Prática de Loops</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(9)">🎛️ Aula 5.2 — Aplicação de Efeitos: Reverb, Delay & Filtros</a>
+      </div>
+      <a href="teste-dj-m2.html" class="chapter-link" style="font-weight:600;">Avaliação Teórica e Prática M2(100%)</a>
+    </div>
+
+    <div class="module">
+      <h3 onclick="toggleModule(2)">📐 Módulo 3: Harmonia, Set & Projeto Final</h3>
+      <div class="chapter-list" id="module-2">
+        <h4>📦 DIA 6: Harmonia Musical & Seleção</h4>
+        <a href="#" class="chapter-link" onclick="loadLesson(10)">🎶 Aula 6.1 — Mistura Harmónica & Roda Camelot</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(11)">📂 Aula 6.2 — Organização de Playlists, Hot Cues & Setflow</a>
+
+        <h4>📦 DIA 7: Gravação do Mini-Set (Projeto Final)</h4>
+        <a href="#" class="chapter-link" onclick="loadLesson(12)">🎚️ Aula 7.1 — Ensaio Geral do Mini-Set (30 min)</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(13)">🎙️ Aula 7.2 — Gravação, Escuta Crítica & Ajustes</a>
+      </div>
+      <a href="teste-dj-m3.html" class="chapter-link" style="font-weight:600;">Avaliação Teórica e Prática M3(100%)</a>
+    </div>
+
+    <div class="module">
+      <h3>🧪 Teste Final</h3>
+      <div class="chapter-list" style="display:block;">
+        <a href="teste-dj-final.html" class="chapter-link" style="font-weight:600;">Avaliação Teórica e Prática (100%)</a>
+        <p style="font-size:0.85rem; color:#ccc; margin-left:10px;">
+          • 50% Teste de escolha múltipla<br>
+          • 50% Gravação e avaliação do Mini-Set
+        </p>
+      </div>
+    </div>
+  </aside>
+
+  <main id="main-content">
+    <div class="intro-section">
+      <h2 id="lesson-title">🎧 Curso Intensivo de DJ — Plano Acelerado</h2>
+      <img src="DJ-Curso-Banner.png" alt="Curso de DJ" class="intro-image">
+
+      <div class="intro-text">
+        <h3>🎯 Objetivo do Curso</h3>
+        <p>No final deste curso intensivo de 7 dias (14 horas), o formando será capaz de dominar a anatomia do controlador DJ, alinhar batidas manualmente sem botão SYNC, executar transições perfeitas com EQ e efeitos, organizar um set harmónico e gravar um mini-set profissional de 30 minutos.</p>
+
+        <h3>💡 Competências Desenvolvidas</h3>
+        <ul>
+          <li>Anatomia completa do hardware (Jog wheels, Faders, EQ, Hot Cues, FX).</li>
+          <li>Teoria do ritmo: BPM, compassos (4/4), batidas e Phrasing.</li>
+          <li>Beatmatching manual de ouvido e técnica de Downbeat.</li>
+          <li>Técnicas de equalização, trocas de grave e ganho (Gain/Trim).</li>
+          <li>Aplicação de Loops, Filtros (HPF/LPF), Reverb e Delay.</li>
+          <li>Mistura harmónica avançada com a Roda Camelot.</li>
+          <li>Gravação, análise crítica e exportação de sets.</li>
+        </ul>
+
+        <h3>👥 A quem se destina</h3>
+        <ul>
+          <li>Iniciantes que desejam aprender a arte de DJing do zero.</li>
+          <li>Entusiastas e produtores musicais.</li>
+          <li>DJs autodidatas que procuram alinhar técnicas e precisão profissional.</li>
+        </ul>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+// ====================================================================
+// CONTROLO DE ACESSO (Supabase) — este curso exige login + validação
+// ====================================================================
+const COURSE_ID = 'Curso_DJ';
+
+async function verificarAcesso() {
+  const loginStatus = document.getElementById('login-status');
+  const { data: { session } } = await supabaseClient.auth.getSession();
+
+  if (!session) {
+    loginStatus.innerHTML = '🔒 Sessão não encontrada — <a href="login.html" style="color:#fca311;">Fazer Login</a>';
+    return false;
+  }
+
+  const { data: profile } = await supabaseClient
+    .from('profiles').select('nome').eq('id', session.user.id).single();
+  const nome = profile?.nome ? profile.nome.split(' ')[0] : 'Aluno';
+
+  const { data: enrollment } = await supabaseClient
+    .from('enrollments')
+    .select('status')
+    .eq('user_id', session.user.id)
+    .eq('course_id', COURSE_ID)
+    .single();
+
+  if (enrollment?.status !== 'validado') {
+    loginStatus.innerHTML = `⚠️ Olá, ${nome} — falta validar o código. <a href="validar-geral.html" style="color:#fca311;">Validar Código</a>`;
+    return false;
+  }
+
+  loginStatus.textContent = `✅ Acesso autorizado — Olá, ${nome}!`;
+  return true;
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  verificarAcesso();
+});
+
+function toggleModule(index) {
+  const module = document.getElementById(`module-${index}`);
+  module.style.display = module.style.display === 'block' ? 'none' : 'block';
+}
+
+document.getElementById('toggle-sidebar').addEventListener('click', () => {
+  document.getElementById('sidebar').classList.toggle('active');
+});
+
+function loadLesson(id) {
+  const lessons = [
+    // DIA 1 - AULA 1.1
+    {
+      title: "🎧 Aula 1.1 — Anatomia do Controlador & Navegação no Software",
+      content: `
+      <h3>🌟 Objetivo da Aula</h3>
+      <p>Compreender os componentes físicos do controlador DJ (Jog Wheels, Pitch Fader, Crossfader, EQ, Cue, Play) e dominar a navegação eficiente na biblioteca de música dentro do software (Rekordbox, Serato ou Traktor).</p>
+
+      <h3>📖 Conteúdo Central</h3>
+      <p>O controlador DJ é a interface de comando que conecta a sensibilidade tátil do DJ ao software de reprodução. Conhecer a fundo cada botão, fader e potenciómetro é o primeiro passo para garantir execuções precisas e intuitivas durante uma performance.</p>
+
+      <h4>📊 Tabela 1 — Componentes Principais do Controlador DJ</h4>
+      <table>
+        <tr><th>Componente</th><th>Tipo</th><th>Função Principal</th><th>Observação Técnica</th></tr>
+        <tr><td>Jog Wheel</td><td>Placa giratória</td><td>Ajuste de pitch / Scratch / Busca</td><td>Modo Vinyl permite parar a faixa com a mão.</td></tr>
+        <tr><td>Pitch Fader</td><td>Fader deslizante</td><td>Ajuste da velocidade (BPM)</td><td>Permite acelerar ou desacelerar a música.</td></tr>
+        <tr><td>CUE / PLAY</td><td>Botões elásticos</td><td>Marcar ponto inicial / Iniciar reprodução</td><td>O CUE retorna ao ponto salvo ao ser libertado.</td></tr>
+        <tr><td>Crossfader</td><td>Fader horizontal</td><td>Transição rápida entre Deck A e Deck B</td><td>Curva ajustável para mixagem ou scratch.</td></tr>
+        <tr><td>Channel Fader</td><td>Fader vertical</td><td>Controlo do volume individual do canal</td><td>Usado para entradas e saídas graduais.</td></tr>
+      </table>
+
+      <h3>⚙️ Navegação no Software</h3>
+      <p>A preparação da biblioteca é vital. Utilizar os botões de navegação e carregamento (Browse Knob, Load A/B) permite selecionar a próxima faixa sem tocar no teclado do computador, mantendo o foco total na performance.</p>
+
+      <h3>📘 Resumo</h3>
+      <ul>
+        <li>O controlador integra comandos mecânicos e digitais.</li>
+        <li>O botão CUE marca o ponto de partida preciso de cada faixa.</li>
+        <li>O uso do Browse Knob otimiza o fluxo de trabalho durante a seleção musical.</li>
+      </ul>
+      `
+    },
+
+    // DIA 1 - AULA 1.2
+    {
+      title: "🎼 Aula 1.2 — Teoria do Ritmo: BPM, Compassos & Phrasing",
+      content: `
+      <h3>🌟 Objetivo da Aula</h3>
+      <p>Dominar os conceitos teóricos da estrutura musical eletrónica e urbana: BPM (Beats Per Minute), compassos 4/4, batidas (beats), barras (bars) e o alinhamento por Phrasing (blocos de 8, 16 e 32 batidas).</p>
+
+      <h3>📖 Conteúdo Central</h3>
+      <p>A música moderna para DJ é construída com base no compasso 4/4, onde cada compasso contém 4 batidas. A combinação de compassos forma blocos estruturais chamados "Phrases" (Frases Musicais). Realizar transições no início de uma nova frase garante misturas naturais e sem choques estruturais.</p>
+
+      <h4>📊 Tabela 1 — Estrutura Rítmica da Música 4/4</h4>
+      <table>
+        <tr><th>Unidade</th><th>Composição</th><th>Exemplo Prático</th><th>Relevância para o DJ</th></tr>
+        <tr><td>Beat (Batida)</td><td>1 pulso individual</td><td>1 batida de bumbo (Kick)</td><td>Base para cálculo do BPM.</td></tr>
+        <tr><td>Bar (Composição)</td><td>4 Batidas</td><td>1, 2, 3, 4</td><td>Contagem básica do ritmo.</td></tr>
+        <tr><td>Phrase (Frase)</td><td>8, 16 ou 32 Batidas</td><td>4 a 8 Compassos completos</td><td>Ponto exato para iniciar transições.</td></tr>
+      </table>
+
+      <h3>📘 Resumo</h3>
+      <ul>
+        <li>O BPM define a velocidade exata da faixa.</li>
+        <li>O Phrasing exige lançar a nova faixa na batida 1 de uma nova frase musical.</li>
+      </ul>
+      `
+    },
+
+    // DIA 2 - AULA 2.1
+    {
+      title: "👂 Aula 2.1 — Treino de Ouvido & Alinhamento Manual de BPM",
+      content: `
+      <h3>🌟 Objetivo da Aula</h3>
+      <p>Desenvolver a perceção auditiva para identificar qual faixa está mais rápida ou mais lenta sem utilizar o botão SYNC, ajustando o Pitch Fader manualmente.</p>
+
+      <h3>📖 Conteúdo Central</h3>
+      <p>Beatmatching manual é a habilidade fundamental de qualquer DJ profissional. Consiste em equalizar as velocidades de duas faixas diferentes apenas ouvindo o ritmo através dos auscultadores (pre-fader listening).</p>
+
+      <h4>📊 Tabela 1 — Ajuste de Pitch Fader</h4>
+      <table>
+        <tr><th>Situação Auditiva</th><th>Ação no Pitch Fader</th><th>Ação na Jog Wheel</th></tr>
+        <tr><td>Faixa B à frente (Rápida)</td><td>Mover Pitch para (-) desacelerar</td><td>Girar borda externa para trás (Empurrão negativo)</td></tr>
+        <tr><td>Faixa B atrás (Lenta)</td><td>Mover Pitch para (+) acelerar</td><td>Girar borda externa para a frente (Empurrão positivo)</td></tr>
+      </table>
+
+      <h3>📘 Resumo</h3>
+      <ul>
+        <li>O treino de ouvido elimina a dependência do botão SYNC.</li>
+        <li>O Pitch Fader ajusta a velocidade constante; a Jog Wheel faz correções pontuais.</li>
+      </ul>
+      `
+    },
+
+    // DIA 2 - AULA 2.2
+    {
+      title: "🎛️ Aula 2.2 — Prática de Beatmatching & Downbeat",
+      content: `
+      <h3>🌟 Objetivo da Aula</h3>
+      <p>Praticar o lançamento da Faixa B exatamente no primeiro pulso da frase (Downbeat) e manter as duas músicas sincronizadas durante toda a transição.</p>
+
+      <h3>📖 Conteúdo Central</h3>
+      <p>O "Downbeat" é o primeiro pulso forte de uma frase musical (Batida 1). Acertar o lançamento no Downbeat reduz a necessidade de correções bruscas na Jog Wheel e cria uma sobreposição perfeita entre os Decks A e B.</p>
+
+      <h4>📊 Tabela 1 — Passos para o Beatmatching Perfeito</h4>
+      <table>
+        <tr><th>Passo</th><th>Ação</th><th>Ferramenta</th></tr>
+        <tr><td>1</td><td>Ajustar o BPM no Pitch Fader</td><td>Pitch Fader</td></tr>
+        <tr><td>2</td><td>Marcar o CUE no Downbeat da Faixa B</td><td>Botão CUE</td></tr>
+        <tr><td>3</td><td>Lançar no tempo exato da Faixa A</td><td>Botão PLAY / CUE</td></tr>
+        <tr><td>4</td><td>Ajustar desalinhamento fino</td><td>Borda da Jog Wheel</td></tr>
+      </table>
+
+      <h3>📘 Resumo</h3>
+      <ul>
+        <li>O Downbeat correto é o segredo para uma transição invisível.</li>
+        <li>A prática contínua consolida o tempo de reação auditivo e motor.</li>
+      </ul>
+      `
+    },
+
+    // DIA 3 - AULA 3.1
+    {
+      title: "🎚️ Aula 3.1 — Gestão de Frequências & Controlo de Ganho",
+      content: `
+      <h3>🌟 Objetivo da Aula</h3>
+      <p>Aprender a controlar o ganho de entrada (Gain/Trim) para evitar distorções no som e dominar o funcionamento dos potenciómetros de equalização (Graves, Médios, Agudos).</p>
+
+      <h3>📖 Conteúdo Central</h3>
+      <p>O controlo de EQ permite manipular três bandas principais de frequências: HI (Agudos), MID (Médios) e LOW (Graves). O ganho (Gain/Trim) ajusta o nível de entrada da faixa antes de passar pelo volume principal, evitando que o Master entre em "clip" (zona vermelha de distorção).</p>
+
+      <h4>📊 Tabela 1 — Bandas de Frequência</h4>
+      <table>
+        <tr><th>Banda</th><th>Frequência</th><th>Elementos Musicais</th></tr>
+        <tr><td>LOW (Graves)</td><td>20 Hz – 250 Hz</td><td>Bumbo (Kick), Baixo (Sub-Bass)</td></tr>
+        <tr><td>MID (Médios)</td><td>250 Hz – 4 kHz</td><td>Vozes, Pianos, Sintetizadores, Caixas</td></tr>
+        <tr><td>HI (Agudos)</td><td>4 kHz – 20 kHz</td><td>Pratos (Hi-Hats), Shakers, Brilho vocal</td></tr>
+      </table>
+
+      <h3>📘 Resumo</h3>
+      <ul>
+        <li>Nunca permitir que o sinal de áudio atinja o nível vermelho (Clipping).</li>
+        <li>Cada banda de EQ controla elementos específicos da produção musical.</li>
+      </ul>
+      `
+    },
+
+    // DIA 3 - AULA 3.2
+    {
+      title: "🔄 Aula 3.2 — Técnicas de Transição com EQ",
+      content: `
+      <h3>🌟 Objetivo da Aula</h3>
+      <p>Executar a troca gradual de graves (Bass Swap) e gerir os médios e agudos para evitar conflitos de frequência durante a mistura de duas faixas.</p>
+
+      <h3>📖 Conteúdo Central</h3>
+      <p>Duas faixas com os graves no máximo ao mesmo tempo criam um som embolado e distorcido. A técnica de Bass Swap consiste em reduzir o grave da Faixa A à medida que se introduz progressivamente o grave da Faixa B no momento exato da transição.</p>
+
+      <h4>📊 Tabela 1 — Roteiro de Troca de Graves (Bass Swap)</h4>
+      <table>
+        <tr><th>Fase</th><th>Faixa A (A Sair)</th><th>Faixa B (A Entrar)</th></tr>
+        <tr><td>Introdução</td><td>LOW a 100% | MID/HI a 100%</td><td>LOW a 0% | MID/HI a 70%</td></tr>
+        <tr><td>Ponto de Troca</td><td>Reduzir LOW para 0% rapidamente</td><td>Aumentar LOW para 100% no Downbeat</td></tr>
+        <tr><td>Conclusão</td><td>Retirar Channel Fader gradualmente</td><td>Ajustar MID e HI para 100%</td></tr>
+      </table>
+
+      <h3>📘 Resumo</h3>
+      <ul>
+        <li>Apenas um grave deve predominar na mistura.</li>
+        <li>Trocas suavemente executadas mantêm a energia na pista de dança.</li>
+      </ul>
+      `
+    },
+
+    // DIA 4 - AULA 4.1
+    {
+      title: "🔀 Aula 4.1 — Estrutura de uma Transição Limpa",
+      content: `
+      <h3>🌟 Objetivo da Aula</h3>
+      <p>Aprender a alinhar os momentos de introdução e saída de faixas utilizando faders de canal, crossfader e equalização sincronizada.</p>
+
+      <h3>📖 Conteúdo Central</h3>
+      <p>Uma transição limpa é impercetível para o ouvinte. Ela combina alinhamento de tempo, gestão de ganho e sobreposição proporcional de volume utilizando os Channel Faders.</p>
+
+      <h4>📊 Tabela 1 — Check-list da Transição Limpa</h4>
+      <table>
+        <tr><th>Etapa</th><th>Ação</th></tr>
+        <tr><td>1. Pré-escuta</td><td>Ajustar BPM e ganho no auscultador.</td></tr>
+        <tr><td>2. Lançamento</td><td>Disparar a Faixa B no Downbeat correto.</td></tr>
+        <tr><td>3. Introdução</td><td>Subir o Channel Fader B gradualmente.</td></tr>
+        <tr><td>4. Equalização</td><td>Realizar o Bass Swap na frase principal.</td></tr>
+        <tr><td>5. Saída</td><td>Baixar o Channel Fader A no final da frase.</td></tr>
+      </table>
+
+      <h3>📘 Resumo</h3>
+      <ul>
+        <li>A transição deve respeitar o fluxo e a dinâmica das faixas.</li>
+      </ul>
+      `
+    },
+
+    // DIA 4 - AULA 4.2
+    {
+      title: "⏱️ Aula 4.2 — Intro, Outro & Phrasing Mix",
+      content: `
+      <h3>🌟 Objetivo da Aula</h3>
+      <p>Identificar as seções de Introdução (Intro) e Finalização (Outro) das faixas para executar transições perfeitas no momento exato da mudança de frase musical.</p>
+
+      <h3>📖 Conteúdo Central</h3>
+      <p>A maioria das faixas produzidas para DJ possui seções estendidas de Intro e Outro compostas apenas por percussão. Misturar a Intro da Faixa B sobre a Outro da Faixa A resulta em misturas harmónicas e sem sobreposição indesejada de vocais.</p>
+
+      <h3>📘 Resumo</h3>
+      <ul>
+        <li>Vocais sobrepostos criam poluição sonora.</li>
+        <li>O uso estratégico da Intro/Outro garante sobreposições fluidas.</li>
+      </ul>
+      `
+    },
+
+    // DIA 5 - AULA 5.1
+    {
+      title: "🔁 Aula 5.1 — Utilização Prática de Loops",
+      content: `
+      <h3>🌟 Objetivo da Aula</h3>
+      <p>Aprender a criar, ativar e ajustar Loops manuais e automáticos (1, 2, 4, 8 batidas) para estender introduções ou criar pontos de saída seguros.</p>
+
+      <h3>📖 Conteúdo Central</h3>
+      <p>Um Loop é a repetição contínua de um trecho da música. Se a Faixa A estiver prestes a terminar antes que a transição seja concluída, o DJ pode ativar um Loop de 4 ou 8 batidas para "congelar" o trecho e ganhar tempo útil.</p>
+
+      <h4>📊 Tabela 1 — Aplicações de Loops</h4>
+      <table>
+        <tr><th>Tamanho do Loop</th><th>Utilização Recomendada</th></tr>
+        <tr><td>8 / 16 Batidas</td><td>Estender Intros ou Outros curtas.</td></tr>
+        <tr><td>4 Batidas</td><td>Criar bases percussivas sobre a faixa seguinte.</td></tr>
+        <tr><td>1 / 2 Batidas</td><td>Efeito Build-up (Aumento de tensão antes do Drop).</td></tr>
+      </table>
+
+      <h3>📘 Resumo</h3>
+      <ul>
+        <li>Loops salvam transições em faixas com introduções curtas.</li>
+      </ul>
+      `
+    },
+
+    // DIA 5 - AULA 5.2
+    {
+      title: "🎛️ Aula 5.2 — Aplicação de Efeitos: Reverb, Delay & Filtros",
+      content: `
+      <h3>🌟 Objetivo da Aula</h3>
+      <p>Aprender a utilizar os efeitos essenciais de DJing (HPF/LPF Filters, Reverb e Delay) para criar transições criativas e momentos de build-up.</p>
+
+      <h3>📖 Conteúdo Central</h3>
+      <p>Os efeitos devem ser usados como ferramentas de transição e textura, sem poluir o som principal. Os filtros Passa-Alto (HPF) e Passa-Baixo (LPF) cortam gradualmente as frequências agudas ou graves.</p>
+
+      <h4>📊 Tabela 1 — Efeitos Principais e Aplicações</h4>
+      <table>
+        <tr><th>Efeito</th><th>Função</th><th>Momento Ideal de Uso</th></tr>
+        <tr><td>HPF (High Pass Filter)</td><td>Corta frequências graves</td><td>Preparar trocas de faixa ou drops.</td></tr>
+        <tr><td>LPF (Low Pass Filter)</td><td>Corta frequências agudas</td><td>Abafar a faixa que está a sair.</td></tr>
+        <tr><td>Reverb</td><td>Cria sensação de espaço/eco de sala</td><td>Suportar saídas vocais.</td></tr>
+        <tr><td>Echo / Delay</td><td>Repete o sinal no tempo do BPM</td><td>Criar pontes no final de faixas sem Outro.</td></tr>
+      </table>
+
+      <h3>📘 Resumo</h3>
+      <ul>
+        <li>Filtros e efeitos agregam dinamismo e suavidade às misturas.</li>
+      </ul>
+      `
+    },
+
+    // DIA 6 - AULA 6.1
+    {
+      title: "🎶 Aula 6.1 — Mistura Harmónica & Roda Camelot",
+      content: `
+      <h3>🌟 Objetivo da Aula</h3>
+      <p>Compreender o conceito de Mistura Harmónica utilizando o sistema Camelot Wheel para combinar faixas que partilham tonalidades musicais compatíveis.</p>
+
+      <h3>📖 Conteúdo Central</h3>
+      <p>Misturar em tom evita choques harmónicos desafinados entre melodias ou vocais. A Roda Camelot atribui um código numérico e uma letra (ex: 8A, 8B) para cada tonalidade musical, facilitando a escolha da próxima faixa.</p>
+
+      <h4>📊 Tabela 1 — Regras de Compatibilidade Camelot</h4>
+      <table>
+        <tr><th>Regra</th><th>Exemplo (Partida: 8A)</th><th>Resultado Sonoro</th></tr>
+        <tr><td>Mesmo Tom</td><td>8A → 8A</td><td>Harmonia perfeita.</td></tr>
+        <tr><td>Vizinho Numérico (+1 / -1)</td><td>8A → 7A ou 9A</td><td>Transição fluida e natural.</td></tr>
+        <tr><td>Mudança de Modo (A ↔ B)</td><td>8A → 8B</td><td>Mudança de brilho sem desafinar.</td></tr>
+      </table>
+
+      <h3>📘 Resumo</h3>
+      <ul>
+        <li>A mistura harmónica eleva a qualidade musical do set.</li>
+      </ul>
+      `
+    },
+
+    // DIA 6 - AULA 6.2
+    {
+      title: "📂 Aula 6.2 — Organização de Playlists, Hot Cues & Setflow",
+      content: `
+      <h3>🌟 Objetivo da Aula</h3>
+      <p>Estruturar uma biblioteca de música profissional, configurar Hot Cues estratégicos e planejar o fluxo de energia (Setflow) para manter o público envolvido.</p>
+
+      <h3>📖 Conteúdo Central</h3>
+      <p>Hot Cues são pontos marcados na faixa que podem ser disparados instantaneamente. Organizar pastas por BPM, género e nível de energia garante respostas rápidas durante a performance ao vivo.</p>
+
+      <h3>📘 Resumo</h3>
+      <ul>
+        <li>Hot Cues facilitam saltos e lançamentos instantâneos.</li>
+        <li>O Setflow correto conduz a energia do público do início ao fim.</li>
+      </ul>
+      `
+    },
+
+    // DIA 7 - AULA 7.1
+    {
+      title: "🎚️ Aula 7.1 — Ensaio Geral do Mini-Set (30 min)",
+      content: `
+      <h3>🌟 Objetivo da Aula</h3>
+      <p>Executar um ensaio completo contínuo de 30 minutos (6 a 8 faixas), aplicando todas as técnicas aprendidas de beatmatching, EQ, harmonia e efeitos.</p>
+
+      <h3>📖 Conteúdo Central</h3>
+      <p>O ensaio simula as condições reais de uma apresentação ao vivo. O foco deve estar no tempo de reação, na manutenção dos níveis de volume constantes e no alinhamento rigoroso do phrasing.</p>
+
+      <h3>📘 Resumo</h3>
+      <ul>
+        <li>O ensaio fortalece a confiança e a memória muscular do DJ.</li>
+      </ul>
+      `
+    },
+
+    // DIA 7 - AULA 7.2
+    {
+      title: "🎙️ Aula 7.2 — Gravação, Escuta Crítica & Ajustes",
+      content: `
+      <h3>🌟 Objetivo da Aula</h3>
+      <p>Gravar o mini-set em ficheiro de áudio de alta qualidade, realizar a escuta crítica para identificar pequenos erros de tempo ou volume, e efetuar os ajustes finais.</p>
+
+      <h3>📖 Conteúdo Central</h3>
+      <p>A escuta crítica do próprio set gravado é uma das ferramentas de evolução mais poderosas. Ao ouvir a gravação sem a preocupação da execução, o DJ deteta oscilações no ganho, cortes bruscos de EQ ou desalinhares sutis de tempo.</p>
+
+      <h3>📘 Resumo</h3>
+      <ul>
+        <li>A autoavaliação contínua garante o padrão profissional do DJ.</li>
+      </ul>
+      `
+    }
+  ];
+
+  const main = document.getElementById("main-content");
+  const lesson = lessons[id];
+
+  if (!lesson) {
+    main.innerHTML = `
+      <h2 id="lesson-title">🚧 Conteúdo não disponível</h2>
+      <p>Esta aula ainda não foi carregada. Por favor, selecione outra.</p>
+    `;
+    return;
+  }
+
+  main.innerHTML = `
+  <div class="lesson-content">
+    <h2 class="lesson-inner-title">${lesson.title}</h2>
+    ${lesson.content}
+  </div>
+`;
+
+  const sidebar = document.getElementById("sidebar");
+  if (window.innerWidth <= 900 && sidebar.classList.contains("active")) {
+    sidebar.classList.remove("active");
+  }
+}
+</script>
+</body>
+</html>
