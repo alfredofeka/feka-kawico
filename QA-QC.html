@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Curso de Inspeção e Controlo de Qualidade — FEKA KAWIÇO</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-client.js"></script>
+<style>
+:root {
+  --primary-color: #004a80;
+  --secondary-color: #fca311;
+  --text-dark: #222;
+  --text-light: #fff;
+  --bg-light: #ffffff;
+  --bg-dark: #1f2937;
+  --border-color: #e0e0e0;
+}
+
+/* RESET */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* GLOBAL */
+body {
+  background-color: var(--bg-light);
+  color: var(--text-dark);
+  font-family: "Segoe UI", "Roboto", sans-serif;
+  line-height: 1.6;
+  transition: all 0.3s ease-in-out;
+  overflow-x: hidden;
+}
+
+/* HEADER */
+header {
+  background-color: var(--primary-color);
+  color: var(--text-light);
+  padding: 10px 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: 500;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.brand-area {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: nowrap;
+}
+
+.brand-area img {
+  height: 30px;
+  border-radius: 5px;
+}
+
+.brand-area a {
+  text-decoration: none;
+  color: var(--text-light);
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+#login-status {
+  font-size: 0.85rem;
+  opacity: 0.9;
+}
+
+/* SIDEBAR */
+#course-container {
+  display: flex;
+  height: calc(100vh - 65px);
+  overflow: hidden;
+}
+
+#sidebar {
+  width: 450px;
+  background-color: var(--bg-dark);
+  color: var(--text-light);
+  padding: 20px;
+  overflow-y: auto;
+  transition: transform 0.3s ease-in-out;
+}
+
+#sidebar.hidden {
+  transform: translateX(-100%);
+}
+
+#toggle-sidebar {
+  display: none;
+  background: var(--primary-color);
+  color: var(--text-light);
+  border: none;
+  font-size: 1.3rem;
+  padding: 8px 12px;
+  border-radius: 6px;
+  margin-right: 10px;
+}
+
+.module h3 {
+  cursor: pointer;
+  font-size: 1rem;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.chapter-list {
+  display: none;
+  margin-left: 8px;
+}
+
+.chapter-link {
+  display: block;
+  color: var(--text-light);
+  padding: 5px;
+  font-size: 0.95rem;
+  text-decoration: none;
+  border-left: 2px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.chapter-link:hover {
+  color: var(--secondary-color);
+  border-left: 2px solid var(--secondary-color);
+}
+
+/* MAIN */
+#main-content {
+  flex-grow: 1;
+  padding: 30px;
+  overflow-y: auto;
+  text-align: justify;
+}
+
+#lesson-title {
+  font-size: 1.8rem;
+  color: var(--primary-color);
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+/* ===============================
+   APRESENTAÇÃO — LADO A LADO
+/* ===============================
+   /* ===============================
+   FOLHA A4 COMPLETA E COMPACTA
+   =============================== */
+.intro-section {
+  background: #fff;
+  max-width: 850px; /* formato folha A4 */
+  margin: 30px auto;
+  padding: 35px 45px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  color: #222;
+  line-height: 1.6;
+  text-align: justify;
+  overflow: hidden; /* garante que nada saia da folha */
+}
+
+/* título dentro da folha */
+.intro-section h2 {
+  color: #004a80;
+  text-align: center;
+  font-size: 1.8rem;
+  margin-bottom: 25px;
+}
+
+/* organização da imagem e texto */
+.intro-content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+/* imagem à esquerda */
+.intro-image {
+  flex: 0 0 30%;
+  width: 30%;
+  border-radius: 8px;
+  object-fit: cover;
+  aspect-ratio: 4 / 3;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+}
+
+/* texto à direita */
+.intro-text {
+  flex: 1 1 65%;
+  text-align: justify;
+}
+
+/* subtítulos e listas */
+.intro-text h3 {
+  color: #004a80;
+  margin-top: 10px;
+  margin-bottom: 6px;
+  font-size: 1.05rem;
+}
+
+.intro-text ul {
+  margin-left: 20px;
+  margin-bottom: 10px;
+}
+
+.intro-text li {
+  margin-bottom: 4px;
+}
+
+/* === Responsividade === */
+@media (max-width: 900px) {
+  .intro-section {
+    padding: 25px 20px;
+    max-width: 95%;
+  }
+
+  .intro-content {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .intro-image {
+    width: 90%;
+    max-width: 350px;
+    margin-bottom: 15px;
+  }
+
+  .intro-text {
+    width: 100%;
+  }
+}
+
+
+/* === ESTILO DE VISUALIZAÇÃO "FOLHA A4" === */
+#main-content {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 40px 10px;
+  background-color: #f4f6f8;
+  overflow-y: auto;
+}
+
+/* a “folha” inclui o título e o conteúdo */
+.lesson-content,
+.lesson-wrapper {
+  background: #fff;
+  max-width: 850px;        /* largura tipo A4 */
+  margin: 0 auto;
+  padding: 40px 50px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  line-height: 1.7;
+  color: #222;
+  text-align: justify;
+}
+
+.lesson-wrapper h2,
+.lesson-content h2,
+.lesson-content h3,
+.lesson-content h4 {
+  color: #004a80;
+  margin-top: 20px;
+  text-align: center;
+}
+
+.lesson-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 0.95rem;
+}
+
+.lesson-content th,
+.lesson-content td {
+  border: 1px solid #ccc;
+  padding: 8px 10px;
+  text-align: left;
+}
+
+.lesson-content th {
+  background-color: #004a80;
+  color: #fff;
+}
+
+/* === Responsividade da folha === */
+@media (max-width: 900px) {
+  .lesson-content,
+  .lesson-wrapper {
+    padding: 20px;
+    margin: 10px;
+    max-width: 95%;
+  }
+
+  .lesson-content table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+}
+
+
+/* ===============================
+   CORREÇÃO FINAL — SIDEBAR MÓVEL
+   =============================== */
+@media (max-width: 900px) {
+  /* 🔹 Sidebar retraído por defeito no telemóvel */
+  #sidebar {
+    position: fixed;
+    left: 0;
+    top: 60px;
+    height: calc(100vh - 60px);
+    width: 450px;
+    background-color: var(--bg-dark);
+    color: var(--text-light);
+    transform: translateX(-100%); /* começa retraído */
+    transition: transform 0.3s ease-in-out;
+    z-index: 999;
+  }
+
+  /* 🔹 Quando o botão ☰ é clicado, a classe .hidden é removida → abre */
+  #sidebar.active {
+    transform: translateX(0); /* expande */
+  }
+
+  /* 🔹 Botão visível apenas no telemóvel */
+  #toggle-sidebar {
+    display: inline-block;
+  }
+}
+
+/* --- ESTILO DE LEITURA A4 --- */
+#main-content {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 30px;
+  background-color: #f8f9fa;
+}
+
+.lesson-wrapper {
+  background-color: #fff;
+  width: 100%;
+  max-width: 850px; /* largura tipo folha A4 */
+  padding: 40px 50px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  border-radius: 10px;
+  line-height: 1.7;
+  color: #222;
+}
+
+.lesson-wrapper h2,
+.lesson-wrapper h3,
+.lesson-wrapper h4 {
+  color: #004a80;
+  margin-top: 20px;
+}
+
+.lesson-wrapper table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 0.95rem;
+}
+
+.lesson-wrapper th,
+.lesson-wrapper td {
+  border: 1px solid #ccc;
+  padding: 8px 10px;
+  text-align: left;
+}
+
+.lesson-wrapper th {
+  background-color: #004a80;
+  color: white;
+}
+
+/* Responsividade para telemóveis */
+@media (max-width: 900px) {
+  .lesson-wrapper {
+    padding: 20px;
+    max-width: 95%;
+    font-size: 0.9rem;
+  }
+
+  .lesson-wrapper table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+}
+
+/* === ESTILO DE VISUALIZAÇÃO "FOLHA A4" === */
+.lesson-content {
+  background: #fff;
+  max-width: 850px;        /* largura tipo A4 */
+  margin: 30px auto;       /* centraliza no ecrã */
+  padding: 40px 50px;      /* espaço interno */
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  line-height: 1.7;
+  color: #222;
+  text-align: justify;
+}
+
+.lesson-content h2,
+.lesson-content h3,
+.lesson-content h4 {
+  color: #004a80;
+  margin-top: 20px;
+}
+
+.lesson-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 0.95rem;
+}
+
+.lesson-content th,
+.lesson-content td {
+  border: 1px solid #ccc;
+  padding: 8px 10px;
+  text-align: left;
+}
+
+.lesson-content th {
+  background-color: #004a80;
+  color: #fff;
+}
+
+/* Responsividade */
+@media (max-width: 900px) {
+  .lesson-content {
+    padding: 20px;
+    margin: 10px;
+    max-width: 95%;
+  }
+
+  .lesson-content table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+}
+
+/* ===============================
+   AJUSTE MOBILE — LOGO MAGRO + SIDEBAR VISÍVEL
+   =============================== */
+@media (max-width: 900px) {
+  /* 🔹 Reduz o tamanho do cabeçalho e logo */
+  header {
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    padding: 6px 10px;
+  }
+
+  .brand-area {
+    gap: 6px;
+  }
+
+  .brand-area img {
+    height: 22px;      /* diminui o logo */
+    width: auto;
+  }
+
+  .brand-area span {
+    font-size: 0.75rem; /* texto menor */
+    white-space: nowrap;
+  }
+
+  /* 🔹 Sidebar ocupa a tela toda, por cima do conteúdo */
+  #sidebar {
+    position: fixed;
+    top: 50px; /* abaixo do cabeçalho */
+    left: 0;
+    width: 85%; /* não precisa ser 100%, para dar um ar de menu lateral */
+    max-width: 350px;
+    height: calc(100vh - 50px);
+    overflow-y: auto;
+    background-color: #1f2937;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+    z-index: 9999; /* garante que fique por cima de tudo */
+    padding: 20px;
+  }
+
+  /* 🔹 Sidebar aberto */
+  #sidebar.active {
+    transform: translateX(0);
+  }
+
+  /* 🔹 Botão ☰ visível e clicável */
+  #toggle-sidebar {
+    display: inline-block;
+    font-size: 1.4rem;
+    padding: 6px 10px;
+    border-radius: 6px;
+  }
+
+  /* 🔹 O conteúdo principal se ajusta quando o sidebar abre */
+  #main-content {
+    margin-left: 0;
+    padding: 20px;
+  }
+}
+
+/* ===============================
+   TÍTULO DENTRO DA FOLHA A4
+   =============================== */
+.lesson-inner-title {
+  font-size: 1.6rem;
+  text-align: center;
+  color: #004a80;
+  font-weight: 700;
+  margin-bottom: 25px;
+  border-bottom: 2px solid #004a80;
+  padding-bottom: 8px;
+}
+
+
+/* ===============================
+   FOLHA A4 RESPONSIVA E PROPORCIONAL
+   =============================== */
+.lesson-content {
+  background: #fff;
+  max-width: 850px;          /* largura tipo A4 */
+  margin: 30px auto;         /* centraliza */
+  padding: 40px 50px;        /* margens internas */
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  line-height: 1.6;
+  color: #222;
+  text-align: justify;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.lesson-content h2,
+.lesson-content h3,
+.lesson-content h4 {
+  color: #004a80;
+  margin-top: 20px;
+  text-align: center;
+}
+
+.lesson-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 0.95rem;
+  table-layout: fixed;
+  word-wrap: break-word;
+}
+
+.lesson-content th,
+.lesson-content td {
+  border: 1px solid #ccc;
+  padding: 8px 10px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.lesson-content th {
+  background-color: #004a80;
+  color: #fff;
+}
+
+
+/* ===============================
+   📏 TABELAS DISCIPLINADAS 😎
+   =============================== */
+.lesson-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 0.95rem;
+  table-layout: auto;
+  word-wrap: break-word;
+  overflow: hidden;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.lesson-content th,
+.lesson-content td {
+  border: 1px solid #ccc;
+  padding: 8px 10px;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.lesson-content th {
+  background-color: #004a80;
+  color: #fff;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* ⚖️ Modo disciplinar: reduz proporção suavemente */
+@media (max-width: 900px) {
+  .lesson-content table {
+    font-size: 0.85rem;
+    transform: scale(0.95);
+    transform-origin: top center;
+  }
+}
+
+@media (max-width: 700px) {
+  .lesson-content table {
+    font-size: 0.8rem;
+    transform: scale(0.9);
+    transform-origin: top center;
+  }
+
+  .lesson-content th,
+  .lesson-content td {
+    padding: 5px 6px;
+  }
+}
+
+@media (max-width: 500px) {
+  .lesson-content table {
+    font-size: 0.75rem;
+    transform: scale(0.85);
+    transform-origin: top center;
+  }
+
+  .lesson-content th,
+  .lesson-content td {
+    padding: 4px 5px;
+  }
+}
+
+
+/* ------------------------------
+   AJUSTE DE ESCALA PARA TABLET
+   ------------------------------ */
+@media (max-width: 1100px) {
+  .lesson-content {
+    padding: 30px 35px;
+    max-width: 700px;
+    font-size: 0.95rem;
+  }
+}
+
+/* ------------------------------
+   AJUSTE PARA TELEMÓVEL
+   ------------------------------ */
+@media (max-width: 768px) {
+  .lesson-content {
+    max-width: 95%;
+    padding: 20px;
+    font-size: 0.88rem;       /* reduz fonte */
+    line-height: 1.5;
+    border-radius: 6px;
+  }
+
+  .lesson-inner-title {
+    font-size: 1.2rem;
+  }
+
+  .lesson-content h3 {
+    font-size: 1rem;
+  }
+
+  .lesson-content table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+    font-size: 0.85rem;
+    border-radius: 6px;
+  }
+
+  .lesson-content th,
+  .lesson-content td {
+    padding: 6px 8px;
+  }
+}
+
+/* ------------------------------
+   AJUSTE EXTREMO (ECRÃS PEQUENOS)
+   ------------------------------ */
+@media (max-width: 480px) {
+  .lesson-content {
+    padding: 15px;
+    font-size: 0.8rem;
+  }
+
+  .lesson-inner-title {
+    font-size: 1rem;
+  }
+
+  .lesson-content table {
+    font-size: 0.8rem;
+  }
+}
+
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+  <div class="brand-area">
+    <button id="toggle-sidebar">☰</button>
+    <a href="index.html"><i class="fas fa-home"></i></a>
+    <img src="FK.png" alt="FEKA KAWIÇO" />
+    <span><strong>FEKA KAWIÇO</strong> – <em>A terra natural do conhecimento!</em></span>
+  </div>
+  <div id="login-status">🔒 Verificando acesso…</div>
+</header>
+
+<div id="course-container">
+  <aside id="sidebar">
+    <div class="module">
+      <h3 onclick="toggleModule(0)">📦 Módulo 1: Fundamentos do Controlo de Qualidade</h3>
+      <div class="chapter-list" id="module-0">
+        <a href="#" class="chapter-link" onclick="loadLesson(0)">Capítulo 1: Introdução e Conceitos de QA e QC</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(1)">Capítulo 2: Normas Técnicas Aplicáveis</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(2)">Capítulo 3: O Papel do Inspetor e o ITP</a>
+      </div>
+    </div>
+    <div class="module">
+      <h3 onclick="toggleModule(1)">📐 Módulo 2: Inspeção de Preparação de Superfície</h3>
+      <div class="chapter-list" id="module-1">
+        <a href="#" class="chapter-link" onclick="loadLesson(3)">Capítulo 4: Preparação da Superfície e Condições Ambientais</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(4)">Capítulo 5: Inspeção Durante a Aplicação</a>
+      </div>
+    </div>
+    <div class="module">
+      <h3 onclick="toggleModule(2)">🔧 Módulo 3: Ensaios e Medições Técnicas</h3>
+      <div class="chapter-list" id="module-2">
+        <a href="#" class="chapter-link" onclick="loadLesson(5)">Capítulo 6: Medição de WFT e DFT</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(6)">Capítulo 7: Teste de Aderência e Holiday Test</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(7)">Capítulo 8: Inspeção Visual e Não Conformidades</a>
+      </div>
+    </div>
+    <div class="module">
+      <h3 onclick="toggleModule(3)">📋 Módulo 4: Documentação e Boas Práticas</h3>
+      <div class="chapter-list" id="module-3">
+        <a href="#" class="chapter-link" onclick="loadLesson(8)">Capítulo 9: Relatórios, Exercício e Estudo de Caso</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(9)">Capítulo 10: Boas Práticas, Erros Frequentes e Resumo</a>
+      </div>
+    </div>
+    <div class="module">
+      <h3>🧪 Teste Final</h3>
+      <div class="chapter-list" style="display:block;">
+        <a href="teste-QAQC.html" class="chapter-link" style="font-weight:600;">Avaliação Teórica e Prática (100%)</a>
+        <p style="font-size:0.85rem; color:#ccc; margin-left:10px;">
+          Questionário de 10 perguntas sobre QA, QC, ITP, Hold/Witness Point, DFT, WFT e Holiday Test.
+        </p>
+      </div>
+    </div>
+  </aside>
+
+
+
+ <main id="main-content">
+ 
+
+    <div class="intro-section">
+  <h2 id="lesson-title">🔍 Curso de Inspeção e Controlo de Qualidade</h2>
+    <img src="InspecaoQAQC.jpg" alt="Inspeção e Controlo de Qualidade" class="intro-image">
+
+    <div class="intro-text">
+      <h3>🎯 Objetivos de Aprendizagem</h3>
+      <p>Ao concluir este curso, o formando deverá ser capaz de: compreender os princípios do controlo de qualidade industrial; interpretar requisitos normativos aplicáveis à pintura industrial; elaborar e utilizar Planos de Inspeção e Teste (ITP); aplicar métodos de inspeção durante todas as fases do processo; avaliar a conformidade de sistemas de pintura; identificar não conformidades; e elaborar relatórios técnicos de inspeção.</p>
+
+      <h3>💡 Competências Desenvolvidas</h3>
+      <ul>
+        <li>Distinção clara entre Garantia da Qualidade (QA) e Controlo da Qualidade (QC).</li>
+        <li>Leitura e aplicação das normas ISO 9001, ISO 8501/8502/8503, ISO 12944, ASTM, NACE e FROSIO.</li>
+        <li>Elaboração de Planos de Inspeção e Teste (ITP), Hold Points e Witness Points.</li>
+        <li>Medição de espessura húmida (WFT) e seca (DFT) do revestimento.</li>
+        <li>Testes de aderência (Cross Cut e Pull-Off) e Holiday Test.</li>
+        <li>Inspeção visual e tratamento de não conformidades.</li>
+        <li>Elaboração de relatórios técnicos de inspeção completos.</li>
+      </ul>
+
+      <h3>👥 A quem se destina</h3>
+      <ul>
+        <li>Técnicos e futuros inspetores de pintura industrial e revestimentos anticorrosivos.</li>
+        <li>Profissionais de estruturas metálicas, petróleo e gás, mineração e energia.</li>
+        <li>Engenheiros e técnicos de qualidade (QA/QC) em ambiente industrial.</li>
+      </ul>
+
+      <h3>🧭 Nota Final</h3>
+      <p>A inspeção e o controlo de qualidade constituem a garantia final de que os sistemas de proteção anticorrosiva foram executados corretamente. O profissional que domina estas técnicas possui competências altamente valorizadas nos setores de estruturas metálicas, petróleo e gás, mineração, energia e construção industrial.</p>
+    </div>
+  </div>
+</main>
+
+</div>
+
+
+<script>
+// ====================================================================
+// CONTROLO DE ACESSO (Supabase) — este curso exige login + validação
+// ====================================================================
+const COURSE_ID = 'QA-QC';
+
+async function verificarAcesso() {
+  const loginStatus = document.getElementById('login-status');
+  const { data: { session } } = await supabaseClient.auth.getSession();
+
+  if (!session) {
+    loginStatus.innerHTML = '🔒 Sessão não encontrada — <a href="login.html" style="color:#fca311;">Fazer Login</a>';
+    return false;
+  }
+
+  const { data: profile } = await supabaseClient
+    .from('profiles').select('nome').eq('id', session.user.id).single();
+  const nome = profile?.nome ? profile.nome.split(' ')[0] : 'Aluno';
+
+  const { data: enrollment } = await supabaseClient
+    .from('enrollments')
+    .select('status')
+    .eq('user_id', session.user.id)
+    .eq('course_id', COURSE_ID)
+    .single();
+
+  if (enrollment?.status !== 'validado') {
+    loginStatus.innerHTML = `⚠️ Olá, ${nome} — falta validar o código. <a href="validar-geral.html" style="color:#fca311;">Validar Código</a>`;
+    return false;
+  }
+
+  loginStatus.textContent = `✅ Acesso autorizado — Olá, ${nome}!`;
+  return true;
+}
+
+function toggleModule(index) {
+  const module = document.getElementById(`module-${index}`);
+  module.style.display = module.style.display === 'block' ? 'none' : 'block';
+}
+
+document.getElementById('toggle-sidebar').addEventListener('click', () => {
+  document.getElementById('sidebar').classList.toggle('active');
+});
+
+function loadLesson(id) {
+
+  const lessons = [
+    {
+      title: "Capítulo 1: Introdução e Conceitos de QA e QC",
+      content: `
+        <h3>📖 Conteúdo Técnico</h3>
+        <p>A qualidade não é obtida por acaso — resulta de planeamento, controlo e verificação contínua. Uma estrutura metálica pode ter excelente projeto, materiais certificados e pintura de elevada qualidade, mas se não existir controlo adequado durante a execução, o resultado final poderá apresentar falhas significativas. Por isso a inspeção é considerada uma das últimas barreiras de proteção contra erros técnicos.</p>
+        <p><strong>Controlo de Qualidade (QC)</strong> é o conjunto de atividades destinadas a verificar se um produto ou processo cumpre os requisitos definidos, identificando problemas antes que cheguem ao cliente. No contexto da pintura industrial, verifica: preparação da superfície, condições ambientais, aplicação da tinta, espessura, aderência e acabamento final.</p>
+        <p>Muitos profissionais confundem QA e QC: a <strong>Garantia da Qualidade (QA)</strong> foca-se nos processos e procura evitar erros (ex: criação de procedimentos); o <strong>Controlo da Qualidade (QC)</strong> foca-se na verificação e procura identificar erros (ex: inspeção de pintura). Ambos são complementares.</p>
+        <div class="test-box"><h4>🧪 Teste Prático</h4><p>Analisar 5 situações reais de obra e classificar cada uma como atividade de QA ou de QC, justificando a escolha.</p></div>
+      `
+    },
+    {
+      title: "Capítulo 2: Normas Técnicas Aplicáveis",
+      content: `
+        <h3>📖 Conteúdo Técnico</h3>
+        <table border="1" cellpadding="5">
+          <thead><tr><th>Norma</th><th>Aplicação</th></tr></thead>
+          <tbody>
+            <tr><td>ISO 9001</td><td>Sistema de Gestão da Qualidade</td></tr>
+            <tr><td>ISO 8501</td><td>Preparação de superfícies</td></tr>
+            <tr><td>ISO 8502</td><td>Avaliação de contaminantes</td></tr>
+            <tr><td>ISO 8503</td><td>Perfil de rugosidade</td></tr>
+            <tr><td>ISO 12944</td><td>Proteção anticorrosiva</td></tr>
+            <tr><td>ASTM</td><td>Normas de ensaio</td></tr>
+            <tr><td>NACE</td><td>Normas internacionais de corrosão e revestimentos</td></tr>
+            <tr><td>FROSIO</td><td>Certificação internacional de inspetores de pintura</td></tr>
+          </tbody>
+        </table>
+        <div class="test-box"><h4>🧪 Teste Prático</h4><p>Associar cada uma das 8 normas à sua aplicação correta, sem consultar a tabela — meta: 100% de acerto.</p></div>
+      `
+    },
+    {
+      title: "Capítulo 3: O Papel do Inspetor e o ITP",
+      content: `
+        <h3>📖 Conteúdo Técnico</h3>
+        <p>O inspetor não é responsável por executar o trabalho — a sua função é <strong>verificar e documentar</strong>, atuando com independência técnica. Responsabilidades: inspecionar, medir, registar e reportar.</p>
+        <p>O <strong>ITP (Inspection and Test Plan)</strong> é um documento que define o que será inspecionado, quando, por quem, e quais os critérios de aceitação. Benefícios: organização, rastreabilidade, controlo e redução de falhas.</p>
+        <p>Dois conceitos-chave associados ao ITP: <strong>Hold Point (HP)</strong> — a atividade não pode prosseguir sem aprovação (ex: aprovação da preparação da superfície antes da pintura); e <strong>Witness Point (WP)</strong> — o cliente pode assistir à inspeção, mas a atividade pode prosseguir mesmo sem a sua presença.</p>
+        <div class="test-box"><h4>🧪 Teste Prático</h4><p>Elaborar um ITP simples para a fase de preparação de superfície de uma estrutura metálica, identificando pelo menos 1 Hold Point e 1 Witness Point.</p></div>
+      `
+    },
+    {
+      title: "Capítulo 4: Preparação da Superfície e Condições Ambientais",
+      content: `
+        <h3>📖 Conteúdo Técnico</h3>
+        <p>Antes da pintura devem ser verificados: <strong>Limpeza</strong> (conformidade com ISO 8501), <strong>Rugosidade</strong> (perfil adequado ao sistema), <strong>Poeiras</strong> (conforme ISO 8502), <strong>Sais</strong> (dentro dos limites especificados) e <strong>Condições Ambientais</strong> (temperatura e humidade adequadas).</p>
+        <p>As condições ambientais influenciam diretamente a qualidade da pintura. Parâmetros monitorizados: temperatura do ar, temperatura da superfície, humidade relativa e ponto de orvalho.</p>
+        <p><strong>Regra prática:</strong> a superfície deve estar pelo menos 3°C acima do ponto de orvalho.</p>
+        <div class="test-box"><h4>🧪 Teste Prático</h4><p>Dada uma temperatura de superfície de 22°C e um ponto de orvalho de 20°C, determinar se as condições estão dentro da regra prática (resposta: não, a diferença é de apenas 2°C).</p></div>
+      `
+    },
+    {
+      title: "Capítulo 5: Inspeção Durante a Aplicação",
+      content: `
+        <h3>📖 Conteúdo Técnico</h3>
+        <p>Durante a pintura devem ser verificados: mistura correta, diluição, tempo de indução, método de aplicação e espessura húmida — cada um destes pontos influencia diretamente a qualidade final do revestimento.</p>
+        <div class="test-box"><h4>🧪 Teste Prático</h4><p>Elaborar uma checklist de 5 itens a verificar durante a aplicação de tinta numa estrutura metálica.</p></div>
+      `
+    },
+    {
+      title: "Capítulo 6: Medição de WFT e DFT",
+      content: `
+        <h3>📖 Conteúdo Técnico</h3>
+        <p><strong>WFT (Wet Film Thickness)</strong> — espessura húmida — permite verificar se a aplicação produzirá o DFT especificado; mede-se com um pente medidor de espessura húmida.</p>
+        <p><strong>DFT (Dry Film Thickness)</strong> — espessura seca — é um dos ensaios mais importantes, medido com um medidor eletrónico de espessura. A espessura medida deve cumprir os requisitos da especificação.</p>
+        <div class="test-box"><h4>🧪 Exercício Resolvido</h4><p>Especificação: DFT mínimo = 250 µm. Resultados medidos: 240, 245, 260 e 248 µm. <strong>Pergunta:</strong> existe conformidade? <strong>Resposta:</strong> Não — existem medições abaixo do valor especificado (240, 245 e 248 µm), devendo ser tomadas ações corretivas.</p></div>
+      `
+    },
+    {
+      title: "Capítulo 7: Teste de Aderência e Holiday Test",
+      content: `
+        <h3>📖 Conteúdo Técnico</h3>
+        <p>O <strong>teste de aderência</strong> avalia a capacidade de aderência do revestimento ao substrato. Métodos comuns: <strong>Cross Cut Test</strong> (corte em grelha) e <strong>Pull-Off Test</strong> (medição da força necessária para remover o revestimento).</p>
+        <p>O <strong>Holiday Test</strong> é utilizado para identificar descontinuidades no revestimento — muito comum em tanques, tubagens e estruturas offshore.</p>
+        <div class="test-box"><h4>🧪 Teste Prático</h4><p>Explicar, num pequeno relatório, qual dos dois testes de aderência (Cross Cut ou Pull-Off) escolheria para um revestimento espesso de estrutura offshore, e porquê.</p></div>
+      `
+    },
+    {
+      title: "Capítulo 8: Inspeção Visual e Não Conformidades",
+      content: `
+        <h3>📖 Conteúdo Técnico</h3>
+        <p>A inspeção visual continua a ser uma ferramenta extremamente importante, permitindo identificar: escorrimentos, porosidade, bolhas, descascamento e fissuras.</p>
+        <p>Uma <strong>não conformidade</strong> ocorre quando um requisito não é cumprido — exemplos: DFT insuficiente, rugosidade inadequada, preparação incorreta ou documentação incompleta. O tratamento segue 5 etapas: 1) Identificação, 2) Registo, 3) Correção, 4) Verificação, 5) Encerramento.</p>
+        <div class="test-box"><h4>🧪 Teste Prático</h4><p>Identificar visualmente 3 defeitos comuns de pintura em fotografias fornecidas pelo formador, e propor o tratamento de não conformidade para cada um.</p></div>
+      `
+    },
+    {
+      title: "Capítulo 9: Relatórios, Exercício e Estudo de Caso",
+      content: `
+        <h3>📖 Conteúdo Técnico</h3>
+        <p>Todos os resultados devem ser documentados. Um relatório de inspeção deve incluir: data, local, inspetor, condições ambientais, medições, observações e conclusão.</p>
+        <h4>Estudo de Caso</h4>
+        <p>Uma estrutura industrial recebeu sistema de pintura para ambiente C5. A inspeção final revelou DFT abaixo da especificação e áreas sem cobertura adequada. O problema foi identificado antes da entrega e a correção foi executada imediatamente. Resultado: redução de custos futuros, aumento da durabilidade e conformidade contratual — demonstrando a importância da inspeção preventiva.</p>
+        <div class="test-box"><h4>🧪 Teste Prático</h4><p>Elaborar um relatório de inspeção completo (com todos os 7 campos exigidos) para o estudo de caso apresentado.</p></div>
+      `
+    },
+    {
+      title: "Capítulo 10: Boas Práticas, Erros Frequentes e Resumo",
+      content: `
+        <h3>📖 Boas Práticas</h3>
+        <p>Utilizar equipamentos calibrados; seguir normas internacionais; registar todos os resultados; controlar condições ambientais; inspecionar todas as etapas críticas; implementar ITP.</p>
+        <h3>⚠️ Erros Frequentes</h3>
+        <p>Não medir DFT; ignorar o ponto de orvalho; utilizar equipamentos sem calibração; falta de documentação; não tratar não conformidades.</p>
+        <h3>📌 Resumo Executivo</h3>
+        <p>A inspeção e o controlo de qualidade constituem a garantia final de que os sistemas de proteção anticorrosiva foram executados corretamente. A aplicação das normas ISO, a utilização de ITPs e a realização de ensaios adequados permitem reduzir falhas, aumentar a durabilidade das estruturas e proteger o investimento realizado.</p>
+        <div class="test-box"><h4>🧪 Questionário de Revisão</h4><p>1. Qual a diferença entre QA e QC? 2. O que é um ITP? 3. O que é um Hold Point? 4. O que é um Witness Point? 5. O que significa DFT? 6. O que significa WFT? 7. Qual a função do Holiday Test? 8. Porque a inspeção visual continua importante? 9. O que é uma não conformidade? 10. Porque a documentação é essencial no controlo de qualidade?</p></div>
+      `
+    }
+  ];
+
+  const main = document.getElementById("main-content");
+  const lesson = lessons[id];
+
+  if (!lesson) {
+    main.innerHTML = `
+      <h2 id="lesson-title">🚧 Conteúdo não disponível</h2>
+      <p>Esta aula ainda não foi carregada. Por favor, selecione outra.</p>
+    `;
+    return;
+  }
+
+  main.innerHTML = `
+  <div class="lesson-content">
+    <h2 class="lesson-inner-title">${lesson.title}</h2>
+    ${lesson.content}
+  </div>
+`;
+
+  const sidebar = document.getElementById("sidebar");
+  if (window.innerWidth <= 900 && sidebar.classList.contains("active")) {
+    sidebar.classList.remove("active");
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  verificarAcesso();
+});
+</script>
+
+</body>
+</html>
