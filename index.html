@@ -592,6 +592,23 @@
                 </div>
             </div>
 
+            <div class="curso-card" data-curso="Variadores de Frequência (VFD) — do Iniciante ao Avançado" data-curso-key="vfd">
+                <a href="#" class="curso-link" onclick="iniciarCurso('vfd', event)">
+                    <img src="CursoVFD.jpg" alt="Variadores de Frequência (VFD)">
+                </a>
+                <div class="card-body">
+                    <h3>Variadores de Frequência (VFD) — Iniciante ao Avançado</h3>
+                    <p>Do zero à especialização em variadores: eletricidade, motores, parametrização, redes industriais, elevadores e petróleo e gás.</p>
+                    <p id="vfdValidationStatus" style="font-weight:bold;margin-top:10px;"></p>
+                    <a href="#" class="btn btn-inscricao course-btn" onclick="iniciarCurso('vfd', event)">Inscrever</a>
+                    <div class="social-share">
+                        <button class="share-btn share-whatsapp" onclick="shareCourse('whatsapp', this)"><i class="fab fa-whatsapp"></i></button>
+                        <button class="share-btn share-facebook" onclick="shareCourse('facebook', this)"><i class="fab fa-facebook"></i></button>
+                        <button class="share-btn share-email" onclick="shareCourse('email', this)"><i class="fas fa-envelope"></i> Enviar</button>
+                    </div>
+                </div>
+            </div>
+
         </section>
     </main>
     
@@ -771,7 +788,7 @@
 
 // Cursos com cartão dinâmico na homepage (o "Desenhador" ainda não está
 // migrado para esta tabela — ver nota no próprio cartão)
-const CURSO_KEYS = ['desenhador', 'ingles', 'frances', 'QA-QC', 'procurement', 'Robotica', 'refrigeracao', 'REPARARTV', 'AutoNmicra', 'Curso_DJ', 'violao'];
+const CURSO_KEYS = ['desenhador', 'ingles', 'frances', 'QA-QC', 'procurement', 'Robotica', 'refrigeracao', 'REPARARTV', 'AutoNmicra', 'Curso_DJ', 'violao', 'vfd'];
 
 const PAGE_MAP = {
     desenhador: "tdpm.html",
@@ -784,6 +801,7 @@ const PAGE_MAP = {
     REPARARTV: "curso-ManTV.html",
     AutoNmicra: "curso-Auto-Nmicra.html",
     violao: "curso-Violao_html.html",
+    vfd: "curso-VFD.html",
     Curso_DJ: "Curso_DJ.html"
 };
 

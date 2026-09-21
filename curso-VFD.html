@@ -1,0 +1,1483 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Curso: Variadores de Frequência (VFD) — do Iniciante ao Avançado — FEKA KAWIÇO</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-client.js"></script>
+<style>
+:root {
+  --primary-color: #004a80;
+  --secondary-color: #fca311;
+  --text-dark: #222;
+  --text-light: #fff;
+  --bg-light: #ffffff;
+  --bg-dark: #1f2937;
+  --border-color: #e0e0e0;
+}
+
+/* RESET */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* GLOBAL */
+body {
+  background-color: var(--bg-light);
+  color: var(--text-dark);
+  font-family: "Segoe UI", "Roboto", sans-serif;
+  line-height: 1.6;
+  transition: all 0.3s ease-in-out;
+  overflow-x: hidden;
+}
+
+/* HEADER */
+header {
+  background-color: var(--primary-color);
+  color: var(--text-light);
+  padding: 10px 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: 500;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.brand-area {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: nowrap;
+}
+
+.brand-area img {
+  height: 30px;
+  border-radius: 5px;
+}
+
+.brand-area a {
+  text-decoration: none;
+  color: var(--text-light);
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+#login-status {
+  font-size: 0.85rem;
+  opacity: 0.9;
+}
+
+/* SIDEBAR & LAYOUT */
+#course-container {
+  display: flex;
+  height: calc(100vh - 65px);
+  overflow: hidden;
+}
+
+#sidebar {
+  width: 450px;
+  background-color: var(--bg-dark);
+  color: var(--text-light);
+  padding: 20px;
+  overflow-y: auto;
+  transition: transform 0.3s ease-in-out;
+}
+
+#sidebar.hidden {
+  transform: translateX(-100%);
+}
+
+#toggle-sidebar {
+  display: none;
+  background: var(--primary-color);
+  color: var(--text-light);
+  border: none;
+  font-size: 1.3rem;
+  padding: 8px 12px;
+  border-radius: 6px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.module h3 {
+  cursor: pointer;
+  font-size: 1rem;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: var(--secondary-color);
+}
+
+.chapter-list {
+  display: none;
+  margin-left: 8px;
+  margin-bottom: 15px;
+}
+
+.chapter-list h4 {
+  color: #9ca3af;
+  font-size: 0.88rem;
+  margin-top: 10px;
+  margin-bottom: 4px;
+}
+
+.chapter-link {
+  display: block;
+  color: var(--text-light);
+  padding: 5px;
+  font-size: 0.9rem;
+  text-decoration: none;
+  border-left: 2px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.chapter-link:hover {
+  color: var(--secondary-color);
+  border-left: 2px solid var(--secondary-color);
+}
+
+/* MAIN CONTENT / FOLHA A4 */
+#main-content {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 40px 10px;
+  background-color: #f4f6f8;
+  overflow-y: auto;
+}
+
+.intro-section,
+.lesson-content {
+  background: #fff;
+  max-width: 850px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 40px 50px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  line-height: 1.7;
+  color: #222;
+  text-align: justify;
+}
+
+.intro-section h2,
+.lesson-content h2 {
+  color: #004a80;
+  text-align: center;
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #004a80;
+  padding-bottom: 8px;
+}
+
+.lesson-content h3,
+.lesson-content h4 {
+  color: #004a80;
+  margin-top: 20px;
+  margin-bottom: 8px;
+}
+
+.intro-content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.intro-image {
+  flex: 0 0 30%;
+  width: 30%;
+  border-radius: 8px;
+  object-fit: cover;
+  aspect-ratio: 4 / 3;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+}
+
+.intro-text {
+  flex: 1 1 65%;
+  text-align: justify;
+}
+
+/* TABELAS */
+.lesson-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 0.92rem;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.lesson-content th,
+.lesson-content td {
+  border: 1px solid #ccc;
+  padding: 8px 10px;
+  text-align: left;
+}
+
+.lesson-content th {
+  background-color: #004a80;
+  color: #fff;
+  text-align: center;
+}
+
+/* CAIXAS DE TESTE STYLED */
+.test-box {
+  background-color: #eef6fc;
+  border-left: 4px solid var(--primary-color);
+  padding: 15px 20px;
+  margin-top: 25px;
+  border-radius: 0 8px 8px 0;
+}
+
+.test-box h4 {
+  color: var(--primary-color);
+  margin-top: 0 !important;
+}
+
+/* RESPONSIVIDADE */
+@media (max-width: 900px) {
+  #sidebar {
+    position: fixed;
+    top: 50px;
+    left: 0;
+    width: 85%;
+    max-width: 350px;
+    height: calc(100vh - 50px);
+    z-index: 9999;
+    transform: translateX(-100%);
+  }
+
+  #sidebar.active {
+    transform: translateX(0);
+  }
+
+  #toggle-sidebar {
+    display: inline-block;
+  }
+
+  .intro-section, .lesson-content {
+    padding: 20px;
+    max-width: 95%;
+  }
+
+  .intro-content {
+    flex-direction: column;
+  }
+
+  .intro-image {
+    width: 100%;
+  }
+
+  .lesson-content table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+}
+
+
+/* ===== EXTENSÕES (mesma paleta) ===== */
+.level-title{color:#fff;background:var(--primary-color);padding:6px 10px;border-radius:6px;font-size:.85rem;font-weight:700;letter-spacing:.5px;margin:18px 0 10px}
+.sidebar-home{display:block;color:var(--text-light);font-weight:600;padding:6px 5px;margin-bottom:6px;cursor:pointer;text-decoration:none}
+.sidebar-home:hover{color:var(--secondary-color)}
+.chapter-link.active{color:var(--secondary-color);border-left:2px solid var(--secondary-color)}
+.intro-section ul,.lesson-content ul{margin:8px 0 8px 22px}
+.intro-section p,.lesson-content p{margin-bottom:10px}
+.diagram{background:#0f172a;color:#e2e8f0;padding:14px 16px;border-radius:8px;overflow-x:auto;font-family:Consolas,"Courier New",monospace;font-size:.85rem;line-height:1.4;margin:16px 0;text-align:left;white-space:pre}
+.safety-box{background:#fff4e5;border-left:4px solid var(--secondary-color);padding:15px 20px;margin-top:20px;border-radius:0 8px 8px 0}
+.safety-box h4{color:#b45309;margin-top:0 !important}
+.checklist{list-style:none;margin-left:0 !important}
+.checklist li{padding:4px 0}
+.lesson-nav{display:flex;justify-content:space-between;gap:10px;margin-top:28px}
+.lesson-nav button{background:var(--primary-color);color:#fff;border:none;padding:10px 16px;border-radius:6px;cursor:pointer;font-size:.9rem}
+.lesson-nav button:hover{background:#00355e}
+.lesson-nav .spacer{flex:1}
+
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="brand-area">
+    <button id="toggle-sidebar">☰</button>
+    <a href="index.html"><i class="fas fa-home"></i></a>
+    <img src="FK.png" alt="FEKA KAWIÇO" />
+    <span><strong>FEKA KAWIÇO</strong> – <em>A terra natural do conhecimento!</em></span>
+  </div>
+  <div id="login-status">🔒 Verificando acesso…</div>
+</header>
+
+<div id="course-container">
+  <aside id="sidebar"></aside>
+
+  <main id="main-content">
+    <div class="intro-section">
+      <h2 id="lesson-title">🎛️ Programa Completo de Formação em Variadores de Frequência (VFD)</h2>
+      <div class="intro-content">
+        <img src="CursoVFD.jpg" alt="Curso de Variadores de Frequência" class="intro-image">
+        <div class="intro-text">
+          <h3>🎯 Finalidade do Programa</h3>
+          <p>Formar progressivamente um técnico capaz de compreender a eletricidade industrial e os motores trifásicos, ler esquemas, medir com segurança, selecionar, parametrizar, comissionar e integrar variadores de frequência em rede com PLC, diagnosticar falhas avançadas e aplicar VFD em elevadores e na indústria de petróleo e gás, incluindo eficiência energética, harmónicas e áreas classificadas.</p>
+
+          <h3>📐 Estrutura do Curso</h3>
+          <ul>
+            <li><strong>Nível 1 (Iniciante):</strong> Módulos 1-4 | Aulas 1–38 (Eletricidade, diagramas, motores e instrumentação)</li>
+            <li><strong>Nível 2 (Intermédio):</strong> Módulos 5-9 | Aulas 39–90 (Fundamentos do VFD, parametrização, E/S, redes industriais e marcas)</li>
+            <li><strong>Nível 3 (Avançado/Especialista):</strong> Módulos 10-15 | Aulas 91–140 (Controlo vetorial, harmónicas, eficiência, troubleshooting, elevadores e petróleo e gás)</li>
+            <li><strong>Projeto Final:</strong> Certificação com dossiê técnico, demonstração prática e defesa</li>
+          </ul>
+
+          <h3>👥 Metodologia</h3>
+          <p>Cada aula contém objetivo, conteúdo técnico, tabelas de apoio e um <strong>teste prático</strong>. Cada módulo termina com uma avaliação prática e cada nível com uma avaliação final. A nota mínima para avançar é de 70 %.</p>
+
+          <h3>⚠️ Nota de Segurança</h3>
+          <p>Este curso tem fins formativos. Trabalhos em instalações elétricas, elevadores, guindastes e áreas classificadas só devem ser realizados por pessoal qualificado, com bloqueio e etiquetagem (LOTO), cumprindo os manuais dos fabricantes e a regulamentação aplicável. Os códigos de parâmetros indicados devem ser sempre confirmados no manual da versão do equipamento.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+
+const LESSONS = [];
+function L(n, ico, title, o, t, x) { x = x || {}; LESSONS[n-1] = Object.assign({n: n, ico: ico, title: title, o: o, t: t}, x); }
+function E(n, title, mod, rows, prova) {
+  LESSONS[n-1] = {n: n, ico: "🏆", title: title, ev: true,
+    o: "Avaliar, através de demonstração prática, as competências adquiridas em “" + mod + "”.",
+    t: ["Esta avaliação verifica a aplicação prática dos conteúdos abordados. Cada critério tem um peso e um mínimo exigido; o formando avança quando cumprir os mínimos e atingir pelo menos 70 % na nota global."],
+    tt: "Critérios de Avaliação", tb: [["Critério","Peso","Mínimo Exigido"]].concat(rows), x: prova};
+}
+/* ===== NÍVEL 1 — MÓDULO 1: FUNDAMENTOS DE ELETRICIDADE (1-8) ===== */
+
+L(1,"⚡","Tensão, Corrente e Resistência",
+"Compreender as três grandezas fundamentais da eletricidade, as suas unidades e a forma como se relacionam num circuito industrial.",
+["A <strong>tensão (U ou V)</strong> é a diferença de potencial que “empurra” as cargas elétricas e mede-se em volts (V). A <strong>corrente (I)</strong> é o fluxo ordenado dessas cargas e mede-se em amperes (A). A <strong>resistência (R)</strong> é a oposição à passagem da corrente e mede-se em ohms (Ω). Numa analogia hidráulica: a tensão é a pressão da água, a corrente é o caudal e a resistência é o estreitamento da tubagem.",
+ "Na indústria usam-se múltiplos e submúltiplos: 1 kV = 1000 V; 1 mA = 0,001 A; 1 kΩ = 1000 Ω. A rede trifásica de baixa tensão mais comum em Angola é de 380 V entre fases (220 V fase-neutro) a 50 Hz. Confirme sempre os valores reais da instalação antes de dimensionar ou parametrizar qualquer equipamento."],
+{tt:"Grandezas Fundamentais", tb:[["Grandeza","Símbolo","Unidade","Instrumento"],["Tensão","U / V","Volt (V)","Multímetro / Voltímetro"],["Corrente","I","Ampere (A)","Alicate amperímetro"],["Resistência","R","Ohm (Ω)","Multímetro / Megôhmetro"],["Potência","P","Watt (W)","Analisador de redes"],["Frequência","f","Hertz (Hz)","Multímetro / Osciloscópio"]],
+ p:["A corrente só circula num circuito fechado.","A tensão existe mesmo sem corrente (circuito aberto).","Quanto maior a resistência, menor a corrente para a mesma tensão."],
+ x:"Converter 0,25 kV, 4700 mA e 2,2 kΩ para as unidades base e identificar, num esquema simples de motor, onde se mede a tensão (em paralelo) e onde se mede a corrente (em série ou com alicate)."});
+
+L(2,"🔢","Lei de Ohm Aplicada",
+"Aplicar a Lei de Ohm no cálculo de tensão, corrente e resistência em circuitos de comando e potência.",
+["A Lei de Ohm estabelece que <strong>U = R × I</strong>. Daqui resulta I = U / R e R = U / I. Se a tensão duplica com a mesma resistência, a corrente duplica. É a ferramenta base para verificar bobinas de contactores, resistências de travagem e sinais de comando.",
+ "Exemplo: uma bobina de contactor de 24 V CC com resistência de 240 Ω consome I = 24 / 240 = 0,1 A (100 mA), ou seja, 2,4 W. Se a fonte de 24 V tiver capacidade para apenas 0,5 A, consegue alimentar no máximo cinco destas bobinas em simultâneo."],
+{tt:"Exercícios Resolvidos", tb:[["Dados","Pedido","Resolução","Resultado"],["U = 230 V, R = 46 Ω","I","230 / 46","5 A"],["U = 24 V, I = 0,2 A","R","24 / 0,2","120 Ω"],["R = 33 Ω, I = 3 A","U","33 × 3","99 V"],["U = 400 V, R = 8 Ω","I","400 / 8","50 A"]],
+ x:"Resolver 8 exercícios de Lei de Ohm (incluindo conversões mA/A e kΩ/Ω) em 15 minutos, sem calculadora nos casos de valores redondos, e justificar cada resultado com a fórmula usada."});
+
+L(3,"📈","Potência Ativa, Reativa e Aparente",
+"Distinguir potência ativa (kW), reativa (kvar) e aparente (kVA) e calcular cada uma num sistema trifásico.",
+["A <strong>potência ativa (P)</strong> é a que realiza trabalho útil (kW). A <strong>potência reativa (Q)</strong> cria os campos magnéticos dos motores e transformadores (kvar). A <strong>potência aparente (S)</strong> é a que a rede realmente fornece (kVA). Relacionam-se pelo triângulo de potências: S² = P² + Q².",
+ "Em trifásico: S = √3 × U × I; P = √3 × U × I × cosφ; Q = √3 × U × I × senφ. Exemplo: 380 V, 20 A e cosφ = 0,85 → S ≈ 13,2 kVA, P ≈ 11,2 kW e Q ≈ 6,9 kvar. Os cabos, disjuntores e transformadores dimensionam-se pela potência aparente, não pela ativa."],
+{tt:"Resumo de Fórmulas (Trifásico)", tb:[["Grandeza","Fórmula","Unidade"],["Aparente S","√3 · U · I","kVA"],["Ativa P","√3 · U · I · cosφ","kW"],["Reativa Q","√3 · U · I · senφ","kvar"],["Fator de potência","P / S = cosφ","—"]],
+ x:"Calcular S, P e Q de um motor de 380 V, 32 A, cosφ = 0,82 e desenhar o triângulo de potências à escala."});
+
+L(4,"📉","Fator de Potência",
+"Compreender o significado do fator de potência, as suas consequências na instalação e a correção com condensadores.",
+["O <strong>fator de potência (FP = P / S)</strong> indica a fração da potência aparente que é convertida em trabalho útil. Motores em vazio têm FP muito baixo; à plena carga aproximam-se de 0,8 a 0,9. Um FP baixo obriga a corrente maior para a mesma potência útil, aumentando perdas, quedas de tensão e custos.",
+ "A correção faz-se com bancos de condensadores: Qc = P × (tanφ₁ − tanφ₂). Exemplo: P = 50 kW, de cosφ = 0,80 para 0,95 → Qc = 50 × (0,75 − 0,33) ≈ 21 kvar. Nota: um VFD com ponte de díodos apresenta FP de deslocamento próximo de 1 no lado da rede, mas o FP total pode ser afetado pela distorção harmónica (tema do Módulo 11)."],
+{p:["Não instalar condensadores em paralelo com a saída do VFD.","Bancos de condensadores em redes com harmónicas exigem reatores de dessintonia.","O FP é medido com analisador de redes."],
+ x:"Calcular o banco de condensadores necessário para levar uma instalação de 80 kW de cosφ = 0,75 para 0,95 e indicar o novo valor de corrente para 380 V."});
+
+L(5,"〰️","Corrente Alternada e Corrente Contínua",
+"Diferenciar CA e CC, compreender o sistema trifásico e relacionar a tensão da rede com a tensão do barramento DC de um VFD.",
+["Em <strong>corrente alternada (CA)</strong> a tensão varia de forma sinusoidal; a 50 Hz o período é de 20 ms. O valor eficaz (RMS) relaciona-se com o valor de pico por Vpico = √2 × Vef. Uma rede de 380 V tem pico de cerca de 537 V. No sistema trifásico, as três fases estão desfasadas 120°, o que cria um campo magnético girante nos motores.",
+ "Em <strong>corrente contínua (CC)</strong> a polaridade é constante. O VFD retifica a CA da rede e obtém um barramento DC com valor médio de cerca de 1,35 × U(linha). Ou seja, com 400 V de rede o barramento fica próximo de 540 V CC."],
+{tt:"Rede vs. Barramento DC", tb:[["Tensão da rede (V)","Pico (V)","Barramento DC ≈ 1,35 × U (V)"],["380","537","513"],["400","566","540"],["415","587","560"],["440","622","594"]],
+ x:"Calcular o pico e o barramento DC previsto para uma rede de 380 V e explicar porque é que ao medir o barramento DC com o VFD em vazio o valor pode ser ligeiramente superior (perto de 1,41 × U)."});
+
+L(6,"🔗","Circuitos Série e Paralelo",
+"Calcular resistências equivalentes e compreender o comportamento de tensão e corrente em ligações série e paralelo.",
+["Em <strong>série</strong> a corrente é comum e as resistências somam-se: Rt = R1 + R2 + …; as tensões dividem-se. Em <strong>paralelo</strong> a tensão é comum e as correntes somam-se: 1/Rt = 1/R1 + 1/R2 + …; a resistência total é sempre menor que a menor das resistências.",
+ "Na aparelhagem, contactos em série formam a função lógica E (AND) e em paralelo a função OU (OR). No VFD, os condensadores do barramento DC são frequentemente associados em série para suportar tensão mais alta (com resistências de equalização) e em paralelo para aumentar a capacidade."],
+{p:["Série: I igual em todos os elementos.","Paralelo: U igual em todos os ramos.","Uma lâmpada de sinalização em paralelo com a bobina mostra o estado do contactor."],
+ x:"Calcular a resistência equivalente de 3 resistências (10 Ω, 20 Ω, 20 Ω) ligadas (a) em série, (b) em paralelo, e (c) em montagem mista 10 Ω em série com o paralelo das duas de 20 Ω."});
+
+L(7,"🧮","Exercícios de Cálculo Elétrico",
+"Consolidar o cálculo de corrente, potência, consumo de energia e queda de tensão em situações reais de oficina e fábrica.",
+["A corrente absorvida por um motor trifásico calcula-se por I = P / (√3 × U × cosφ × η). Para um motor de 15 kW, 380 V, cosφ 0,86 e rendimento 0,92: I = 15000 / (1,732 × 380 × 0,86 × 0,92) ≈ 28,8 A. A energia consumida é E (kWh) = P (kW) × t (h).",
+ "A queda de tensão num cabo trifásico aproxima-se por ΔU = √3 × I × R × L, em que R é a resistência do condutor por metro. Para instalações com VFD, limitar a queda de tensão a valores baixos (tipicamente até 3 %) evita subtensões e correntes excessivas."],
+{tt:"Problemas Propostos", tb:[["N.º","Enunciado","Resposta"],["1","Motor 7,5 kW, 380 V, cosφ 0,85, η 0,90: corrente?","≈ 15,0 A"],["2","Motor 22 kW a funcionar 6000 h/ano: energia anual?","132 000 kWh"],["3","Corrente de 30 A em cabo com R = 0,01 Ω/m e 50 m (trifásico): ΔU?","≈ 26 V"],["4","S = 40 kVA a 380 V: corrente?","≈ 60,8 A"]],
+ x:"Resolver os 4 problemas propostos e criar mais 2 exercícios com dados de placa de motores existentes na sua oficina, com resolução completa."});
+
+E(8,"Avaliação Prática do Módulo 1","Fundamentos de Eletricidade",
+[["Grandezas e Lei de Ohm","30%","≥ 70 % corretos"],["Potências e Fator de Potência","30%","Cálculos trifásicos sem erros"],["CA/CC e Barramento DC","20%","Relação 1,35 × U dominada"],["Circuitos Série/Paralelo","20%","Equivalentes corretos"]],
+"Resolver uma prova de 10 exercícios de cálculo elétrico, com consulta apenas das fórmulas, em 45 minutos.");
+
+/* ===== NÍVEL 1 — MÓDULO 2: DIAGRAMAS ELÉTRICOS INDUSTRIAIS (9-18) ===== */
+
+L(9,"🔣","Símbolos Elétricos",
+"Reconhecer os símbolos normalizados e a identificação alfanumérica dos componentes em esquemas industriais.",
+["Os esquemas seguem normalmente a IEC 60617 (símbolos) e a identificação de componentes por letras (IEC 81346 / IEC 61346). Nos esquemas de origem norte-americana surgem símbolos ANSI/NEMA, pelo que é necessário saber ler ambas as convenções.",
+ "A numeração dos terminais também é normalizada: A1/A2 para bobinas, 1-2, 3-4, 5-6 para contactos principais de potência, 13-14 para contactos auxiliares normalmente abertos (NA) e 21-22 para normalmente fechados (NF)."],
+{tt:"Identificação de Componentes", tb:[["Letra","Componente","Exemplo"],["Q","Aparelhos de corte/proteção","Q1 – disjuntor"],["K","Contactores e relés","KM1 – contactor"],["F","Proteções","F1 – fusível, F2 – térmico"],["M","Motores","M1 – motor principal"],["T","Transformadores","T1 – 400/24 V"],["S","Botões e seletores","S1 – Stop, S2 – Start"],["H","Sinalização","H1 – lâmpada Run"],["X","Bornes","X1 – régua de bornes"]],
+ x:"Identificar, num esquema fornecido, 15 símbolos e respetivas designações, e indicar a numeração dos terminais de um contactor de 3 polos com 1 NA + 1 NF auxiliares."});
+
+L(10,"🧲","Contatores",
+"Compreender a constituição, os tipos de contactos e as categorias de utilização dos contactores.",
+["O <strong>contactor</strong> é um aparelho de corte comandado por eletroíman: quando a bobina (A1/A2) é energizada, fecha os contactos principais (potência) e comuta os auxiliares. A categoria de utilização define o tipo de carga: <strong>AC-1</strong> cargas resistivas, <strong>AC-3</strong> arranque e paragem de motores de gaiola, <strong>AC-4</strong> inversão e travagem por contracorrente.",
+ "A tensão da bobina (24 V CC, 24 V CA, 230 V CA) tem de coincidir com a do circuito de comando. Num sistema com VFD, os contactores não devem ser usados para manobrar a saída sob carga, pois a abertura com o inversor em funcionamento pode danificar os IGBTs."],
+{a:"Nunca abra ou feche um contactor entre o VFD e o motor com o inversor em marcha, salvo se o fabricante o permitir e o VFD estiver inibido (enable removido) antes da manobra.",
+ x:"Identificar num contactor real os terminais A1/A2, contactos principais e auxiliares, medir a resistência da bobina e verificar a continuidade de cada contacto em repouso e acionado manualmente."});
+
+L(11,"🔀","Relés",
+"Distinguir os tipos de relés usados no comando e proteção e escolher o adequado a cada função.",
+["Os <strong>relés eletromecânicos</strong> comutam pequenas correntes através de contactos NA/NF. Os <strong>relés temporizados</strong> atuam após um tempo (on-delay) ou depois de desligar a bobina (off-delay). Os <strong>relés de estado sólido</strong> não têm contactos móveis e suportam elevado número de manobras. Os <strong>relés de proteção</strong> incluem sobrecarga térmica, falta de fase, sequência de fases e mínimo/máximo de tensão.",
+ "Nos quadros com VFD é comum usar relés de interface a 24 V CC para isolar as saídas do PLC das entradas do inversor e para repetir sinais de estado (Run, Falha)."],
+{tt:"Tipos de Relés", tb:[["Tipo","Função","Aplicação típica"],["Eletromecânico","Comutação e isolamento","Interface PLC ↔ VFD"],["Temporizado","Atrasos de tempo","Arranque escalonado"],["Estado sólido","Alta frequência de manobra","Resistências de aquecimento"],["Sobrecarga térmica","Proteção do motor","Arranque direto"],["Falta/sequência de fase","Proteção da alimentação","Bombas, compressores"]],
+ x:"Montar um circuito com relé temporizado on-delay de 5 s que acende uma lâmpada de sinalização e demonstrar o funcionamento com cronómetro."});
+
+L(12,"🛡️","Disjuntores",
+"Selecionar o disjuntor adequado à proteção de circuitos e motores, incluindo cuidados específicos com VFD.",
+["Os <strong>disjuntores magnetotérmicos (MCB)</strong> têm curvas de disparo B, C e D, conforme a tolerância às correntes de arranque. Os de caixa moldada (MCCB) e abertos (ACB) cobrem correntes mais elevadas. O <strong>disjuntor-motor</strong> combina proteção térmica ajustável e magnética. Deve verificar-se sempre o poder de corte (Icu) face à corrente de curto-circuito presumida.",
+ "Em instalações com VFD, os interruptores diferenciais devem ser do tipo B (ou B+), pois o inversor gera correntes de fuga com componente contínua e de alta frequência. O filtro EMC aumenta a corrente de fuga para a terra."],
+{tt:"Curvas de Disparo (Magnético)", tb:[["Curva","Disparo instantâneo","Aplicação"],["B","3 a 5 × In","Cabos longos, cargas resistivas"],["C","5 a 10 × In","Uso geral, motores pequenos"],["D","10 a 20 × In","Cargas com picos elevados"]],
+ x:"Escolher e justificar o disjuntor e a curva para um motor de 11 kW/380 V alimentado por VFD, incluindo o tipo de diferencial a montar a montante."});
+
+L(13,"💥","Fusíveis",
+"Conhecer as classes de fusíveis e escolher a proteção adequada para motores e semicondutores.",
+["Os fusíveis protegem contra curto-circuito e sobrecarga. A classe <strong>gG</strong> é de uso geral (cabos e cargas mistas); a <strong>aM</strong> acompanha o arranque de motores e protege apenas contra curto-circuito; a <strong>aR</strong> (ultrarrápida) protege semicondutores. A característica I²t indica a energia que o fusível deixa passar antes de cortar.",
+ "Os manuais dos VFD indicam o calibre e a classe recomendados (frequentemente gG ou aR). Um fusível queimado nunca deve ser substituído por outro de calibre maior nem “ponteado”."],
+{tt:"Classes de Fusíveis", tb:[["Classe","Proteção","Utilização"],["gG","Sobrecarga + curto-circuito","Cabos, distribuição"],["aM","Curto-circuito","Motores (com térmico)"],["aR","Curto-circuito rápido","Retificadores e VFD"]],
+ x:"Consultar o manual de um VFD (ou catálogo) e registar o fusível recomendado por tamanho de potência, indicando classe, calibre e tensão nominal."});
+
+L(14,"🔌","Transformadores",
+"Compreender o princípio, os tipos e a aplicação dos transformadores em quadros industriais e alimentação de VFD.",
+["O transformador relaciona tensões pelo número de espiras: U1/U2 = N1/N2. A potência dimensiona-se em kVA. Nos quadros usam-se transformadores de comando (400/24 V ou 400/230 V), de isolamento, autotransformadores e transformadores de corrente (TI) para medição.",
+ "Os VFD de potências elevadas podem ser alimentados por transformadores de isolamento que reduzem harmónicas e limitam correntes de falha à terra. Transformadores de dois secundários (Dyn11 + Dd0) permitem retificadores de 12 pulsos, com menor distorção harmónica."],
+{p:["Dimensionar o transformador de comando com margem de 25 %.","O secundário do TI nunca deve ficar em circuito aberto.","Grupo de ligação (ex.: Dyn11) condiciona a defasagem e a proteção à terra."],
+ x:"Dimensionar um transformador de comando 400/24 V para alimentar 12 bobinas de 8 VA e 20 lâmpadas LED de 2 W, com margem de 25 %."});
+
+L(15,"📐","Diagramas de Potência",
+"Ler e desenhar circuitos de potência de arranque direto e com variador de frequência.",
+["O circuito de potência mostra o caminho da energia da rede até ao motor. No arranque direto: Q1 (disjuntor) → KM1 (contactor) → F2 (relé térmico) → M1. Com VFD: Q1 → (K1 opcional) → VFD (L1, L2, L3) → cabo blindado → motor (U, V, W). O condutor de proteção (PE) liga-se sempre ao VFD, ao motor e à blindagem do cabo.",
+ "A leitura correta exige seguir a energia de cima para baixo e identificar cada função de proteção: curto-circuito, sobrecarga, corte de manobra e conversão."],
+{d:"REDE L1-L2-L3\n   │\n  Q1  Disjuntor / Seccionador\n   │\n  F1  Fusíveis (aR / gG)\n   │\n  K1  Contactor de linha (opcional)\n   │\n L1 L2 L3\n┌────────────┐\n│    VFD     │── PE\n└────────────┘\n U  V  W\n   │   Cabo blindado (blindagem a 360° no PE)\n   M1  Motor trifásico",
+ x:"Desenhar o esquema de potência de uma bomba de 15 kW com VFD, identificando proteções, cabo blindado e ligação de terra, e explicar a função de cada bloco."});
+
+L(16,"🎛️","Diagramas de Comando",
+"Interpretar circuitos de comando com botoneiras, selo, intertravamentos e cadeias de segurança.",
+["No circuito de comando, o botão de Start (NA) em paralelo com o contacto auxiliar do contactor cria a <strong>retenção (selo)</strong>; o botão de Stop (NF) em série interrompe o circuito. A paragem de emergência liga-se sempre com contactos NF, de modo que um fio cortado provoque paragem (segurança positiva).",
+ "Com VFD, o comando pode ser a 2 fios (interruptor mantido: contacto fechado = marcha) ou a 3 fios (pulsos de Start/Stop). Deve-se respeitar a lógica definida no parâmetro do inversor para que uma falha de energia não provoque rearranque inesperado."],
+{d:"+24V ──[F]──[S1 Stop NF]──┬──[S2 Start NA]──┬──[KM1 A1]── 0V\n                          └──[KM1 13-14]────┘\n Estado de repouso: KM1 desenergizado.\n Start pressiona: bobina KM1 energiza e o contacto 13-14 fecha (selo).\n Stop pressiona: circuito abre, KM1 cai.",
+ x:"Montar e testar o comando com selo, adicionar uma paragem de emergência NF e um intertravamento com um segundo contactor (marcha/ré), demonstrando que ambos não podem estar ativos em simultâneo."});
+
+L(17,"🗂️","Interpretação de Esquemas Industriais",
+"Adquirir método sistemático de leitura de esquemas completos, incluindo referências cruzadas e listas de bornes.",
+["Um esquema completo integra: capa e índice, alimentação, potência, comando, entradas/saídas do PLC, sinalização, lista de bornes e lista de material. As referências cruzadas (folha/coluna) indicam onde estão os contactos de cada bobina, e a marcação dos fios permite localizar cada ligação física.",
+ "Método de leitura: 1) identificar a alimentação, 2) seguir a proteção, 3) localizar cada motor e o seu aparelho de manobra, 4) ler o circuito de comando de cada função, 5) verificar segurança e sinalização, 6) confirmar com a lista de bornes."],
+{tt:"Roteiro de Leitura", tb:[["Passo","Pergunta-chave","Onde encontrar"],["1","Qual é a alimentação?","Folha de alimentação"],["2","Que proteções existem?","Folhas de potência"],["3","Quem manobra cada motor?","Potência + referências cruzadas"],["4","Como se comanda?","Folhas de comando"],["5","Quais as proteções de segurança?","Cadeia de emergência"],["6","Como se liga fisicamente?","Lista de bornes"]],
+ x:"Receber um esquema de quadro com VFD e responder a 10 perguntas de localização (onde está a bobina de KM2, qual o borne do sinal Run, etc.) em menos de 30 minutos."});
+
+E(18,"Avaliação Prática do Módulo 2","Diagramas Elétricos Industriais",
+[["Símbolos e identificação","20%","Sem erros de terminais"],["Componentes de potência e proteção","30%","Seleção justificada"],["Diagramas de potência e comando","30%","Circuitos funcionais"],["Leitura de esquema completo","20%","10/10 localizações"]],
+"Montar em bancada o circuito de comando (selo, emergência, intertravamento) e apresentar o esquema de potência do arranque direto e do arranque com VFD.");
+
+/* ===== NÍVEL 1 — MÓDULO 3: MOTORES ELÉTRICOS (19-28) ===== */
+
+L(19,"🌀","Princípios dos Motores Trifásicos",
+"Compreender o campo magnético girante e o funcionamento do motor de indução (assíncrono) trifásico.",
+["Três enrolamentos desfasados de 120° no estator, alimentados por tensões trifásicas, produzem um <strong>campo girante</strong> cuja velocidade síncrona é ns = 120 × f / p (rpm), com p o número de polos. Esse campo induz correntes no rotor, que criam binário. O rotor roda sempre ligeiramente abaixo de ns, daí o nome “assíncrono”.",
+ "Para inverter o sentido de rotação basta trocar duas fases quaisquer da alimentação. Num sistema com VFD faz-se por parâmetro ou por comando de Reverse."],
+{tt:"Velocidade Síncrona a 50 Hz", tb:[["Polos (p)","ns (rpm)","Velocidade nominal típica (rpm)"],["2","3000","2900 a 2950"],["4","1500","1440 a 1480"],["6","1000","950 a 980"],["8","750","710 a 735"]],
+ x:"Calcular ns para motores de 2, 4, 6 e 8 polos a 50 Hz e a 60 Hz, e explicar porque não se consegue medir exatamente essa velocidade em carga."});
+
+L(20,"🧱","Rotor e Estator",
+"Identificar os componentes construtivos do motor e as características de isolamento relevantes para operação com VFD.",
+["O <strong>estator</strong> é composto por chapas magnéticas empilhadas, enrolamentos de cobre e caixa de bornes. O <strong>rotor</strong> mais comum é o de gaiola de esquilo (barras de alumínio ou cobre curto-circuitadas); existe também o rotor bobinado (anéis coletores). Completam o motor o veio, rolamentos, ventilador e carcaça com o grau de proteção IP.",
+ "As classes de isolamento (B, F, H) definem a temperatura máxima admissível. Com VFD, os impulsos PWM com elevado dV/dt sobrecarregam o isolamento e podem gerar correntes através dos rolamentos. Por isso, em aplicações exigentes usam-se motores “inverter duty” (IEC 60034-25), com isolamento reforçado e, em potências elevadas, rolamentos isolados."],
+{p:["Classe F: até 155 °C; classe H: até 180 °C.","O ventilador acoplado ao veio perde eficácia a baixa velocidade.","Cabos longos entre VFD e motor exigem filtros dV/dt ou sinusoidais."],
+ x:"Abrir (ou observar) um motor didático e identificar 8 componentes, indicando a classe de isolamento e o IP da placa."});
+
+L(21,"🔄","RPM e Frequência",
+"Relacionar a frequência de alimentação com a velocidade do motor e compreender a lógica V/f.",
+["A velocidade do rotor é n = (120 × f / p) × (1 − s). Variar a frequência varia a velocidade. Para manter o fluxo constante, a tensão deve acompanhar a frequência: a relação <strong>V/f</strong> é mantida (por exemplo, 400 V / 50 Hz = 8 V/Hz). Se a tensão não acompanhar, o motor satura ou perde binário.",
+ "Acima da frequência nominal a tensão já não sobe (limitada pela rede) e o motor entra na zona de enfraquecimento de campo: a potência mantém-se e o binário disponível diminui."],
+{tt:"Motor de 4 Polos — Velocidade Síncrona", tb:[["Frequência (Hz)","ns (rpm)","V (com 8 V/Hz)"],["10","300","80 V"],["25","750","200 V"],["50","1500","400 V"],["60","1800","400 V (fraco campo)"]],
+ x:"Preencher a tabela para um motor de 2 polos e outro de 6 polos, e explicar o que acontece ao binário se o VFD estiver ajustado para 50 Hz e o motor for alimentado a 60 Hz sem correção de tensão."});
+
+L(22,"💪","Torque",
+"Calcular o binário nominal do motor e identificar o tipo de carga (binário constante, quadrático ou potência constante).",
+["O binário é T (N·m) = 9550 × P (kW) / n (rpm). Um motor de 15 kW a 1460 rpm fornece cerca de 98 N·m. Na curva binário-velocidade destacam-se o binário de arranque, o mínimo, o máximo (pull-out) e o nominal. O arranque direto absorve tipicamente 6 a 8 vezes a corrente nominal.",
+ "As cargas classificam-se em: <strong>binário constante</strong> (transportadores, pontes rolantes, elevadores), <strong>binário quadrático</strong> (bombas centrífugas, ventiladores) e <strong>potência constante</strong> (bobinadores, fusos de máquinas). O VFD é configurado consoante o tipo de carga."],
+{tt:"Tipos de Carga", tb:[["Tipo","Relação binário/velocidade","Exemplos"],["Binário constante","T ≈ constante","Correias, gruas, elevadores"],["Binário quadrático","T ∝ n²","Bombas, ventiladores"],["Potência constante","T ∝ 1/n","Bobinadores, fusos"]],
+ x:"Calcular o binário nominal de três motores (4 kW/1450 rpm, 15 kW/1460 rpm, 55 kW/1480 rpm) e classificar 6 máquinas da sua instalação por tipo de carga."});
+
+L(23,"📉","Escorregamento",
+"Calcular e interpretar o escorregamento do motor de indução.",
+["O escorregamento é s (%) = (ns − n) / ns × 100. Um motor de 4 polos que roda a 1470 rpm tem s = (1500 − 1470) / 1500 = 2 %. O escorregamento aumenta com a carga: em vazio é próximo de zero e à plena carga fica tipicamente entre 1 % e 5 %.",
+ "As perdas no rotor são proporcionais ao escorregamento. Nos VFD, a função de <strong>compensação de escorregamento</strong> ajusta ligeiramente a frequência de saída para manter a velocidade estável com a carga variável."],
+{tt:"Exemplos", tb:[["ns (rpm)","n (rpm)","s (%)"],["1500","1470","2,0"],["1500","1440","4,0"],["3000","2900","3,3"],["1000","980","2,0"]],
+ x:"Medir com tacómetro a velocidade de um motor em vazio e em carga (ou usar valores dados), calcular o escorregamento em cada situação e comentar a diferença."});
+
+L(24,"🏷️","Placas Características",
+"Ler e interpretar todos os dados da placa de um motor, base de toda a parametrização de VFD.",
+["A placa indica: fabricante, tipo, potência (kW), tensão e ligação (Δ/Y), corrente, frequência, velocidade (rpm), cosφ, classe de isolamento, IP, regime de serviço (S1 = contínuo), classe de eficiência (IE) e fator de serviço. Estes dados são os que o VFD pede no arranque da parametrização.",
+ "Exemplo de leitura: 15 kW | 400/690 V Δ/Y | 28,5/16,5 A | 50 Hz | 1460 rpm | cosφ 0,84 | IE3 | IP55 | Cl. F | S1. Numa rede de 400 V este motor liga-se em triângulo (Δ) e a corrente de referência para o VFD é 28,5 A."],
+{tt:"Dados que o VFD Exige", tb:[["Dado da placa","Parâmetro no VFD"],["Potência (kW)","Potência nominal do motor"],["Tensão (V)","Tensão nominal"],["Corrente (A)","Corrente nominal"],["Frequência (Hz)","Frequência nominal"],["Velocidade (rpm)","Velocidade nominal"],["cosφ","Fator de potência"]],
+ x:"Copiar as placas de 3 motores diferentes, indicar a ligação correta para uma rede de 380 V e registar os valores a introduzir no VFD."});
+
+L(25,"⭐","Ligação Estrela (Y)",
+"Compreender as relações de tensão e corrente na ligação em estrela e a sua ligação na caixa de bornes.",
+["Na ligação em <strong>estrela (Y)</strong>, cada enrolamento fica sujeito à tensão de fase, Uf = U(linha) / √3, e a corrente de linha é igual à corrente de fase. Na caixa de bornes, os terminais W2, U2 e V2 são unidos por barras e as fases ligam-se a U1, V1 e W1.",
+ "O arranque estrela-triângulo aproveita esta característica: arranca-se em Y (corrente e binário reduzidos a cerca de um terço) e comuta-se para Δ. Esta solução é substituída, hoje, por soft starters e VFD."],
+{p:["Uf = UL / √3 (ex.: 400 V → 231 V).","Corrente de arranque em Y ≈ 1/3 da em Δ.","Motor com 400/690 V Δ/Y liga-se em Y numa rede de 690 V."],
+ x:"Ligar um motor em Y na caixa de bornes (barras corretas), medir a tensão nos enrolamentos e confirmar a relação √3."});
+
+L(26,"🔺","Ligação Triângulo (Δ)",
+"Compreender a ligação em triângulo e escolher a ligação correta com base na placa e na rede.",
+["Na <strong>ligação em triângulo (Δ)</strong>, cada enrolamento recebe a tensão de linha e a corrente de linha é √3 vezes a corrente de fase. Na caixa de bornes, as barras ligam U1-W2, V1-U2 e W1-V2 às três fases.",
+ "A ligação depende da placa e da rede. Um motor 230/400 V Δ/Y liga-se em Y numa rede de 400 V. Um motor 400/690 V Δ/Y liga-se em Δ numa rede de 400 V. Se a rede for 380 V, verifique a tolerância admitida pelo fabricante ou parametrize o VFD com a tensão nominal correta."],
+{tt:"Escolha da Ligação", tb:[["Placa (Δ/Y)","Rede 380/400 V","Rede 690 V"],["230/400 V","Y","Não aplicável"],["400/690 V","Δ","Y"],["380/660 V","Δ","Y"]],
+ x:"Para 4 motores diferentes (dados de placa fornecidos) indicar a ligação correta para uma rede de 380 V e para uma rede de 690 V, e desenhar as barras na caixa de bornes."});
+
+L(27,"🌍","Motores 380V, 400V, 415V e 440V",
+"Conhecer as tensões normalizadas de operação e a sua relação com a parametrização de VFD.",
+["Existem redes de 380 V (Angola e outros países), 400 V (padrão IEC atual), 415 V (Reino Unido, Austrália, Índia) e 440/460 V, frequentemente a 60 Hz (Américas, marinha). Um VFD tem faixas de tensão de entrada e a tensão de saída máxima será limitada pela rede. A relação V/f depende da placa do motor.",
+ "Regra prática: parametrize sempre o VFD com a <strong>tensão e a frequência da placa</strong>. Um motor de 380 V/50 Hz alimentado por rede de 400 V pode funcionar, mas o VFD deve limitar a tensão de saída ao valor nominal do motor, evitando sobre-excitação."],
+{tt:"Tensões e Relação V/f", tb:[["Tensão (V)","Frequência (Hz)","V/f (V/Hz)","Região típica"],["380","50","7,6","Angola, China, África"],["400","50","8,0","Europa (IEC)"],["415","50","8,3","Reino Unido, Austrália, Índia"],["440","60","7,3","Marinha, Américas"],["460","60","7,7","América do Norte"]],
+ x:"Calcular a relação V/f de cada caso e indicar a configuração do VFD para um motor de 380 V/50 Hz ligado a uma rede de 400 V."});
+
+E(28,"Avaliação Prática do Módulo 3","Motores Elétricos",
+[["Velocidade, escorregamento e binário","30%","Cálculos corretos"],["Leitura de placas de características","30%","3 motores sem erros"],["Ligações Y/Δ na caixa de bornes","25%","Ligação segura e correta"],["Relação V/f e tensões de rede","15%","Justificação técnica"]],
+"Ler a placa de um motor real, escolher a ligação para a rede local, ligar as barras na caixa de bornes e registar os dados que introduziria no VFD.");
+
+/* ===== NÍVEL 1 — MÓDULO 4: INSTRUMENTAÇÃO BÁSICA (29-38) ===== */
+
+L(29,"📟","Multímetro",
+"Usar o multímetro com segurança e precisão para medir tensão, resistência, continuidade e díodos.",
+["O multímetro mede tensão CA/CC, resistência, continuidade, díodos e, em alguns modelos, capacidade e frequência. Escolha um instrumento com categoria CAT III 600 V (ou superior) e True RMS. A medição de tensão faz-se sempre em <strong>paralelo</strong> e a de resistência sempre <strong>sem tensão</strong> no circuito.",
+ "Atenção: à saída de um VFD, a tensão é PWM e o multímetro comum dá leituras erradas. Para verificar o funcionamento do inversor use o próprio display do VFD ou instrumentos preparados (com filtro passa-baixo)."],
+{tt:"Posições do Multímetro", tb:[["Função","Ligação","Cuidado"],["V CA","Em paralelo","Escolher escala/categoria correta"],["V CC","Em paralelo, respeitar polaridade","Barramento DC do VFD"],["Ω","Sem tensão","Componente isolado"],["Continuidade","Sem tensão","Buzzer indica contacto"],["Díodo","Sem tensão","Testar retificador"]],
+ a:"Nunca meça resistência ou continuidade com o circuito energizado, e nunca troque de função com as pontas de prova ligadas a um circuito com tensão.",
+ x:"Medir e registar a tensão entre fases (L-L), fase-neutro (L-N) e fase-terra num quadro de bancada, e a resistência de 5 componentes (bobina, resistência, fusível, contacto, cabo)."});
+
+L(30,"🗜️","Alicate Amperímetro",
+"Medir correntes sem abrir o circuito e interpretar valores em circuitos trifásicos e com VFD.",
+["O alicate amperímetro mede a corrente através do campo magnético do condutor, sem abrir o circuito. Deve abraçar <strong>apenas um condutor</strong> de cada vez; se abraçar as três fases ou o cabo completo, a leitura será próxima de zero. Prefira modelos True RMS.",
+ "À saída do VFD, a corrente é aproximadamente sinusoidal e pode ser medida com alicates True RMS de banda larga ou com o próprio inversor. Alicates de fuga (mA) permitem medir a corrente de fuga para a terra."],
+{p:["Medir cada fase separadamente e comparar (desequilíbrio ≤ 10 %).","Comparar a corrente medida com a da placa e com a do display do VFD.","Confirmar a categoria de segurança do alicate."],
+ x:"Medir a corrente nas três fases de um motor em vazio e com carga e calcular o desequilíbrio percentual entre fases."});
+
+L(31,"🧪","Megômetro",
+"Realizar testes de isolamento em cabos e motores com megôhmetro, evitando danificar o VFD.",
+["O megôhmetro aplica tensão contínua elevada (500 V ou 1000 V) e mede a resistência de isolamento. Critério mínimo habitual: 1 MΩ por kV de tensão nominal, com um mínimo absoluto de 1 MΩ; na prática, valores acima de 10 MΩ são considerados bons. O índice de polarização (IP = R10 min / R1 min) acima de 2 indica isolamento saudável.",
+ "Procedimento: desligar e bloquear a alimentação, <strong>desligar os cabos U, V, W do VFD</strong>, descarregar o motor, ligar os três terminais em curto, testar cada conjunto ao PE e entre fases, e descarregar novamente no fim."],
+{a:"Nunca aplique o megôhmetro com o motor ligado ao VFD. A tensão de teste danifica de imediato os IGBTs e os circuitos de controlo.",
+ x:"Testar o isolamento de um motor (enrolamentos ao PE e entre fases) com 500 V, registar os valores, calcular o IP e concluir se o motor pode ser ligado ao VFD."});
+
+L(32,"🔍","Detector de Tensão",
+"Verificar a ausência de tensão antes de qualquer intervenção, aplicando bloqueio e etiquetagem.",
+["Os detetores de tensão bipolares e de contacto confirmam presença ou ausência de tensão. A regra de segurança é <strong>testar–verificar–testar</strong>: confirmar que o detetor funciona numa fonte conhecida, medir o circuito a intervir e confirmar de novo o detetor.",
+ "O procedimento LOTO (lock-out/tag-out) exige seccionar, bloquear com cadeado, etiquetar e testar. Nos VFD é obrigatório esperar o tempo de descarga do barramento DC (habitualmente 5 min, ver placa do VFD) e medir a tensão DC entre os terminais DC+ e DC−."],
+{a:"Detetores sem contacto são apenas indicativos. Confirmar sempre com detetor bipolar ou multímetro antes de tocar em qualquer condutor.",
+ x:"Simular um LOTO completo num quadro de bancada com VFD: seccionar, bloquear, etiquetar, testar o detetor, verificar ausência de tensão e medir o barramento DC até ≤ 5 V."});
+
+L(33,"🔌","Medição de Tensão",
+"Medir e avaliar tensões de linha, fase e desequilíbrio de tensão na alimentação de VFD e motores.",
+["Medem-se as tensões entre fases (L1-L2, L2-L3, L3-L1) e, se existir neutro, fase-neutro. O <strong>desequilíbrio de tensão</strong> calcula-se por: (desvio máximo em relação à média / média) × 100. Exemplo: 395, 402 e 388 V → média 395 V; desvio máximo 7 V → 1,8 %.",
+ "Os fabricantes de VFD admitem tolerâncias de tensão de entrada (tipicamente ±10 %) e desequilíbrio máximo (tipicamente 3 %). Um desequilíbrio elevado aumenta a corrente do retificador e provoca aquecimento ou falhas de subtensão."],
+{tt:"Registo de Medição", tb:[["Ponto","L1-L2","L2-L3","L3-L1","Desequilíbrio %"],["Entrada do quadro","—","—","—","—"],["Entrada do VFD","—","—","—","—"]],
+ x:"Medir e registar as tensões de linha no quadro geral e nos terminais do VFD, calcular o desequilíbrio e concluir se a alimentação é adequada."});
+
+L(34,"🧲","Medição de Corrente",
+"Comparar a corrente medida com a nominal do motor e identificar sobrecarga ou desequilíbrio.",
+["A corrente medida deve ser comparada com a da placa: valores acima de 100 % indicam sobrecarga mecânica ou tensão baixa; valores muito abaixo indicam carga leve. O desequilíbrio entre fases acima de 10 % obriga a investigar causa na alimentação ou no motor.",
+ "Exemplo: motor com In = 28,5 A. Medições: 27,8 A, 29,0 A, 28,2 A. Média = 28,3 A; desvio máximo = 0,7 A; desequilíbrio = 2,5 %. A carga está a 99 % da nominal, dentro do normal."],
+{p:["Sempre registar condições de carga (vazio, meia carga, plena carga).","Comparar com o valor lido no VFD (calibração).","Uma corrente de vazio muito alta sugere problema no motor."],
+ x:"Medir a corrente de um motor em 3 pontos de carga, comparar com a placa e com o display do VFD, e explicar eventuais diferenças."});
+
+L(35,"📏","Teste de Continuidade",
+"Verificar a integridade de cabos, contactos, bobinas e enrolamentos de motor com o circuito sem tensão.",
+["A continuidade confirma se existe um caminho condutor. Serve para verificar fusíveis, cabos, contactos e bobinas. Nos motores trifásicos, as resistências dos três enrolamentos (U1-U2, V1-V2, W1-W2) devem ser iguais, com variações inferiores a 5 %.",
+ "Contacto NA em repouso: sem continuidade; NF em repouso: continuidade. Bobina de contactor: resistência típica de dezenas a centenas de ohms; leitura infinita indica bobina aberta e zero indica curto-circuito."],
+{tt:"Interpretação de Leituras", tb:[["Componente","Leitura normal","Anomalia"],["Fusível","≈ 0 Ω","Infinito: queimado"],["Contacto NF","≈ 0 Ω","Infinito: contacto sujo/aberto"],["Bobina","Dezenas a centenas de Ω","Infinito ou 0 Ω"],["Enrolamentos do motor","Três valores iguais","Diferença acima de 5 %"]],
+ x:"Testar a continuidade de 5 componentes e das 3 fases de um motor, registar os valores e indicar se há anomalias."});
+
+L(36,"🛠️","Diagnóstico de Falhas Simples",
+"Aplicar um método sistemático para localizar falhas em circuitos de motor e comando.",
+["Método: 1) recolher o sintoma (o que aconteceu?), 2) verificar alimentação, 3) verificar proteções, 4) verificar comando, 5) verificar carga e motor. Cada passo deve ser confirmado com medições, nunca por suposição. Registe o que verificou e o resultado.",
+ "Antes de reiniciar equipamento que desarmou, procure a causa. Rearmar repetidamente uma proteção sem investigar pode destruir o motor ou o cabo."],
+{tt:"Sintomas Comuns", tb:[["Sintoma","Causa provável","Verificação"],["Motor não arranca","Falta de fase, comando aberto","Medir tensões, botões, bobina"],["Motor zumbe e não roda","Falta de uma fase, carga bloqueada","Medir corrente por fase"],["Disjuntor dispara","Curto-circuito, sobrecarga","Isolamento (megger), corrente"],["Térmico desarma","Sobrecarga, ventilação","Corrente, temperatura, ajuste"]],
+ x:"Resolver 3 cenários de falha simulada (comando aberto, fase em falta, térmico mal ajustado) usando o método de 5 passos e registando cada medição."});
+
+L(37,"🏗️","Prática Integrada",
+"Integrar montagem, medição e diagnóstico num exercício completo de bancada.",
+["Exercício: montar o arranque direto de um motor com disjuntor-motor, contactor, botoneira Start/Stop com selo e sinalização. Depois de montado, seguir a sequência: 1) inspeção visual, 2) continuidade do comando sem tensão, 3) isolamento do motor, 4) energização, 5) medições de tensão e corrente, 6) teste de funcionamento e paragem, 7) registo.",
+ "Este exercício simula o trabalho em campo e é a base para o comissionamento de VFD do Nível 2, onde as mesmas etapas serão repetidas com o inversor."],
+{p:["Trabalhar sempre com LOTO e verificação de ausência de tensão.","Documentar cada medição.","Rever o esquema antes de energizar."],
+ x:"Concluir a montagem do arranque direto, executar as 7 etapas, registar todas as medições numa folha e apresentar as conclusões ao formador."});
+
+E(38,"Avaliação Final do Nível 1","Nível 1 — Iniciante (Aulas 1 a 38)",
+[["Fundamentos de Eletricidade","20%","≥ 70 %"],["Diagramas e Aparelhagem","20%","Leitura sem erros graves"],["Motores Elétricos","25%","Placa e ligações corretas"],["Instrumentação e Segurança","20%","LOTO e medições corretas"],["Diagnóstico de Falhas","15%","Método aplicado"]],
+"Prova integrada: ler um esquema, identificar a placa de um motor, montar o circuito, medir e diagnosticar uma falha introduzida pelo formador. Nota mínima global de 70 % para avançar ao Nível 2.");
+
+/* ===== NÍVEL 2 — MÓDULO 5: FUNDAMENTOS DOS VARIADORES DE FREQUÊNCIA (39-48) ===== */
+
+L(39,"🎛️","O que é um VFD",
+"Compreender o que é um variador de frequência, para que serve e como se compara com outras formas de arranque.",
+["O <strong>variador de frequência (VFD, VSD, inversor, conversor de frequência ou AC drive)</strong> converte a tensão fixa da rede (50 Hz) em tensão e frequência variáveis, controlando a velocidade e o binário de um motor de indução. Permite arranque suave, controlo de velocidade, proteção do motor e, em muitas aplicações, forte poupança de energia.",
+ "Ao contrário do arranque direto ou estrela-triângulo, o VFD controla a corrente durante todo o funcionamento e não apenas no arranque."],
+{tt:"VFD vs. Outras Soluções de Arranque", tb:[["Característica","Arranque direto","Estrela-triângulo","Soft starter","VFD"],["Corrente de arranque","6 a 8 × In","≈ 2 a 3 × In","≈ 2 a 4 × In","≤ 1,5 × In"],["Controlo de velocidade","Não","Não","Não","Sim"],["Binário de arranque","Pleno","Reduzido a 1/3","Regulável","Até 150 % ou mais"],["Poupança de energia","Não","Não","Pouca","Elevada em bombas/ventiladores"],["Custo relativo","Baixo","Baixo","Médio","Mais alto"]],
+ x:"Escolher, justificando, a solução de arranque mais adequada para: (a) uma bomba com caudal variável, (b) um compressor com arranques raros, (c) um transportador que precisa de 3 velocidades."});
+
+L(40,"🧩","Arquitetura Interna do VFD",
+"Identificar os blocos que compõem um VFD e a função de cada um.",
+["Um VFD comum de dupla conversão contém: <strong>retificador</strong> (CA → CC), <strong>reator/choque</strong> e <strong>condensadores</strong> do barramento DC, <strong>inversor</strong> de IGBTs (CC → CA de frequência variável), <strong>unidade de controlo</strong> (microprocessador), circuitos de interface (E/S), filtro EMC, ventilação e, em alguns modelos, <strong>chopper de travagem</strong>.",
+ "A tensão contínua do barramento DC serve de reservatório de energia e desacopla a entrada da saída. Compreender esta arquitetura é essencial para o diagnóstico de falhas (OC, OV, UV, OH)."],
+{d:"REDE ─► [RETIFICADOR] ─► [BARRAMENTO DC] ─► [INVERSOR IGBT] ─► MOTOR\n            (díodos)      (L + condensadores)     (PWM)\n                               │\n                        [CHOPPER + RESISTÊNCIA]\n                 [CONTROLO / E-S / TECLADO / COMUNICAÇÃO]",
+ tt:"Blocos do VFD", tb:[["Bloco","Função","Falha típica"],["Retificador","Converte CA em CC","Díodo em curto, UV"],["Barramento DC","Filtra e armazena energia","Condensadores degradados, OV/UV"],["Inversor","Gera a tensão PWM ao motor","IGBT danificado, OC"],["Controlo","Executa algoritmos e proteção","Falha de parâmetros"],["Ventilação","Arrefecimento","OH por ventoinha bloqueada"]],
+ x:"Desenhar de memória o diagrama de blocos de um VFD, indicando tensões típicas em cada bloco para uma rede de 400 V."});
+
+L(41,"🔽","Retificador",
+"Compreender o funcionamento do retificador trifásico de díodos e as suas consequências para a rede.",
+["A ponte de seis díodos converte a CA trifásica em CC pulsada. O valor médio de tensão é aproximadamente 1,35 × U(linha) e o valor de pico é 1,41 × U(linha). Com 400 V de rede obtêm-se cerca de 540 V CC. Na ligação à rede, os condensadores descarregados exigem um circuito de pré-carga (resistência + bypass) para limitar a corrente de arranque.",
+ "O retificador de 6 pulsos gera correntes harmónicas de ordem 5, 7, 11 e 13. Variantes: 12 e 18 pulsos (com transformadores desfasados) ou <strong>Active Front End (AFE)</strong>, que usa IGBTs e permite regeneração para a rede."],
+{tt:"Tipos de Retificador", tb:[["Tipo","THDi típico","Regeneração","Aplicação"],["6 pulsos","30 a 40 % (com choke)","Não","Uso geral"],["12 pulsos","10 a 12 %","Não","Potências elevadas"],["18 pulsos","3 a 5 %","Não","Requisitos estritos"],["AFE","Inferior a 5 %","Sim","Elevadores, grúas"]],
+ x:"Calcular a tensão de barramento DC para redes de 380, 400 e 440 V e explicar a função do circuito de pré-carga."});
+
+L(42,"🔋","Barramento DC",
+"Compreender o papel do barramento DC, os seus limites de tensão e os cuidados de segurança.",
+["O barramento DC alisa a tensão retificada com condensadores eletrolíticos e um choke. Para redes de 400 V, o valor típico é 540 V CC. Os limiares de proteção variam conforme o fabricante: em classe 400 V, a subtensão (UV) dispara tipicamente na ordem de 350 a 400 V CC e a sobretensão (OV) na ordem de 800 V CC. Confirme sempre no manual.",
+ "Os condensadores envelhecem: ripple aumenta e capacidade diminui, sendo a causa frequente de OV/UV intermitentes. Cuidado: após desligar o VFD, o barramento mantém tensão perigosa durante vários minutos."],
+{a:"Aguarde o tempo indicado na placa do VFD (habitualmente 5 minutos ou mais) e meça a tensão DC entre DC+ e DC− antes de tocar em qualquer parte interna. O LED de carga apagado não é prova suficiente.",
+ x:"Localizar os terminais DC+/DC− num VFD (ou no manual), medir (com formador) a tensão do barramento com o VFD energizado e registar o tempo de descarga após desligar."});
+
+L(43,"🔼","Inversor",
+"Compreender como o inversor a IGBT produz a tensão de saída trifásica de frequência variável.",
+["O inversor tem seis interruptores (IGBT), agrupados em três braços, que ligam cada fase de saída ao pólo positivo ou negativo do barramento DC. Ao comutar alternadamente e com tempos precisos, produz uma sequência de pulsos que, filtrada pela indutância do motor, resulta numa corrente quase sinusoidal.",
+ "Aspetos práticos: o <strong>tempo morto</strong> evita curto-circuito no braço; a <strong>frequência de comutação (portadora)</strong> vai de 2 a 16 kHz; o dV/dt elevado e os cabos longos podem gerar picos de tensão no motor, justificando filtros de saída."],
+{tt:"Efeitos da Frequência de Portadora", tb:[["Portadora","Ruído acústico","Perdas no VFD","Observação"],["2 kHz","Alto","Baixas","Máxima potência disponível"],["4 kHz","Médio","Médias","Compromisso comum"],["8 kHz","Baixo","Altas","Pode exigir derating"],["12 a 16 kHz","Muito baixo","Muito altas","Cabos curtos, derating"]],
+ x:"Descrever o funcionamento de um braço do inversor com dois IGBT e explicar o efeito de aumentar a frequência de portadora de 4 kHz para 12 kHz."});
+
+L(44,"📶","PWM",
+"Compreender a modulação por largura de pulsos e as suas variantes (SPWM e SVPWM).",
+["Na <strong>PWM</strong>, uma referência sinusoidal é comparada com uma portadora triangular; o resultado é uma sequência de pulsos cuja largura média reproduz a sinusoide. A frequência da referência determina a frequência de saída e a amplitude determina a tensão. Variantes: SPWM (sinusoidal) e <strong>SVPWM</strong> (space vector), que aproveita melhor o barramento DC.",
+ "O motor comporta-se como um filtro indutivo, transformando os pulsos numa corrente quase sinusoidal. Por isso, a corrente pode ser lida com alicate True RMS, enquanto a tensão de saída não deve ser medida com multímetro comum."],
+{p:["Frequência de saída = frequência da referência.","Tensão média = duty cycle × tensão DC.","Portadora alta: menos ruído acústico, mais perdas por comutação."],
+ x:"Esboçar, à mão, a comparação entre uma sinusoide e uma portadora triangular e assinalar os pulsos gerados numa fase durante um período."});
+
+L(45,"⏩","Frequência e Velocidade",
+"Relacionar a frequência de saída com a velocidade e conhecer os limites de operação abaixo e acima da frequência nominal.",
+["A velocidade do motor é proporcional à frequência. Abaixo da frequência nominal, o VFD mantém V/f constante e o motor fornece binário constante. Acima da frequência nominal, a tensão fica limitada e o motor entra em <strong>enfraquecimento de campo</strong> com potência constante e binário decrescente.",
+ "Operar a baixas velocidades reduz a ventilação do motor autoventilado, pelo que exige atenção à temperatura. Acima da velocidade nominal, deve consultar-se o fabricante quanto a limites mecânicos, rolamentos e balanceamento."],
+{tt:"Motor de 4 Polos (Aprox.)", tb:[["Frequência (Hz)","Velocidade (rpm)","Zona"],["10","≈ 290","Binário constante"],["25","≈ 735","Binário constante"],["50","≈ 1470","Nominal"],["60","≈ 1770","Enfraquecimento de campo"],["87","≈ 2560","Só em motores adequados (ver Aula 52)"]],
+ x:"Calcular as velocidades a 15, 30 e 45 Hz para um motor de 4 polos com escorregamento de 2 % e explicar as limitações de arrefecimento a 15 Hz."});
+
+L(46,"🎚️","Torque e Controlo",
+"Compreender os modos de controlo de binário do VFD e as classes de sobrecarga (ND e HD).",
+["No controlo <strong>V/f</strong>, o VFD mantém a relação tensão/frequência e permite ajustar o <em>torque boost</em> a baixa velocidade. Existem curvas lineares (binário constante), quadráticas (bombas e ventiladores) e multiponto. A compensação de escorregamento melhora a precisão de velocidade.",
+ "As classes de sobrecarga dimensionam o VFD: <strong>Normal Duty (ND)</strong>, tipicamente 110 a 120 % durante 60 s (bombas, ventiladores), e <strong>Heavy Duty (HD)</strong>, tipicamente 150 % durante 60 s (transportadores, gruas, compressores de pistão). Um mesmo VFD tem potência nominal maior em ND do que em HD."],
+{tt:"Classes de Sobrecarga", tb:[["Classe","Sobrecarga","Aplicações típicas"],["Normal Duty (ND)","110 a 120 % / 60 s","Bombas, ventiladores"],["Heavy Duty (HD)","150 % / 60 s","Transportadores, guindastes, extrusoras"]],
+ x:"Escolher entre ND e HD para 3 aplicações e justificar; ajustar o torque boost numa demonstração e observar o efeito na corrente a baixa frequência."});
+
+L(47,"⏱️","Rampas de Aceleração",
+"Definir rampas de aceleração e desaceleração adequadas, evitando os disparos OC e OV.",
+["A rampa define o tempo para ir de zero à frequência máxima (ou ao inverso). Uma rampa demasiado curta força a corrente e provoca <strong>OC</strong> (sobrecorrente). Uma rampa de desaceleração demasiado curta faz o motor regenerar energia para o barramento DC e provoca <strong>OV</strong> (sobretensão). Existem rampas lineares e em S (mais suaves).",
+ "Solução para cargas de inércia elevada: aumentar o tempo de rampa, ativar o controlo automático de tensão DC, instalar chopper com resistência de travagem ou usar retificador regenerativo."],
+{tt:"Tempos Típicos de Rampa", tb:[["Aplicação","Aceleração (s)","Desaceleração (s)"],["Bomba centrífuga","10 a 30","10 a 30"],["Ventilador grande","30 a 120","60 a 180"],["Transportador","3 a 10","3 a 10"],["Elevador (curva em S)","Definida pela curva de percurso","Idem"]],
+ x:"Testar num VFD de bancada 3 tempos de rampa (2 s, 10 s, 30 s), observar corrente e barramento DC e registar quando surge OC ou OV."});
+
+E(48,"Avaliação Prática do Módulo 5","Fundamentos dos Variadores de Frequência",
+[["Arquitetura e blocos do VFD","25%","Diagrama completo"],["Retificador, DC e inversor","25%","Cálculos e explicação corretos"],["PWM e controlo V/f","25%","Explicação técnica coerente"],["Rampas e classes ND/HD","25%","Ajuste correto em bancada"]],
+"Apresentar o diagrama de blocos, calcular o barramento DC e ajustar rampas num VFD de bancada sem provocar disparos.");
+
+/* ===== NÍVEL 2 — MÓDULO 6: PARAMETRIZAÇÃO (49-60) ===== */
+
+L(49,"📋","Dados da Placa do Motor",
+"Introduzir corretamente os dados da placa do motor no VFD, base de qualquer parametrização.",
+["A parametrização começa sempre pelos dados de placa: potência, tensão, corrente, frequência e velocidade nominais (e, em alguns VFD, cosφ e número de polos). Estes valores alimentam o modelo do motor e as proteções. Um erro nestes dados compromete o controlo, o binário e a proteção térmica.",
+ "Exemplo de referência: em VFD de várias marcas, a Danfoss agrupa os dados em 1-20 (potência), 1-22 (tensão), 1-23 (frequência), 1-24 (corrente) e 1-25 (velocidade). Na Aula 88 encontra a tabela comparativa entre marcas."],
+{tt:"Sequência de Introdução", tb:[["Passo","Ação","Verificação"],["1","Ler a placa e a ligação Y/Δ na caixa de bornes","Ligação coerente com a rede"],["2","Introduzir tensão e frequência","Valores iguais aos da placa"],["3","Introduzir corrente e potência","Corrente coerente com a ligação"],["4","Introduzir rpm nominal","Determinar polos (Aula 53)"],["5","Guardar e realizar autotuning","Sem alarmes"]],
+ x:"Parametrizar os dados de placa de um motor real no VFD de bancada, guardar as configurações e confirmar no display os valores introduzidos."});
+
+L(50,"⚙️","Potência Nominal",
+"Dimensionar o VFD em função do motor e da aplicação, aplicando fatores de derating.",
+["O VFD dimensiona-se pela <strong>corrente</strong> e não apenas pela potência. Regra base: I nominal do VFD ≥ I nominal do motor, considerando a classe de sobrecarga da aplicação (ND ou HD). Cargas com arranques pesados exigem um degrau acima.",
+ "Deve aplicar-se derating por temperatura ambiente (acima de 40 °C, tipicamente), por altitude (acima de 1000 m, cerca de 1 % por cada 100 m adicionais) e por frequência de portadora elevada. Consulte a tabela de derating do fabricante."],
+{tt:"Fatores de Dimensionamento", tb:[["Fator","Regra prática","Efeito"],["Sobrecarga (HD)","150 % / 60 s","Selecionar VFD por corrente HD"],["Temperatura > 40 °C","Reduzir corrente conforme catálogo","Evita OH"],["Altitude > 1000 m","≈ 1 % por 100 m","Menor arrefecimento"],["Portadora elevada","Reduzir corrente","Perdas de comutação"]],
+ x:"Escolher o VFD para um motor de 22 kW/41 A num ambiente a 45 °C e 1500 m de altitude, indicando o cálculo de derating e a folga escolhida."});
+
+L(51,"🧷","Corrente Nominal",
+"Ajustar a corrente nominal, os limites de corrente e a proteção térmica eletrónica do motor.",
+["A corrente nominal introduzida é a de placa correspondente à ligação e à tensão de trabalho. Os limites de corrente (tipicamente entre 110 % e 150 % de In) definem o comportamento em sobrecarga. A <strong>proteção térmica eletrónica (ETR/ETH)</strong> usa o valor de In e o modelo térmico do motor para disparar por sobrecarga.",
+ "Em motores com dupla tensão (por exemplo, 400/690 V), a corrente muda conforme a ligação (Δ: 28,5 A; Y: 16,5 A). Usar a corrente errada faz o VFD proteger mal o motor."],
+{p:["Usar a corrente da ligação efetivamente instalada.","Ajustar ETR a 100 % de In, salvo indicação diferente.","Se houver termistor PTC, ligar à entrada dedicada."],
+ x:"Para um motor 400/690 V, 28,5/16,5 A, indicar a corrente a introduzir em redes de 400 V e 690 V e configurar a proteção térmica eletrónica."});
+
+L(52,"🔁","Frequência Nominal",
+"Ajustar a frequência nominal e compreender a característica de 87 Hz.",
+["Em Angola e na maioria dos países usa-se 50 Hz (60 Hz nas Américas). A <strong>frequência base</strong> é o ponto em que o VFD atinge a tensão nominal do motor. Abaixo dela, V/f é constante; acima, o motor trabalha em potência constante.",
+ "A <strong>característica de 87 Hz</strong>: um motor de 230/400 V Δ/Y alimentado por um VFD de 400 V pode ser ligado em Δ e operar a 87 Hz, obtendo 1,73 vezes a potência com o mesmo binário. Deve verificar-se a ventilação, os rolamentos e a autorização do fabricante."],
+{a:"Operar acima da velocidade nominal pode exceder os limites mecânicos e térmicos do motor e da carga. Confirmar sempre com o fabricante antes de usar 87 Hz.",
+ x:"Explicar, em 10 linhas, porque é que a característica de 87 Hz aumenta a potência, e calcular a velocidade de um motor de 4 polos a 87 Hz."});
+
+L(53,"🌀","RPM Nominal",
+"Introduzir a velocidade nominal e deduzir o número de polos a partir da placa.",
+["A velocidade nominal (por exemplo, 1460 rpm) é usada para calcular o escorregamento nominal e melhorar o controlo. Para deduzir os polos: p = 120 × f / ns, com ns a velocidade síncrona imediatamente acima da nominal. Exemplo: 1460 rpm a 50 Hz → ns = 1500 → p = 4 polos.",
+ "Se o valor de rpm for introduzido incorretamente, a compensação de escorregamento e o controlo vetorial ficam comprometidos, com velocidades reais diferentes das programadas."],
+{tt:"Dedução de Polos", tb:[["rpm de placa","ns (rpm)","Polos"],["2900","3000","2"],["1460","1500","4"],["975","1000","6"],["725","750","8"]],
+ x:"Deduzir os polos e o escorregamento nominal de 5 motores a partir dos rpm de placa e confirmar em bancada no VFD."});
+
+L(54,"⬇️","Frequência Mínima",
+"Definir a frequência mínima em função da aplicação, arrefecimento e lubrificação.",
+["A frequência mínima evita operar a velocidades muito baixas onde o motor autoventilado arrefece mal, as bombas perdem arrefecimento/lubrificação ou surgem ressonâncias. Valores usuais: 5 a 10 Hz em transportadores, 25 a 30 Hz em bombas, e o indicado pelo fabricante em compressores.",
+ "Muitos VFD têm função <strong>sleep</strong>: se a referência ficar abaixo da frequência mínima durante um tempo, o VFD para; e retoma quando a referência subir."],
+{p:["Motor autoventilado a 10 Hz: ventilação reduzida a cerca de 20 %.","Bombas: risco de funcionamento sem arrefecimento do rotor.","Verificar sempre a ressonância mecânica."],
+ x:"Definir a frequência mínima para 3 aplicações (bomba, ventilador, transportador) e testar a função sleep num VFD de bancada."});
+
+L(55,"⬆️","Frequência Máxima",
+"Definir a frequência máxima e as frequências de salto para evitar ressonâncias.",
+["A frequência máxima limita a velocidade máxima da máquina. Não deve exceder a especificada para o motor e para a carga. Em ventiladores e bombas, a potência cresce com o cubo da velocidade: a 60 Hz, em vez de 50 Hz, o consumo é 1,2³ ≈ 1,73 vezes superior.",
+ "As <strong>frequências de salto (skip frequencies)</strong> permitem que o VFD atravesse rapidamente uma banda de ressonância mecânica sem permanecer nela. Registe as bandas de vibração durante o comissionamento."],
+{tt:"Efeito em Ventiladores", tb:[["Frequência (Hz)","Velocidade (%)","Potência (%)"],["40","80","51"],["45","90","73"],["50","100","100"],["60","120","173"]],
+ x:"Percorrer a gama de frequências de uma máquina, detetar uma banda de vibração e programar uma frequência de salto."});
+
+L(56,"📈","Ramp Up",
+"Calcular e ajustar o tempo de aceleração com base na inércia e no binário disponível.",
+["O tempo de aceleração depende da inércia total e do binário de aceleração disponível: t ≈ (J × ω) / (T motor − T carga), com ω = 2π n / 60. Se o VFD atingir o limite de corrente durante a rampa, o tempo real será maior do que o programado, ou disparará OC.",
+ "Na prática, ajusta-se por tentativas: começar com um tempo generoso, reduzir até o VFD atingir 80 a 90 % do limite de corrente, e deixar folga. Nas bombas, a rampa evita golpes de pressão; nos transportadores, evita o deslizamento do produto."],
+{p:["Rampa curta demais: OC ou limite de corrente ativo.","Rampa longa demais: perda de produtividade.","Curvas em S reduzem solavancos."],
+ x:"Medir o tempo mínimo de aceleração sem OC de um motor com volante de inércia e comparar com o cálculo teórico."});
+
+L(57,"📉","Ramp Down",
+"Ajustar a desaceleração e escolher o modo de paragem adequado (rampa, roda livre, injeção CC).",
+["Na desaceleração, o motor transforma-se em gerador quando a carga tem inércia elevada e o VFD tem de absorver a energia. Se o barramento DC sobe demais, ocorre OV. Soluções: rampa mais longa, controlo de sobretensão, <strong>resistência de travagem</strong> ou retificador regenerativo.",
+ "Modos de paragem: por rampa (controlada), em roda livre (sem controlo) e por injeção de CC (paragem rápida com travagem no motor). Nas bombas, rampas de desaceleração longas previnem o <strong>golpe de aríete</strong>."],
+{tt:"Modos de Paragem", tb:[["Modo","Descrição","Uso típico"],["Rampa","Desacelera segundo o tempo programado","Uso geral"],["Roda livre","Corta a saída; o motor para por inércia","Cargas com pouca inércia"],["Injeção CC","Aplica CC no estator","Paragem mais rápida"],["Travagem por resistência","Dissipa energia numa resistência","Cargas de grande inércia"]],
+ x:"Provocar deliberadamente um OV com uma rampa muito curta e corrigi-lo com (a) rampa mais longa e (b) ativação do controlo de sobretensão."});
+
+L(58,"🎯","Autotuning",
+"Executar corretamente a identificação automática do motor (autotuning, AMA, ID Run).",
+["O autotuning mede parâmetros do motor (resistência do estator, indutâncias) para melhorar o controlo. Existem duas modalidades: <strong>estático</strong> (motor parado, sem rotação) e <strong>rotativo</strong> (o motor roda, idealmente sem carga acoplada). Requer dados de placa corretos e o motor frio.",
+ "Antes de iniciar: confirmar a ligação, retirar cargas que impeçam a rotação, garantir que o travão está aberto (se aplicável) e que ninguém está junto à máquina. Se o autotuning falhar, rever dados de placa, cabos e ligação Y/Δ."],
+{tt:"Procedimento", tb:[["Passo","Ação"],["1","Introduzir todos os dados de placa"],["2","Escolher o modo (estático ou rotativo)"],["3","Garantir a segurança da máquina"],["4","Executar e aguardar o fim"],["5","Verificar valores medidos e guardar"]],
+ a:"O autotuning rotativo faz o motor rodar. Assegure que a carga mecânica, o travão e as pessoas em redor estão em condições seguras.",
+ x:"Executar autotuning estático e rotativo no mesmo motor e comparar a corrente em vazio e o comportamento do controlo."});
+
+L(59,"✅","Comissionamento",
+"Aplicar um procedimento completo de comissionamento de um VFD, desde a inspeção até ao registo final.",
+["O comissionamento organiza-se em fases: <strong>pré-energização</strong> (inspeção mecânica e elétrica, ligações, terra, blindagens, isolamento), <strong>energização</strong> (verificar tensões, parâmetros, sentido de rotação), <strong>teste em vazio</strong>, <strong>teste em carga</strong> e <strong>registo</strong> (parâmetros finais e medições).",
+ "Guardar cópia de segurança dos parâmetros (no VFD, em ficheiro e em papel) e preencher o relatório de comissionamento com dados de placa, tensões, correntes, tempos de rampa e assinaturas."],
+{tt:"Checklist de Comissionamento", tb:[["Fase","Verificação","OK"],["Pré-energização","Ligações apertadas, PE, blindagem a 360°","☐"],["Pré-energização","Isolamento do motor (megger com VFD desligado)","☐"],["Energização","Tensão de rede e desequilíbrio","☐"],["Energização","Parâmetros e sentido de rotação","☐"],["Teste em vazio","Corrente, ruído, vibração","☐"],["Teste em carga","Corrente vs. placa, temperatura","☐"],["Registo","Backup de parâmetros e relatório","☐"]],
+ x:"Comissionar um VFD de bancada seguindo o checklist e produzir um relatório de uma página com as medições e o backup de parâmetros."});
+
+E(60,"Avaliação Prática do Módulo 6","Parametrização",
+[["Dados de placa e ligações","25%","Zero erros de introdução"],["Frequências mínima/máxima e rampas","25%","Ajustes justificados"],["Autotuning","20%","Executado com segurança"],["Comissionamento e relatório","30%","Checklist completa"]],
+"Parametrizar do zero um VFD para um motor fornecido, executar autotuning, comissionar e entregar o relatório e o backup de parâmetros.");
+
+/* ===== NÍVEL 2 — MÓDULO 7: ENTRADAS E SAÍDAS (61-72) ===== */
+
+L(61,"🔘","Entradas Digitais",
+"Compreender as entradas digitais do VFD, a lógica PNP/NPN e a sua programação.",
+["As entradas digitais (DI) recebem sinais de dois estados (0/1) de botões, seletores, sensores ou PLC. O VFD fornece normalmente uma alimentação interna de 24 V CC. Em <strong>lógica PNP (source)</strong>, a entrada é ativada aplicando +24 V; em <strong>lógica NPN (sink)</strong>, ligando ao 0 V. A escolha faz-se por jumper ou parâmetro e tem de coincidir com o dispositivo ligado (PLC).",
+ "A cada terminal atribui-se uma função por parâmetro: Start, Stop, Reverse, Reset, velocidades fixas, falha externa, etc. Cabos longos exigem blindagem ou relés de interface para evitar disparos por ruído."],
+{tt:"PNP vs. NPN", tb:[["Lógica","Ativa quando","Ligação comum"],["PNP (source)","+24 V na entrada","0 V como referência"],["NPN (sink)","0 V na entrada","+24 V como referência"]],
+ x:"Ligar um botão e um sensor às entradas digitais do VFD de bancada em lógica PNP e depois em NPN, atribuir funções e testar."});
+
+L(62,"▶️","Start",
+"Configurar o comando de marcha do VFD em modo local e remoto, a 2 e 3 fios.",
+["O comando de marcha pode vir do teclado (local), dos terminais (remoto) ou da comunicação (PLC/Bus). Nos terminais, o <strong>comando a 2 fios</strong> usa um contacto mantido (fechado = marcha, aberto = paragem); o <strong>comando a 3 fios</strong> usa dois botões de pulso (Start NA e Stop NF) e memoriza a marcha.",
+ "O VFD só arranca se estiver <strong>habilitado</strong> (por exemplo, STO e Enable ativos) e sem falhas. Os modos Local/Remoto (Hand/Auto) permitem manutenção sem depender do PLC."],
+{p:["2 fios: cuidado com rearranque automático após corte de energia.","3 fios: memoriza a marcha, exige pulso de Start.","Confirmar a origem do comando e da referência (podem ser diferentes)."],
+ x:"Programar comando a 2 fios e a 3 fios, testar o comportamento após um corte de alimentação e registar a diferença."});
+
+L(63,"⏹️","Stop",
+"Configurar as paragens do VFD e distinguir paragem normal, de emergência e o STO.",
+["Modos de paragem: rampa, roda livre, injeção CC e paragem rápida. O <strong>STO (Safe Torque Off, EN 61800-5-2)</strong> corta o binário do motor por hardware, sem contactor de saída, e pode atingir SIL 3/PL e conforme o modelo. A EN 60204-1 define a Categoria 0 (corte imediato) e a Categoria 1 (paragem controlada seguida de corte).",
+ "Um botão de emergência deve atuar por circuito de segurança (relé de segurança e STO), nunca apenas por entrada digital comum. Verifique o tempo de paragem e a distância percorrida pela máquina."],
+{a:"Um STO ativo não isola o VFD da rede nem elimina tensão nos terminais. Para intervir no motor ou no VFD é obrigatório seccionar e aplicar LOTO.",
+ x:"Testar as 4 formas de paragem num VFD com motor (rampa, roda livre, injeção CC, STO) e registar o tempo até paragem total em cada caso."});
+
+L(64,"↔️","Reverse",
+"Configurar a inversão do sentido de rotação de forma segura.",
+["O sentido de rotação pode ser invertido por entrada digital, teclado, comunicação ou trocando duas fases de saída (U/V/W) no motor. Alguns VFD permitem bloquear o sentido inverso, essencial em bombas e ventiladores que não devem rodar ao contrário.",
+ "Ao inverter, o motor desacelera até zero e acelera no sentido oposto, passando pelo tempo de rampa. Cargas de alta inércia exigem rampas adequadas. Prever tempo morto e proteção mecânica em inversões frequentes."],
+{p:["Verificar o sentido de rotação em vazio antes de acoplar.","Bloquear o sentido inverso em bombas de parafuso ou centrífugas.","Em elevadores, o sentido depende do encoder e do freio."],
+ x:"Verificar o sentido de rotação de um motor, invertê-lo por parâmetro e depois por troca de fases, e testar o bloqueio do sentido inverso."});
+
+L(65,"🔄","Reset",
+"Configurar o reset de falhas e aplicar boas práticas de rearme.",
+["O reset limpa uma falha e pode ser feito por tecla do painel, entrada digital, comunicação ou de forma automática (com número máximo de tentativas). O <strong>auto-reset</strong> deve ser usado com cuidado: não é apropriado para falhas graves como sobrecorrente por curto-circuito ou falha à terra.",
+ "Boa prática: nunca rearmar repetidamente sem identificar a causa. Registar o código, a hora, a corrente e a frequência no momento da falha (histórico do VFD) antes de fazer reset."],
+{tt:"Falhas e Reset", tb:[["Falha","Auto-reset recomendado?","Nota"],["Subtensão (UV)","Sim, com limite de tentativas","Após queda da rede"],["Sobretemperatura (OH)","Após arrefecimento","Resolver causa"],["Sobrecorrente (OC)","Não","Investigar"],["Falha à terra (GF)","Não","Testar isolamento"]],
+ x:"Configurar auto-reset com 3 tentativas e intervalo de 10 s para subtensão e simular a falha, verificando o comportamento após a terceira tentativa."});
+
+L(66,"🎚️","Entradas Analógicas 0-10 V",
+"Configurar entradas analógicas de tensão como referência de velocidade e compreender a escala.",
+["A entrada analógica 0-10 V recebe, por exemplo, o sinal de um potenciómetro de 10 kΩ ligado aos terminais +10 V, AI e 0 V. O VFD converte a tensão em frequência: 0 V = frequência mínima e 10 V = frequência máxima, com possibilidade de <strong>offset</strong>, <strong>ganho</strong> e <strong>filtro</strong>.",
+ "Para reduzir ruído: cabo blindado com a malha ligada só de um lado, afastado de cabos de potência, e uso do terminal 0 V analógico correto (não o 0 V digital)."],
+{tt:"Escala 0-10 V → 0-50 Hz", tb:[["Tensão (V)","Frequência (Hz)","Velocidade aprox. (4 polos)"],["0","0","0"],["2,5","12,5","≈ 370 rpm"],["5","25","≈ 735 rpm"],["10","50","≈ 1470 rpm"]],
+ x:"Ligar um potenciómetro, ajustar ganho e offset para que 2 V corresponda a 10 Hz e 10 V a 50 Hz, e registar leituras em 5 pontos."});
+
+L(67,"🟢","Entradas Analógicas 4-20 mA",
+"Configurar sinais 4-20 mA de sensores e transmissores, incluindo deteção de cabo partido.",
+["O sinal 4-20 mA é o padrão industrial para transmissores de pressão, nível, temperatura e caudal. Vantagens face a 0-10 V: <strong>elevada imunidade ao ruído</strong> e <strong>zero vivo</strong>: 4 mA representa o valor mínimo, pelo que uma leitura abaixo de 4 mA indica cabo partido ou transmissor avariado.",
+ "Conversão para frequência: f = (I − 4) / 16 × fmáx. Exemplo: 12 mA com fmáx = 50 Hz → (12 − 4)/16 × 50 = 25 Hz. Verificar se o sinal é alimentado pelo loop (2 fios), pelo VFD ou por fonte externa, e configurar o jumper de corrente na entrada analógica."],
+{tt:"Exemplos 4-20 mA → 0-50 Hz", tb:[["Corrente (mA)","Frequência (Hz)"],["4","0"],["8","12,5"],["12","25"],["16","37,5"],["20","50"]],
+ x:"Ligar um simulador 4-20 mA, programar a entrada, verificar 5 pontos e simular cabo partido para confirmar a falha por perda de sinal."});
+
+L(68,"⚡","Relés",
+"Configurar as saídas a relé do VFD para sinalizar estados e integrar com o PLC.",
+["As saídas a relé sinalizam estados como Run (em marcha), Ready (pronto), Fault (falha), At speed (velocidade atingida) ou Warning (aviso). Os contactos suportam tipicamente 250 V CA/2 A ou 30 V CC/2 A (ver manual). Em cargas indutivas (bobinas), instalar supressão (díodo em CC ou RC em CA).",
+ "Para sinalização de falha, utiliza-se frequentemente lógica de segurança positiva: o relé permanece energizado em funcionamento normal e cai com falha ou perda de alimentação, avisando também em caso de VFD desligado."],
+{tt:"Sinais Comuns", tb:[["Sinal","Significado","Uso"],["Run","VFD em marcha","Luz verde, PLC"],["Ready","Pronto para arrancar","Permissivo do PLC"],["Fault","Existe falha","Alarme e paragem do processo"],["At speed","Velocidade atingida","Sequência de processo"]],
+ x:"Configurar dois relés (Run e Fault), ligar a lâmpadas de sinalização e ao PLC e validar o funcionamento em marcha, paragem e falha induzida."});
+
+L(69,"📤","Saídas Analógicas",
+"Configurar saídas analógicas do VFD para leitura de velocidade, corrente, potência ou binário.",
+["As saídas analógicas (0-10 V ou 4-20 mA) enviam ao painel, ao PLC ou ao SCADA uma imagem de variáveis do VFD: frequência de saída, velocidade, corrente, potência, binário ou tensão. Escolhe-se a variável, a escala (valor mínimo e máximo) e o tipo de sinal.",
+ "Respeitar a impedância máxima de carga (por exemplo, 500 Ω em 4-20 mA). Em processos com PLC, preferir a comunicação por rede, deixando a saída analógica para instrumentos de painel."],
+{p:["Escalar a saída para o alcance do instrumento receptor.","4-20 mA permite detetar fio partido.","Verificar carga máxima do circuito."],
+ x:"Programar a saída analógica para indicar a corrente do motor (0 a 2 × In), ligar a um miliamperímetro e verificar o valor a 25 %, 50 % e 100 % de carga."});
+
+L(70,"🚨","Alarmes",
+"Distinguir alarme, aviso e falha (trip), e configurar limites de proteção e histórico.",
+["Um <strong>aviso (warning)</strong> indica condição anormal sem parar o VFD. Um <strong>alarme/falha (trip)</strong> pára o VFD e exige reset. O histórico guarda código, hora e condições no instante da falha (corrente, frequência, tensão DC, temperatura), muito útil no diagnóstico.",
+ "Configuram-se limites de sobrecorrente, subcarga (funcionamento a seco), pré-alarme térmico, falha externa (entrada digital), termistor PTC/PT100 do motor e perda de sinal analógico."],
+{tt:"Alarmes Frequentes", tb:[["Código típico","Significado","Primeira verificação"],["OC","Sobrecorrente","Rampa, carga, cabos"],["OV","Sobretensão DC","Rampa de desaceleração, rede"],["UV","Subtensão DC","Rede, fusíveis, pré-carga"],["OH","Sobretemperatura","Ventilação, ambiente"],["GF","Falha à terra","Isolamento do motor e cabo"],["OL","Sobrecarga do motor","Carga mecânica, ajuste térmico"]],
+ x:"Provocar 3 alarmes controlados (falha externa, perda de 4-20 mA e sobrecarga simulada), ler o histórico e registar o contexto de cada um."});
+
+L(71,"🏭","Prática Completa",
+"Montar e parametrizar uma aplicação completa de bomba com controlo local/remoto e sinais analógicos.",
+["Cenário: bomba centrífuga de 7,5 kW com VFD. Requisitos: comando Start/Stop a 3 fios, seletor local/remoto, referência por potenciómetro (local) e 4-20 mA (remoto), sinalização Run/Falha por relé, saída analógica de corrente, ETR ajustado e frequência mínima de 25 Hz.",
+ "Procedimento: 1) ligar potência e comando, 2) inserir dados de placa e autotuning, 3) programar E/S, 4) testar em vazio, 5) testar em carga, 6) simular falhas, 7) fazer backup e relatório."],
+{tt:"Mapa de Terminais (Exemplo)", tb:[["Terminal","Função","Sinal"],["DI1","Start (NA)","24 V"],["DI2","Stop (NF)","24 V"],["DI3","Local/Remoto","24 V"],["DI4","Reset","24 V"],["AI1","Referência remota","4-20 mA"],["AI2","Potenciómetro local","0-10 V"],["RO1","Run","Relé"],["RO2","Falha","Relé"],["AO1","Corrente","4-20 mA"]],
+ x:"Concluir a montagem e parametrização, testar todos os modos e apresentar um relatório com mapa de terminais, parâmetros alterados e resultados dos testes."});
+
+E(72,"Avaliação do Módulo 7","Entradas e Saídas",
+[["Entradas digitais e comando","25%","Ligação e função corretas"],["Entradas analógicas (V e mA)","25%","Escalas certas"],["Relés, saídas analógicas e alarmes","25%","Sinalização funcional"],["Prática completa e relatório","25%","Aplicação a funcionar"]],
+"Executar em bancada a aplicação de bomba com E/S completas e passar a bateria de testes definida pelo formador, incluindo simulação de falhas.");
+
+/* ===== NÍVEL 2 — MÓDULO 8: REDES INDUSTRIAIS (73-80) ===== */
+
+L(73,"🔗","Modbus RTU",
+"Configurar comunicação Modbus RTU em RS-485 entre PLC/mestre e VFD.",
+["O Modbus RTU é um protocolo mestre/escravo sobre <strong>RS-485</strong>. Cada escravo tem um endereço (1 a 247). Parâmetros de comunicação: velocidade (9600, 19200, 38400 bit/s), paridade (N, E, O), bits de dados e de paragem — <strong>têm de ser idênticos</strong> em todos os dispositivos. A integridade é verificada por CRC16.",
+ "Boas práticas RS-485: topologia em linha (daisy chain), cabo de par entrelaçado blindado, resistência de terminação de 120 Ω nas duas pontas, polarização (bias) num ponto e máximo de 32 nós por segmento (com repetidores para mais)."],
+{tt:"Funções Modbus Mais Usadas", tb:[["Código","Função","Uso no VFD"],["03","Ler registos de retenção","Ler estado, corrente, frequência"],["04","Ler registos de entrada","Leituras analógicas"],["06","Escrever um registo","Comando, referência"],["16 (0x10)","Escrever vários registos","Comando + referência"]],
+ x:"Ligar um mestre Modbus (PC com software de teste ou PLC) ao VFD, ler a frequência de saída e escrever uma referência de velocidade, registando endereços e valores."});
+
+L(74,"🌐","Modbus TCP",
+"Compreender o Modbus TCP e configurar VFD em rede Ethernet.",
+["O Modbus TCP usa Ethernet e a porta TCP <strong>502</strong>. Substitui o CRC por verificações da camada TCP e usa o cabeçalho MBAP com o identificador de unidade (Unit ID). O modelo passa a ser cliente/servidor. O VFD precisa de endereço IP, máscara e, quando aplicável, gateway.",
+ "Vantagens: maior velocidade, integração simples com PLC e SCADA e topologia flexível. Cuidados: segmentação de rede, cibersegurança (não expor a Internet), IPs fixos e switches industriais."],
+{p:["IP único por VFD, dentro da mesma sub-rede do PLC.","Porta TCP 502 aberta apenas na rede local.","Definir tempo limite (timeout) de comunicação e ação do VFD em falha."],
+ x:"Configurar o IP do VFD, ligar ao PLC/PC na mesma rede, ler 4 variáveis e registar o tempo de resposta médio."});
+
+L(75,"🔵","Profibus",
+"Integrar VFD em rede Profibus DP com ficheiro GSD e perfil PROFIdrive.",
+["O Profibus DP é um bus de campo RS-485 até 12 Mbit/s, endereços 0 a 125. Cada dispositivo tem um <strong>ficheiro GSD</strong> que descreve as suas capacidades. A distância máxima depende da velocidade: 1200 m a 9,6 kbit/s, e cerca de 100 m a 12 Mbit/s. Exige terminação nas duas extremidades e conectores próprios.",
+ "O perfil <strong>PROFIdrive</strong> define a troca cíclica de palavra de comando (STW), referência (NSOLL), palavra de estado (ZSW) e velocidade atual (NIST), reduzindo tempo de configuração entre marcas."],
+{tt:"Velocidade vs. Distância", tb:[["Velocidade","Distância máxima (por segmento)"],["9,6 a 93,75 kbit/s","1200 m"],["187,5 kbit/s","1000 m"],["500 kbit/s","400 m"],["1,5 Mbit/s","200 m"],["12 Mbit/s","100 m"]],
+ x:"Instalar o ficheiro GSD, endereçar o VFD, configurar o telegrama cíclico e mover o motor pela rede, confirmando os LEDs de estado."});
+
+L(76,"🟠","Profinet",
+"Integrar VFD em rede Profinet IO usando GSDML e nomes de dispositivo.",
+["O Profinet IO usa Ethernet industrial com comunicação em tempo real (RT) e, quando necessário, isócrona (IRT). Cada dispositivo tem <strong>nome (device name)</strong> e IP atribuídos pelo controlador. O ficheiro descritivo é o <strong>GSDML</strong>. Suporta topologias em estrela, linha e anel (com MRP).",
+ "Com o perfil PROFIdrive, os telegramas padrão (por exemplo, o telegrama 1 com STW1 e NSOLL_A) padronizam o controlo. Em substituição de VFD, o controlador pode reatribuir o nome automaticamente, simplificando a manutenção."],
+{tt:"Profibus DP vs. Profinet IO", tb:[["Característica","Profibus DP","Profinet IO"],["Meio físico","RS-485","Ethernet"],["Velocidade","Até 12 Mbit/s","100 Mbit/s ou mais"],["Endereçamento","Endereço 0-125","Nome + IP"],["Ficheiro","GSD","GSDML"],["Topologia","Linha","Estrela, linha, anel"]],
+ x:"Atribuir o nome de dispositivo ao VFD, importar o GSDML, adicionar o telegrama 1 e comandar o VFD a partir do PLC."});
+
+L(77,"🟣","Ethernet/IP",
+"Configurar VFD em Ethernet/IP com PLC Rockwell/Allen-Bradley.",
+["O Ethernet/IP usa o protocolo CIP sobre Ethernet padrão (ODVA). Há dois tipos de mensagens: <strong>implícitas</strong> (dados cíclicos de E/S via UDP, porta 2222, com intervalo RPI) e <strong>explícitas</strong> (configuração e diagnóstico via TCP, porta 44818). O dispositivo é descrito por um ficheiro EDS ou por perfil add-on.",
+ "A configuração passa por atribuir o IP, adicionar o VFD ao projeto do PLC, definir o RPI e mapear as palavras de comando e de estado. Topologias em anel (DLR) melhoram a disponibilidade."],
+{p:["RPI muito baixo satura a rede.","Usar switches gerenciáveis com IGMP snooping.","Guardar o EDS/perfil usados em cada projeto."],
+ x:"Adicionar o VFD ao projeto do PLC, definir RPI de 20 ms e verificar que o comando e a referência via Ethernet/IP funcionam."});
+
+L(78,"🤖","Integração com PLC",
+"Integrar o VFD num programa de PLC com palavras de comando, estado e referência.",
+["A integração faz-se por palavras: a <strong>palavra de comando</strong> (Control Word) liga, desliga, inverte e faz reset; a <strong>referência</strong> é escalonada (por exemplo, 16384 = 100 % no perfil PROFIdrive); a <strong>palavra de estado</strong> devolve pronto, marcha, falha e velocidade atingida. Em drives Siemens G120, uma sequência habitual é 0x047E (habilitar) seguida de 0x047F (marcha).",
+ "Em qualquer protocolo, configurar o <strong>watchdog</strong> de comunicação: se a rede cair, o VFD deve executar a ação segura (parar ou manter velocidade) definida no projeto. Documentar o mapa de registos."],
+{tt:"Exemplo de Palavra de Comando (Bits)", tb:[["Bit","Função (exemplo)"],["0","ON/OFF1 (marcha)"],["1","Sem paragem por roda livre"],["2","Sem paragem rápida"],["3","Habilitar operação"],["6","Habilitar referência"],["7","Reset de falha"],["10","Comando por PLC ativo"]],
+ x:"Escrever um bloco de PLC que comande marcha, paragem, sentido e referência do VFD e leia estado e corrente, incluindo tratamento de falha e watchdog."});
+
+L(79,"🩺","Diagnóstico de Comunicação",
+"Diagnosticar falhas de comunicação em redes de VFD com método e ferramentas adequadas.",
+["Método: 1) camada física (cabos, conectores, terminações, LEDs), 2) configuração (endereços, velocidade, paridade, IP), 3) protocolo (códigos de exceção, timeouts), 4) aplicação (mapa de registos, escalas). Ferramentas: multímetro, analisador de bus, software de teste (Modbus master) e sniffers Ethernet.",
+ "Erros de exceção Modbus frequentes: 01 função ilegal, 02 endereço de dados ilegal, 03 valor ilegal, 04 falha do dispositivo. Ruído e malhas de terra mal feitas explicam falhas intermitentes."],
+{tt:"Sintomas e Causas", tb:[["Sintoma","Causa provável","Ação"],["Sem resposta","Endereço, velocidade ou paridade errados","Rever parâmetros"],["Erros CRC","Ruído, cabo, terminação em falta","Blindagem, terminação"],["Falhas intermitentes","Malha de terra, EMI","Afastar de cabos de potência"],["Exceção 02","Endereço de registo inexistente","Rever mapa"]],
+ x:"Resolver 3 falhas de comunicação introduzidas pelo formador (endereço, paridade e terminação) e registar o método usado."});
+
+E(80,"Avaliação do Módulo 8","Redes Industriais",
+[["Modbus RTU e TCP","30%","Leitura e escrita funcionais"],["Profibus/Profinet/Ethernet-IP","25%","Configuração conforme protocolo"],["Integração com PLC","25%","Comando e referência via rede"],["Diagnóstico de comunicação","20%","Falhas resolvidas"]],
+"Colocar o VFD em comunicação com um PLC, comandar e ler dados, e diagnosticar duas falhas de rede.");
+
+/* ===== NÍVEL 2 — MÓDULO 9: MARCAS E PLATAFORMAS (81-90) ===== */
+
+L(81,"🔴","ABB ACS880",
+"Conhecer a plataforma ABB ACS880, as suas ferramentas e os grupos de parâmetros principais.",
+["A ABB ACS880 é uma família industrial de VFD com controlo direto de binário (<strong>DTC</strong>), usada em bombas, guindastes, extrusoras, petróleo e gás e marinha. Programa-se pelo painel, pelo assistente de arranque e pelo software <strong>Drive Composer</strong>. A família ACS580 (uso geral) partilha grande parte da estrutura de parâmetros.",
+ "Os parâmetros organizam-se por grupos. Nas famílias ACS580/880, o grupo 99 contém os dados de arranque do motor, o 20 o arranque/paragem, o 22 a seleção de referência, o 23 as rampas, o 30 os limites e o 31 as funções de falha."],
+{tt:"Parâmetros ABB (ACS580/880 — Confirmar no Manual)", tb:[["Função","Parâmetro"],["Corrente nominal do motor","99.06"],["Tensão nominal","99.07"],["Frequência nominal","99.08"],["Velocidade nominal","99.09"],["Potência nominal","99.10"],["Aceleração / desaceleração","23.12 / 23.13"],["Velocidade mínima / máxima","30.11 / 30.12"],["Pedido de ID Run","99.13"]],
+ x:"Parametrizar um ACS580/880 (ou simulador Drive Composer) com dados de placa, rampas e limites, e executar um ID Run."});
+
+L(82,"🟢","Schneider Altivar",
+"Conhecer a gama Altivar e a estrutura de menus e ferramentas da Schneider Electric.",
+["A gama Altivar inclui a série ATV320 (máquinas), ATV600 (processos: ATV630, 650, 660, 680) e ATV900 (ATV930, 950). Programam-se pelo terminal gráfico, pelo <strong>SoMove</strong> ou <strong>EcoStruxure Drive Advisor</strong>. Os menus dividem-se em arranque simples, ajustes, controlo do motor, entradas/saídas, comunicação e proteções.",
+ "Os códigos de parâmetro são mnemónicos de 3 a 4 letras, o que facilita a leitura: ACC (aceleração), dEC (desaceleração), LSP (velocidade baixa), HSP (velocidade alta), nPr (potência do motor), UnS (tensão), FrS (frequência), nCr (corrente), nSP (velocidade nominal) e tUn (autotuning)."],
+{tt:"Códigos Altivar (ATV320/600 — Confirmar no Manual)", tb:[["Função","Código"],["Potência nominal","nPr"],["Tensão nominal","UnS"],["Frequência nominal","FrS"],["Corrente nominal","nCr"],["Velocidade nominal","nSP"],["Aceleração / desaceleração","ACC / dEC"],["Velocidade baixa / alta","LSP / HSP"],["Autotuning","tUn"]],
+ x:"Percorrer o menu de arranque de um ATV (ou simulador) e configurar os parâmetros acima para um motor de 4 kW."});
+
+L(83,"🔵","Siemens Sinamics",
+"Conhecer a gama Sinamics, o modelo de parâmetros p/r e os telegramas PROFIdrive.",
+["A gama <strong>Sinamics</strong> inclui V20 (simples), G120 (uso geral e modular: unidade de controlo CU240 + módulo de potência PM240-2), G120C (compacta), G130/G150 (grande potência) e S120 (multi-eixo). As ferramentas são <strong>Startdrive</strong> (TIA Portal), painéis BOP-2/IOP e, em versões antigas, STARTER.",
+ "Nos Sinamics, parâmetros com prefixo <strong>p</strong> são de ajuste e <strong>r</strong> são de leitura. O <strong>p0010</strong> seleciona o modo de comissionamento (por exemplo, dados do motor) e os macros de ligação pré-definem a função de terminais. O controlo por bus usa telegramas PROFIdrive, por exemplo o telegrama 1."],
+{tt:"Parâmetros Sinamics G120 (Confirmar no Manual)", tb:[["Função","Parâmetro"],["Tensão nominal","p0304"],["Corrente nominal","p0305"],["Potência nominal","p0307"],["cosφ","p0308"],["Frequência nominal","p0310"],["Velocidade nominal","p0311"],["Rampa de aceleração / desaceleração","p1120 / p1121"],["Velocidade mínima / máxima","p1080 / p1082"],["Identificação do motor","p1900"]],
+ x:"Usar o comissionamento rápido (p0010) em G120 (ou simulador Startdrive) para configurar um motor, macros de terminais e o telegrama 1."});
+
+L(84,"🟠","Danfoss",
+"Conhecer as séries VLT da Danfoss e a organização dos parâmetros por grupos.",
+["A Danfoss oferece as séries <strong>VLT FC 302</strong> (automação industrial), <strong>FC 102</strong> (HVAC), <strong>FC 51/FC 280</strong> (compactas) e outras. Programam-se pelo painel LCP e pelo software <strong>MCT 10</strong>. Os parâmetros são numerados por grupo (por exemplo, 1-20) e têm um menu rápido (Quick Menu) para o essencial.",
+ "Os grupos mais usados: 0-xx (operação e visor), 1-xx (carga e motor), 3-xx (referência e rampas), 4-xx (limites e avisos), 5-xx (entradas e saídas digitais). A função <strong>AMA</strong> (Automatic Motor Adaptation) está no parâmetro 1-29. Os modos de controlo incluem V/f, VVC+ e fluxo vetorial."],
+{tt:"Parâmetros Danfoss FC 302 (Confirmar no Manual)", tb:[["Função","Parâmetro"],["Potência do motor","1-20"],["Tensão do motor","1-22"],["Frequência do motor","1-23"],["Corrente do motor","1-24"],["Velocidade nominal","1-25"],["AMA","1-29"],["Rampa 1 acel. / desacel.","3-41 / 3-42"],["Limite baixo / alto de velocidade","4-12 / 4-14"]],
+ x:"No MCT 10 (ou VFD de bancada), configurar dados do motor, executar AMA e programar rampas e limites."});
+
+L(85,"🟡","Yaskawa",
+"Conhecer a Yaskawa, com destaque para as séries de uso geral e de elevadores, e os grupos de parâmetros.",
+["A Yaskawa é uma referência mundial em VFD compactos e de elevadores. Séries: <strong>V1000, GA500, GA700, A1000</strong> (industriais) e <strong>L1000A/L1000V</strong> (elevadores). Programa-se pelo teclado LED/LCD e pelo <strong>DriveWizard</strong>. Os parâmetros têm o formato letra-número (A1-02, b1-01, C1-01, E2-01...).",
+ "Grupos: A (inicialização e modo de controlo), b (aplicação: origem da referência e do comando), C (rampas e compensação), d (referências e limites), E (padrão V/f e dados do motor), F/H (opções e terminais), L (proteções) e T (autotuning)."],
+{tt:"Parâmetros Yaskawa (Confirmar no Manual)", tb:[["Função","Parâmetro"],["Método de controlo","A1-02"],["Origem da referência","b1-01"],["Origem do comando de marcha","b1-02"],["Aceleração / desaceleração 1","C1-01 / C1-02"],["Limite superior / inferior de referência","d2-01 / d2-02"],["Tensão de entrada","E1-01"],["Corrente nominal do motor","E2-01"],["Autotuning","T1-xx"]],
+ x:"Configurar um Yaskawa (ou simulador) para controlo por terminais, definir rampas e executar o autotuning."});
+
+L(86,"🔶","Fuji Electric",
+"Conhecer a gama FRENIC da Fuji Electric e o sistema de códigos de função.",
+["A Fuji Electric oferece as séries <strong>FRENIC-Mini, FRENIC-Ace, FRENIC-MEGA, FRENIC-HVAC/AQUA</strong> e <strong>FRENIC-Lift</strong> (elevadores). Programa-se pelo teclado e pelo software de carregamento do fabricante. Os parâmetros são <em>códigos de função</em>: F (fundamentais), E (terminais), C (controlo de frequência), P (motor), H (funções de alto nível), A (motor 2), J (aplicação) e y (comunicação).",
+ "Para o essencial: F03 (frequência máxima), F04 (frequência base), F05 (tensão nominal), F07/F08 (aceleração/desaceleração 1), P01 (polos), P02 (potência do motor), P03 (corrente nominal) e P04 (autotuning)."],
+{tt:"Códigos Fuji FRENIC (Confirmar no Manual)", tb:[["Função","Código"],["Frequência máxima","F03"],["Frequência base","F04"],["Tensão nominal","F05"],["Aceleração / desaceleração 1","F07 / F08"],["Número de polos","P01"],["Potência do motor","P02"],["Corrente nominal","P03"],["Autotuning","P04"]],
+ x:"Programar num Fuji FRENIC (ou simulador) os dados de motor e rampas usando os códigos F e P."});
+
+L(87,"🔷","Delta Electronics",
+"Conhecer as séries Delta e a organização dos parâmetros por grupos de dois dígitos.",
+["A Delta Electronics oferece as séries <strong>VFD-E/EL</strong> (básicas), <strong>MS300</strong>, <strong>C2000/C2000 Plus</strong> e <strong>CP2000</strong> (industrial e HVAC). São muito usados pela boa relação preço/desempenho. Programam-se pelo teclado ou por software próprio. Os parâmetros seguem o formato grupo-número (00-00 a 14-xx).",
+ "Grupos principais: 00 (parâmetros do VFD e origem de comando/referência), 01 (básicos: frequências e rampas), 02 (entradas/saídas digitais), 03 (analógicas), 05 (motor) e 09 (comunicação)."],
+{tt:"Parâmetros Delta C2000 (Confirmar no Manual)", tb:[["Função","Parâmetro"],["Modo de controlo","00-10"],["Origem da referência de frequência","00-20"],["Origem do comando de marcha","00-21"],["Aceleração / desaceleração 1","01-12 / 01-13"],["Corrente nominal do motor","05-01"],["Potência nominal do motor","05-02"],["Velocidade nominal do motor","05-03"],["Autotuning","05-00"]],
+ x:"Configurar um Delta C2000 (ou simulador) para controlo por terminais com rampas e limites definidos e testar o funcionamento."});
+
+L(88,"⚖️","Comparação Prática",
+"Comparar as marcas em termos de parâmetros equivalentes, ferramentas e áreas de aplicação.",
+["Embora a lógica de parametrização seja universal (dados de placa → limites → rampas → comando → E/S → comunicação), cada marca usa a sua nomenclatura. Saber “traduzir” entre marcas reduz muito o tempo de adaptação a um VFD desconhecido.",
+ "A tabela seguinte resume os parâmetros equivalentes das famílias vistas nas aulas anteriores. Os códigos podem variar com a versão e o firmware: valide sempre no manual do equipamento."],
+{tt:"Equivalência de Parâmetros", tb:[["Função","ABB","Danfoss","Siemens","Schneider","Yaskawa","Fuji","Delta"],["Tensão nominal","99.07","1-22","p0304","UnS","E1-01/E1-05","F05","01-02"],["Corrente nominal","99.06","1-24","p0305","nCr","E2-01","P03","05-01"],["Frequência nominal","99.08","1-23","p0310","FrS","E1-06","F04","01-01"],["Potência nominal","99.10","1-20","p0307","nPr","E2-11","P02","05-02"],["Aceleração","23.12","3-41","p1120","ACC","C1-01","F07","01-12"],["Desaceleração","23.13","3-42","p1121","dEC","C1-02","F08","01-13"],["Velocidade mínima","30.11","4-12","p1080","LSP","d2-02","F16","01-11"],["Velocidade máxima","30.12","4-14","p1082","HSP","d2-01","F15","01-10"],["Autotuning","99.13","1-29","p1900","tUn","T1-xx","P04","05-00"]],
+ x:"Dado um motor de 7,5 kW/400 V/50 Hz/15 A/1450 rpm, escrever os parâmetros necessários em 3 marcas à sua escolha, sem ver o manual, e depois validar."});
+
+L(89,"🧱","Projeto Integrador",
+"Desenvolver um projeto de bombeamento com VFD, integrando todos os conhecimentos do Nível 2.",
+["Cenário: sistema de bombeamento de água com 1 bomba de 15 kW, controlo de pressão constante e supervisão remota. Requisitos: escolha do VFD (marca à escolha), dimensionamento, esquema de potência e comando, parametrização, PID de pressão com transmissor 4-20 mA, saídas de estado, comunicação Modbus com um PLC e relatório final.",
+ "Entregáveis: 1) memória de dimensionamento, 2) esquemas de potência e comando, 3) mapa de terminais, 4) lista de parâmetros, 5) mapa Modbus, 6) checklist de comissionamento, 7) relatório de testes."],
+{tt:"Critérios do Projeto", tb:[["Critério","Peso","Mínimo"],["Dimensionamento e proteções","20%","Justificado por cálculo"],["Esquemas","20%","Legíveis e corretos"],["Parametrização e PID","25%","Sistema estável"],["Comunicação","15%","Leitura e escrita OK"],["Relatório","20%","Completo"]],
+ x:"Entregar o pacote de projeto completo e demonstrar em bancada o funcionamento estável de pressão constante com perturbações de carga."});
+
+E(90,"Avaliação do Nível 2","Nível 2 — Intermédio (Aulas 39 a 90)",
+[["Fundamentos do VFD","15%","≥ 70 %"],["Parametrização e Comissionamento","25%","Sem erros críticos"],["Entradas/Saídas e Alarmes","20%","Funcional"],["Redes Industriais","20%","Comunicação a funcionar"],["Marcas e Projeto Integrador","20%","Projeto entregue e aprovado"]],
+"Prova integrada: parametrizar e comissionar um VFD desconhecido, integrá-lo com PLC e diagnosticar duas falhas. Nota mínima global de 70 % para avançar ao Nível 3.");
+
+/* ===== NÍVEL 3 — MÓDULO 10: CONTROLO VETORIAL (91-99) ===== */
+
+L(91,"📐","Controle V/F",
+"Compreender o controlo escalar V/f, as suas curvas, vantagens e limitações.",
+["No controlo <strong>V/f (escalar)</strong>, o VFD varia tensão e frequência de forma proporcional, sem medir a posição do rotor. É simples, robusto, dispensa autotuning rigoroso e permite alimentar vários motores em paralelo com um só VFD. Curvas: linear (binário constante), quadrática (bombas/ventiladores) e multiponto.",
+ "Limitações: binário reduzido a baixa velocidade (compensado com torque boost), regulação de velocidade de cerca de 1 a 3 % com compensação de escorregamento e gama de velocidade tipicamente até 1:20. É a escolha ideal para bombas, ventiladores e transportadores simples."],
+{p:["Usar V/f quadrático em cargas centrífugas.","Torque boost excessivo aquece o motor e provoca OC.","V/f é o único modo aceitável para vários motores em paralelo."],
+ x:"Testar num motor o V/f linear e quadrático, medir a corrente a 10 Hz com e sem torque boost e registar o binário disponível ao arranque."});
+
+L(92,"🧠","Sensorless Vector",
+"Compreender o controlo vetorial sem sensor e as condições para um bom desempenho.",
+["No controlo vetorial, o VFD separa a corrente do motor em duas componentes: a de fluxo (Id) e a de binário (Iq), através das transformações de Clarke e Park, e controla-as de forma independente. No modo <strong>sensorless</strong>, a posição e a velocidade do rotor são estimadas por um modelo matemático do motor, obtido no autotuning.",
+ "Desempenho típico: gama de velocidade de 1:100, binário de 150 % próximo de 0,5 Hz e regulação de velocidade cerca de ±0,5 %. Requer dados de placa corretos e autotuning bem feito. Não garante binário a velocidade zero nem manutenção de carga suspensa por muito tempo."],
+{a:"Em cargas suspensas (gruas, elevadores) o controlo sensorless não é suficiente para manter a carga parada. Use controlo com encoder e travão mecânico.",
+ x:"Executar autotuning rotativo, selecionar controlo sensorless vector e comparar a resposta de velocidade e o binário a 2 Hz face ao modo V/f."});
+
+L(93,"🎯","Closed Loop Vector",
+"Compreender o controlo vetorial em malha fechada com encoder e as suas aplicações críticas.",
+["No <strong>Closed Loop Vector (CLV)</strong>, um encoder informa o VFD da posição e velocidade reais do rotor. Isto permite binário pleno a velocidade zero, regulação de velocidade de 0,01 %, controlo de binário puro e gama de velocidade de 1:1000 ou mais. É indispensável em elevadores, guindastes, bobinadores e máquinas de posicionamento.",
+ "O desempenho depende do encoder: resolução, montagem, blindagem e cabo. Uma falha de encoder deve levar a paragem segura, e o VFD monitoriza perdas de sinal e sentido invertido."],
+{tt:"Comparação dos Modos de Controlo", tb:[["Característica","V/f","Sensorless Vector","Closed Loop Vector"],["Feedback","Nenhum","Nenhum (estimado)","Encoder"],["Gama de velocidade","≈ 1:20","≈ 1:100","≥ 1:1000"],["Binário a baixa velocidade","Limitado","Bom (150 % a 0,5 Hz)","Pleno até 0 rpm"],["Precisão de velocidade","1 a 3 %","≈ 0,5 %","≈ 0,01 %"],["Aplicações","Bombas, ventiladores","Transportadores, misturadores","Elevadores, gruas, bobinadores"]],
+ x:"Escolher o modo de controlo para 6 máquinas (bomba, extrusora, guindaste, ventilador, bobinador, elevador) e justificar a escolha."});
+
+L(94,"📡","Encoder Feedback",
+"Ligar, configurar e diagnosticar encoders incrementais e absolutos em VFD.",
+["O <strong>encoder incremental</strong> gera pulsos A, B (desfasados 90°, indicam sentido) e Z (referência por volta), com resolução em PPR (por exemplo, 1024 ou 2048). Sinais TTL, HTL ou sin/cos. Os <strong>encoders absolutos</strong> (SSI, EnDat, BiSS) informam a posição mesmo após uma falha de energia e são essenciais em motores síncronos.",
+ "Boas práticas: cabo blindado de pares entrelaçados, malha ligada à terra de forma correta, encoder sem folgas ou vibração e alimentação adequada. Falhas típicas: perda de pulsos, sentido invertido (A/B trocados) e ruído."],
+{tt:"Tipos de Encoder", tb:[["Tipo","Sinal","Uso típico"],["Incremental TTL/HTL","A, B, Z","Motores de indução (CLV)"],["Sin/Cos 1 Vpp","Analógico","Alta resolução"],["SSI / EnDat / BiSS","Digital absoluto","Motores síncronos, elevadores"]],
+ x:"Ligar um encoder incremental ao VFD, verificar o sentido de contagem, trocar A e B para observar a falha de sentido e corrigi-la."});
+
+L(95,"🏭","Aplicações em CNC",
+"Compreender o papel dos VFD e dos spindle drives nas máquinas CNC e centros de maquinação.",
+["Em máquinas CNC, o <strong>fuso (spindle)</strong> usa motores de indução ou síncronos com VFD dedicados (spindle drives) que asseguram gama de velocidade elevada, potência constante acima da velocidade base, orientação do fuso para mudança de ferramenta e, por vezes, posicionamento (eixo C).",
+ "Os VFD gerais podem ser usados em máquinas simples (serras, tornos manuais, fresadoras convencionais). Nos eixos de avanço usam-se normalmente servo-acionamentos, que oferecem posicionamento preciso e resposta dinâmica superiores."],
+{p:["Potência constante: acima da velocidade base o binário diminui.","Resistência de travagem para paragens rápidas do fuso.","Orientação de fuso exige encoder de posição."],
+ x:"Comparar, numa tabela, as características de um VFD geral, um spindle drive e um servo-acionamento para um centro de maquinação."});
+
+L(96,"🏗️","Aplicações em Pontes Rolantes",
+"Configurar VFD para pontes rolantes (elevação, translação e direção) com sequência de travão segura.",
+["Numa ponte rolante há três movimentos: <strong>elevação</strong> (exige controlo de binário e travão), <strong>translação</strong> e <strong>direção</strong> (movimentos horizontais com controlo de aceleração para limitar oscilação da carga). O VFD substitui contactores de múltiplas velocidades e permite acelerações suaves.",
+ "Na elevação, a sequência é: habilitar VFD → criar binário (pré-magnetização) → abrir travão → mover. Ao parar: desacelerar até velocidade próxima de zero → aplicar travão → retirar binário. Resistências de travagem dimensionadas para cargas descendentes, limitadores de fim de curso e proteção de sobrecarga são obrigatórios."],
+{tt:"Sequência do Travão na Elevação", tb:[["Fase","Ação","Objetivo"],["1","Habilitar e criar binário","Carga já retida pelo motor"],["2","Abrir travão","Sem queda da carga"],["3","Movimento","Rampas suaves"],["4","Reduzir velocidade a valor mínimo","Preparar paragem"],["5","Fechar travão e retirar binário","Retenção mecânica"]],
+ a:"Nunca abra o travão de elevação sem confirmar que o motor tem binário. A carga cairia. Trabalhos de elevação exigem pessoal qualificado, inspeção prévia e cumprimento das normas locais.",
+ x:"Descrever e simular a sequência de travão de uma elevação e indicar os sinais do VFD (relé de travão, corrente mínima, velocidade zero) usados em cada passo."});
+
+L(97,"🏗️","Aplicações em Gruas",
+"Compreender as especificidades dos VFD em gruas de torre, móveis e portuárias.",
+["As gruas têm movimentos de elevação, rotação (giro), translação e lança. Exigem controlo de binário a velocidade zero, curvas de aceleração suaves para reduzir oscilação, limitação de velocidade com carga e proteção contra sobrecarga com célula de carga. É comum usar CLV com encoder e travões duplos.",
+ "Em ambientes exteriores, considerar vento, humidade e proteção IP. As funções de segurança (fins de curso, anemómetro, STO, paragem de emergência) integram-se ao circuito de segurança da grua. Funções avançadas incluem o antibalanço (anti-sway) e o alinhamento de eixos."],
+{p:["Grua: preferir CLV e travão duplo.","Ajustar a velocidade máxima conforme a carga levantada.","Protecção IP e calor: verificar derating."],
+ x:"Listar os sinais de segurança e proteção de um VFD de elevação de grua e desenhar o diagrama de blocos com STO, travão e limitadores."});
+
+L(98,"🛗","Aplicações em Elevadores",
+"Compreender como o VFD controla o percurso, o conforto e a segurança em elevadores.",
+["Os VFD de elevadores (VVVF) controlam a velocidade da cabina seguindo uma <strong>curva de percurso</strong> com aceleração, velocidade nominal, desaceleração, velocidade de aproximação e paragem, com curvas em S para conforto. Usam controlo vetorial com encoder e são frequentemente drives dedicados, como as famílias Yaskawa L1000A/L1000V e Fuji FRENIC-Lift.",
+ "A segurança segue a norma EN 81-20/50 (ou a regulamentação local): circuito de segurança, travões duplos, STO no lugar de contactores de potência (quando certificado), limitador de velocidade e para-quedas. A instalação e o comissionamento são reservados a técnicos certificados."],
+{tt:"Etapas do Percurso", tb:[["Etapa","Descrição"],["Arranque","Criar binário e abrir travão"],["Aceleração","Curva em S"],["Velocidade nominal","Cruzeiro"],["Desaceleração","Curva em S"],["Aproximação","Velocidade baixa até ao nivelamento"],["Paragem","Fecho do travão e desligar binário"]],
+ x:"Desenhar o gráfico velocidade-tempo de um percurso de elevador com curva em S, identificar as 6 etapas e explicar o efeito de cada uma no conforto."});
+
+E(99,"Avaliação do Módulo 10","Controlo Vetorial",
+[["V/f, Sensorless e CLV","30%","Escolha do modo justificada"],["Encoder e feedback","25%","Ligação e diagnóstico corretos"],["Aplicações (CNC, pontes, gruas, elevadores)","30%","Sequências de travão e segurança corretas"],["Relatório técnico","15%","Claro e completo"]],
+"Parametrizar um VFD em V/f e em sensorless vector para o mesmo motor, comparar resultados e propor o modo ideal para uma ponte rolante e um elevador.");
+
+/* ===== NÍVEL 3 — MÓDULO 11: HARMÓNICAS (100-107) ===== */
+
+L(100,"📊","Introdução ao THD",
+"Compreender o que são harmónicas, como se quantifica a distorção (THD) e quais os limites normativos.",
+["As harmónicas são componentes de tensão ou corrente com frequência múltipla da fundamental (50 Hz). Cargas não lineares, como retificadores de VFD, geram harmónicas. O <strong>THD</strong> mede a distorção: THDi = √(I₂² + I₃² + …) / I₁. Os retificadores de 6 pulsos geram harmónicas de ordem h = 6k ± 1: 5.ª, 7.ª, 11.ª, 13.ª…",
+ "Referências normativas: IEEE 519 (limites de distorção no ponto de acoplamento comum, PCC), IEC 61000-3-2 e 3-12 (emissão de equipamentos) e IEC 61000-2-4 (níveis de compatibilidade). Por exemplo, a IEEE 519 recomenda THDv ≤ 5 % em redes até 1 kV no PCC."],
+{tt:"Harmónicas Típicas (Rede 50 Hz)", tb:[["Ordem","Frequência","Origem"],["5.ª","250 Hz","Retificador 6 pulsos"],["7.ª","350 Hz","Retificador 6 pulsos"],["11.ª","550 Hz","Retificador 6 e 12 pulsos"],["13.ª","650 Hz","Retificador 6 e 12 pulsos"]],
+ x:"Calcular o THDi de uma corrente com fundamental 100 A, 5.ª = 30 A, 7.ª = 15 A e 11.ª = 8 A e indicar se é aceitável para uma instalação típica."});
+
+L(101,"🏭","Harmónicas na Indústria",
+"Reconhecer os efeitos das harmónicas em instalações industriais e avaliar riscos.",
+["Efeitos frequentes: sobreaquecimento de transformadores e cabos, aquecimento adicional em motores, disparos indevidos de proteções, ruído em sinais analógicos e comunicações, e <strong>ressonância</strong> em bancos de condensadores, que pode destruí-los. Fontes: VFD, UPS, retificadores, fontes comutadas e iluminação LED.",
+ "A avaliação inicia-se identificando o PCC, a potência de curto-circuito e a proporção de cargas não lineares. Como regra de bolso, quando as cargas não lineares ultrapassam cerca de 30 a 40 % da potência do transformador, recomenda-se estudo harmónico e medição com analisador de qualidade de energia."],
+{p:["Não instalar condensadores sem estudar harmónicas.","Verificar o dimensionamento do transformador (fator K).","Medir THDv e THDi no PCC antes de escolher a solução."],
+ x:"Numa instalação com transformador de 500 kVA e VFD totalizando 200 kVA, avaliar o risco harmónico e definir um plano de medição."});
+
+L(102,"🧵","Reatores AC",
+"Selecionar e aplicar reatores de linha (AC) para reduzir harmónicas e proteger o VFD.",
+["O <strong>reator AC</strong> (line reactor) instala-se à entrada do VFD. Impedâncias típicas: 3 % ou 5 %. Reduz o THDi (valores típicos: de 80 a 100 % sem reator para cerca de 35 a 45 % com reator de 3 % e 30 a 35 % com 5 %), limita picos de corrente, protege o retificador contra transientes e atenua a queda de tensão da rede.",
+ "Custos: queda de tensão adicional de 1 a 2 % e aquecimento do reator. Deve escolher-se pela corrente nominal do VFD e pela frequência da rede. Valores exatos dependem do fabricante e da impedância da rede."],
+{p:["Recomendado quando o transformador é muito potente face ao VFD.","Também reduz a interferência entre VFD alimentados do mesmo barramento.","Valores de THDi são indicativos."],
+ x:"Comparar o THDi medido (ou fornecido) de um VFD sem reator, com reator de 3 % e com reator de 5 %, registando o efeito em corrente e FP."});
+
+L(103,"🧲","Reatores DC",
+"Compreender o reator DC (choke) integrado ao barramento e o seu efeito.",
+["O <strong>reator DC</strong> liga-se em série no barramento DC, entre o retificador e os condensadores. Reduz o ripple e a distorção da corrente de entrada (THDi típico de cerca de 40 %). Muitos VFD trazem-no integrado. Também ajuda a conservar os condensadores.",
+ "A combinação de reatores AC e DC pode levar o THDi para 25 a 30 %. O reator DC não protege tão bem o retificador contra transientes na rede, pelo que, em redes fracas ou ruidosas, o reator AC é preferido ou complementar."],
+{tt:"Soluções Simples de Redução de Harmónicas", tb:[["Solução","THDi típico","Nota"],["Sem reator","80 a 100 %","Mais perdas e stress na rede"],["Reator DC","≈ 40 %","Frequente em VFD integrados"],["Reator AC 3 %","35 a 45 %","Protege o retificador"],["AC + DC","25 a 30 %","Solução robusta e económica"]],
+ x:"Identificar, no manual de um VFD real, se o reator DC está integrado e determinar o THDi indicado pelo fabricante."});
+
+L(104,"🎛️","Filtros Passivos",
+"Compreender filtros passivos sintonizados e reatores de dessintonia em bancos de condensadores.",
+["Os <strong>filtros passivos</strong> combinam indutâncias e condensadores sintonizados a uma frequência harmónica (por exemplo, 5.ª e 7.ª) para desviar a corrente harmónica. Também podem fornecer compensação de fator de potência. O risco é a ressonância se não forem bem dimensionados para a rede.",
+ "Os <strong>reatores de dessintonia</strong> em série com condensadores movem a frequência de ressonância para abaixo da 5.ª harmónica. Valores usuais: 5,67 % (ressonância ≈ 210 Hz em 50 Hz) e 7 % (≈ 189 Hz), calculados por fr = f / √p."],
+{tt:"Dessintonia (Rede 50 Hz)", tb:[["Reator (p)","Frequência de ressonância","Proteção contra"],["5,67 %","≈ 210 Hz","5.ª harmónica e superiores"],["7 %","≈ 189 Hz","5.ª harmónica (redes mais poluídas)"],["14 %","≈ 134 Hz","3.ª harmónica"]],
+ x:"Calcular a frequência de ressonância de um banco de condensadores com reator de 7 % e explicar porque é que não coincide com a 5.ª harmónica."});
+
+L(105,"🟢","Filtros Ativos",
+"Compreender o princípio dos filtros ativos e compará-los com filtros passivos e AFE.",
+["Um <strong>filtro ativo de harmónicas</strong> mede a corrente da carga e injeta uma corrente de compensação em oposição às harmónicas, reduzindo o THDi tipicamente para menos de 5 a 10 %. Atua sobre um espetro largo (por exemplo, da 2.ª à 50.ª) e adapta-se a variações de carga. Dimensiona-se em amperes de corrente de compensação.",
+ "Comparação com o <strong>Active Front End (AFE)</strong>: o AFE é integrado no VFD e permite regeneração; o filtro ativo é externo e serve várias cargas. O custo é superior ao de reatores e filtros passivos, sendo justificado em exigências estritas (IEEE 519), redes fracas e cargas críticas."],
+{tt:"Passivo vs. Ativo", tb:[["Característica","Filtro passivo","Filtro ativo"],["THDi típico","10 a 30 %","Inferior a 5 a 10 %"],["Adaptação à carga","Fixa","Dinâmica"],["Risco de ressonância","Sim","Não"],["Custo","Baixo a médio","Alto"]],
+ x:"Escolher a solução (reator, filtro passivo, filtro ativo ou AFE) para 3 cenários fornecidos, justificando com THDi alvo e custo."});
+
+L(106,"🛢️","Estudos de Caso Oil & Gas",
+"Analisar cenários didáticos de harmónicas em instalações de petróleo e gás e propor soluções.",
+["Estes são <strong>cenários didáticos</strong> (ilustrativos), não casos reais identificados. <strong>Cenário A — plataforma offshore com geração própria:</strong> muitos VFD de 6 pulsos ligados a geradores de potência de curto-circuito baixa provocam THDv elevada e oscilação de tensão. Solução: transformadores de 12/18 pulsos, reatores e filtros ativos.",
+ "<strong>Cenário B — estação de compressão:</strong> banco de condensadores existente entra em ressonância com a 5.ª harmónica. Solução: reatores de dessintonia. <strong>Cenário C — refinaria:</strong> falhas repetidas de condensadores de VFD antigos com ripple elevado; solução: substituição preventiva, reator AC e monitorização."],
+{tt:"Cenários e Soluções", tb:[["Cenário","Problema","Solução"],["A — Offshore","THDv elevado com geração própria","12/18 pulsos, filtros ativos"],["B — Compressão","Ressonância do banco de condensadores","Reatores de dessintonia"],["C — Refinaria","Falhas de condensadores nos VFD","Reator AC, manutenção preditiva"]],
+ x:"Escolher um dos cenários, calcular ordens e frequências das harmónicas relevantes e escrever uma proposta técnica de duas páginas."});
+
+E(107,"Avaliação do Módulo 11","Harmónicas",
+[["Cálculo de THD e ordens","30%","Cálculos corretos"],["Efeitos e riscos","25%","Diagnóstico coerente"],["Soluções (reatores, filtros)","30%","Seleção justificada"],["Estudo de caso","15%","Proposta técnica viável"]],
+"Analisar dados de medição de harmónicas, identificar o problema e propor a solução técnica e económica mais adequada.");
+
+/* ===== NÍVEL 3 — MÓDULO 12: EFICIÊNCIA ENERGÉTICA (108-114) ===== */
+
+L(108,"🔌","Consumo Real",
+"Medir e calcular o consumo real de energia de motores e sistemas antes de propor melhorias.",
+["A energia calcula-se por E (kWh) = P (kW) × t (h). O ponto de partida de qualquer estudo é o <strong>consumo de base (baseline)</strong>: medir potência, corrente, FP e horas de funcionamento com analisador de redes ou data logger durante um ciclo representativo (por exemplo, uma semana).",
+ "Exemplo que será usado nas aulas seguintes: bomba de 30 kW a funcionar 6000 h/ano com estrangulamento por válvula, consumindo em média 26 kW → 26 × 6000 = 156 000 kWh/ano."],
+{tt:"Registo de Medição", tb:[["Variável","Valor medido","Unidade"],["Tensão média","—","V"],["Corrente média","—","A"],["Potência ativa média","26","kW"],["Fator de potência","—","—"],["Horas de operação","6000","h/ano"]],
+ x:"Medir o consumo de um motor em 3 condições de carga, calcular a energia diária e anual e comparar com o valor nominal."});
+
+L(109,"💧","Economia com VFD",
+"Aplicar as leis de afinidade para estimar poupanças em bombas e ventiladores.",
+["As <strong>leis de afinidade</strong> relacionam velocidade com caudal, pressão e potência: Q ∝ n; H ∝ n²; P ∝ n³. Reduzir a velocidade em 20 % reduz a potência hidráulica para 0,8³ = 51 %, ou seja, uma poupança de cerca de 49 %. Compare com o estrangulamento por válvula, onde o motor continua a consumir potência elevada.",
+ "Na prática, as poupanças reais são menores devido às perdas do sistema, do VFD (2 a 3 %) e à pressão estática do sistema. O estudo deve usar o perfil real de funcionamento."],
+{tt:"Potência vs. Velocidade", tb:[["Velocidade (%)","Caudal (%)","Potência (%)","Poupança (%)"],["100","100","100","0"],["90","90","73","27"],["80","80","51","49"],["70","70","34","66"],["60","60","22","78"],["50","50","13","87"]],
+ x:"Para a bomba de 26 kW da Aula 108, calcular a potência e a energia anual se funcionar em média a 80 % da velocidade, considerando perdas do VFD de 3 %."});
+
+L(110,"📈","ROI",
+"Calcular o retorno sobre o investimento (ROI) de um projeto de eficiência energética.",
+["O ROI mede o benefício líquido em relação ao investimento: ROI (%) = (poupança acumulada − investimento) / investimento × 100. Exemplo (ilustrativo): bomba de 26 kW → com VFD a 80 % de velocidade consome ≈ 13,7 kW (incluindo perdas do VFD), poupança de 12,3 kW × 6000 h = 73 800 kWh/ano.",
+ "Com tarifa hipotética de 50 Kz/kWh, a poupança anual é de 3 690 000 Kz. Com investimento de 6 000 000 Kz e vida útil de 10 anos: poupança acumulada 36 900 000 Kz → ROI = (36,9 − 6) / 6 × 100 ≈ 515 %. Substituir sempre a tarifa, o investimento e as horas pelos valores reais do projeto."],
+{tt:"Exemplo de ROI (Ilustrativo)", tb:[["Item","Valor"],["Poupança de energia","73 800 kWh/ano"],["Tarifa (hipotética)","50 Kz/kWh"],["Poupança anual","3 690 000 Kz"],["Investimento","6 000 000 Kz"],["ROI a 10 anos","≈ 515 %"]],
+ x:"Calcular o ROI a 5 e a 10 anos para o mesmo projeto com tarifas de 30 e 70 Kz/kWh e comentar a sensibilidade."});
+
+L(111,"⏳","Payback",
+"Calcular o tempo de retorno (payback) simples e descontado de um projeto de VFD.",
+["O <strong>payback simples</strong> é o tempo para recuperar o investimento: Payback = Investimento / Poupança anual. Com os valores da aula anterior: 6 000 000 / 3 690 000 ≈ 1,6 anos (cerca de 19,5 meses). Projetos com payback inferior a 2 a 3 anos costumam ser considerados atrativos.",
+ "O <strong>payback descontado</strong> considera o valor do dinheiro no tempo (taxa de desconto). Deve também incluir custos de manutenção, paragens da instalação e, se aplicável, a redução de desgaste mecânico e de custos de manutenção."],
+{p:["Payback simples ignora o valor do dinheiro no tempo.","Incluir custos de instalação, quadros e comissionamento.","Analisar cenários pessimista e otimista."],
+ x:"Calcular o payback simples e descontado (taxa de 10 %) para o projeto da bomba e para um segundo projeto com investimento de 3 000 000 Kz e poupança de 900 000 Kz/ano."});
+
+L(112,"📑","Estudos de Viabilidade",
+"Estruturar um estudo de viabilidade técnico-económica para a instalação de VFD.",
+["Estrutura recomendada: 1) descrição da instalação e do problema, 2) baseline de consumo, 3) soluções alternativas (VFD, soft starter, redimensionamento), 4) estimativa de poupança, 5) investimento (CAPEX) e custos operacionais (OPEX), 6) indicadores (payback, ROI, VPL, TIR), 7) análise de sensibilidade e riscos, 8) recomendação.",
+ "A análise de sensibilidade avalia o impacto de variações na tarifa, nas horas de funcionamento e no perfil de carga. Um estudo credível declara todas as premissas e apresenta os cálculos de forma rastreável."],
+{tt:"Modelo de Estudo", tb:[["Secção","Conteúdo mínimo"],["Baseline","Medições de kW, kWh, horas"],["Alternativas","VFD, soft starter, válvula, redimensionamento"],["Económico","CAPEX, OPEX, payback, ROI, VPL"],["Riscos","Sensibilidade, incertezas"],["Conclusão","Recomendação e plano de ação"]],
+ x:"Elaborar um estudo de viabilidade de 4 a 6 páginas para uma bomba ou ventilador real ou fictício, com todas as secções do modelo."});
+
+L(113,"🔎","Auditoria Energética",
+"Conduzir uma auditoria energética focada em motores e VFD, seguindo as fases e normas de referência.",
+["Fases: pré-auditoria (recolha de faturas e informação), inventário de cargas, medições, análise, identificação de medidas, relatório e plano de ação. Referências: ISO 50001 (sistemas de gestão de energia) e IEC 60034-30 (classes de eficiência IE de motores).",
+ "Medidas típicas em motores: instalar VFD em bombas e ventiladores, substituir motores por IE3/IE4, corrigir o fator de potência, eliminar estrangulamentos, reduzir fugas e otimizar horas de funcionamento."],
+{tt:"Fases da Auditoria", tb:[["Fase","Atividade","Resultado"],["1","Pré-auditoria","Perfil de consumo"],["2","Inventário de cargas","Lista de motores e horas"],["3","Medições","Perfil de carga"],["4","Análise","Potenciais de poupança"],["5","Relatório","Medidas e retorno"],["6","Plano de ação","Prioridades"]],
+ x:"Realizar uma mini-auditoria a 5 motores da sua instalação ou oficina e listar as 3 medidas de maior retorno."});
+
+E(114,"Avaliação do Módulo 12","Eficiência Energética",
+[["Consumo e baseline","20%","Medição correta"],["Leis de afinidade e poupança","30%","Cálculos corretos"],["ROI, payback e viabilidade","30%","Análise fundamentada"],["Auditoria","20%","Medidas priorizadas"]],
+"Entregar um estudo de viabilidade com baseline, cálculo de poupança, ROI, payback e análise de sensibilidade.");
+
+/* ===== NÍVEL 3 — MÓDULO 13: TROUBLESHOOTING AVANÇADO (115-122) ===== */
+
+L(115,"🔥","Over Current (OC)",
+"Diagnosticar e corrigir falhas de sobrecorrente de forma sistemática.",
+["O OC dispara quando a corrente de saída ultrapassa o limite do VFD. Identificar <strong>quando</strong> ocorre orienta o diagnóstico: <em>na aceleração</em> (rampa curta, carga pesada, torque boost excessivo), <em>a velocidade constante</em> (carga mecânica bloqueada, curto-circuito, falha de isolamento) ou <em>na desaceleração</em> (regeneração, rampa curta).",
+ "Procedimento: registar o histórico da falha, desligar e bloquear, verificar cabos e motor com megôhmetro (com cabos U/V/W desligados do VFD), inspecionar mecânica, rever parâmetros (dados de placa, rampas, boost) e só depois reiniciar. Se o OC persistir com saída desligada do motor, suspeitar de IGBT ou do módulo de potência."],
+{tt:"Diagnóstico por Momento", tb:[["Momento do OC","Causas prováveis","Ações"],["Na aceleração","Rampa curta, carga pesada, boost alto","Aumentar rampa, reduzir boost"],["Velocidade constante","Bloqueio mecânico, isolamento","Inspecionar carga, megger"],["Na desaceleração","Regeneração, rampa curta","Aumentar rampa, travagem"],["Imediato ao dar Start","Curto-circuito, IGBT","Testar cabos, motor e VFD"]],
+ x:"Resolver 3 casos de OC (aceleração, velocidade constante, arranque imediato) seguindo o procedimento e justificando a decisão em cada passo."});
+
+L(116,"⬆️","Over Voltage (OV)",
+"Diagnosticar e corrigir falhas de sobretensão no barramento DC.",
+["O OV surge quando a tensão do barramento DC ultrapassa o limite (tipicamente na ordem de 800 V CC em classe 400 V). Causas: <strong>desaceleração demasiado rápida</strong>, cargas regenerativas (guindastes, elevadores, ventiladores em rotação), tensão de rede acima do nominal e picos na rede.",
+ "Soluções: aumentar a rampa de desaceleração, ativar o controlo de sobretensão (ajusta a rampa automaticamente), instalar chopper com resistência de travagem, usar unidade regenerativa (AFE) ou, em rede alta, ajustar as tomadas (taps) do transformador."],
+{p:["Medir a tensão de rede: acima de +10 % é fator de risco.","Dimensionar a resistência de travagem para a energia e a potência de pico.","Verificar se o chopper está ativo e a resistência não está aberta."],
+ x:"Provocar um OV com desaceleração de 1 s numa carga de inércia, registar a tensão do barramento e corrigir por rampa e por controlo de sobretensão."});
+
+L(117,"⬇️","Under Voltage (UV)",
+"Diagnosticar e corrigir falhas de subtensão.",
+["O UV dispara quando o barramento DC desce abaixo do limite. Causas: <strong>queda ou corte da rede</strong>, perda de fase, fusíveis ou contactor de entrada defeituosos, falha na pré-carga (resistência de carga ou bypass), cabos mal apertados, geradores sobrecarregados e condensadores degradados.",
+ "Medidas: medir tensão e desequilíbrio à entrada, verificar terminais e fusíveis, analisar o funcionamento do contactor de pré-carga e programar a <em>ride-through</em> (mantém o VFD ligado durante microcortes, usando a energia cinética da carga). Em geradores, verificar potência disponível e regulação de tensão."],
+{tt:"Diagnóstico UV", tb:[["Sintoma","Causa provável","Verificação"],["UV ao ligar","Pré-carga defeituosa","Contactor/resistência de pré-carga"],["UV em carga","Queda de tensão na rede","Medir tensão em plena carga"],["UV intermitente","Ligações soltas, fusíveis","Termografia, reaperto"],["UV em gerador","Gerador com pouca potência","Analisar perfil de carga"]],
+ x:"Simular uma queda de tensão (com autorização e equipamento adequado) e testar o ride-through, registando o comportamento do VFD."});
+
+L(118,"🌡️","Over Heat (OH)",
+"Diagnosticar e prevenir sobretemperatura do VFD.",
+["Causas de OH: ventoinha avariada, filtros ou dissipadores sujos, temperatura ambiente acima de 40 °C, quadro sem ventilação adequada, portadora elevada e sobrecarga prolongada. O VFD mede a temperatura do dissipador (NTC) e dispara por proteção.",
+ "As perdas do VFD são de cerca de 2 a 3 % da potência. Para ventilar um quadro: V (m³/h) ≈ 3,1 × Pd (W) / ΔT (K). Exemplo: VFD de 15 kW com perdas de ≈ 450 W e ΔT admissível de 10 K → V ≈ 3,1 × 450 / 10 ≈ 140 m³/h."],
+{a:"A limpeza e a inspeção interna do VFD só devem ser feitas com o equipamento desligado, bloqueado e o barramento DC descarregado.",
+ x:"Calcular a ventilação necessária de um quadro com 3 VFD de 22 kW (perdas ≈ 3 % cada) e ΔT de 12 K, e propor medidas de limpeza e prevenção."});
+
+L(119,"⚡","Ground Fault",
+"Diagnosticar falhas à terra e distinguir de correntes de fuga normais.",
+["A falha à terra (GF) ocorre quando a corrente de fuga para a terra ultrapassa o limite: cabos danificados, humidade, isolamento do motor degradado ou entrada de água em caixas. Não confundir com <strong>corrente de fuga capacitiva</strong>, que aumenta com cabos longos e com filtros EMC.",
+ "Procedimento: desligar e bloquear, desligar U/V/W do VFD, testar o cabo e o motor com megôhmetro. Se o isolamento for bom, rever comprimento do cabo, filtros EMC e frequência de portadora. Em redes IT (neutro isolado) ou TN com neutro aterrado por impedância, desligar os jumpers/parafusos de filtro EMC e varistores conforme o manual."],
+{p:["GF pode desligar a proteção diferencial de linha.","Cabos longos: usar reator de saída ou filtro dV/dt.","Isolar humidade e reparar entradas de cabo."],
+ x:"Simular (com formador) uma fuga em cabo de motor, medir o isolamento, localizar a anomalia e propor a reparação."});
+
+L(120,"🕵️","Falhas Intermitentes",
+"Aplicar método estruturado para resolver falhas que aparecem e desaparecem.",
+["As falhas intermitentes são as mais difíceis: ligações soltas, ruído eletromagnético (EMI), oscilação de tensão da rede, temperatura, humidade e vibração. Estratégia: <strong>registar</strong> (histórico do VFD, data/hora, condições, snapshot de variáveis), <strong>correlacionar</strong> com eventos externos e <strong>eliminar</strong> hipóteses, uma de cada vez.",
+ "Ferramentas: registador de tensão/corrente, termografia, osciloscópio com gravação, e trocas controladas de componentes (cabo, encoder, entrada analógica). Registar cada alteração e o resultado, evitando mexer em vários pontos em simultâneo."],
+{tt:"Método de Investigação", tb:[["Passo","Ação"],["1","Ler o histórico e correlacionar horários"],["2","Verificar aperto de bornes e blindagens"],["3","Instalar registador de rede"],["4","Fazer testes com termografia"],["5","Substituir componente suspeito"],["6","Documentar e monitorizar"]],
+ x:"Receber um caso de OC intermitente com histórico e propor um plano de investigação com 5 hipóteses ordenadas por probabilidade."});
+
+L(121,"📺","Osciloscópio e Diagnóstico",
+"Usar o osciloscópio com segurança para diagnosticar sinais em VFD.",
+["Aplicações: analisar a tensão de saída PWM (com sonda diferencial), a corrente com sonda de corrente, o ripple do barramento DC (frequência de 6 × 50 = 300 Hz numa ponte de 6 pulsos), sinais analógicos 0-10 V/4-20 mA, encoders (A, B, Z) e comunicação RS-485. Um ripple DC alto indica condensadores degradados ou desequilíbrio da rede.",
+ "Segurança: usar osciloscópio com entradas isoladas ou sondas diferenciais de categoria CAT III/IV adequada. Nunca desligar o pino de terra do osciloscópio ou ligar a referência da sonda a uma parte sob tensão."],
+{a:"Nunca meça diretamente tensões da rede ou do barramento DC com sonda comum de referência à terra. Isso pode causar curto-circuito e ferimentos graves.",
+ x:"Medir, com sonda diferencial e sob supervisão, o ripple do barramento DC e a corrente de saída de um VFD em carga, e registar frequência e amplitude."});
+
+E(122,"Avaliação do Módulo 13","Troubleshooting Avançado",
+[["Diagnóstico de OC, OV, UV","30%","Causa identificada e solução correta"],["Diagnóstico de OH e GF","25%","Procedimento seguro"],["Falhas intermitentes","20%","Plano estruturado"],["Osciloscópio e medições","25%","Uso seguro e leitura correta"]],
+"Diagnosticar quatro falhas simuladas em bancada (uma de cada tipo) e entregar o relatório com causa raiz e ação corretiva.");
+
+/* ===== NÍVEL 3 — MÓDULO 14: VFD PARA ELEVADORES (123-131) ===== */
+
+L(123,"🧲","Motores PMSM",
+"Compreender os motores síncronos de ímanes permanentes usados em elevadores modernos.",
+["O <strong>PMSM</strong> (Permanent Magnet Synchronous Motor) usa ímanes no rotor e roda em sincronismo com o campo do estator. Não tem escorregamento, tem alto rendimento e elevada densidade de binário, e são usados em elevadores sem casa de máquinas. Para baixas rotações (60 a 150 rpm) têm muitos polos (16 a 40).",
+ "O controlo exige encoder absoluto e alinhamento do rotor (identificação da posição magnética). Um PMSM que roda gera tensão nos terminais mesmo sem alimentação, o que exige cuidados em manutenção e proteção contra sobretensão."],
+{p:["O VFD tem de ser compatível com PMSM e encoder.","Sem alimentação, o motor a rodar gera tensão (back-EMF).","Nunca rodar o motor a mão sem seccionar e curto-circuitar segundo o fabricante."],
+ x:"Comparar, numa tabela, motor de indução com redutor e PMSM gearless em rendimento, ruído, manutenção e custo."});
+
+L(124,"⚙️","Gearless",
+"Compreender a tração sem redutor (gearless), a relação entre velocidade do motor e da cabina e o cálculo básico.",
+["Na tração <strong>gearless</strong>, o motor acopla diretamente à polia de tração, eliminando o redutor. Vantagens: menos manutenção, menor ruído, sem óleo e maior eficiência. A velocidade do cabo é v = π × D × n / 60. Com suspensão 2:1, a velocidade da cabina é metade da do cabo.",
+ "Exemplo: polia de 0,4 m de diâmetro a 95 rpm → v = π × 0,4 × 95 / 60 ≈ 2,0 m/s no cabo; com suspensão 2:1, a cabina anda a ≈ 1,0 m/s. O VFD deve fornecer binário elevado a baixa velocidade e controlo preciso."],
+{tt:"Velocidade da Cabina (Suspensão 2:1)", tb:[["Diâmetro da polia (m)","n (rpm)","v cabo (m/s)","v cabina (m/s)"],["0,40","95","1,99","1,00"],["0,40","190","3,98","1,99"],["0,52","150","4,08","2,04"]],
+ x:"Calcular as velocidades da cabina para 3 combinações de diâmetro de polia e rotação, com suspensão 1:1 e 2:1."});
+
+L(125,"🎯","Encoder Absoluto",
+"Configurar encoders absolutos e realizar a identificação do ângulo de rotor em PMSM.",
+["Os encoders absolutos (EnDat 2.1/2.2, SSI, BiSS ou sin/cos com informação absoluta) informam a posição do rotor. No comissionamento é necessário realizar o <strong>autotuning de ângulo</strong> (alinhamento dos polos): estático (sem rotação) ou dinâmico (com rotação, cabine desligada dos cabos ou equilibrada, conforme o fabricante).",
+ "Falhas de alinhamento provocam vibração, corrente elevada, perda de binário e falha de sentido. Verificar sentido de contagem, resolução, alimentação e blindagem, e guardar o valor de offset em backup."],
+{tt:"Protocolos de Encoder", tb:[["Protocolo","Tipo","Uso"],["EnDat","Digital absoluto","Elevadores, servos"],["SSI","Digital absoluto","Sistemas industriais"],["BiSS","Digital absoluto","Alta velocidade"],["Sin/Cos 1 Vpp","Analógico incremental","Alta resolução"]],
+ x:"Simular ou executar o autotuning de ângulo num PMSM de bancada e registar o offset obtido; provocar um alinhamento errado e descrever os sintomas."});
+
+L(126,"♻️","Regeneração",
+"Compreender a regeneração de energia em elevadores e escolher resistência de travagem ou unidade regenerativa.",
+["Num elevador, o contrapeso equilibra a cabina mais 40 a 50 % da carga nominal. Quando a cabina cheia desce ou a cabina vazia sobe, o motor funciona como gerador e envia energia ao barramento DC. Com a resistência de travagem, esta energia é dissipada em calor; com <strong>unidade regenerativa (AFE)</strong>, é devolvida à rede.",
+ "A escolha depende do número de viagens, altura do edifício e custo de energia. Em instalações de tráfego elevado, a regeneração poupa energia e reduz o calor no maquinário e na sala."],
+{tt:"Resistência vs. Regeneração", tb:[["Solução","Energia","Vantagem","Limitação"],["Resistência de travagem","Dissipada em calor","Simples e económica","Calor e desperdício"],["Unidade regenerativa (AFE)","Devolvida à rede","Poupança e menos calor","Custo, exige rede estável"]],
+ x:"Calcular o contrapeso para uma cabina de 800 kg e carga nominal de 630 kg com fator de equilíbrio de 45 % e indicar quando o motor regenera."});
+
+L(127,"📏","Nivelamento de Cabina",
+"Ajustar a curva de percurso e os sensores de nivelamento para paragens precisas e confortáveis.",
+["A EN 81-20 define, para elevadores de tração, precisão de paragem de ±10 mm e de nivelamento de ±20 mm. O VFD segue uma curva com aceleração suave (jerk limitado), velocidade nominal, desaceleração e <strong>velocidade de aproximação</strong> antes do piso, com sensores de nivelamento (magnéticos/óticos) ou codificação absoluta do curso.",
+ "Valores típicos de conforto: aceleração de 0,6 a 1,0 m/s² e jerk de 0,8 a 1,3 m/s³ (variam com o projeto). Ajustar cada etapa e comparar a precisão a diferentes cargas."],
+{p:["Precisão de paragem depende do freio, da inércia e do controlo.","Compensar carga por pesagem, se existir.","Registar a precisão em cada piso."],
+ x:"Ajustar a curva de percurso de uma instalação de bancada (ou simulador), medir a precisão de paragem em 5 pisos e registar."});
+
+L(128,"🛑","Travão Eletromagnético",
+"Compreender a sequência de controlo e os testes do travão em elevadores.",
+["O travão de elevador é de mola (aplica por defeito) e liberta-se por bobina energizada. São exigidos dois circuitos independentes de acionamento. A sequência é: habilitar VFD → estabelecer binário → libertar travão → mover. Para parar: reduzir a velocidade quase a zero → fechar o travão → remover binário.",
+ "Antes de abrir o travão o VFD deve confirmar corrente e binário no motor (evita <em>rollback</em>). Nos VFD com STO certificado, o STO e os travões formam a cadeia de segurança em substituição de contactores de potência, segundo a EN 81-20 e a certificação do equipamento."],
+{a:"Nunca liberte o travão sem binário no motor, sem confirmar a carga e sem o procedimento de resgate. Apenas técnicos certificados devem intervir em travões e cadeias de segurança.",
+ x:"Descrever e testar em simulador a sequência de abertura/fecho do travão e a monitorização do relé de travão pelo VFD."});
+
+L(129,"🆘","Resgate Automático",
+"Compreender o dispositivo de resgate automático (ARD) e o funcionamento em falta de energia.",
+["O <strong>ARD</strong> (Automatic Rescue Device) alimenta o VFD e o travão por bateria ou UPS durante a falta de rede e move a cabina, em baixa velocidade (por exemplo, 0,1 a 0,3 m/s), para o piso mais próximo, com a porta a abrir. O sistema deteta a <strong>direção de menor esforço</strong> (com base na corrente ou no equilíbrio de cargas).",
+ "Componentes: baterias (por exemplo, 48 V ou 230 V), inversor de emergência, lógica de controlo, relés de segurança e sinalização. Exige testes periódicos e manutenção das baterias. Em alternativa, o resgate manual usa a libertação manual do travão e roda manual, a cargo de pessoal treinado."],
+{tt:"Resgate Automático vs. Manual", tb:[["Aspeto","Automático (ARD)","Manual"],["Tempo de resgate","Rápido","Depende da equipa"],["Custo","Maior","Menor"],["Manutenção","Baterias e testes","Formação e procedimentos"],["Risco","Menor exposição","Maior exposição do técnico"]],
+ x:"Elaborar o procedimento de teste semestral de um ARD, incluindo a verificação de baterias, tempos, direção de movimento e registo."});
+
+L(130,"🧰","Comissionamento de Elevadores",
+"Aplicar um procedimento completo de comissionamento de VFD em elevador.",
+["Fases: verificação mecânica (guias, cabos, contrapeso), segurança (circuito de segurança, limitador de velocidade, para-quedas, fins de curso), elétrica (alimentação, terra, encoder, STO), <strong>autotuning</strong> de motor e ângulo, ajuste de curvas, teste de travão, testes com carga (100 % e 110 % da nominal, conforme regulamentação), teste de resgate e medição de conforto (acelerómetro).",
+ "Toda a intervenção deve seguir a regulamentação local e a EN 81-20/50 (ou equivalente), com pessoal qualificado, inspeção final e registo. Este curso apresenta a lógica técnica do VFD e não substitui a formação e certificação profissional de elevadores."],
+{tt:"Checklist de Comissionamento de Elevador", tb:[["Fase","Verificação","OK"],["Mecânica","Guias, cabos, polia, contrapeso","☐"],["Segurança","Circuito, limitador, fins de curso","☐"],["Elétrica","Terra, encoder, STO, travão","☐"],["Autotuning","Motor e ângulo do rotor","☐"],["Curvas","Velocidade, jerk, aproximação","☐"],["Testes","Carga, travão, resgate","☐"],["Registo","Backup e relatório","☐"]],
+ x:"Preencher a checklist de um elevador simulado ou de bancada e apresentar o relatório com precisão de paragem e conforto medidos."});
+
+E(131,"Avaliação do Módulo 14","VFD para Elevadores",
+[["PMSM, gearless e encoder","25%","Cálculos e alinhamento corretos"],["Regeneração e travão","25%","Sequências seguras"],["Curvas e nivelamento","25%","Precisão dentro do critério"],["Resgate e comissionamento","25%","Procedimentos completos"]],
+"Apresentar o projeto de comissionamento de VFD para um elevador, incluindo curvas, travão, regeneração e resgate.");
+
+/* ===== NÍVEL 3 — MÓDULO 15: VFD PARA PETRÓLEO E GÁS (132-140) ===== */
+
+L(132,"💧","Bombas Centrífugas",
+"Aplicar VFD em bombas centrífugas, com controlo de pressão e caudal e proteção da bomba.",
+["A curva da bomba (H-Q) intersecta a curva do sistema no ponto de operação. Ao variar a velocidade, a curva da bomba desloca-se, seguindo as leis de afinidade. Operar afastado do <strong>BEP</strong> (ponto de melhor rendimento) aumenta vibração e desgaste. O controlo típico é PID de pressão, caudal ou nível.",
+ "Proteções: subcarga (funcionamento a seco), sobrecarga, velocidade mínima para arrefecimento e lubrificação e rampas para evitar golpe de aríete. Bombas submersíveis (ESP) com cabos longos exigem filtros sinusoidais ou dV/dt."],
+{p:["Não operar a bomba abaixo da velocidade mínima do fabricante.","PID: ajustar ganho, tempo integral e filtro de sinal.","Verificar NPSH disponível."],
+ x:"Configurar o PID de pressão em VFD de bancada com transmissor 4-20 mA, provocar variações de consumo e registar a resposta e a estabilidade."});
+
+L(133,"🌀","Compressores",
+"Compreender as particularidades dos VFD em compressores de diferentes tipos.",
+["Os compressores de <strong>parafuso</strong> beneficiam de VFD para controlo de pressão, redução de arranques a plena carga e poupança de energia em carga parcial. Os <strong>alternativos</strong> têm binário pulsante e exigem análise de ressonância torsional. Os <strong>centrífugos</strong> têm risco de <em>surge</em> a baixas cargas, tratado por controlo anti-surge.",
+ "A lubrificação e o arrefecimento definem a velocidade mínima. Em grandes potências (MW) usam-se VFD de média tensão. Devem programar-se <strong>frequências de salto</strong> para evitar ressonâncias e seguir as recomendações do fabricante do compressor."],
+{tt:"Tipos de Compressor e VFD", tb:[["Tipo","Carga","Cuidado principal"],["Parafuso","Binário quase constante","Velocidade mínima e lubrificação"],["Alternativo","Binário pulsante","Ressonância torsional"],["Centrífugo","Binário quadrático","Surge / anti-surge"]],
+ x:"Preparar um resumo com os limites de velocidade e as frequências de salto para um compressor de parafuso indicado no catálogo do fabricante."});
+
+L(134,"🌬️","Ventiladores Industriais",
+"Aplicar VFD em ventiladores de grande inércia e definir rampas e arranque em rotação.",
+["Os ventiladores são cargas de binário quadrático: P ∝ n³. Ventiladores grandes têm elevada inércia e exigem rampas longas. Podem estar a rodar por efeito de correntes de ar quando se dá o Start: a função <strong>flying start</strong> (ou spin start) deteta a velocidade e sincroniza o VFD sem corrente excessiva.",
+ "O controlo por pressão diferencial ou temperatura permite poupança elevada. Verificar ressonâncias mecânicas (frequências de salto) e o balanceamento."],
+{p:["Ativar flying start em ventiladores que rodam livremente.","Rampas de 30 a 120 s são comuns em grandes ventiladores.","Reduzir a velocidade em 20 % poupa cerca de 49 % de potência."],
+ x:"Testar o flying start com um ventilador a rodar livremente e comparar corrente de arranque com e sem a função."});
+
+L(135,"❄️","HVAC Industrial",
+"Configurar VFD para chillers, unidades de tratamento de ar e torres de arrefecimento.",
+["Em HVAC, o VFD ajusta a velocidade de ventiladores e bombas conforme a temperatura, a pressão ou a qualidade do ar. Muitos VFD têm macros para HVAC com PID, modo sleep, boost, controlo de filtros sujos, bypass e comunicação BACnet ou Modbus com o sistema de gestão do edifício (BMS).",
+ "Deve prever-se modo de incêndio (fire mode), bypass manual, filtros EMC adequados e comunicação com o BMS. As poupanças são elevadas por a carga variar ao longo do dia."],
+{tt:"Funções Típicas em HVAC", tb:[["Função","Uso"],["PID","Temperatura, pressão, CO₂"],["Sleep / Wake","Poupança fora de horas"],["Fire mode","Operar em emergência de incêndio"],["Bypass","Continuidade em falha do VFD"],["BACnet / Modbus","Integração com o BMS"]],
+ x:"Configurar um VFD com macro HVAC (ou simulador), PID de temperatura e função sleep, e testar o comportamento em diferentes cargas."});
+
+L(136,"💣","Atmosferas Explosivas",
+"Compreender os conceitos de zonas classificadas e os requisitos para motores e VFD.",
+["Áreas com gases, vapores ou poeiras inflamáveis classificam-se em <strong>zonas</strong>: 0, 1 e 2 (gases) e 20, 21 e 22 (poeiras). O equipamento tem classe de temperatura (T1 a T6) e modo de proteção: <strong>Ex d</strong> (invólucro à prova de explosão), <strong>Ex e</strong> (segurança aumentada), <strong>Ex p</strong> (pressurizado), entre outros.",
+ "O VFD é normalmente instalado em <strong>zona segura</strong> (sala de comando) e o motor Ex na zona classificada. O motor Ex alimentado por VFD deve estar certificado para essa combinação, com curvas de sobretemperatura e sondas térmicas (PTC) ligadas a um relé de disparo."],
+{a:"Trabalhos em atmosferas explosivas exigem pessoal competente, permissões de trabalho e certificação. Nunca altere ou repare equipamento Ex sem autorização e procedimento aprovado.",
+ x:"Classificar 5 pontos de uma instalação fictícia em zonas 0, 1, 2 e definir onde poderia instalar VFD e motores, indicando o modo de proteção Ex adequado."});
+
+L(137,"🇪🇺","ATEX",
+"Interpretar a marcação ATEX e as diretivas europeias aplicáveis.",
+["A diretiva <strong>2014/34/UE</strong> aplica-se aos equipamentos para atmosferas explosivas e a <strong>1999/92/CE</strong> à proteção dos trabalhadores. A marcação inclui: CE, marca Ex, grupo (I minas; II superfície), categoria (1, 2, 3), atmosfera (G gás, D poeiras), modos de proteção, grupo de gás, classe de temperatura e nível de proteção (EPL).",
+ "Exemplo de marcação: <strong>II 2G Ex db eb IIC T4 Gb</strong> → equipamento do grupo II, categoria 2 para gases, com invólucros à prova de explosão (db) e segurança aumentada (eb), gás IIC (mais exigente), temperatura máxima de superfície T4 (135 °C) e EPL Gb."],
+{tt:"Decifrar a Marcação", tb:[["Elemento","Significado"],["II","Grupo de superfície"],["2G","Categoria 2, gás (Zona 1)"],["Ex db eb","Modos de proteção"],["IIC","Grupo de gás (incl. hidrogénio, acetileno)"],["T4","Temperatura máxima de superfície: 135 °C"],["Gb","Nível de proteção do equipamento"]],
+ x:"Interpretar 3 marcações ATEX fornecidas e indicar em que zonas o equipamento pode ser usado."});
+
+L(138,"🌐","IECEx",
+"Conhecer o sistema IECEx e a série de normas IEC 60079.",
+["O <strong>IECEx</strong> é o sistema internacional de certificação de equipamentos e serviços para atmosferas explosivas, baseado na série IEC 60079. Permite certificados de conformidade aceites em muitos países, facilitando o comércio e a instalação. Inclui também certificação de competências de pessoal (CoPC).",
+ "Normas-chave: IEC 60079-0 (requisitos gerais), -1 (Ex d), -7 (Ex e), -14 (projeto e instalação), -17 (inspeção e manutenção) e -19 (reparação). ATEX é obrigatório na UE; IECEx é o padrão internacional, e muitos projetos exigem ambos."],
+{tt:"ATEX vs. IECEx", tb:[["Aspeto","ATEX","IECEx"],["Âmbito","União Europeia (legal)","Internacional (esquema de certificação)"],["Base normativa","EN 60079 (harmonizada)","IEC 60079"],["Marcação","CE + Ex","Certificado IECEx"],["Pessoal","Não incluído","CoPC (competências)"]],
+ x:"Pesquisar o certificado IECEx de um motor Ex (ou usar exemplo fornecido) e listar tipo de proteção, zona e condições especiais de utilização."});
+
+L(139,"🛢️","API",
+"Conhecer as normas API mais relevantes para máquinas rotativas e VFD no petróleo e gás.",
+["O <strong>American Petroleum Institute (API)</strong> publica normas usadas em projetos de petróleo e gás. Entre as mais relevantes: <strong>API 610</strong> (bombas centrífugas), <strong>API 617</strong> (compressores axiais e centrífugos), <strong>API 618</strong> (compressores alternativos), <strong>API 541</strong> (motores de indução de gaiola de grande potência), <strong>API 546</strong> (máquinas síncronas de grande potência), <strong>API 670</strong> (sistemas de proteção de máquinas) e <strong>API 686</strong> (instalação de máquinas).",
+ "Para VFD em projetos O&G, combinam-se as normas API com IEC 61800 (sistemas de acionamentos: -3 EMC, -5-1 e -5-2 segurança), IEC 60079 (áreas classificadas) e as especificações do cliente. Estas exigem análise torsional, testes de fábrica (FAT) e documentação extensa."],
+{tt:"Normas Relevantes", tb:[["Norma","Tema"],["API 610","Bombas centrífugas"],["API 617","Compressores centrífugos e axiais"],["API 618","Compressores alternativos"],["API 541 / 546","Motores de indução / síncronos de grande potência"],["API 670","Proteção de máquinas"],["IEC 61800-5-2","Segurança funcional em acionamentos"]],
+ x:"Para um skid de bombas de injeção, listar as normas aplicáveis e os documentos que espera receber do fornecedor do VFD (datasheet, FAT, manual, certificados)."});
+
+L(140,"🏁","Projeto Final Industrial",
+"Integrar conhecimentos de todo o curso num projeto industrial de VFD para petróleo e gás.",
+["Cenário: skid de bombas de injeção de água com duas bombas de 55 kW (uma em reserva) numa instalação com zona classificada. VFD em sala de controlo (zona segura), motores Ex e certificados, controlo de pressão por PID, redundância, comunicação Profinet/Modbus TCP com o sistema de controlo, STO e paragem de emergência, e requisitos de eficiência energética.",
+ "O projeto reúne: dimensionamento, esquemas, parametrização, comunicação, harmónicas, eficiência, análise de falhas e documentação. Segue-se a aula final com o Projeto de Certificação, onde todas as etapas são avaliadas."],
+{p:["Definir requisitos e normas aplicáveis.","Selecionar VFD, reator/filtro e proteção Ex.","Planear FAT/SAT e comissionamento."],
+ x:"Preparar o dossiê técnico do skid com memória de cálculo, esquemas, lista de parâmetros, mapa de comunicação, análise de harmónicas e estudo de retorno."});
+
+/* ===== PROJETO FINAL — CERTIFICAÇÃO (141) ===== */
+
+L(141,"🎓","Projeto Final — Certificação",
+"Demonstrar as competências completas de seleção, parametrização, integração e diagnóstico de VFD e obter o certificado do curso.",
+["O formando deverá realizar e apresentar um projeto completo, à sua escolha entre uma aplicação de <strong>elevador</strong> ou de <strong>Oil & Gas</strong>, cumprindo todos os passos do checklist abaixo. O projeto é apresentado a uma banca, com demonstração prática e defesa técnica.",
+ "Documentação exigida: memória de dimensionamento, esquemas, lista de parâmetros, mapa de comunicação, relatório de comissionamento, análise de falhas simuladas e estudo de eficiência energética."],
+{tt:"Critérios de Avaliação e Certificação", tb:[["Etapa","Peso","Mínimo"],["Selecionar um VFD e justificar","10%","Critérios técnicos claros"],["Dimensionar motor e proteções","10%","Cálculos corretos"],["Configurar parâmetros e autotuning","15%","Sistema estável"],["Integrar com PLC","10%","Comando e leitura por rede"],["Configurar Modbus","10%","Mapa de registos funcional"],["Resolver falhas simuladas","15%","Causa raiz e correção"],["Relatório de comissionamento","10%","Completo"],["Estudo de eficiência energética","10%","Payback e ROI justificados"],["Aplicação de elevador ou Oil & Gas","10%","Requisitos específicos cumpridos"]],
+ chk:["Selecionar um VFD","Dimensionar motor","Configurar parâmetros","Integrar com PLC","Configurar Modbus","Resolver falhas simuladas","Elaborar relatório de comissionamento","Apresentar estudo de eficiência energética","Configurar aplicação de elevador ou Oil & Gas"],
+ x:"Entregar o dossiê completo, realizar a demonstração prática e a defesa técnica. Nota mínima de 70 % em cada etapa e 75 % de média global para certificação."});
+
+
+
+const MODULES = [
+  {lvl:1, ico:"⚡", title:"Fundamentos de Eletricidade", from:1, to:8},
+  {lvl:1, ico:"📐", title:"Diagramas Elétricos Industriais", from:9, to:18},
+  {lvl:1, ico:"⚙️", title:"Motores Elétricos", from:19, to:28},
+  {lvl:1, ico:"🔧", title:"Instrumentação Básica", from:29, to:38},
+  {lvl:2, ico:"🎛️", title:"Fundamentos dos Variadores de Frequência", from:39, to:48},
+  {lvl:2, ico:"🛠️", title:"Parametrização", from:49, to:60},
+  {lvl:2, ico:"🔌", title:"Entradas e Saídas", from:61, to:72},
+  {lvl:2, ico:"🌐", title:"Redes Industriais", from:73, to:80},
+  {lvl:2, ico:"🏭", title:"Marcas e Plataformas", from:81, to:90},
+  {lvl:3, ico:"🚀", title:"Controlo Vetorial", from:91, to:99},
+  {lvl:3, ico:"〰️", title:"Harmónicas", from:100, to:107},
+  {lvl:3, ico:"🌱", title:"Eficiência Energética", from:108, to:114},
+  {lvl:3, ico:"🩺", title:"Troubleshooting Avançado", from:115, to:122},
+  {lvl:3, ico:"🛗", title:"VFD para Elevadores", from:123, to:131},
+  {lvl:3, ico:"🛢️", title:"VFD para Petróleo e Gás", from:132, to:140}
+];
+const LEVEL_NAMES = {1:"NÍVEL 1 — INICIANTE", 2:"NÍVEL 2 — INTERMÉDIO", 3:"NÍVEL 3 — AVANÇADO / ESPECIALISTA"};
+
+let introHTML = "";
+
+function buildSidebar() {
+  let h = '<a class="sidebar-home" onclick="showIntro()">🏠 Programa do Curso</a>';
+  let lastLvl = 0;
+  MODULES.forEach((m, i) => {
+    if (m.lvl !== lastLvl) { h += `<div class="level-title">${LEVEL_NAMES[m.lvl]}</div>`; lastLvl = m.lvl; }
+    h += `<div class="module"><h3 onclick="toggleModule(${i})">${m.ico} Nível ${m.lvl}: Módulo ${i+1} — ${m.title}</h3>`;
+    h += `<div class="chapter-list" id="module-${i}"><h4>📦 Aulas ${m.from} a ${m.to}</h4>`;
+    for (let n = m.from; n <= m.to; n++) {
+      const l = LESSONS[n-1];
+      h += `<a href="#" class="chapter-link" id="link-${n-1}" onclick="loadLesson(${n-1}); return false;">Aula ${n} — ${l.title}</a>`;
+    }
+    h += '</div></div>';
+  });
+  const f = LESSONS[140];
+  h += `<div class="level-title">CERTIFICAÇÃO</div><div class="module"><h3 onclick="toggleModule(${MODULES.length})">🎓 Projeto Final</h3>`;
+  h += `<div class="chapter-list" id="module-${MODULES.length}"><a href="#" class="chapter-link" id="link-140" onclick="loadLesson(140); return false;">${f.ico} ${f.title}</a></div></div>`;
+  document.getElementById('sidebar').innerHTML = h;
+}
+
+// ====================================================================
+// CONTROLO DE ACESSO (Supabase) — este curso exige login + validação
+// ====================================================================
+const COURSE_ID = 'vfd';
+
+async function verificarAcesso() {
+  const loginStatus = document.getElementById('login-status');
+  const { data: { session } } = await supabaseClient.auth.getSession();
+
+  if (!session) {
+    loginStatus.innerHTML = '🔒 Sessão não encontrada — <a href="login.html" style="color:#fca311;">Fazer Login</a>';
+    return false;
+  }
+
+  const { data: profile } = await supabaseClient
+    .from('profiles').select('nome').eq('id', session.user.id).single();
+  const nome = profile?.nome ? profile.nome.split(' ')[0] : 'Aluno';
+
+  const { data: enrollment } = await supabaseClient
+    .from('enrollments')
+    .select('status')
+    .eq('user_id', session.user.id)
+    .eq('course_id', COURSE_ID)
+    .single();
+
+  if (enrollment?.status !== 'validado') {
+    loginStatus.innerHTML = `⚠️ Olá, ${nome} — falta validar o código. <a href="validar-geral.html" style="color:#fca311;">Validar Código</a>`;
+    return false;
+  }
+
+  loginStatus.textContent = `✅ Acesso autorizado — Olá, ${nome}!`;
+  return true;
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  introHTML = document.getElementById('main-content').innerHTML;
+  buildSidebar();
+  verificarAcesso();
+});
+
+function toggleModule(index) {
+  const module = document.getElementById(`module-${index}`);
+  module.style.display = module.style.display === 'block' ? 'none' : 'block';
+}
+
+document.getElementById('toggle-sidebar').addEventListener('click', () => {
+  document.getElementById('sidebar').classList.toggle('active');
+});
+
+function showIntro() {
+  const mc = document.getElementById('main-content');
+  mc.innerHTML = introHTML;
+  mc.scrollTop = 0;
+  document.querySelectorAll('.chapter-link.active').forEach(e => e.classList.remove('active'));
+}
+
+function table(rows) {
+  let h = '<table><tr>' + rows[0].map(c => `<th>${c}</th>`).join('') + '</tr>';
+  for (let i = 1; i < rows.length; i++) h += '<tr>' + rows[i].map(c => `<td>${c}</td>`).join('') + '</tr>';
+  return h + '</table>';
+}
+
+function renderLesson(l, id) {
+  const isFinal = id === 140;
+  let h = '<h3>🌟 Objetivo da Aula</h3><p>' + l.o + '</p>';
+  h += '<h3>📖 Conteúdo Técnico</h3>' + l.t.map(p => `<p>${p}</p>`).join('');
+  if (l.d) h += `<pre class="diagram">${l.d}</pre>`;
+  if (l.tb) h += `<h4>📊 ${l.tt || 'Tabela de Apoio'}</h4>` + table(l.tb);
+  if (l.chk) h += '<h4>📌 O formando deverá:</h4><ul class="checklist">' + l.chk.map(c => `<li>✅ ${c}</li>`).join('') + '</ul>';
+  if (l.p) h += '<h4>✅ Pontos-Chave</h4><ul>' + l.p.map(p => `<li>${p}</li>`).join('') + '</ul>';
+  if (l.a) h += `<div class="safety-box"><h4>⚠️ Segurança</h4><p>${l.a}</p></div>`;
+  const tlabel = isFinal ? '🧪 Prova de Certificação' : (l.ev ? '🧪 Prova Prática Final' : `🧪 Teste Prático & Avaliação (Aula ${l.n})`);
+  h += `<div class="test-box"><h4>${tlabel}</h4><p><strong>Desafio:</strong> ${l.x}</p></div>`;
+  h += '<div class="lesson-nav">' + (id > 0 ? `<button onclick="loadLesson(${id-1})">← Anterior</button>` : '<span class="spacer"></span>') +
+       (id < LESSONS.length - 1 ? `<button onclick="loadLesson(${id+1})">Próxima →</button>` : '<span class="spacer"></span>') + '</div>';
+  return h;
+}
+
+function loadLesson(id) {
+  const l = LESSONS[id];
+  if (!l) return;
+  const mainContent = document.getElementById('main-content');
+  const title = id === 140 ? `${l.ico} ${l.title}` : `${l.ico} Aula ${l.n} — ${l.title}`;
+  mainContent.innerHTML = `
+    <div class="lesson-content">
+      <h2 id="lesson-title">${title}</h2>
+      ${renderLesson(l, id)}
+    </div>`;
+  mainContent.scrollTop = 0;
+  document.querySelectorAll('.chapter-link.active').forEach(e => e.classList.remove('active'));
+  const link = document.getElementById('link-' + id);
+  if (link) {
+    link.classList.add('active');
+    const list = link.parentElement;
+    if (list && list.classList.contains('chapter-list')) list.style.display = 'block';
+  }
+  document.getElementById('sidebar').classList.remove('active');
+}
+</script>
+
+</body>
+</html>
