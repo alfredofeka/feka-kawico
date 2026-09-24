@@ -18,76 +18,86 @@
 body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.6;color:var(--text-dark);background:var(--bg-light)}
 .container{max-width:1200px;margin:0 auto;padding:0 20px}
 header{background:var(--primary-blue);color:var(--text-light);padding:12px 0;box-shadow:0 2px 10px rgba(0,0,0,.1);position:sticky;top:0;z-index:1000}
-header.container{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap}
 .logo a{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--text-light)}
 .logo img{height:46px}.logo h1{font-size:1.6em;font-weight:700;margin:0}.logo span{font-size:.85em;color:#cbd6e0}
 .menu-status-wrapper{display:flex;align-items:center;gap:18px}
 nav ul{list-style:none;display:flex;align-items:center;flex-wrap:wrap;justify-content:center}
 nav ul li{margin-left:16px;margin-top:4px}
 nav ul li a{color:var(--text-light);text-decoration:none;font-weight:600;font-size:.95em}
-nav ul li a:hover{color:var(--secondary-blue)}
 #status-indicator{display:flex;align-items:center}
 .status-icon{font-size:1.3em;margin-right:5px}.online{color:var(--online-color)}.offline{color:var(--offline-color)}
 .status-text{font-size:.85em;font-weight:600}
-
 .hero{position:relative;height:40vh;overflow:hidden;display:flex;align-items:center;justify-content:center;color:#fff}
 .hero-slide{position:absolute;inset:0;background-size:cover;background-position:center;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;opacity:0;transition:opacity 1s}
 .hero-slide.active{opacity:1}
 .hero-slide h1{font-size:2.6em;text-shadow:0 2px 8px rgba(0,0,0,.5)}
 .hero-slide p{font-size:1.1em;max-width:800px;margin:5px auto;text-shadow:0 1px 5px rgba(0,0,0,.5)}
 .hero-btn{padding:10px 20px;background:var(--btn-bg);color:#fff;border-radius:8px;text-decoration:none;font-weight:600;margin-top:10px}
-.hero-btn:hover{background:var(--btn-hover)}
 
-/* LAYOUT */
+/* LAYOUT COM SIDEBAR FIX - BUG CORRIGIDO */
 #page-layout{display:flex;align-items:flex-start;transition:all.3s}
-#news-feed{width:var(--sidebar-w);min-width:var(--sidebar-w);background:#fff;box-shadow:2px 4px 12px rgba(0,0,0,.15);border-radius:0 12px 12px 0;position:sticky;top:75px;height:80vh;overflow:hidden;transition:all.3s ease;z-index:10}
-#news-feed.collapsed{margin-left:calc(-1 * var(--sidebar-w));opacity:0;pointer-events:none}
-#news-feed h2{background:var(--primary-blue);color:#fff;text-align:center;padding:12px;font-size:.95em}
+#sidebar-wrapper{position:sticky;top:75px;display:flex;align-items:flex-start;flex-shrink:0;transition:all.3s ease;z-index:10}
+#news-feed{width:var(--sidebar-w);min-width:var(--sidebar-w);background:#fff;box-shadow:2px 4px 12px rgba(0,0,0,.15);border-radius:0 12px 12px 0;height:80vh;overflow:hidden;display:flex;flex-direction:column;transition:all.3s ease}
+#sidebar-wrapper.collapsed #news-feed{width:0;min-width:0;opacity:0;overflow:hidden;margin-left:0;pointer-events:none}
+#news-feed h2{background:var(--primary-blue);color:#fff;text-align:center;padding:12px;font-size:.9em;font-weight:700;border-radius:0 12px 0 0;white-space:nowrap}
 .feed-wrapper{padding:12px;height:calc(100% - 45px);overflow-y:auto}
 .news-item{margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid #eee}
 .news-item h4{font-size:.85em;color:var(--primary-blue)}.news-item p{font-size:.78em;color:#555}
 .news-item a{text-decoration:none;color:inherit}
-
-.toggle-btn{position:sticky;top:50vh;left:0;width:28px;height:90px;background:var(--primary-blue);color:#fff;border:none;border-radius:0 10px 10px 0;cursor:pointer;z-index:11;transform:translateY(-50%);transition:all.3s;flex-shrink:0}
-#page-layout.collapsed.toggle-btn{left:0}
+.toggle-btn{width:28px;height:85px;background:var(--primary-blue);color:#fff;border:none;border-radius:0 10px 10px 0;cursor:pointer;font-weight:bold;flex-shrink:0;margin-top:22vh;box-shadow:2px 2px 6px rgba(0,0,0,.2);transition:all.3s}
 
 main.container{flex:1;transition:all.3s;padding:0 15px 40px;background:#fff;margin-left:10px}
-#page-layout.collapsed main.container{margin:0 auto;max-width:1200px}
+#page-layout.collapsed main.container{margin:0 auto;max-width:1250px}
 
-/* CURSOS 65% MENOR - SEM ESPAÇO BRANCO */
+/* CURSOS */
 #cursos{padding:25px 10px;display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:14px;justify-content:center}
 .curso-card{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 4px 12px rgba(0,0,0,.08);display:flex;flex-direction:column;border:1px solid #eef2f7;transition:transform.2s}
 .curso-card:hover{transform:translateY(-4px)}
 .curso-card img{width:100%;height:115px;object-fit:cover;object-position:top center;background:#f2f5f8}
-.card-body{padding:10px 10px 10px;flex:1;display:flex;flex-direction:column}
-.curso-card h3{font-size:.88em;color:var(--primary-blue);line-height:1.2;margin-bottom:4px;min-height:2.3em;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.curso-card p.desc{font-size:.73em;color:#666;line-height:1.3;flex:1;min-height:2.5em;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:6px}
-.validation{font-weight:700;font-size:.72em;min-height:18px;margin:4px 0}
+.card-body{padding:0 10px 10px 10px;flex:1;display:flex;flex-direction:column}
 
-/* BOTÃO INSCREVER IGUAL PRINT */
-.btn-inscricao{display:block;width:100%;text-align:center;padding:11px 10px;border:none;border-radius:10px;background:#007bff;color:#fff;font-weight:700;font-size:.9em;cursor:pointer;text-decoration:none;transition:.2s;margin-top:4px;letter-spacing:.2px}
-.btn-inscricao:hover{background:#0056b3;transform:translateY(-1px)}
+/* NOME DO CURSO - NOVO ESTILO BONITO, NEGRITO, CENTRO */
+.curso-card h3{
+ font-size:1.02em;
+ font-weight:800;
+ text-align:center;
+ text-transform:capitalize;
+ letter-spacing:.3px;
+ color:#fff;
+ background:linear-gradient(135deg,#004a80,#007bff);
+ padding:8px 6px;
+ border-radius:0 0 8px 8px;
+ margin:0 -10px 8px -10px;
+ line-height:1.25;
+ min-height:42px;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ box-shadow:0 2px 6px rgba(0,74,128,.25);
+}
 
-/* 3 BOTÕES EMBAIXO IGUAL PRINT */
+.curso-card p.desc{font-size:.73em;color:#666;line-height:1.3;flex:1;min-height:2.5em;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:6px;text-align:center}
+.validation{font-weight:700;font-size:.72em;min-height:18px;margin:4px 0;text-align:center}
+
+.btn-inscricao{display:block;width:100%;text-align:center;padding:11px 10px;border:none;border-radius:10px;background:#007bff;color:#fff;font-weight:700;font-size:.9em;cursor:pointer;text-decoration:none;transition:.2s;margin-top:4px}
+.btn-inscricao:hover{background:#0056b3}
+
 .social-share{display:flex;gap:6px;margin-top:8px}
-.share-btn{flex:1;padding:8px 4px;border:none;border-radius:8px;cursor:pointer;font-weight:700;font-size:.8em;display:flex;align-items:center;justify-content:center;transition:.2s}
-.share-whatsapp{background:#25D366;color:#fff}.share-whatsapp:hover{background:#1DA851}
-.share-facebook{background:#1877F2;color:#fff}.share-facebook:hover{background:#145DBE}
-.share-email{background:#f7d070;color:#333}.share-email:hover{background:#e6c25a}
-.share-btn i{margin-right:4px;font-size:1.1em}
+.share-btn{flex:1;padding:8px 4px;border:none;border-radius:8px;cursor:pointer;font-weight:700;font-size:.8em;display:flex;align-items:center;justify-content:center}
+.share-whatsapp{background:#25D366;color:#fff}.share-facebook{background:#1877F2;color:#fff}.share-email{background:#f7d070;color:#333}
+.share-btn i{margin-right:4px}
 
 footer{background:var(--bg-dark);color:var(--text-light);padding:18px 0;text-align:center;font-size:.85em;margin-top:30px}
 
 @media(max-width:1024px){
  #page-layout{flex-direction:column}
- #news-feed{position:static;width:100%;min-width:100%;height:auto;border-radius:0;margin-left:0!important;opacity:1!important}
+ #sidebar-wrapper{position:static;width:100%;flex-direction:column}
+ #news-feed{width:100%;min-width:100%;height:auto;border-radius:0}
+ #sidebar-wrapper.collapsed #news-feed{width:100%;min-width:100%;opacity:1;margin-left:0}
 .toggle-btn{display:none}
  #cursos{grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}
 }
-@media(max-width:768px){
- #cursos{grid-template-columns:repeat(2,1fr);gap:10px}
-.curso-card img{height:95px}
-}
+@media(max-width:768px){#cursos{grid-template-columns:repeat(2,1fr);gap:10px}.curso-card img{height:95px}}
 </style>
 </head>
 <body>
@@ -96,6 +106,7 @@ footer{background:var(--bg-dark);color:var(--text-light);padding:18px 0;text-ali
 <section class="hero"><div class="hero-slide active" style="background-image:url('https://picsum.photos/id/1024/1600/600')"><h1>O Futuro é Agora</h1><p>Prepare-se para liderar projetos complexos</p><a href="#cursos" class="hero-btn">Ver Cursos</a></div></section>
 
 <div id="page-layout">
+<div id="sidebar-wrapper">
 <aside id="news-feed"><h2>Notícias & Artigos</h2><div class="feed-wrapper">
 <div class="news-item"><a href="noticias.html"><h4>Nova Norma EN1090</h4><p>Aplicação prática na fabricação.</p></a></div>
 <div class="news-item"><a href="noticias.html"><h4>Projeto Offshore Angola</h4><p>Desafios e soluções complexas.</p></a></div>
@@ -103,6 +114,7 @@ footer{background:var(--bg-dark);color:var(--text-light);padding:18px 0;text-ali
 <div class="news-item"><a href="noticias.html"><h4>QA/QC</h4><p>Melhores práticas.</p></a></div>
 </div></aside>
 <button id="toggle-feed-btn" class="toggle-btn">&lt;</button>
+</div>
 
 <main class="container"><section id="cursos"><p style="grid-column:1/-1;text-align:center;color:#888">Carregando cursos...</p></section></main>
 </div>
@@ -110,25 +122,21 @@ footer{background:var(--bg-dark);color:var(--text-light);padding:18px 0;text-ali
 <footer><div class="container"><p>© 2025 FEKA KAWIÇO Cursos Técnicos.</p><p>“A Terra Natural do Conhecimento”</p></div></footer>
 
 <script>
-// Slider e Sidebar dinâmica
-const newsFeedEl=document.getElementById('news-feed');
+const sidebarWrapper=document.getElementById('sidebar-wrapper');
 const toggleBtn=document.getElementById('toggle-feed-btn');
 const pageLayout=document.getElementById('page-layout');
 toggleBtn.addEventListener('click',()=>{
- const isCollapsed=newsFeedEl.classList.toggle('collapsed');
+ const isCollapsed=sidebarWrapper.classList.toggle('collapsed');
  pageLayout.classList.toggle('collapsed',isCollapsed);
  toggleBtn.innerHTML=isCollapsed?'&gt;':'&lt;';
 });
 
-// MAPA DE PÁGINAS
 const PAGE_MAP={
  desenhador:"tdpm.html", procurement:"curso-procurement.html", ingles:"ingles.html", frances:"frances.html",
  "QA-QC":"QA-QC.html", Robotica:"curso_robotica.html", refrigeracao:"curso-refrigeracao.html",
  REPARARTV:"curso-ManTV.html", AutoNmicra:"curso-Auto-Nmicra.html", Curso_DJ:"Curso_DJ.html",
  violao:"curso-Violao_html.html", vfd:"curso-VFD.html", TComercial:"TComercial.html", GComercial:"GComercial.html"
 };
-
-function getImageUrl(id){return `${id}.png`;}
 
 async function loadCursosAutomatic(){
  const container=document.getElementById('cursos');
@@ -147,7 +155,7 @@ async function loadCursosAutomatic(){
     const div=document.createElement('div');
     div.className='curso-card'; div.dataset.curso=nome; div.dataset.cursoKey=id;
     div.innerHTML=`
-      <a href="#" onclick="iniciarCurso('${id}',event)"><img src="${getImageUrl(id)}" alt="${nome}" onerror="this.src='FK.png'" loading="lazy"></a>
+      <a href="#" onclick="iniciarCurso('${id}',event)"><img src="${id}.png" alt="${nome}" onerror="this.src='FK.png'" loading="lazy"></a>
       <div class="card-body">
         <h3>${nome}</h3>
         <p class="desc">${desc}</p>
@@ -173,25 +181,24 @@ async function iniciarCurso(k,e){
  if(enroll?.status==='validado') location.href=PAGE_MAP[k]||'validar-geral.html';
  else location.href='validar-geral.html';
 }
-
 async function updateLoginStatus(){
  const el=document.getElementById('status-indicator');
  const {data:{session}}=await supabaseClient.auth.getSession();
  if(session){
   const {data:profile}=await supabaseClient.from('profiles').select('nome').eq('id',session.user.id).single();
   const first=profile?.nome?profile.nome.split(' ')[0]:'Usuário';
-  el.innerHTML=`<a href="perfil.html" style="text-decoration:none;color:inherit;display:flex;align-items:center"><i class="fas fa-circle online status-icon"></i><span class="status-text">Olá, ${first}</span></a><a href="#" onclick="logout(event)" style="margin-left:8px;color:#ffc107;font-weight:bold;text-decoration:none;font-size:.8em">(Sair)</a>`;
+  el.innerHTML=`<a href="perfil.html" style="text-decoration:none;color:inherit;display:flex;align-items:center"><i class="fas fa-circle online" style="color:#28a745;margin-right:5px"></i><span style="font-size:.85em;font-weight:600">Olá, ${first}</span></a><a href="#" onclick="logout(event)" style="margin-left:8px;color:#ffc107;font-weight:bold;text-decoration:none;font-size:.8em">(Sair)</a>`;
  }else{
-  el.innerHTML=`<a href="login.html" style="text-decoration:none;color:inherit;display:flex;align-items:center"><i class="fas fa-circle offline status-icon"></i><span class="status-text">Login</span></a>`;
+  el.innerHTML=`<a href="login.html" style="text-decoration:none;color:inherit;display:flex;align-items:center"><i class="fas fa-circle offline" style="color:#ffc107;margin-right:5px"></i><span style="font-size:.85em;font-weight:600">Login</span></a>`;
  }
 }
 async function logout(e){e.preventDefault();await supabaseClient.auth.signOut();alert('Sessão encerrada');location.href='index.html';}
-function shareCourse(platform,btn){
- const card=btn.closest('.curso-card');const title=card.dataset.curso;const url='https://alfredofeka.github.io/feka-kawico/index.html#cursos';
- const msg=`🚀 Estude na FEKA KAWIÇO! Recomendo o curso de *${title}*. Inscreva-se: ${url}`;
- if(platform==='whatsapp') window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`,'_blank');
- if(platform==='facebook') window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,'_blank');
- if(platform==='email'){const subj=`Recomendação FEKA: ${title}`;const body=`Olá,\nRecomendo ${title}\n${card.querySelector('.desc').textContent}\n${url}`;window.open(`mailto:?subject=${encodeURIComponent(subj)}&body=${encodeURIComponent(body)}`,'_self');}
+function shareCourse(p,btn){
+ const card=btn.closest('.curso-card');const t=card.dataset.curso;const url='https://alfredofeka.github.io/feka-kawico/index.html#cursos';
+ const msg=`🚀 Estude na FEKA KAWIÇO! Recomendo o curso de *${t}*. Inscreva-se: ${url}`;
+ if(p==='whatsapp') window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`,'_blank');
+ if(p==='facebook') window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,'_blank');
+ if(p==='email'){window.open(`mailto:?subject=${encodeURIComponent('Recomendação FEKA: '+t)}&body=${encodeURIComponent('Olá,\nRecomendo '+t+'\n'+url)}`,'_self');}
 }
 async function updateUI(){
  await updateLoginStatus();
