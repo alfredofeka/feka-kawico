@@ -10,98 +10,115 @@
 <style>
 :root{
  --primary-blue:#004a80;--secondary-blue:#007bff;--text-dark:#333;--text-light:#f4f4f4;
- --bg-light:#f9f9f9;--bg-dark:#2c3e50;--border-color:#ddd;
- --btn-bg:#007bff;--btn-hover:#0056b3;--online-color:#28a745;--offline-color:#ffc107;
- --sidebar-w:180px;
+ --bg-light:#f9f9f9;--bg-dark:#2c3e50;--btn-bg:#007bff;--btn-hover:#0056b3;
+ --online-color:#28a745;--sidebar-w:180px;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.6;color:var(--text-dark);background:var(--bg-light)}
 .container{max-width:1200px;margin:0 auto;padding:0 20px}
-header{background:var(--primary-blue);color:var(--text-light);padding:12px 0;box-shadow:0 2px 10px rgba(0,0,0,.1);position:sticky;top:0;z-index:1000}
+header{background:var(--primary-blue);color:var(--text-light);padding:10px 0;box-shadow:0 2px 10px rgba(0,0,0,.1);position:sticky;top:0;z-index:1000}
+header.container{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap}
 .logo a{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--text-light)}
-.logo img{height:46px}.logo h1{font-size:1.6em;font-weight:700;margin:0}.logo span{font-size:.85em;color:#cbd6e0}
-.menu-status-wrapper{display:flex;align-items:center;gap:18px}
+.logo img{height:44px}.logo h1{font-size:1.5em;font-weight:700;margin:0}.logo span{font-size:.82em;color:#cbd6e0}
+.menu-status-wrapper{display:flex;align-items:center;gap:16px}
 nav ul{list-style:none;display:flex;align-items:center;flex-wrap:wrap;justify-content:center}
-nav ul li{margin-left:16px;margin-top:4px}
-nav ul li a{color:var(--text-light);text-decoration:none;font-weight:600;font-size:.95em}
+nav ul li{margin-left:14px}
+nav ul li a{color:var(--text-light);text-decoration:none;font-weight:600;font-size:.92em}
 #status-indicator{display:flex;align-items:center}
-.status-icon{font-size:1.3em;margin-right:5px}.online{color:var(--online-color)}.offline{color:var(--offline-color)}
-.status-text{font-size:.85em;font-weight:600}
-.hero{position:relative;height:40vh;overflow:hidden;display:flex;align-items:center;justify-content:center;color:#fff}
+.status-icon{font-size:1.2em;margin-right:5px}.online{color:#28a745}.offline{color:#ffc107}
+.status-text{font-size:.82em;font-weight:600}
+#hamburger-btn{display:none;background:none;border:none;color:#fff;font-size:1.7em;cursor:pointer;padding:4px 8px}
+
+/* HERO */
+.hero{position:relative;height:38vh;overflow:hidden;display:flex;align-items:center;justify-content:center;color:#fff}
 .hero-slide{position:absolute;inset:0;background-size:cover;background-position:center;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;opacity:0;transition:opacity 1s}
 .hero-slide.active{opacity:1}
-.hero-slide h1{font-size:2.6em;text-shadow:0 2px 8px rgba(0,0,0,.5)}
-.hero-slide p{font-size:1.1em;max-width:800px;margin:5px auto;text-shadow:0 1px 5px rgba(0,0,0,.5)}
-.hero-btn{padding:10px 20px;background:var(--btn-bg);color:#fff;border-radius:8px;text-decoration:none;font-weight:600;margin-top:10px}
+.hero-slide h1{font-size:2.4em;text-shadow:0 2px 8px rgba(0,0,0,.5)}
+.hero-slide p{font-size:1em;max-width:800px;margin:4px auto;text-shadow:0 1px 5px rgba(0,0,0,.5)}
+.hero-btn{padding:9px 18px;background:var(--btn-bg);color:#fff;border-radius:8px;text-decoration:none;font-weight:600;margin-top:8px;font-size:.9em}
 
-/* LAYOUT COM SIDEBAR FIX - BUG CORRIGIDO */
+/* LAYOUT */
 #page-layout{display:flex;align-items:flex-start;transition:all.3s}
-#sidebar-wrapper{position:sticky;top:75px;display:flex;align-items:flex-start;flex-shrink:0;transition:all.3s ease;z-index:10}
-#news-feed{width:var(--sidebar-w);min-width:var(--sidebar-w);background:#fff;box-shadow:2px 4px 12px rgba(0,0,0,.15);border-radius:0 12px 12px 0;height:80vh;overflow:hidden;display:flex;flex-direction:column;transition:all.3s ease}
-#sidebar-wrapper.collapsed #news-feed{width:0;min-width:0;opacity:0;overflow:hidden;margin-left:0;pointer-events:none}
-#news-feed h2{background:var(--primary-blue);color:#fff;text-align:center;padding:12px;font-size:.9em;font-weight:700;border-radius:0 12px 0 0;white-space:nowrap}
-.feed-wrapper{padding:12px;height:calc(100% - 45px);overflow-y:auto}
-.news-item{margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid #eee}
-.news-item h4{font-size:.85em;color:var(--primary-blue)}.news-item p{font-size:.78em;color:#555}
+#sidebar-wrapper{position:sticky;top:72px;display:flex;align-items:flex-start;flex-shrink:0;transition:all.3s;z-index:10}
+#news-feed{width:var(--sidebar-w);min-width:var(--sidebar-w);background:#fff;box-shadow:2px 4px 12px rgba(0,0,0,.12);border-radius:0 12px 12px 0;height:78vh;overflow:hidden;display:flex;flex-direction:column;transition:all.3s}
+#sidebar-wrapper.collapsed #news-feed{width:0;min-width:0;opacity:0;pointer-events:none;margin-left:0;overflow:hidden}
+#news-feed h2{background:var(--primary-blue);color:#fff;text-align:center;padding:10px;font-size:.88em;font-weight:700;border-radius:0 12px 0 0}
+.feed-wrapper{padding:10px;height:calc(100% - 42px);overflow-y:auto}
+.news-item{margin-bottom:10px;padding-bottom:7px;border-bottom:1px solid #eee}
+.news-item h4{font-size:.82em;color:var(--primary-blue)}.news-item p{font-size:.75em;color:#666}
 .news-item a{text-decoration:none;color:inherit}
-.toggle-btn{width:28px;height:85px;background:var(--primary-blue);color:#fff;border:none;border-radius:0 10px 10px 0;cursor:pointer;font-weight:bold;flex-shrink:0;margin-top:22vh;box-shadow:2px 2px 6px rgba(0,0,0,.2);transition:all.3s}
+.toggle-btn{width:26px;height:80px;background:var(--primary-blue);color:#fff;border:none;border-radius:0 10px 10px 0;cursor:pointer;font-weight:bold;flex-shrink:0;margin-top:20vh;box-shadow:2px 2px 6px rgba(0,0,0,.2)}
 
-main.container{flex:1;transition:all.3s;padding:0 15px 40px;background:#fff;margin-left:10px}
+main.container{flex:1;transition:all.3s;padding:0 12px 35px;background:#fff;margin-left:8px}
 #page-layout.collapsed main.container{margin:0 auto;max-width:1250px}
 
-/* CURSOS */
-#cursos{padding:25px 10px;display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:14px;justify-content:center}
-.curso-card{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 4px 12px rgba(0,0,0,.08);display:flex;flex-direction:column;border:1px solid #eef2f7;transition:transform.2s}
-.curso-card:hover{transform:translateY(-4px)}
-.curso-card img{width:100%;height:115px;object-fit:cover;object-position:top center;background:#f2f5f8}
-.card-body{padding:0 10px 10px 10px;flex:1;display:flex;flex-direction:column}
+/* CURSOS - 65% MENOR */
+#cursos{padding:22px 8px;display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:12px;justify-content:center}
+.curso-card{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 3px 10px rgba(0,0,0,.07);display:flex;flex-direction:column;border:1px solid #eef2f7;transition:transform.2s}
+.curso-card:hover{transform:translateY(-3px)}
+.curso-card img{width:100%;height:110px;object-fit:cover;object-position:top center;background:#f2f5f8}
+.card-body{padding:0 9px 9px 9px;flex:1;display:flex;flex-direction:column}
 
-/* NOME DO CURSO - NOVO ESTILO BONITO, NEGRITO, CENTRO */
+/* NOME CURSO BONITO */
 .curso-card h3{
- font-size:1.02em;
- font-weight:800;
- text-align:center;
- text-transform:capitalize;
- letter-spacing:.3px;
- color:#fff;
- background:linear-gradient(135deg,#004a80,#007bff);
- padding:8px 6px;
- border-radius:0 0 8px 8px;
- margin:0 -10px 8px -10px;
- line-height:1.25;
- min-height:42px;
- display:flex;
- align-items:center;
- justify-content:center;
- box-shadow:0 2px 6px rgba(0,74,128,.25);
+ font-size:.98em;font-weight:800;text-align:center;text-transform:capitalize;
+ color:#fff;background:linear-gradient(135deg,#004a80,#007bff);
+ padding:7px 5px;border-radius:0 0 8px 8px;margin:0 -9px 7px -9px;
+ min-height:40px;display:flex;align-items:center;justify-content:center;
+ line-height:1.2;box-shadow:0 2px 5px rgba(0,74,128,.2);
 }
-
-.curso-card p.desc{font-size:.73em;color:#666;line-height:1.3;flex:1;min-height:2.5em;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:6px;text-align:center}
-.validation{font-weight:700;font-size:.72em;min-height:18px;margin:4px 0;text-align:center}
-
-.btn-inscricao{display:block;width:100%;text-align:center;padding:11px 10px;border:none;border-radius:10px;background:#007bff;color:#fff;font-weight:700;font-size:.9em;cursor:pointer;text-decoration:none;transition:.2s;margin-top:4px}
+.curso-card p.desc{font-size:.71em;color:#666;line-height:1.3;flex:1;min-height:2.4em;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:5px;text-align:center}
+.validation{font-weight:700;font-size:.7em;min-height:16px;margin:3px 0;text-align:center}
+.btn-inscricao{display:block;width:100%;text-align:center;padding:10px 8px;border:none;border-radius:9px;background:#007bff;color:#fff;font-weight:700;font-size:.86em;cursor:pointer;text-decoration:none;transition:.2s;margin-top:3px}
 .btn-inscricao:hover{background:#0056b3}
-
-.social-share{display:flex;gap:6px;margin-top:8px}
-.share-btn{flex:1;padding:8px 4px;border:none;border-radius:8px;cursor:pointer;font-weight:700;font-size:.8em;display:flex;align-items:center;justify-content:center}
+.social-share{display:flex;gap:5px;margin-top:7px}
+.share-btn{flex:1;padding:7px 3px;border:none;border-radius:7px;cursor:pointer;font-weight:700;font-size:.76em;display:flex;align-items:center;justify-content:center}
 .share-whatsapp{background:#25D366;color:#fff}.share-facebook{background:#1877F2;color:#fff}.share-email{background:#f7d070;color:#333}
-.share-btn i{margin-right:4px}
+.share-btn i{margin-right:3px}
 
-footer{background:var(--bg-dark);color:var(--text-light);padding:18px 0;text-align:center;font-size:.85em;margin-top:30px}
-
+/* TABLET */
 @media(max-width:1024px){
  #page-layout{flex-direction:column}
- #sidebar-wrapper{position:static;width:100%;flex-direction:column}
+ #sidebar-wrapper{position:static;width:100%}
  #news-feed{width:100%;min-width:100%;height:auto;border-radius:0}
- #sidebar-wrapper.collapsed #news-feed{width:100%;min-width:100%;opacity:1;margin-left:0}
+ #sidebar-wrapper.collapsed #news-feed{width:100%;min-width:100%;opacity:1}
 .toggle-btn{display:none}
- #cursos{grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}
+ #cursos{grid-template-columns:repeat(auto-fill,minmax(165px,1fr));gap:10px}
+.btn-inscricao{padding:8px;font-size:.8em;border-radius:7px}
+.share-btn{padding:6px 2px;font-size:.7em}
 }
-@media(max-width:768px){#cursos{grid-template-columns:repeat(2,1fr);gap:10px}.curso-card img{height:95px}}
+
+/* MOBILE - SIDEBAR SOME, MENU HAMBURGUER, BOTOES LEVES */
+@media(max-width:768px){
+ header.container{flex-wrap:nowrap}
+ #hamburger-btn{display:block}
+ nav{display:none;position:absolute;top:60px;left:0;right:0;background:var(--primary-blue);padding:12px 0;box-shadow:0 4px 10px rgba(0,0,0,.2);z-index:999}
+ nav.active{display:block}
+ nav ul{flex-direction:column;align-items:flex-start;padding:0 20px}
+ nav ul li{margin:8px 0;width:100%} nav ul li a{font-size:1em;display:block;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.1)}
+.menu-status-wrapper{margin-left:auto}
+ #sidebar-wrapper{display:none!important}
+ main.container{margin:0!important;padding:0 8px 20px!important}
+ #cursos{grid-template-columns:repeat(2,1fr);gap:8px;padding:12px 6px}
+.curso-card{border-radius:9px;box-shadow:0 2px 6px rgba(0,0,0,.06)}
+.curso-card img{height:85px}
+.curso-card h3{font-size:.82em;min-height:34px;padding:5px 3px}
+.curso-card p.desc{font-size:.66em}
+.btn-inscricao{padding:7px 5px;font-size:.74em;border-radius:6px;font-weight:700}
+.validation{font-size:.62em}
+.share-btn{padding:5px 2px;font-size:.66em;border-radius:5px}
+.share-btn i{font-size:.9em}
+.hero{height:24vh}.hero-slide h1{font-size:1.4em}.hero-slide p{font-size:.8em}
+}
+footer{background:#2c3e50;color:#f4f4f4;padding:16px 0;text-align:center;font-size:.8em;margin-top:20px}
 </style>
 </head>
 <body>
-<header><div class="container"><div class="logo"><a href="index.html"><img src="FK.png" alt="FK"><div><h1>FEKA KAWIÇO</h1><span>Cursos Técnicos - A Terra Natural do Conhecimento</span></div></a></div><div class="menu-status-wrapper"><nav><ul><li><a href="index.html">Início</a></li><li><a href="carreiras.html">Carreira</a></li><li><a href="#cursos">Cursos</a></li><li><a href="sobrenos.html">Sobre Nós</a></li><li><a href="contato.html">Contato</a></li><li><a href="ajuda.html">Ajuda</a></li></ul></nav><div id="status-indicator"></div></div></div></header>
+<header><div class="container">
+<div class="logo"><a href="index.html"><img src="FK.png" alt="FK"><div><h1>FEKA KAWIÇO</h1><span>Cursos Técnicos - A Terra Natural do Conhecimento</span></div></a></div>
+<button id="hamburger-btn"><i class="fas fa-bars"></i></button>
+<div class="menu-status-wrapper"><nav id="main-nav"><ul><li><a href="index.html">Início</a></li><li><a href="carreiras.html">Carreira</a></li><li><a href="#cursos">Cursos</a></li><li><a href="sobrenos.html">Sobre Nós</a></li><li><a href="contato.html">Contato</a></li><li><a href="ajuda.html">Ajuda</a></li></ul></nav><div id="status-indicator"></div></div>
+</div></header>
 
 <section class="hero"><div class="hero-slide active" style="background-image:url('https://picsum.photos/id/1024/1600/600')"><h1>O Futuro é Agora</h1><p>Prepare-se para liderar projetos complexos</p><a href="#cursos" class="hero-btn">Ver Cursos</a></div></section>
 
@@ -122,6 +139,12 @@ footer{background:var(--bg-dark);color:var(--text-light);padding:18px 0;text-ali
 <footer><div class="container"><p>© 2025 FEKA KAWIÇO Cursos Técnicos.</p><p>“A Terra Natural do Conhecimento”</p></div></footer>
 
 <script>
+// HAMBURGUER MOBILE
+const hamBtn=document.getElementById('hamburger-btn');
+const mainNav=document.getElementById('main-nav');
+hamBtn.addEventListener('click',()=>{mainNav.classList.toggle('active');});
+
+// SIDEBAR DESKTOP
 const sidebarWrapper=document.getElementById('sidebar-wrapper');
 const toggleBtn=document.getElementById('toggle-feed-btn');
 const pageLayout=document.getElementById('page-layout');
@@ -162,9 +185,9 @@ async function loadCursosAutomatic(){
         <p class="validation" id="${id}ValidationStatus"></p>
         <a href="#" class="btn-inscricao course-btn" onclick="iniciarCurso('${id}',event)">Inscrever</a>
         <div class="social-share">
-          <button class="share-btn share-whatsapp" onclick="shareCourse('whatsapp',this)"><i class="fab fa-whatsapp"></i></button>
-          <button class="share-btn share-facebook" onclick="shareCourse('facebook',this)"><i class="fab fa-facebook-f"></i></button>
-          <button class="share-btn share-email" onclick="shareCourse('email',this)"><i class="fas fa-envelope"></i> Enviar</button>
+          <button class="share-btn share-whatsapp" onclick="shareCourse('whatsapp',this,'${id}')"><i class="fab fa-whatsapp"></i></button>
+          <button class="share-btn share-facebook" onclick="shareCourse('facebook',this,'${id}')"><i class="fab fa-facebook-f"></i></button>
+          <button class="share-btn share-email" onclick="shareCourse('email',this,'${id}')"><i class="fas fa-envelope"></i> Enviar</button>
         </div>
       </div>`;
     container.appendChild(div);
@@ -187,19 +210,33 @@ async function updateLoginStatus(){
  if(session){
   const {data:profile}=await supabaseClient.from('profiles').select('nome').eq('id',session.user.id).single();
   const first=profile?.nome?profile.nome.split(' ')[0]:'Usuário';
-  el.innerHTML=`<a href="perfil.html" style="text-decoration:none;color:inherit;display:flex;align-items:center"><i class="fas fa-circle online" style="color:#28a745;margin-right:5px"></i><span style="font-size:.85em;font-weight:600">Olá, ${first}</span></a><a href="#" onclick="logout(event)" style="margin-left:8px;color:#ffc107;font-weight:bold;text-decoration:none;font-size:.8em">(Sair)</a>`;
+  el.innerHTML=`<a href="perfil.html" style="text-decoration:none;color:inherit;display:flex;align-items:center"><i class="fas fa-circle online" style="color:#28a745;margin-right:5px"></i><span style="font-size:.85em;font-weight:600">Olá, ${first}</span></a><a href="#" onclick="logout(event)" style="margin-left:6px;color:#ffc107;font-weight:bold;text-decoration:none;font-size:.75em">(Sair)</a>`;
  }else{
   el.innerHTML=`<a href="login.html" style="text-decoration:none;color:inherit;display:flex;align-items:center"><i class="fas fa-circle offline" style="color:#ffc107;margin-right:5px"></i><span style="font-size:.85em;font-weight:600">Login</span></a>`;
  }
 }
 async function logout(e){e.preventDefault();await supabaseClient.auth.signOut();alert('Sessão encerrada');location.href='index.html';}
-function shareCourse(p,btn){
- const card=btn.closest('.curso-card');const t=card.dataset.curso;const url='https://alfredofeka.github.io/feka-kawico/index.html#cursos';
- const msg=`🚀 Estude na FEKA KAWIÇO! Recomendo o curso de *${t}*. Inscreva-se: ${url}`;
- if(p==='whatsapp') window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`,'_blank');
- if(p==='facebook') window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,'_blank');
- if(p==='email'){window.open(`mailto:?subject=${encodeURIComponent('Recomendação FEKA: '+t)}&body=${encodeURIComponent('Olá,\nRecomendo '+t+'\n'+url)}`,'_self');}
+
+// WHATSAPP COM NUMERO FIXO + MENSAGEM PERSONALIZADA
+function shareCourse(platform,btn,courseId){
+ const card=btn.closest('.curso-card');
+ const nomeCurso=card.dataset.curso||courseId;
+ const numero="244924433318"; // +244 924433318
+ const mensagem=`Olá, eu quero mais informação acerca deste curso: ${nomeCurso} - FEKA KAWIÇO`;
+ const urlSite='https://alfredofeka.github.io/feka-kawico/index.html#cursos';
+
+ if(platform==='whatsapp'){
+   const link=`https://wa.me/${numero}?text=${encodeURIComponent(mensagem + ' | ' + urlSite)}`;
+   window.open(link,'_blank');
+ }
+ if(platform==='facebook'){
+   window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(urlSite)}`,'_blank');
+ }
+ if(platform==='email'){
+   window.open(`mailto:?subject=${encodeURIComponent('Quero info curso: '+nomeCurso)}&body=${encodeURIComponent(mensagem + '\n\n' + urlSite)}`,'_self');
+ }
 }
+
 async function updateUI(){
  await updateLoginStatus();
  const {data:{session}}=await supabaseClient.auth.getSession();
