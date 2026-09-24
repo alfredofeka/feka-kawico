@@ -103,20 +103,57 @@
 <footer><div class="container"><p>© 2025 FEKA KAWIÇO Cursos Técnicos. Todos os direitos reservados.</p></div></footer>
 
 <script>
-const IMAGE_MAP={desenhador:"Armz.RHS.png",ingles:"Ingles.png",frances:"Frances.png","QA-QC":"QA-QC.png",procurement:"Procuret.png",Robotica:"Introdução a Robotica.png",refrigeracao:"RefrigeracaoAC.jpg",REPARARTV:"ReparacaoTV.jpg",AutoNmicra:"NissanMicra.jpg",Curso_DJ:"DiscoJokerDJ.jpg",violao:"CursoViolao.jpg",vfd:"CursoVFD.jpg",TComercial:"TComercial.png",GComercial:"GComercial.png"};
-const PAGE_MAP={desenhador:"tdpm.html",procurement:"curso-procurement.html",ingles:"ingles.html",frances:"frances.html","QA-QC":"QA-QC.html",Robotica:"curso_robotica.html",refrigeracao:"curso-refrigeracao.html",REPARARTV:"curso-ManTV.html",AutoNmicra:"curso-Auto-Nmicra.html",violao:"curso-Violao_html.html",vfd:"curso-VFD.html",Curso_DJ:"Curso_DJ.html",TComercial:"TComercial.html",GComercial:"GComercial.html"};
+// ===== MAP LEGADO só para não quebrar páginas antigas =====
+const PAGE_MAP_LEGADO={
+  desenhador:"tdpm.html",
+  ingles:"ingles.html",
+  frances:"frances.html",
+  "QA-QC":"QA-QC.html",
+  procurement:"curso-procurement.html",
+  Robotica:"curso_robotica.html",
+  refrigeracao:"curso-refrigeracao.html",
+  REPARARTV:"curso-ManTV.html",
+  AutoNmicra:"curso-Auto-Nmicra.html",
+  Curso_DJ:"Curso_DJ.html",
+  violao:"curso-Violao_html.html",
+  vfd:"curso-VFD.html",
+  TComercial:"TComercial.html",
+  GComercial:"GComercial.html"
+};
+
+// ===== AUTOMÁTICO .PNG =====
+function getImageUrl(id){
+  return `${id}.png`;
+}
+function getPageUrl(id){
+  return PAGE_MAP_LEGADO[id] || `curso-${id}.html`;
+}
+
 let CURSO_KEYS=[];
 
-document.getElementById('menu-toggle').addEventListener('click',()=>{document.getElementById('main-nav').classList.toggle('active');});
+document.getElementById('menu-toggle').addEventListener('click',()=>{
+  document.getElementById('main-nav').classList.toggle('active');
+});
 
 // SIDE BAR RETRÁCTIL - NÃO TAPA CURSOS
-const newsFeed=document.getElementById('news-feed'); const toggleBtn=document.getElementById('toggle-feed-btn'); const mainContent=document.getElementById('main-content'); const feedWrapper=document.querySelector('.feed-wrapper');
+const newsFeed=document.getElementById('news-feed'); 
+const toggleBtn=document.getElementById('toggle-feed-btn'); 
+const mainContent=document.getElementById('main-content'); 
+const feedWrapper=document.querySelector('.feed-wrapper');
 if(window.innerWidth>1024){
-    const items=feedWrapper.innerHTML; feedWrapper.innerHTML+=items; // duplica para scroll infinito
+    const items=feedWrapper.innerHTML; 
+    feedWrapper.innerHTML+=items;
     toggleBtn.addEventListener('click',()=>{
         const collapsed=newsFeed.classList.toggle('collapsed');
-        if(collapsed){ toggleBtn.innerHTML='Notícias & Artigos'; toggleBtn.style.left='0'; mainContent.classList.add('full-width'); }
-        else{ toggleBtn.innerHTML='<'; toggleBtn.style.left='300px'; mainContent.classList.remove('full-width'); }
+        if(collapsed){ 
+          toggleBtn.innerHTML='Notícias & Artigos'; 
+          toggleBtn.style.left='0'; 
+          mainContent.classList.add('full-width'); 
+        } else { 
+          toggleBtn.innerHTML='<'; 
+          toggleBtn.style.left='300px'; 
+          mainContent.classList.remove('full-width'); 
+        }
     });
     toggleBtn.style.left='300px';
 }
@@ -128,16 +165,78 @@ async function loadCourses(){
     CURSO_KEYS=courses.map(x=>x.id);
     let h="";
     courses.forEach(cur=>{
-        const img=IMAGE_MAP[cur.id]||"FK.png";
+        const img=getImageUrl(cur.id);
         h+=`<div class="curso-card" data-curso="${cur.nome}" data-curso-key="${cur.id}"><a href="#" onclick="iniciarCurso('${cur.id}',event)"><img src="${img}" alt="${cur.nome}" onerror="this.src='FK.png'"></a><div class="card-body"><h3>${cur.nome}</h3><p>${cur.descricao||''}</p><p id="${cur.id}ValidationStatus" style="font-weight:bold;margin-top:10px;"></p><a href="#" class="btn-inscricao course-btn" onclick="iniciarCurso('${cur.id}',event)">Inscrever</a><div class="social-share"><button class="share-btn share-whatsapp" onclick="shareCourse('whatsapp',this)"><i class="fab fa-whatsapp"></i></button><button class="share-btn share-facebook" onclick="shareCourse('facebook',this)"><i class="fab fa-facebook"></i></button><button class="share-btn share-email" onclick="shareCourse('email',this)"><i class="fas fa-envelope"></i></button></div></div></div>`;
     });
-    c.innerHTML=h; updateUI();
+    c.innerHTML=h; 
+    updateUI();
 }
-async function iniciarCurso(k,e){e.preventDefault();const {data:{session}}=await supabaseClient.auth.getSession();if(!session){alert('⚠️ Faça Login.');location.href='login.html';return;}const {data:en}=await supabaseClient.from('enrollments').select('status').eq('user_id',session.user.id).eq('course_id',k).single();if(en?.status==='validado')location.href=PAGE_MAP[k]||k+'.html';else location.href='validar-geral.html?curso='+k;}
-async function updateLoginStatus(){const el=document.getElementById('status-indicator');const {data:{session}}=await supabaseClient.auth.getSession();if(session){const {data:p}=await supabaseClient.from('profiles').select('nome').eq('id',session.user.id).single();const f=p?.nome?p.nome.split(' ')[0]:'Usuário';el.innerHTML=`<a href="perfil.html" style="text-decoration:none;color:inherit;display:flex;align-items:center;"><i class="fas fa-circle status-icon online"></i><span class="status-text">Olá, ${f}</span></a> <a href="#" onclick="logout(event)" style="margin-left:10px;color:#ffc107;font-weight:bold;text-decoration:none;">(Sair)</a>`;}else{el.innerHTML=`<a href="login.html" style="text-decoration:none;color:inherit;display:flex;align-items:center;"><i class="fas fa-circle status-icon offline"></i><span class="status-text">Login</span></a>`;}}
+
+async function iniciarCurso(k,e){
+  e.preventDefault();
+  const {data:{session}}=await supabaseClient.auth.getSession();
+  if(!session){alert('⚠️ Faça Login.');location.href='login.html';return;}
+  const {data:en}=await supabaseClient.from('enrollments').select('status').eq('user_id',session.user.id).eq('course_id',k).single();
+  if(en?.status==='validado') location.href=getPageUrl(k);
+  else location.href='validar-geral.html?curso='+k;
+}
+
+async function updateLoginStatus(){
+  const el=document.getElementById('status-indicator');
+  const {data:{session}}=await supabaseClient.auth.getSession();
+  if(session){
+    const {data:p}=await supabaseClient.from('profiles').select('nome').eq('id',session.user.id).single();
+    const f=p?.nome?p.nome.split(' ')[0]:'Usuário';
+    el.innerHTML=`<a href="perfil.html" style="text-decoration:none;color:inherit;display:flex;align-items:center;"><i class="fas fa-circle status-icon online"></i><span class="status-text">Olá, ${f}</span></a> <a href="#" onclick="logout(event)" style="margin-left:10px;color:#ffc107;font-weight:bold;text-decoration:none;">(Sair)</a>`;
+  } else {
+    el.innerHTML=`<a href="login.html" style="text-decoration:none;color:inherit;display:flex;align-items:center;"><i class="fas fa-circle status-icon offline"></i><span class="status-text">Login</span></a>`;
+  }
+}
+
 async function logout(e){e.preventDefault();await supabaseClient.auth.signOut();location.href='index.html';}
-async function updateUI(){await updateLoginStatus();const {data:{session}}=await supabaseClient.auth.getSession();if(!session){CURSO_KEYS.forEach(k=>{const s=document.getElementById(`${k}ValidationStatus`);const b=document.querySelector(`.curso-card[data-curso-key="${k}"].course-btn`);if(!s||!b)return;s.innerHTML='Status: ❌ Requer Login';s.style.color='#dc3545';});return;}const {data:ens}=await supabaseClient.from('enrollments').select('course_id,status').eq('user_id',session.user.id).in('course_id',CURSO_KEYS);const m={};(ens||[]).forEach(e=>m[e.course_id]=e.status);CURSO_KEYS.forEach(k=>{const s=document.getElementById(`${k}ValidationStatus`);const b=document.querySelector(`.curso-card[data-curso-key="${k}"].course-btn`);if(!s||!b)return;if(m[k]==='validado'){s.innerHTML='Status: ✅ Validado';s.style.color='#28a745';b.textContent='Continuar Curso';}else{s.innerHTML='Status: 🔓 Falta Validar';s.style.color='#007bff';b.textContent='Validar Código';}});}
-function shareCourse(p,btn){const base='https://alfredofeka.github.io/feka-kawico/';const card=btn.closest('.curso-card');const t=card.getAttribute('data-curso');const url=base+'index.html#cursos';const msg=`🚀 FEKA KAWIÇO - Curso ${t}: ${url}`;if(p==='whatsapp')window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`,'_blank');if(p==='facebook')window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,'_blank');if(p==='email')window.open(`mailto:?subject=${encodeURIComponent(t)}&body=${encodeURIComponent(msg)}`,'_self');}
+
+async function updateUI(){
+  await updateLoginStatus();
+  const {data:{session}}=await supabaseClient.auth.getSession();
+  if(!session){
+    CURSO_KEYS.forEach(k=>{
+      const s=document.getElementById(`${k}ValidationStatus`);
+      if(!s) return;
+      s.innerHTML='Status: ❌ Requer Login';
+      s.style.color='#dc3545';
+    });
+    return;
+  }
+  const {data:ens}=await supabaseClient.from('enrollments').select('course_id,status').eq('user_id',session.user.id).in('course_id',CURSO_KEYS);
+  const m={};
+  (ens||[]).forEach(e=>m[e.course_id]=e.status);
+  CURSO_KEYS.forEach(k=>{
+    const s=document.getElementById(`${k}ValidationStatus`);
+    const b=document.querySelector(`.curso-card[data-curso-key="${k}"] .course-btn`);
+    if(!s||!b) return;
+    if(m[k]==='validado'){
+      s.innerHTML='Status: ✅ Validado';
+      s.style.color='#28a745';
+      b.textContent='Continuar Curso';
+    } else {
+      s.innerHTML='Status: 🔓 Falta Validar';
+      s.style.color='#007bff';
+      b.textContent='Validar Código';
+    }
+  });
+}
+
+function shareCourse(p,btn){
+  const base='https://alfredofeka.github.io/feka-kawico/';
+  const card=btn.closest('.curso-card');
+  const t=card.getAttribute('data-curso');
+  const url=base+'index.html#cursos';
+  const msg=`🚀 FEKA KAWIÇO - Curso ${t}: ${url}`;
+  if(p==='whatsapp') window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`,'_blank');
+  if(p==='facebook') window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,'_blank');
+  if(p==='email') window.open(`mailto:?subject=${encodeURIComponent(t)}&body=${encodeURIComponent(msg)}`,'_self');
+}
+
 document.addEventListener('DOMContentLoaded',loadCourses);
 </script>
 </body>
