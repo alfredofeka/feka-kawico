@@ -1,243 +1,1590 @@
 <!DOCTYPE html>
 <html lang="pt-PT">
+
 <head>
-    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>FEKA KAWIÇO - Cursos Técnicos</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="supabase-client.js"></script>
+
     <style>
-        :root{--primary-blue:#004a80;--secondary-blue:#007bff;--text-dark:#333;--text-light:#f4f4f4;--bg-light:#f9f9f9;--bg-dark:#2c3e50;--border-color:#ddd;--btn-bg:#007bff;--btn-hover:#0056b3;--online-color:#28a745;--offline-color:#ffc107}
-        *{margin:0;padding:0;box-sizing:border-box}
-        body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;line-height:1.6;color:var(--text-dark);background:var(--bg-light)}
-       .container{max-width:1200px;margin:0 auto;padding:0 20px}
-        main.container{background:#fff;padding-bottom:40px;transition: margin-left 0.3s;}
-        header{background:var(--primary-blue);color:var(--text-light);padding:15px 0;box-shadow:0 2px 10px rgba(0,0,0,0.1);position:sticky;top:0;z-index:1000}
-        header.container{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap}
-       .logo a{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--text-light)}
-       .logo img{height:50px}.logo h1{font-size:1.8em;font-weight:700;margin:0}.logo span{font-size:0.9em;color:#cbd6e0}
-       .menu-status-wrapper{display:flex;align-items:center;gap:20px}
-        nav ul{list-style:none;display:flex;align-items:center;flex-wrap:wrap;justify-content:center}
-        nav ul li{margin-left:20px;margin-top:5px}
-        nav ul li a{color:var(--text-light);text-decoration:none;font-weight:600;font-size:1.05em}
-        #status-indicator{display:flex;align-items:center;color:var(--text-light);cursor:pointer}
-       .status-icon{font-size:1.5em;margin-right:5px}.status-icon.online{color:var(--online-color)}.status-icon.offline{color:var(--offline-color)}.status-text{font-size:0.9em;font-weight:600}
-       .menu-toggle{display:none;flex-direction:column;justify-content:space-around;width:30px;height:25px;background:transparent;border:none;cursor:pointer}
-       .menu-toggle span{width:100%;height:3px;background:var(--text-light);border-radius:5px}
-
-       .hero{position:relative;height:40vh;overflow:hidden;display:flex;align-items:center;justify-content:center;color:var(--text-light)}
-       .hero-slide{position:absolute;top:0;left:0;width:100%;height:100%;background-size:cover;background-position:center;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;opacity:0;transition:opacity 1s}
-       .hero-slide.active{opacity:1}.hero-slide h1{font-size:3em;margin-bottom:15px;text-shadow:0 2px 8px rgba(0,0,0,0.5)}
-       .hero-slide p{font-size:1.2em;max-width:800px;margin:0 auto 20px;text-shadow:0 1px 5px rgba(0,0,0,0.5)}
-       .hero-btn{padding:12px 25px;background:var(--btn-bg);color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:600;text-decoration:none;transition:all 0.3s}
-
-        /* CURSOS - BOTÃO PERSONALIZADO AZUL ORIGINAL */
-        #cursos{padding:80px 0;display:flex;flex-wrap:wrap;justify-content:center;gap:30px}
-       .curso-card{background:#fff;border-radius:12px;overflow:hidden;width:100%;max-width:320px;box-shadow:0 4px 15px rgba(0,0,0,0.1);transition:transform 0.3s;display:flex;flex-direction:column}
-       .curso-card:hover{transform:translateY(-5px)}
-       .curso-card img{width:100%;height:180px;object-fit:cover;object-position:top center;display:block;background:#f0f0f0}
-       .curso-card.card-body{padding:15px;flex:1;display:flex;flex-direction:column}
-       .curso-card h3{margin-bottom:10px;color:var(--primary-blue)}
-       .curso-card p{flex:1;color:#555;font-size:0.95em;margin-bottom:15px}
-       .curso-card.btn-inscricao{display:block;text-align:center;padding:12px 20px;border:none;border-radius:8px;background:linear-gradient(135deg,var(--btn-bg),#0056b3);color:#fff;font-weight:700;cursor:pointer;text-decoration:none;transition:all 0.3s;box-shadow:0 2px 8px rgba(0,123,255,0.3);margin-top:10px;letter-spacing:0.3px}
-       .curso-card.btn-inscricao:hover{background:linear-gradient(135deg,#0056b3,#004085);transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,123,255,0.4)}
-       .social-share{display:flex;justify-content:space-between;gap:5px;margin-top:10px}
-       .share-btn{flex-grow:1;padding:8px;border:none;border-radius:6px;cursor:pointer;font-size:0.9em;font-weight:600;text-decoration:none;text-align:center}
-       .share-whatsapp{background:#25D366;color:#fff}.share-facebook{background:#1877F2;color:#fff}.share-email{background:#f7d070;color:var(--text-dark)}
-
-        /* SIDE BAR NOTÍCIAS - RETRÁCTIL E NÃO TAPA CURSOS */
-        #news-feed{position:fixed;top:100px;left:0;width:300px;height:70vh;overflow:hidden;background:#fff;box-shadow:2px 4px 12px rgba(0,0,0,0.15);border-radius:0 12px 12px 0;padding:0;z-index:999;transition:left 0.3s ease-in-out}
-        #news-feed h2{text-align:center;color:var(--text-light);margin-bottom:0;background:var(--primary-blue);padding:15px;position:sticky;top:0;z-index:11;border-radius:0 12px 0 0}
-        #news-feed.feed-wrapper{display:flex;flex-direction:column;position:relative;height:calc(100% - 60px);padding:15px}
-       .news-item{margin-bottom:15px;padding-bottom:10px;border-bottom:1px solid #eee}.news-item a{text-decoration:none;color:inherit;display:block}
-       .news-item h4{font-size:1em;margin-bottom:5px;color:var(--primary-blue)}.news-item p{font-size:0.9em;color:#555}
-        #news-feed.collapsed{left:-300px}
-       .toggle-btn{position:fixed;top:50%;left:0;transform:translateY(-50%);width:50px;height:120px;background:var(--primary-blue);color:var(--text-light);border:none;cursor:pointer;font-size:1em;font-weight:bold;border-radius:0 12px 12px 0;z-index:1001;box-shadow:2px 0 8px rgba(0,0,0,0.3);writing-mode:vertical-lr;display:flex;align-items:center;justify-content:center;transition:left 0.3s}
-       .toggle-btn.collapsed{left:0}
-        footer{background:var(--bg-dark);color:var(--text-light);padding:20px 0;text-align:center}
-
-        @media (min-width:1025px){
-            @keyframes continuousScroll{0%{transform:translateY(0)}100%{transform:translateY(-50%)}}
-            #news-feed.feed-wrapper{animation:continuousScroll 30s linear infinite}
-            #news-feed.feed-wrapper:hover{animation-play-state:paused}
-            main.container{margin-left:320px;margin-right:20px} /* NÃO TAPA OS CURSOS */
-            main.container.full-width{margin-left:auto}
+        :root {
+            --primary-blue: #004a80;
+            --secondary-blue: #007bff;
+            --text-dark: #333;
+            --text-light: #f4f4f4;
+            --bg-light: #f9f9f9;
+            --bg-dark: #2c3e50;
+            --border-color: #ddd;
+            --btn-bg: #007bff;
+            --btn-hover: #0056b3;
+            --online-color: #28a745;
+            --offline-color: #ffc107;
         }
-        @media (max-width:1024px){
-           .menu-toggle{display:flex}
-            nav{display:none;width:100%;background:var(--primary-blue);position:absolute;top:100%;left:0;padding:15px 0}
-            nav.active{display:block} nav ul{flex-direction:column}
-            #news-feed{position:static;width:100%;height:auto;margin-top:40px;border-radius:0;box-shadow:none;border-top:1px solid var(--border-color);padding:20px;left:0!important}
-           .toggle-btn{display:none!important}
-            #news-feed.feed-wrapper{height:auto;overflow-y:visible;transform:none!important;animation:none!important}
-            #news-feed h2{position:static;color:var(--primary-blue);background:#fff}
-            main.container{margin-left:auto!important}
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        @media (max-width:768px){
-           .logo{width:100%;justify-content:center;margin-bottom:10px}.logo h1{font-size:1.4em}
-           .menu-status-wrapper{width:100%;justify-content:space-between}
-           .hero{height:30vh}.hero-slide h1{font-size:2em}
-            #cursos{padding:30px 10px;gap:20px}.curso-card{max-width:100%}
-           .curso-card img{height:160px;object-fit:cover;object-position:top center} /* MOSTRA A CARA */
+
+        html {
+            scroll-behavior: smooth;
         }
-        @media (max-width:480px){
-           .curso-card img{height:140px;object-position:top center}
-           .hero-slide h1{font-size:1.5em}
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont,
+                "Segoe UI", Roboto, Oxygen-Sans, Ubuntu,
+                Cantarell, "Helvetica Neue", sans-serif;
+
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: var(--bg-light);
         }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        main.container {
+            background: #fff;
+            padding-bottom: 40px;
+            transition: margin-left 0.3s ease,
+                        margin-right 0.3s ease,
+                        max-width 0.3s ease;
+        }
+
+        /* ================= HEADER ================= */
+
+        header {
+            background: var(--primary-blue);
+            color: var(--text-light);
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        header.container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .logo a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--text-light);
+        }
+
+        .logo img {
+            height: 50px;
+        }
+
+        .logo h1 {
+            font-size: 1.8em;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .logo span {
+            font-size: 0.9em;
+            color: #cbd6e0;
+        }
+
+        .menu-status-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        nav ul li {
+            margin-left: 20px;
+            margin-top: 5px;
+        }
+
+        nav ul li a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.05em;
+        }
+
+        #status-indicator {
+            display: flex;
+            align-items: center;
+            color: var(--text-light);
+            cursor: pointer;
+        }
+
+        .status-icon {
+            font-size: 1.5em;
+            margin-right: 5px;
+        }
+
+        .status-icon.online {
+            color: var(--online-color);
+        }
+
+        .status-icon.offline {
+            color: var(--offline-color);
+        }
+
+        .status-text {
+            font-size: 0.9em;
+            font-weight: 600;
+        }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            justify-content: space-around;
+            width: 30px;
+            height: 25px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+        }
+
+        .menu-toggle span {
+            width: 100%;
+            height: 3px;
+            background: var(--text-light);
+            border-radius: 5px;
+        }
+
+        /* ================= BANNER ================= */
+
+        .hero {
+            position: relative;
+            height: 40vh;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-light);
+        }
+
+        .hero-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+
+            opacity: 0;
+            transition: opacity 1s;
+        }
+
+        .hero-slide.active {
+            opacity: 1;
+        }
+
+        .hero-slide h1 {
+            font-size: 3em;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+        }
+
+        .hero-slide p {
+            font-size: 1.2em;
+            max-width: 800px;
+            margin: 0 auto 20px;
+            text-shadow: 0 1px 5px rgba(0,0,0,0.5);
+        }
+
+        .hero-btn {
+            padding: 12px 25px;
+            background: var(--btn-bg);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .hero-btn:hover {
+            background: var(--btn-hover);
+            transform: translateY(-2px);
+        }
+
+        /* ================= CURSOS ================= */
+
+        #cursos {
+            padding: 40px 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: stretch;
+            gap: 20px;
+            width: 100%;
+        }
+
+        /* Cartões reduzidos em 50% */
+
+        .curso-card {
+            background: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+
+            width: 100%;
+            max-width: 160px;
+
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+
+            display: flex;
+            flex-direction: column;
+        }
+
+        .curso-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .curso-card img {
+            width: 100%;
+            height: 90px;
+            object-fit: cover;
+            object-position: top center;
+            display: block;
+            background: #f0f0f0;
+        }
+
+        /* CORRECÇÃO: selector card-body */
+
+        .curso-card .card-body {
+            padding: 10px;
+            flex: 1;
+
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .curso-card h3 {
+            margin-bottom: 8px;
+            color: var(--primary-blue);
+            font-size: 0.95em;
+            line-height: 1.3;
+            overflow-wrap: anywhere;
+        }
+
+        .curso-card p {
+            flex: 1;
+            color: #555;
+            font-size: 0.8em;
+            margin-bottom: 10px;
+            overflow-wrap: anywhere;
+        }
+
+        /* BOTÃO INSCREVER */
+
+        .curso-card .btn-inscricao {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 100%;
+            min-height: 34px;
+
+            padding: 8px 10px;
+            margin: 10px auto 0;
+
+            border: none;
+            border-radius: 8px;
+
+            background: linear-gradient(
+                135deg,
+                var(--btn-bg),
+                #0056b3
+            );
+
+            color: #fff;
+            font-size: 0.85em;
+            font-weight: 700;
+            text-align: center;
+            text-decoration: none;
+            white-space: nowrap;
+
+            cursor: pointer;
+
+            transition: all 0.3s ease;
+
+            box-shadow: 0 2px 8px rgba(0,123,255,0.3);
+            letter-spacing: 0.3px;
+        }
+
+        .curso-card .btn-inscricao:hover {
+            background: linear-gradient(
+                135deg,
+                #0056b3,
+                #004085
+            );
+
+            transform: translateY(-2px);
+
+            box-shadow: 0 4px 12px rgba(0,123,255,0.4);
+        }
+
+        .curso-card .btn-inscricao:active {
+            transform: translateY(0);
+        }
+
+        .curso-card .btn-inscricao:focus-visible {
+            outline: 2px solid var(--primary-blue);
+            outline-offset: 3px;
+        }
+
+        /* PARTILHA */
+
+        .social-share {
+            display: flex;
+            justify-content: space-between;
+            gap: 5px;
+            margin-top: 10px;
+        }
+
+        .share-btn {
+            flex-grow: 1;
+            padding: 8px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: 600;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .share-whatsapp {
+            background: #25D366;
+            color: #fff;
+        }
+
+        .share-facebook {
+            background: #1877F2;
+            color: #fff;
+        }
+
+        .share-email {
+            background: #f7d070;
+            color: var(--text-dark);
+        }
+
+        /* ================= SIDE BAR ================= */
+
+        #news-feed {
+            position: fixed;
+            top: 100px;
+            left: 0;
+
+            width: 300px;
+            height: 70vh;
+            max-height: calc(100vh - 120px);
+
+            overflow: hidden;
+
+            background: #fff;
+            box-shadow: 2px 4px 12px rgba(0,0,0,0.15);
+
+            border-radius: 0 12px 12px 0;
+            padding: 0;
+
+            z-index: 999;
+
+            display: flex;
+            flex-direction: column;
+
+            transition: left 0.3s ease-in-out;
+        }
+
+        #news-feed h2 {
+            flex-shrink: 0;
+
+            text-align: center;
+            color: var(--text-light);
+            margin-bottom: 0;
+
+            background: var(--primary-blue);
+            padding: 15px;
+
+            position: relative;
+            z-index: 11;
+
+            border-radius: 0 12px 0 0;
+
+            font-size: 1.2em;
+        }
+
+        /* CORRECÇÃO DO SCROLL DA BARRA LATERAL */
+
+        #news-feed .feed-wrapper {
+            display: flex;
+            flex-direction: column;
+
+            position: relative;
+
+            flex: 1;
+            min-height: 0;
+
+            height: auto;
+
+            padding: 15px;
+
+            overflow-x: hidden;
+            overflow-y: auto;
+
+            overscroll-behavior-y: contain;
+
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary-blue) #f0f0f0;
+        }
+
+        #news-feed .feed-wrapper::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        #news-feed .feed-wrapper::-webkit-scrollbar-track {
+            background: #f0f0f0;
+        }
+
+        #news-feed .feed-wrapper::-webkit-scrollbar-thumb {
+            background: var(--primary-blue);
+            border-radius: 10px;
+        }
+
+        .news-item {
+            flex-shrink: 0;
+
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+
+            border-bottom: 1px solid #eee;
+        }
+
+        .news-item a {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .news-item h4 {
+            font-size: 1em;
+            margin-bottom: 5px;
+            color: var(--primary-blue);
+        }
+
+        .news-item p {
+            font-size: 0.9em;
+            color: #555;
+        }
+
+        /* Barra recolhida */
+
+        #news-feed.collapsed {
+            left: -300px;
+        }
+
+        .toggle-btn {
+            position: fixed;
+            top: 50%;
+            left: 300px;
+
+            transform: translateY(-50%);
+
+            width: 50px;
+            height: 120px;
+
+            background: var(--primary-blue);
+            color: var(--text-light);
+
+            border: none;
+            cursor: pointer;
+
+            font-size: 1em;
+            font-weight: bold;
+
+            border-radius: 0 12px 12px 0;
+
+            z-index: 1001;
+
+            box-shadow: 2px 0 8px rgba(0,0,0,0.3);
+
+            writing-mode: vertical-lr;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            transition: left 0.3s ease,
+                        background 0.3s ease;
+        }
+
+        .toggle-btn:hover {
+            background: var(--btn-hover);
+        }
+
+        .toggle-btn.collapsed {
+            left: 0;
+        }
+
+        /* ================= FOOTER ================= */
+
+        footer {
+            background: var(--bg-dark);
+            color: var(--text-light);
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        /* ================= DESKTOP ================= */
+
+        @media (min-width: 1025px) {
+
+            /*
+             * Barra aberta:
+             * conteúdo afastado da barra lateral.
+             */
+
+            main.container {
+                width: calc(100% - 340px);
+                max-width: 1200px;
+
+                margin-left: 320px;
+                margin-right: 20px;
+            }
+
+            /*
+             * Barra recolhida:
+             * remove a margem fixa e centra os cursos.
+             */
+
+            main.container.full-width {
+                width: 100%;
+                max-width: 1200px;
+
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            /*
+             * Os cartões mantêm a largura reduzida
+             * e ficam centrados na área disponível.
+             */
+
+            #cursos {
+                justify-content: center;
+                align-items: stretch;
+            }
+
+        }
+
+        /* ================= TABLETS ================= */
+
+        @media (max-width: 1024px) {
+
+            .menu-toggle {
+                display: flex;
+            }
+
+            nav {
+                display: none;
+                width: 100%;
+
+                background: var(--primary-blue);
+
+                position: absolute;
+                top: 100%;
+                left: 0;
+
+                padding: 15px 0;
+            }
+
+            nav.active {
+                display: block;
+            }
+
+            nav ul {
+                flex-direction: column;
+            }
+
+            #news-feed {
+                position: static;
+
+                width: 100%;
+                height: auto;
+                max-height: none;
+
+                margin-top: 40px;
+
+                border-radius: 0;
+                box-shadow: none;
+
+                border-top: 1px solid var(--border-color);
+
+                padding: 20px;
+
+                left: 0 !important;
+
+                display: flex;
+                flex-direction: column;
+            }
+
+            .toggle-btn {
+                display: none !important;
+            }
+
+            #news-feed .feed-wrapper {
+                height: auto;
+                max-height: 400px;
+
+                flex: none;
+
+                overflow-y: auto;
+                overflow-x: hidden;
+
+                padding: 15px;
+
+                transform: none !important;
+                animation: none !important;
+            }
+
+            #news-feed h2 {
+                position: static;
+
+                color: var(--primary-blue);
+                background: #fff;
+
+                border-radius: 0;
+            }
+
+            main.container,
+            main.container.full-width {
+                width: 100%;
+                max-width: 1200px;
+
+                margin-left: auto !important;
+                margin-right: auto !important;
+            }
+
+            #cursos {
+                justify-content: center;
+                gap: 20px;
+            }
+
+            .curso-card {
+                max-width: 160px;
+            }
+        }
+
+        /* ================= TELEMÓVEIS ================= */
+
+        @media (max-width: 768px) {
+
+            .logo {
+                width: 100%;
+                justify-content: center;
+                margin-bottom: 10px;
+            }
+
+            .logo h1 {
+                font-size: 1.4em;
+            }
+
+            .menu-status-wrapper {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .hero {
+                height: 30vh;
+            }
+
+            .hero-slide h1 {
+                font-size: 2em;
+            }
+
+            #cursos {
+                padding: 30px 10px;
+                gap: 15px;
+                justify-content: center;
+            }
+
+            .curso-card {
+                width: calc(50% - 10px);
+                max-width: 160px;
+            }
+
+            .curso-card img {
+                height: 90px;
+                object-fit: cover;
+                object-position: top center;
+            }
+
+            .curso-card .card-body {
+                padding: 8px;
+            }
+
+            .curso-card h3 {
+                font-size: 0.9em;
+            }
+
+            .curso-card p {
+                font-size: 0.8em;
+            }
+
+            .curso-card .btn-inscricao {
+                font-size: 0.8em;
+                padding: 8px 5px;
+            }
+
+            .share-btn {
+                padding: 6px 3px;
+            }
+        }
+
+        @media (max-width: 480px) {
+
+            .curso-card {
+                width: calc(50% - 10px);
+                max-width: 160px;
+            }
+
+            .curso-card img {
+                height: 80px;
+                object-position: top center;
+            }
+
+            .hero-slide h1 {
+                font-size: 1.5em;
+            }
+
+            .hero-slide p {
+                font-size: 0.95em;
+                padding: 0 10px;
+            }
+
+            #news-feed .feed-wrapper {
+                max-height: 350px;
+            }
+        }
+
     </style>
 </head>
+
 <body>
-<header><div class="container"><div class="logo"><a href="index.html"><img src="FK.png" alt="FK"><div><h1>FEKA KAWIÇO</h1><span>A Terra Natural do Conhecimento</span></div></a></div><div class="menu-status-wrapper"><button class="menu-toggle" id="menu-toggle"><span></span><span></span><span></span></button><nav id="main-nav"><ul><li><a href="index.html">Início</a></li><li><a href="carreiras.html">Carreira</a></li><li><a href="#cursos">Cursos</a></li><li><a href="sobrenos.html">Sobre</a></li><li><a href="contato.html">Contato</a></li><li><a href="ajuda.html">Ajuda</a></li></ul></nav><div id="status-indicator"></div></div></div></header>
-<section class="hero"><div class="hero-slide active" style="background-image:url('https://picsum.photos/id/1024/1600/600');"><h1>O Futuro é Agora</h1><p>Cada passo de aprendizado aproxima você da maestria.</p><a href="#cursos" class="hero-btn">Ver Cursos</a></div></section>
-<main class="container" id="main-content"><section id="cursos"><p style="width:100%;text-align:center;">⏳ Carregando cursos...</p></section></main>
 
-<button id="toggle-feed-btn" class="toggle-btn"><</button>
-<div id="news-feed"><h2>Notícias & Artigos</h2><div class="feed-wrapper">
-<div class="news-item"><a href="noticias.html"><h4>Nova Norma EN1090</h4><p>Aplicação prática e impactos no processo de fabricação.</p></a></div>
-<div class="news-item"><a href="noticias.html"><h4>Projeto Offshore em Angola</h4><p>Desafios e soluções para estruturas complexas.</p></a></div>
-<div class="news-item"><a href="noticias.html"><h4>Academia ALFEKA</h4><p>Workshops e treinamentos de excelência.</p></a></div>
-<div class="news-item"><a href="noticias.html"><h4>Inspeção de Qualidade</h4><p>Melhores práticas em QA/QC.</p></a></div>
-<div class="news-item"><a href="noticias.html"><h4>Tecnologias CAD/BIM</h4><p>Integração de softwares modernos.</p></a></div>
-</div></div>
+    <!-- ================= HEADER ================= -->
 
-<footer><div class="container"><p>© 2025 FEKA KAWIÇO Cursos Técnicos. Todos os direitos reservados.</p></div></footer>
+    <header>
+        <div class="container">
 
-<script>
-// ===== MAP LEGADO só para não quebrar páginas antigas =====
-const PAGE_MAP_LEGADO={
-  desenhador:"tdpm.html",
-  ingles:"ingles.html",
-  frances:"frances.html",
-  "QA-QC":"QA-QC.html",
-  procurement:"curso-procurement.html",
-  Robotica:"curso_robotica.html",
-  refrigeracao:"curso-refrigeracao.html",
-  REPARARTV:"curso-ManTV.html",
-  AutoNmicra:"curso-Auto-Nmicra.html",
-  Curso_DJ:"Curso_DJ.html",
-  violao:"curso-Violao_html.html",
-  vfd:"curso-VFD.html",
-  TComercial:"TComercial.html",
-  GComercial:"GComercial.html"
-};
+            <div class="logo">
+                <a href="index.html">
+                    <img src="FK.png" alt="FK">
 
-// ===== AUTOMÁTICO .PNG =====
-function getImageUrl(id){
-  return `${id}.png`;
-}
-function getPageUrl(id){
-  return PAGE_MAP_LEGADO[id] || `curso-${id}.html`;
-}
+                    <div>
+                        <h1>FEKA KAWIÇO</h1>
+                        <span>A Terra Natural do Conhecimento</span>
+                    </div>
+                </a>
+            </div>
 
-let CURSO_KEYS=[];
+            <div class="menu-status-wrapper">
 
-document.getElementById('menu-toggle').addEventListener('click',()=>{
-  document.getElementById('main-nav').classList.toggle('active');
-});
+                <button class="menu-toggle" id="menu-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
 
-// SIDE BAR RETRÁCTIL - NÃO TAPA CURSOS
-const newsFeed=document.getElementById('news-feed'); 
-const toggleBtn=document.getElementById('toggle-feed-btn'); 
-const mainContent=document.getElementById('main-content'); 
-const feedWrapper=document.querySelector('.feed-wrapper');
-if(window.innerWidth>1024){
-    const items=feedWrapper.innerHTML; 
-    feedWrapper.innerHTML+=items;
-    toggleBtn.addEventListener('click',()=>{
-        const collapsed=newsFeed.classList.toggle('collapsed');
-        if(collapsed){ 
-          toggleBtn.innerHTML='Notícias & Artigos'; 
-          toggleBtn.style.left='0'; 
-          mainContent.classList.add('full-width'); 
-        } else { 
-          toggleBtn.innerHTML='<'; 
-          toggleBtn.style.left='300px'; 
-          mainContent.classList.remove('full-width'); 
+                <nav id="main-nav">
+                    <ul>
+                        <li><a href="index.html">Início</a></li>
+                        <li><a href="carreiras.html">Carreira</a></li>
+                        <li><a href="#cursos">Cursos</a></li>
+                        <li><a href="sobrenos.html">Sobre</a></li>
+                        <li><a href="contato.html">Contato</a></li>
+                        <li><a href="ajuda.html">Ajuda</a></li>
+                    </ul>
+                </nav>
+
+                <div id="status-indicator"></div>
+
+            </div>
+        </div>
+    </header>
+
+    <!-- ================= BANNER ================= -->
+
+    <section class="hero">
+
+        <div class="hero-slide active"
+             style="background-image:url('https://picsum.photos/id/1024/1600/600');">
+
+            <h1>O Futuro é Agora</h1>
+
+            <p>
+                Cada passo de aprendizado aproxima você da maestria.
+            </p>
+
+            <a href="#cursos" class="hero-btn">
+                Ver Cursos
+            </a>
+
+        </div>
+
+    </section>
+
+    <!-- ================= CURSOS ================= -->
+
+    <main class="container" id="main-content">
+
+        <section id="cursos">
+
+            <p style="width:100%;text-align:center;">
+                ⏳ Carregando cursos...
+            </p>
+
+        </section>
+
+    </main>
+
+    <!-- ================= BOTÃO DA SIDE BAR ================= -->
+
+    <button id="toggle-feed-btn" class="toggle-btn" aria-label="Recolher notícias">
+        &lt;
+    </button>
+
+    <!-- ================= SIDE BAR NOTÍCIAS ================= -->
+
+    <div id="news-feed">
+
+        <h2>Notícias & Artigos</h2>
+
+        <div class="feed-wrapper">
+
+            <div class="news-item">
+                <a href="noticias.html">
+                    <h4>Nova Norma EN1090</h4>
+                    <p>
+                        Aplicação prática e impactos no processo de fabricação.
+                    </p>
+                </a>
+            </div>
+
+            <div class="news-item">
+                <a href="noticias.html">
+                    <h4>Projeto Offshore em Angola</h4>
+                    <p>
+                        Desafios e soluções para estruturas complexas.
+                    </p>
+                </a>
+            </div>
+
+            <div class="news-item">
+                <a href="noticias.html">
+                    <h4>Academia ALFEKA</h4>
+                    <p>
+                        Workshops e treinamentos de excelência.
+                    </p>
+                </a>
+            </div>
+
+            <div class="news-item">
+                <a href="noticias.html">
+                    <h4>Inspeção de Qualidade</h4>
+                    <p>
+                        Melhores práticas em QA/QC.
+                    </p>
+                </a>
+            </div>
+
+            <div class="news-item">
+                <a href="noticias.html">
+                    <h4>Tecnologias CAD/BIM</h4>
+                    <p>
+                        Integração de softwares modernos.
+                    </p>
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer>
+        <div class="container">
+            <p>
+                © 2025 FEKA KAWIÇO Cursos Técnicos.
+                Todos os direitos reservados.
+            </p>
+        </div>
+    </footer>
+
+    <!-- ================= JAVASCRIPT ================= -->
+
+    <script>
+
+        // ==========================================
+        // MAPA LEGADO
+        // ==========================================
+
+        const PAGE_MAP_LEGADO = {
+            desenhador: "tdpm.html",
+            ingles: "ingles.html",
+            frances: "frances.html",
+            "QA-QC": "QA-QC.html",
+            procurement: "curso-procurement.html",
+            Robotica: "curso_robotica.html",
+            refrigeracao: "curso-refrigeracao.html",
+            REPARARTV: "curso-ManTV.html",
+            AutoNmicra: "curso-Auto-Nmicra.html",
+            Curso_DJ: "Curso_DJ.html",
+            violao: "curso-Violao_html.html",
+            vfd: "curso-VFD.html",
+            TComercial: "TComercial.html",
+            GComercial: "GComercial.html"
+        };
+
+
+        // ==========================================
+        // IMAGENS DOS CURSOS
+        // ==========================================
+
+        function getImageUrl(id) {
+            return `${id}.png`;
         }
-    });
-    toggleBtn.style.left='300px';
-}
 
-async function loadCourses(){
-    const c=document.getElementById('cursos');
-    const {data:courses,error}=await supabaseClient.from('courses').select('id,nome,descricao').eq('ativo',true).order('id');
-    if(error||!courses||!courses.length){ c.innerHTML="<p>Nenhum curso ativo.</p>"; return; }
-    CURSO_KEYS=courses.map(x=>x.id);
-    let h="";
-    courses.forEach(cur=>{
-        const img=getImageUrl(cur.id);
-        h+=`<div class="curso-card" data-curso="${cur.nome}" data-curso-key="${cur.id}"><a href="#" onclick="iniciarCurso('${cur.id}',event)"><img src="${img}" alt="${cur.nome}" onerror="this.src='FK.png'"></a><div class="card-body"><h3>${cur.nome}</h3><p>${cur.descricao||''}</p><p id="${cur.id}ValidationStatus" style="font-weight:bold;margin-top:10px;"></p><a href="#" class="btn-inscricao course-btn" onclick="iniciarCurso('${cur.id}',event)">Inscrever</a><div class="social-share"><button class="share-btn share-whatsapp" onclick="shareCourse('whatsapp',this)"><i class="fab fa-whatsapp"></i></button><button class="share-btn share-facebook" onclick="shareCourse('facebook',this)"><i class="fab fa-facebook"></i></button><button class="share-btn share-email" onclick="shareCourse('email',this)"><i class="fas fa-envelope"></i></button></div></div></div>`;
-    });
-    c.innerHTML=h; 
-    updateUI();
-}
 
-async function iniciarCurso(k,e){
-  e.preventDefault();
-  const {data:{session}}=await supabaseClient.auth.getSession();
-  if(!session){alert('⚠️ Faça Login.');location.href='login.html';return;}
-  const {data:en}=await supabaseClient.from('enrollments').select('status').eq('user_id',session.user.id).eq('course_id',k).single();
-  if(en?.status==='validado') location.href=getPageUrl(k);
-  else location.href='validar-geral.html?curso='+k;
-}
+        // ==========================================
+        // PÁGINAS DOS CURSOS
+        // ==========================================
 
-async function updateLoginStatus(){
-  const el=document.getElementById('status-indicator');
-  const {data:{session}}=await supabaseClient.auth.getSession();
-  if(session){
-    const {data:p}=await supabaseClient.from('profiles').select('nome').eq('id',session.user.id).single();
-    const f=p?.nome?p.nome.split(' ')[0]:'Usuário';
-    el.innerHTML=`<a href="perfil.html" style="text-decoration:none;color:inherit;display:flex;align-items:center;"><i class="fas fa-circle status-icon online"></i><span class="status-text">Olá, ${f}</span></a> <a href="#" onclick="logout(event)" style="margin-left:10px;color:#ffc107;font-weight:bold;text-decoration:none;">(Sair)</a>`;
-  } else {
-    el.innerHTML=`<a href="login.html" style="text-decoration:none;color:inherit;display:flex;align-items:center;"><i class="fas fa-circle status-icon offline"></i><span class="status-text">Login</span></a>`;
-  }
-}
+        function getPageUrl(id) {
+            return PAGE_MAP_LEGADO[id] || `curso-${id}.html`;
+        }
 
-async function logout(e){e.preventDefault();await supabaseClient.auth.signOut();location.href='index.html';}
 
-async function updateUI(){
-  await updateLoginStatus();
-  const {data:{session}}=await supabaseClient.auth.getSession();
-  if(!session){
-    CURSO_KEYS.forEach(k=>{
-      const s=document.getElementById(`${k}ValidationStatus`);
-      if(!s) return;
-      s.innerHTML='Status: ❌ Requer Login';
-      s.style.color='#dc3545';
-    });
-    return;
-  }
-  const {data:ens}=await supabaseClient.from('enrollments').select('course_id,status').eq('user_id',session.user.id).in('course_id',CURSO_KEYS);
-  const m={};
-  (ens||[]).forEach(e=>m[e.course_id]=e.status);
-  CURSO_KEYS.forEach(k=>{
-    const s=document.getElementById(`${k}ValidationStatus`);
-    const b=document.querySelector(`.curso-card[data-curso-key="${k}"] .course-btn`);
-    if(!s||!b) return;
-    if(m[k]==='validado'){
-      s.innerHTML='Status: ✅ Validado';
-      s.style.color='#28a745';
-      b.textContent='Continuar Curso';
-    } else {
-      s.innerHTML='Status: 🔓 Falta Validar';
-      s.style.color='#007bff';
-      b.textContent='Validar Código';
-    }
-  });
-}
+        let CURSO_KEYS = [];
 
-function shareCourse(p,btn){
-  const base='https://alfredofeka.github.io/feka-kawico/';
-  const card=btn.closest('.curso-card');
-  const t=card.getAttribute('data-curso');
-  const url=base+'index.html#cursos';
-  const msg=`🚀 FEKA KAWIÇO - Curso ${t}: ${url}`;
-  if(p==='whatsapp') window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`,'_blank');
-  if(p==='facebook') window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,'_blank');
-  if(p==='email') window.open(`mailto:?subject=${encodeURIComponent(t)}&body=${encodeURIComponent(msg)}`,'_self');
-}
 
-document.addEventListener('DOMContentLoaded',loadCourses);
-</script>
+        // ==========================================
+        // MENU RESPONSIVO
+        // ==========================================
+
+        document.getElementById('menu-toggle')
+            .addEventListener('click', () => {
+
+                document.getElementById('main-nav')
+                    .classList.toggle('active');
+
+            });
+
+
+        // ==========================================
+        // SIDE BAR DINÂMICA
+        // ==========================================
+
+        const newsFeed = document.getElementById('news-feed');
+
+        const toggleBtn = document.getElementById('toggle-feed-btn');
+
+        const mainContent = document.getElementById('main-content');
+
+
+        /*
+         * Estado inicial da barra lateral.
+         * A margem é aplicada apenas em desktop.
+         */
+
+        function configurarSidebar() {
+
+            if (window.innerWidth > 1024) {
+
+                if (newsFeed.classList.contains('collapsed')) {
+
+                    mainContent.classList.add('full-width');
+
+                    toggleBtn.classList.add('collapsed');
+
+                    toggleBtn.innerHTML = 'Notícias & Artigos';
+
+                    toggleBtn.style.left = '0';
+
+                } else {
+
+                    mainContent.classList.remove('full-width');
+
+                    toggleBtn.classList.remove('collapsed');
+
+                    toggleBtn.innerHTML = '&lt;';
+
+                    toggleBtn.style.left = '300px';
+
+                }
+
+            } else {
+
+                mainContent.classList.remove('full-width');
+
+                toggleBtn.style.left = '0';
+
+            }
+
+        }
+
+
+        /*
+         * Abrir e recolher a barra.
+         * O botão acompanha o estado da barra.
+         */
+
+        toggleBtn.addEventListener('click', () => {
+
+            if (window.innerWidth <= 1024) {
+                return;
+            }
+
+            const collapsed = newsFeed.classList.toggle('collapsed');
+
+            if (collapsed) {
+
+                toggleBtn.innerHTML = 'Notícias & Artigos';
+
+                toggleBtn.style.left = '0';
+
+                toggleBtn.classList.add('collapsed');
+
+                mainContent.classList.add('full-width');
+
+            } else {
+
+                toggleBtn.innerHTML = '&lt;';
+
+                toggleBtn.style.left = '300px';
+
+                toggleBtn.classList.remove('collapsed');
+
+                mainContent.classList.remove('full-width');
+
+            }
+
+        });
+
+
+        /*
+         * Corrige a posição da barra quando
+         * o tamanho da janela é alterado.
+         */
+
+        window.addEventListener('resize', configurarSidebar);
+
+        configurarSidebar();
+
+
+        // ==========================================
+        // CARREGAR CURSOS DO SUPABASE
+        // ==========================================
+
+        async function loadCourses() {
+
+            const c = document.getElementById('cursos');
+
+            try {
+
+                const {
+                    data: courses,
+                    error
+                } = await supabaseClient
+                    .from('courses')
+                    .select('id,nome,descricao')
+                    .eq('ativo', true)
+                    .order('id');
+
+
+                if (error) {
+
+                    console.error('Erro ao carregar cursos:', error);
+
+                    c.innerHTML = `
+                        <p style="width:100%;text-align:center;">
+                            Erro ao carregar cursos.
+                        </p>
+                    `;
+
+                    return;
+                }
+
+
+                if (!courses || !courses.length) {
+
+                    c.innerHTML = `
+                        <p style="width:100%;text-align:center;">
+                            Nenhum curso ativo.
+                        </p>
+                    `;
+
+                    return;
+                }
+
+
+                CURSO_KEYS = courses.map(x => x.id);
+
+
+                let h = "";
+
+
+                courses.forEach(cur => {
+
+                    const img = getImageUrl(cur.id);
+
+
+                    h += `
+                        <div class="curso-card"
+                             data-curso="${cur.nome}"
+                             data-curso-key="${cur.id}">
+
+                            <a href="#"
+                               onclick="iniciarCurso('${cur.id}',event)">
+
+                                <img src="${img}"
+                                     alt="${cur.nome}"
+                                     onerror="this.onerror=null;this.src='FK.png'">
+
+                            </a>
+
+                            <div class="card-body">
+
+                                <h3>${cur.nome}</h3>
+
+                                <p>${cur.descricao || ''}</p>
+
+                                <p id="${cur.id}ValidationStatus"
+                                   style="font-weight:bold;margin-top:10px;">
+                                </p>
+
+                                <a href="#"
+                                   class="btn-inscricao course-btn"
+                                   onclick="iniciarCurso('${cur.id}',event)">
+
+                                    Inscrever
+
+                                </a>
+
+                                <div class="social-share">
+
+                                    <button class="share-btn share-whatsapp"
+                                            onclick="shareCourse('whatsapp',this)"
+                                            aria-label="Partilhar no WhatsApp">
+
+                                        <i class="fab fa-whatsapp"></i>
+
+                                    </button>
+
+                                    <button class="share-btn share-facebook"
+                                            onclick="shareCourse('facebook',this)"
+                                            aria-label="Partilhar no Facebook">
+
+                                        <i class="fab fa-facebook"></i>
+
+                                    </button>
+
+                                    <button class="share-btn share-email"
+                                            onclick="shareCourse('email',this)"
+                                            aria-label="Partilhar por email">
+
+                                        <i class="fas fa-envelope"></i>
+
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                    `;
+
+                });
+
+
+                c.innerHTML = h;
+
+                await updateUI();
+
+            } catch (err) {
+
+                console.error('Erro inesperado ao carregar cursos:', err);
+
+                c.innerHTML = `
+                    <p style="width:100%;text-align:center;">
+                        Não foi possível carregar os cursos.
+                    </p>
+                `;
+
+            }
+
+        }
+
+
+        // ==========================================
+        // INSCREVER / VALIDAR CURSO
+        // ==========================================
+
+        async function iniciarCurso(k, e) {
+
+            e.preventDefault();
+
+            try {
+
+                const {
+                    data: { session },
+                    error
+                } = await supabaseClient.auth.getSession();
+
+
+                if (error) {
+                    throw error;
+                }
+
+
+                if (!session) {
+
+                    alert('⚠️ Faça Login.');
+
+                    location.href = 'login.html';
+
+                    return;
+                }
+
+
+                const {
+                    data: en,
+                    error: enrollmentError
+                } = await supabaseClient
+                    .from('enrollments')
+                    .select('status')
+                    .eq('user_id', session.user.id)
+                    .eq('course_id', k)
+                    .maybeSingle();
+
+
+                if (enrollmentError) {
+
+                    console.error(
+                        'Erro ao verificar inscrição:',
+                        enrollmentError
+                    );
+
+                    alert('Não foi possível verificar a inscrição.');
+
+                    return;
+                }
+
+
+                if (en?.status === 'validado') {
+
+                    location.href = getPageUrl(k);
+
+                } else {
+
+                    location.href = 'validar-geral.html?curso=' + encodeURIComponent(k);
+
+                }
+
+            } catch (err) {
+
+                console.error('Erro ao iniciar curso:', err);
+
+                alert('Ocorreu um erro. Tente novamente.');
+
+            }
+
+        }
+
+
+        // ==========================================
+        // ESTADO DE LOGIN
+        // ==========================================
+
+        async function updateLoginStatus() {
+
+            const el = document.getElementById('status-indicator');
+
+            const {
+                data: { session }
+            } = await supabaseClient.auth.getSession();
+
+
+            if (session) {
+
+                const {
+                    data: p
+                } = await supabaseClient
+                    .from('profiles')
+                    .select('nome')
+                    .eq('id', session.user.id)
+                    .maybeSingle();
+
+
+                const f = p?.nome
+                    ? p.nome.split(' ')[0]
+                    : 'Usuário';
+
+
+                el.innerHTML = `
+                    <a href="perfil.html"
+                       style="text-decoration:none;color:inherit;display:flex;align-items:center;">
+
+                        <i class="fas fa-circle status-icon online"></i>
+
+                        <span class="status-text">
+                            Olá, ${f}
+                        </span>
+
+                    </a>
+
+                    <a href="#"
+                       onclick="logout(event)"
+                       style="margin-left:10px;color:#ffc107;font-weight:bold;text-decoration:none;">
+
+                        (Sair)
+
+                    </a>
+                `;
+
+            } else {
+
+                el.innerHTML = `
+                    <a href="login.html"
+                       style="text-decoration:none;color:inherit;display:flex;align-items:center;">
+
+                        <i class="fas fa-circle status-icon offline"></i>
+
+                        <span class="status-text">
+                            Login
+                        </span>
+
+                    </a>
+                `;
+
+            }
+
+        }
+
+
+        // ==========================================
+        // TERMINAR SESSÃO
+        // ==========================================
+
+        async function logout(e) {
+
+            e.preventDefault();
+
+            await supabaseClient.auth.signOut();
+
+            location.href = 'index.html';
+
+        }
+
+
+        // ==========================================
+        // ACTUALIZAR ESTADO DOS CURSOS
+        // ==========================================
+
+        async function updateUI() {
+
+            await updateLoginStatus();
+
+
+            const {
+                data: { session }
+            } = await supabaseClient.auth.getSession();
+
+
+            if (!session) {
+
+                CURSO_KEYS.forEach(k => {
+
+                    const s = document.getElementById(
+                        `${k}ValidationStatus`
+                    );
+
+                    const b = document.querySelector(
+                        `.curso-card[data-curso-key="${k}"] .course-btn`
+                    );
+
+
+                    if (!s || !b) return;
+
+
+                    s.innerHTML = 'Status: ❌ Requer Login';
+
+                    s.style.color = '#dc3545';
+
+                    b.textContent = 'Inscrever';
+
+                });
+
+                return;
+
+            }
+
+
+            const {
+                data: ens,
+                error
+            } = await supabaseClient
+                .from('enrollments')
+                .select('course_id,status')
+                .eq('user_id', session.user.id)
+                .in('course_id', CURSO_KEYS);
+
+
+            if (error) {
+
+                console.error('Erro ao actualizar inscrições:', error);
+
+                return;
+
+            }
+
+
+            const m = {};
+
+
+            (ens || []).forEach(e => {
+
+                m[e.course_id] = e.status;
+
+            });
+
+
+            CURSO_KEYS.forEach(k => {
+
+                const s = document.getElementById(
+                    `${k}ValidationStatus`
+                );
+
+                const b = document.querySelector(
+                    `.curso-card[data-curso-key="${k}"] .course-btn`
+                );
+
+
+                if (!s || !b) return;
+
+
+                if (m[k] === 'validado') {
+
+                    s.innerHTML = 'Status: ✅ Validado';
+
+                    s.style.color = '#28a745';
+
+                    b.textContent = 'Continuar Curso';
+
+                } else {
+
+                    s.innerHTML = 'Status: 🔓 Falta Validar';
+
+                    s.style.color = '#007bff';
+
+                    b.textContent = 'Validar Código';
+
+                }
+
+            });
+
+        }
+
+
+        // ==========================================
+        // PARTILHAR CURSOS
+        // ==========================================
+
+        function shareCourse(p, btn) {
+
+            const base = 'https://alfredofeka.github.io/feka-kawico/';
+
+            const card = btn.closest('.curso-card');
+
+            const t = card.getAttribute('data-curso');
+
+            const url = base + 'index.html#cursos';
+
+            const msg = `🚀 FEKA KAWIÇO - Curso ${t}: ${url}`;
+
+
+            if (p === 'whatsapp') {
+
+                window.open(
+                    `https://wa.me/?text=${encodeURIComponent(msg)}`,
+                    '_blank'
+                );
+
+            }
+
+
+            if (p === 'facebook') {
+
+                window.open(
+                    `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,
+                    '_blank'
+                );
+
+            }
+
+
+            if (p === 'email') {
+
+                window.open(
+                    `mailto:?subject=${encodeURIComponent(t)}&body=${encodeURIComponent(msg)}`,
+                    '_self'
+                );
+
+            }
+
+        }
+
+
+        // ==========================================
+        // INICIALIZAÇÃO
+        // ==========================================
+
+        document.addEventListener('DOMContentLoaded', loadCourses);
+
+    </script>
+
 </body>
 </html>
