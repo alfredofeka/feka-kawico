@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Introdução ao FIDIC - int-fidic.html | FK Academy</title>
+<link rel="icon" type="image/png" href="fotos/FK.png">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-client.js"></script>
+<style>
+:root{--primary-color:#004a80;--secondary-color:#fca311;--dark-sidebar:#1f2937;--light-bg:#f8fafc}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',Arial,sans-serif;background:var(--light-bg);color:#1a202c;line-height:1.6}
+.top-header{background:var(--primary-color);color:#fff;padding:10px 20px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:1000;box-shadow:0 2px 8px rgba(0,0,0,.2)}
+.logo-area{display:flex;align-items:center;gap:10px}.logo-area img{height:38px;background:#fff;border-radius:6px;padding:2px}
+.logo-text{font-weight:800;font-size:1.1rem}.logo-sub{font-size:.7rem;opacity:.9}
+.menu-toggle{display:none;background:var(--secondary-color);border:none;color:#000;padding:8px 12px;border-radius:6px;font-weight:700;cursor:pointer}
+.course-container{display:flex;min-height:calc(100vh - 60px)}
+#sidebar{width:360px;background:var(--dark-sidebar);color:#e5e7eb;overflow-y:auto;max-height:calc(100vh - 60px);position:sticky;top:60px;transition:transform.3s}
+#sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:900}
+.level-card{background:#111827;margin:10px;border-radius:8px;padding:12px 14px;cursor:pointer;border-left:4px solid var(--secondary-color)}
+.lc-title{display:flex;justify-content:space-between;font-weight:700;color:#fff;font-size:.95rem}
+.lc-meta{font-size:.75rem;color:#9ca3af;margin-top:4px}
+.level-body{display:none;padding:0 10px 10px}.level-body.open{display:block}
+.module{margin:8px 0;background:#1f2937;border-radius:6px}
+.module h3{font-size:.85rem;padding:10px 12px;cursor:pointer;display:flex;align-items:center;gap:6px;color:#f3f4f6}
+.module h3:hover{background:#374151}
+.mod-num{background:var(--secondary-color);color:#000;width:22px;height:22px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:800}
+.chapter-list{display:none;padding:0 8px 8px 32px}.chapter-list.open{display:block}
+.chapter-link{display:block;padding:7px 8px;margin:3px 0;background:#111827;border-radius:4px;color:#d1d5db;text-decoration:none;font-size:.82rem;border-left:3px solid transparent}
+.chapter-link:hover{background:var(--primary-color);color:#fff;border-left-color:var(--secondary-color)}
+.chapter-link.active{background:var(--primary-color);color:#fff;border-left-color:var(--secondary-color);font-weight:700}
+#main-content{flex:1;padding:24px;max-width:900px;margin:0 auto}
+.intro-section{background:#fff;border-radius:12px;padding:24px;box-shadow:0 2px 12px rgba(0,0,0,.06);border-top:4px solid var(--primary-color)}
+.lesson-content{background:#fff;border-radius:12px;padding:24px;box-shadow:0 2px 12px rgba(0,0,0,.06);border-top:4px solid var(--secondary-color)}
+.lesson-content h2{color:var(--primary-color);margin-bottom:6px}
+.lesson-meta{color:#6b7280;font-size:.85rem;margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid #e5e7eb}
+.badge-row{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+.badge{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:20px;font-size:.75rem;font-weight:700}
+.badge-primary{background:var(--primary-color);color:#fff}
+.badge-secondary{background:var(--secondary-color);color:#000}
+.obj-box{background:#eff6ff;border-left:4px solid var(--primary-color);padding:12px 14px;border-radius:6px;margin:14px 0}
+.test-box{background:#fffbeb;border-left:4px solid var(--secondary-color);padding:12px 14px;border-radius:6px;margin:14px 0}
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.85rem}
+table th{background:var(--primary-color);color:#fff;padding:8px 10px;text-align:left}
+table td{padding:8px 10px;border:1px solid #e5e7eb}
+.lesson-nav{display:flex;justify-content:space-between;margin-top:22px;gap:10px}
+.lesson-nav button{flex:1;padding:10px;background:var(--primary-color);color:#fff;border:none;border-radius:6px;cursor:pointer;font-weight:600}
+.lesson-nav button.next-btn{background:var(--secondary-color);color:#000}
+.lesson-nav button:disabled{opacity:.4;cursor:not-allowed}
+.progress-note{text-align:center;margin-top:10px;font-size:.8rem;color:#6b7280}
+@media(max-width:900px){.menu-toggle{display:block}#sidebar{position:fixed;left:0;top:60px;transform:translateX(-100%);z-index:950;width:85%;max-width:360px}#sidebar.active{transform:translateX(0)}#sidebar-overlay.active{display:block}#main-content{padding:14px}}
+</style>
+</head>
+<body>
+<header class="top-header">
+<div class="logo-area"><img src="fotos/FK.png" alt="FK"><div><div class="logo-text">FK ACADEMY</div><div class="logo-sub">A terra natural do conhecimento!</div></div><span style="background:var(--secondary-color);color:#000;padding:2px 8px;border-radius:12px;font-size:.7rem;font-weight:800;margin-left:8px">FK</span></div>
+<div style="display:flex;align-items:center;gap:12px"><div id="login-status">✅ Acesso autorizado — FIDIC</div><button class="menu-toggle" onclick="toggleSidebar()">Menu</button></div>
+</header>
+<div id="sidebar-overlay" onclick="toggleSidebar()"></div>
+<div class="course-container">
+<aside id="sidebar">
+<div class="level-card" onclick="toggleLevel(0)"><div class="lc-title"><span>🧭 Nível 1 — Fundamentos FIDIC</span><span id="lvl-arrow-0">▸</span></div><div class="lc-meta">Introdução e Importância · 6h</div></div>
+<div class="level-body open" id="level-body-0">
+<div class="module"><h3 onclick="toggleModule('0-0')"><span class="mod-num">1</span> Introdução ao FIDIC</h3>
+<div class="chapter-list open" id="chlist-0-0">
+<a class="chapter-link" id="link-0" onclick="loadLesson(0)">📘 Aula 1 — História e Evolução</a>
+<a class="chapter-link" id="link-1" onclick="loadLesson(1)">📘 Aula 2 — Importância Mundial</a>
+<a class="chapter-link" id="link-2" onclick="loadLesson(2)">📘 Aula 3 — Aplicação Internacional</a>
+<a class="chapter-link" id="link-3" onclick="loadLesson(3)">📘 Aula 4 — Papel do Dono da Obra</a>
+<a class="chapter-link" id="link-4" onclick="loadLesson(4)">📘 Aula 5 — Papel do Empreiteiro</a>
+<a class="chapter-link" id="link-5" onclick="loadLesson(5)">📘 Aula 6 — Papel do Engenheiro</a>
+</div></div>
+<div class="module"><h3 onclick="toggleModule('0-1')"><span class="mod-num">2</span> Estrutura Contratual</h3>
+<div class="chapter-list" id="chlist-0-1">
+<a class="chapter-link" id="link-6" onclick="loadLesson(6)">📘 Aula 7 — Partes do Contrato</a>
+<a class="chapter-link" id="link-7" onclick="loadLesson(7)">📘 Aula 8 — Red, Yellow, Silver Books</a>
+</div></div>
+</div>
+<div class="level-card" onclick="toggleLevel(1)"><div class="lc-title"><span>⚖️ Nível 2 — Gestão Contratual e Riscos</span><span id="lvl-arrow-1">▸</span></div><div class="lc-meta">Riscos e Responsabilidades · 6h</div></div>
+<div class="level-body" id="level-body-1">
+<div class="module"><h3 onclick="toggleModule('1-0')"><span class="mod-num">1</span> Gestão Contratual</h3>
+<div class="chapter-list" id="chlist-1-0">
+<a class="chapter-link" id="link-8" onclick="loadLesson(8)">📘 Aula 9 — Direitos e Obrigações</a>
+<a class="chapter-link" id="link-9" onclick="loadLesson(9)">📘 Aula 10 — Notificações Formais</a>
+</div></div>
+<div class="module"><h3 onclick="toggleModule('1-1')"><span class="mod-num">2</span> Gestão de Riscos</h3>
+<div class="chapter-list" id="chlist-1-1">
+<a class="chapter-link" id="link-10" onclick="loadLesson(10)">📘 Aula 11 — Alocação de Riscos</a>
+<a class="chapter-link" id="link-11" onclick="loadLesson(11)">📘 Aula 12 — Early Warning e Força Maior</a>
+</div></div>
+</div>
+<div class="level-card" onclick="toggleLevel(2)"><div class="lc-title"><span>📈 Nível 3 — Variações, Claims e EOT</span><span id="lvl-arrow-2">▸</span></div><div class="lc-meta">Variações e Atrasos · 6h</div></div>
+<div class="level-body" id="level-body-2">
+<div class="module"><h3 onclick="toggleModule('2-0')"><span class="mod-num">1</span> Variações</h3>
+<div class="chapter-list" id="chlist-2-0">
+<a class="chapter-link" id="link-12" onclick="loadLesson(12)">📘 Aula 13 — Conceito de Variação</a>
+<a class="chapter-link" id="link-13" onclick="loadLesson(13)">📘 Aula 14 — Avaliação - Exemplo Alteração de Escopo</a>
+</div></div>
+<div class="module"><h3 onclick="toggleModule('2-1')"><span class="mod-num">2</span> Claims</h3>
+<div class="chapter-list" id="chlist-2-1">
+<a class="chapter-link" id="link-14" onclick="loadLesson(14)">📘 Aula 15 — Conceito de Claim</a>
+<a class="chapter-link" id="link-15" onclick="loadLesson(15)">📘 Aula 16 — Procedimento Cláusula 20</a>
+<a class="chapter-link" id="link-16" onclick="loadLesson(16)">📘 Aula 17 — EOT - Exemplo Atraso</a>
+</div></div>
+</div>
+<div class="level-card" onclick="toggleLevel(3)"><div class="lc-title"><span>🏛️ Nível 4 — Disputas e Avaliação Final</span><span id="lvl-arrow-3">▸</span></div><div class="lc-meta">DAAB, Arbitragem e Certificação · 6h</div></div>
+<div class="level-body" id="level-body-3">
+<div class="module"><h3 onclick="toggleModule('3-0')"><span class="mod-num">1</span> Resolução de Disputas</h3>
+<div class="chapter-list" id="chlist-3-0">
+<a class="chapter-link" id="link-17" onclick="loadLesson(17)">📘 Aula 18 — Negociação e Mediação</a>
+<a class="chapter-link" id="link-18" onclick="loadLesson(18)">📘 Aula 19 — DAAB</a>
+<a class="chapter-link" id="link-19" onclick="loadLesson(19)">📘 Aula 20 — Arbitragem</a>
+</div></div>
+<div class="module"><h3 onclick="toggleModule('3-1')"><span class="mod-num">2</span> Avaliação Final</h3>
+<div class="chapter-list" id="chlist-3-1">
+<a class="chapter-link" id="link-20" onclick="loadLesson(20)">📘 Aula 21 — Workshop Caso Real</a>
+<a class="chapter-link" id="link-21" onclick="loadLesson(21)">📘 Aula 22 — Teste Final e Assignment</a>
+</div></div>
+</div>
+</aside>
+<main id="main-content">
+<div class="intro-section" id="content-area">
+<h2>📘 Curso Introdução ao FIDIC e Gestão Contratual de Obras</h2>
+<div class="lesson-meta">Formação profissional FIDIC Foundation · 20 Horas · 4 dias + 1 dia avaliação</div>
+<div class="badge-row"><span class="badge badge-primary">20 Horas Certificadas</span><span class="badge badge-secondary">FK Academy</span></div>
+<div class="obj-box"><strong>🎯 Objetivo Geral:</strong> Capacitar engenheiros, gestores de projeto, diretores de obra, orçamentistas e gestores de contratos para compreender contratos FIDIC, identificar riscos, gerir empreitadas, analisar claims.</div>
+<p style="margin:12px 0">Este curso foi desenhado como programa profissional de nível <strong>FIDIC Foundation</strong>, onde cada aula responde: <em>"Como isto é aplicado amanhã numa obra real?"</em></p>
+<div style="background:#eff6ff;border:1px solid #bfdbfe;border-left:4px solid #004a80;border-radius:8px;padding:16px;margin-top:18px">
+<strong style="color:#004a80;font-size:.95rem">🎓 Progressão de Carreira FIDIC</strong>
+<p style="margin:8px 0 10px;font-size:.9rem;color:#1e293b"><em>Este programa é adequado como Nível 1 - Introdução ao FIDIC, podendo depois evoluir para:</em></p>
+<ul style="margin:0 0 0 18px;font-size:.88rem;color:#334155;line-height:1.7">
+<li><strong>FIDIC Intermédio</strong></li>
+<li><strong>Contract Management</strong></li>
+<li><strong>Claims & Disputes</strong></li>
+<li><strong>Delay Analysis</strong></li>
+<li><strong>Arbitragem e DAAB</strong></li>
+<li><strong>FIDIC Advanced Professional Certificate</strong></li>
+</ul>
+</div>
+<div class="test-box" style="margin-top:16px"><strong>📌 Certificação:</strong> Frequência 80% • Nota mínima 10 • Entrega do Assignment (aluno faz sozinho) • Teste Final - 20 Horas</div>
+</div>
+</main>
+</div>
+<script>
+async function updateLoginStatusFIDIC(){
+  const el=document.getElementById('login-status');
+  if(typeof supabaseClient==='undefined'){el.textContent='✅ Acesso autorizado — FIDIC';return}
+  try{
+    const{data:{session}}=await supabaseClient.auth.getSession();
+    if(session){
+      const{data:profile}=await supabaseClient.from('profiles').select('nome').eq('id',session.user.id).single();
+      const first=profile?.nome?profile.nome.split(' ')[0]:'Usuário';
+      el.innerHTML=`<i class='fas fa-circle' style='color:#28a745'></i> Olá, ${first} <a href='#' onclick='logoutFIDIC(event)' style='color:#ffc107;margin-left:8px;text-decoration:none;font-weight:700'>(Sair)</a>`;
+      supabaseClient.from('progresso_alunos').upsert({email:session.user.email,ultimo_acesso:new Date(),curso:'FIDIC'},{onConflict:'email,curso'});
+    }else{
+      el.innerHTML=`🔒 <a href='login.html' style='color:#fff'>Fazer Login</a>`;
+    }
+  }catch(e){el.textContent='✅ Acesso autorizado — FIDIC'}
+}
+async function logoutFIDIC(e){e.preventDefault();if(window.supabaseClient){await supabaseClient.auth.signOut()}location.href='index.html'}
+function toggleSidebar(){document.getElementById('sidebar').classList.toggle('active');document.getElementById('sidebar-overlay').classList.toggle('active')}
+function toggleLevel(ni){const b=document.getElementById(`level-body-${ni}`);const a=document.getElementById(`lvl-arrow-${ni}`);b.classList.toggle('open');if(a)a.textContent=b.classList.contains('open')?'▾':'▸'}
+function toggleModule(k){const el=document.getElementById(`chlist-${k}`);if(el)el.classList.toggle('open')}
+document.addEventListener('DOMContentLoaded',()=>{updateLoginStatusFIDIC();toggleLevel(0)});
+
+const lessons=[
+{title:"📘 Aula 1 — História e Evolução do FIDIC",meta:"Nível 1 · FIDIC Foundation - Dos teus PDFs Módulo 1 Aula 1",body:`<div class="obj-box"><strong>Objetivo:</strong> Compreender origem 1913, objetivos e evolução.</div><p>Em projetos internacionais é comum encontrarmos empresas de diferentes países: Cliente de Angola, Projetista da Alemanha, Empreiteiro da China. Sem regras comuns surgem divergências legais, conflitos de interpretação e atrasos.</p><p><strong>FIDIC - Fédération Internationale des Ingénieurs-Conseils criado em 1913</strong> para uniformizar contratos internacionais.</p><table><tr><th>Ano</th><th>Marco</th></tr><tr><td>1957</td><td>1º Red Book</td></tr><tr><td>1999</td><td>Suite Rainbow - Red, Yellow, Silver Books</td></tr><tr><td>2017</td><td>2ª Edição - foco em claims, gestão documental e prevenção disputas</td></tr></table><div class="test-box">💡 O FIDIC não elimina conflitos. Estabelece mecanismos para identificar, comunicar e resolver.</div>`},
+{title:"📘 Aula 2 — Importância Mundial",meta:"Nível 1 - Módulo 1 Aula 2 dos PDFs",body:`<div class="obj-box"><strong>Objetivo:</strong> Compreender utilização global e benefícios.</div><p>Contrato mal escrito gera atrasos, claims, litígios, perdas financeiras. FIDIC minimiza problemas com linguagem universal, procedimentos claros, gestão risco estruturada.</p><p><strong>Setores:</strong> Construção Civil, Energia (centrais, barragens, solar, eólica), Petróleo e Gás (Sonangol, Total, Chevron, Azule Energy), Industrial (Thyssenkrupp, Martifer, Mota-Engil, Conduril).</p><div class="test-box"><strong>Exemplo Real PDF:</strong> Central solar 120 milhões USD - Cliente Angola, Projeto Espanha, EPC China, Supervisão UK. Sem contrato comum: divergências. Com FIDIC: regras comuns, responsabilidades definidas.</div>`},
+{title:"📘 Aula 3 — Aplicação em Projetos Internacionais",meta:"Nível 1 - Módulo 1 Aula 3",body:`<p><strong>Papel na Globalização:</strong> Permite empresa angolana trabalhar integrada com internacionais.</p><p>Benefícios: reduz risco contratual, facilita financiamentos, aumenta confiança investidores, melhora previsibilidade.</p><div class="obj-box"><strong>Caso PDF:</strong> Área montagem não entregue na data, equipamentos atrasados, cliente exige aceleração. Proteção FIDIC: Notificação + Registo documental + Claim + Pedido EOT.</div><p>Mesmo quando contrato não se chama FIDIC, muitos procedimentos são inspirados nos seus princípios.</p>`},
+{title:"📘 Aula 4 — Papel do Dono da Obra (Employer)",meta:"Nível 1 - Módulo 1 Aula 4",body:`<p><strong>Obrigações Employer:</strong> Entregar acesso área, efetuar pagamentos, fornecer informações (projeto, estudos, especificações), nomear Engineer.</p><table><tr><th>Erro Comum</th><th>Exemplo</th><th>Consequência</th></tr><tr><td>Entrega tardia área</td><td>Montagem 01 Março, área entregue 15 Maio</td><td>Atraso, custos adicionais, Claim</td></tr><tr><td>Alterações excessivas escopo</td><td>Mudança frequente</td><td>Retrabalho, perda produtividade</td></tr></table>`},
+{title:"📘 Aula 5 — Papel do Empreiteiro (Contractor)",meta:"Nível 1 - Módulo 1 Aula 5",body:`<p><strong>Obrigações:</strong> Executar obra conforme especificações, fornecer programa, garantir qualidade, cumprir segurança, notificar eventos em 28 dias.</p><p>Sem FIDIC, empreiteiro assume todos riscos. Com FIDIC, riscos alocados a quem melhor gere.</p>`},
+{title:"📘 Aula 6 — Papel do Engenheiro (Engineer)",meta:"Nível 1 - Módulo 1 Aula 6",body:`<p>Nos Red e Yellow, Engineer é figura central e imparcial. Funções: emitir instruções, aprovar desenhos, avaliar variações, determinar EOT e custos, evitar disputas.</p><div class="obj-box"><strong>Caso PDF:</strong> Montagem estrutura metálica surge incompatibilidade projeto, produção parada, impacto prazo. Engineer deve: emitir instrução, documentar, avaliar impactos, determinar compensações.</div>`},
+{title:"📘 Aula 7 — Partes do Contrato FIDIC",meta:"Nível 1 - Secção 2 Estrutura Contratual",body:`<p>Estrutura típica PDF: Acordo Contratual, Carta de Aceitação, Proposta, Condições Gerais, Condições Particulares, Especificações, Desenhos, Tabelas.</p><p>Prioridade documentos define hierarquia em conflito.</p>`},
+{title:"📘 Aula 8 — Red, Yellow e Silver Books",meta:"Nível 1 - Tipos de Contratos",body:`<table><tr><th>Livro</th><th>Quando usar</th><th>Projeto por conta de</th></tr><tr><td>Red Book</td><td>Empreitada por medição, projeto Dono</td><td>Employer</td></tr><tr><td>Yellow Book</td><td>Design & Build</td><td>Contractor</td></tr><tr><td>Silver Book</td><td>EPC Turnkey</td><td>Contractor</td></tr><tr><td>Green Book</td><td>Pequenas obras</td><td>Misto</td></tr></table>`},
+{title:"📘 Aula 9 — Direitos e Obrigações",meta:"Nível 2 - Gestão Contratual",body:`<p>Gestão contratual é pilar. Definição precisa responsabilidades reduz conflitos por interpretação divergente. Sistema notificações formais garante comunicação dentro prazos.</p>`},
+{title:"📘 Aula 10 — Notificações Formais e Gestão Documental",meta:"Nível 2 - Cláusula 20.1 dos PDFs",body:`<p>Cláusula 20.1 exige notificação em 28 dias após conhecimento evento. Falha implica perda direito. Deve conter: descrição evento, base contratual, impacto estimado.</p><div class="test-box"><strong>Registo contemporâneo:</strong> diário obra, fotos, relatórios, programa atualizado, correspondência. Sem documentação, Claim falha.</div>`},
+{title:"📘 Aula 11 — Alocação de Riscos",meta:"Nível 2 - Riscos",body:`<p>Mitigação riscos é objetivo principal. FIDIC atribui cada risco à parte que melhor pode gerir.</p><p>Ex: condições geológicas imprevisíveis → Employer; produtividade mão de obra, métodos construtivos → Contractor.</p><p>Distribuição equilibrada reduz litígios.</p>`},
+{title:"📘 Aula 12 — Early Warning e Força Maior",meta:"Nível 2 - Edição 2017",body:`<p>Edição 2017 reforça Early Warning: parte deve avisar antecipadamente sobre evento futuro que pode impactar prazo/custo. Cláusula 18/19 trata Força Maior e eventos excecionais.</p>`},
+{title:"📘 Aula 13 — Conceito de Variação",meta:"Nível 3 - Cláusula 13 dos PDFs",body:`<p>Variação é qualquer alteração ao trabalho inicialmente contratado por razões técnicas, operacionais ou económicas. Pode ser instruída pelo Engineer ou proposta pelo Contractor.</p>`},
+{title:"📘 Aula 14 — Avaliação Variações - Exemplo Alteração Escopo",meta:"Nível 3 - Exemplo Obrigatório 1 do Assignment",body:`<div class="obj-box"><strong>Exemplo Prático 1 - Alteração de Escopo (obrigatório no Assignment dos PDFs):</strong></div><p>Projeto edifício comercial: Dono decide acrescentar piso adicional após início.</p><p>Implicações: revisão cálculos estruturais, aumento aço e betão, extensão prazo, aumento valor contratual.</p><p><strong>Procedimento FIDIC:</strong> Engineer instrui variação, empreiteiro apresenta avaliação custos + tempo adicional, negociação transparente e documentada, Engineer determina valor justo com base em preços contratuais.</p>`},
+{title:"📘 Aula 15 — Conceito de Claim",meta:"Nível 3 - Módulo 4 Claims",body:`<p>Claim é pedido formal quando parte considera que ocorreu evento que lhe confere direito a compensação financeira ou extensão prazo. Mecanismo mais importante porque permite resolver problemas antes de virarem disputas graves.</p><p>Bases: direitos empreiteiro (Cl.20.1) e direitos cliente (Cl.2.5).</p>`},
+{title:"📘 Aula 16 — Procedimento Claims Cláusula 20",meta:"Nível 3 - Procedimento dos PDFs",body:`<p>Passos PDF: 1) Notificação 28 dias, 2) Registo contemporâneo, 3) Submissão detalhada em 42 dias com impacto, 4) Resposta Engineer em 42 dias, 5) Determinação.</p><div class="test-box"><strong>Sem notificação = perda de direito.</strong></div>`},
+{title:"📘 Aula 17 — EOT - Extension of Time - Exemplo Atraso",meta:"Nível 3 - Exemplo Obrigatório 2 do Assignment",body:`<div class="obj-box"><strong>Exemplo Prático 2 - Atraso por Entrega Tardia (obrigatório no Assignment dos PDFs):</strong></div><p>Obra industrial: Dono atrasa 45 dias entrega desenhos definitivos fabrico estruturas metálicas.</p><p>Consequências: produção adiada, montagem reprogramada, impacto conclusão.</p><p><strong>Mecanismo FIDIC:</strong> Empreiteiro apresenta Claim solicitando EOT + compensação custos adicionais. Deve demonstrar impacto no caminho crítico do cronograma. Se atraso justificável (Employer risk), Engineer concede EOT, evitando penalidades injustas.</p><p>Tipos: atrasos justificáveis com compensação, justificáveis sem compensação, não justificáveis.</p>`},
+{title:"📘 Aula 18 — Negociação e Mediação",meta:"Nível 4 - Resolução Disputas",body:`<p>Primeiro degrau escada resolução: negociação direta entre partes. Se falha, mediação com terceiro neutro para acordo amigável, mantendo relacionamento.</p>`},
+{title:"📘 Aula 19 — DAAB - Dispute Avoidance/Adjudication Board",meta:"Nível 4 - Novidade 2017 dos PDFs",body:`<p>Novidade crucial 2017: DAAB permanente que visita obra regularmente, evita disputas e emite decisões preliminares em 84 dias. Resolve 90% disputas sem ir para arbitragem. Decisão é vinculativa provisoriamente, partes devem cumprir mesmo que discordem, até arbitragem reverta.</p><div class="test-box"><strong>Vantagens:</strong> rapidez, redução custos judiciais, manutenção relacionamento, continuidade obra.</div>`},
+{title:"📘 Aula 20 — Arbitragem e Tribunal",meta:"Nível 4 - Instância Final",body:`<p>Se DAAB não resolve, segue para Amicable Settlement (56 dias) e depois Arbitragem internacional, normalmente CCI Paris, com decisão final e vinculativa. Tribunal apenas se arbitragem não prevista.</p>`},
+{title:"📘 Aula 21 — Workshop Final - Caso Real Integrado",meta:"Nível 4 - Workshop dos PDFs",body:`<p><strong>Cenário PDF:</strong> Obra sofre alteração escopo, aumento quantidades e atraso entrega área.</p><p><strong>Exercício:</strong> Participantes devem identificar riscos, variações, possíveis Claims, mecanismos resolução.</p><p>Riscos: Employer (acesso tardio) + variação (escopo) → Claim EOT + custos + variação valorizada. Se disputa, Engineer determina, DAAB decide.</p>`},
+{title:"📘 Aula 22 — Teste Final e Assignment",meta:"Nível 4 - Avaliação dos PDFs",body:`<div class="obj-box"><strong>Parte A - Teste Individual (40%) - 20 Perguntas Exemplo PDF:</strong><br>1. O que significa FIDIC?<br>2. Diferença Red Book vs Yellow Book?<br>3. O que é Variação?<br>4. O que é Claim?<br>5. O que significa EOT?</div><div class="test-box"><strong>Parte B - Estudo de Caso (20%)</strong><br>Análise contrato simplificado. Aluno deve identificar riscos, obrigações, potenciais Claims e mecanismos resolução conflitos.</div><h3 style="margin-top:14px;color:var(--primary-color)">📝 Assignment Final - Trabalho Individual (40%) - NÃO ESTÁ RESOLVIDO NO CURSO</h3><p><strong>Tema:</strong> "A Aplicação dos Contratos FIDIC na Gestão de Obras e na Mitigação de Riscos"</p><p><strong>Extensão:</strong> 1000 palavras</p><p><strong>Estrutura Obrigatória:</strong><br>1. Introdução (150 palavras) - O que é FIDIC, importância<br>2. Desenvolvimento (650 palavras) - gestão contratual, riscos, variações, claims, resolução disputas. Incluir: 2 exemplos práticos, 1 exemplo atraso, 1 exemplo alteração escopo<br>3. Conclusão (200 palavras) - Benefícios, impacto redução conflitos, aplicação realidade angolana</p><table><tr><th>Critério</th><th>Peso</th></tr><tr><td>Conhecimento Técnico</td><td>30%</td></tr><tr><td>Aplicação Prática</td><td>25%</td></tr><tr><td>Análise Crítica</td><td>20%</td></tr><tr><td>Estrutura e Organização</td><td>15%</td></tr><tr><td>Linguagem Técnica</td><td>10%</td></tr></table><div class="test-box"><strong>📌 IMPORTANTE:</strong> Este Assignment deve ser feito individualmente pelo aluno. Não está resolvido no curso. Será avaliado separadamente.<br><br><strong>Certificado será atribuído com:</strong><br>Frequência mínima 80% • Nota mínima 10 valores • Entrega do Assignment • Aprovação no Teste Final<br><strong>Carga Horária Certificada: 20 Horas</strong></div>
+<!-- FORMULARIO ENTREGA ASSIGNMENT - INSERIDO -->
+<div style="background:#fff;border:2px solid #004a80;border-radius:12px;padding:20px;margin-top:22px">
+<h3 style="color:#004a80">📤 Entregar Assignment Final</h3>
+<p style="font-size:.85rem;margin:8px 0">Tema: "A Aplicação dos Contratos FIDIC na Gestão de Obras e na Mitigação de Riscos" - 1000 palavras (mínimo 800)</p>
+<textarea id="textoAssignment" rows="12" style="width:100%;padding:12px;border:1px solid #d1d5db;border-radius:8px;font-family:inherit" placeholder="Escreve aqui o teu trabalho de 1000 palavras... Inclui: Introdução (150p), Desenvolvimento com 2 exemplos (1 atraso por entrega tardia + 1 alteração escopo), Conclusão com realidade angolana (200p)"></textarea>
+<div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px;gap:10px;flex-wrap:wrap">
+<span id="contadorPalavras" style="font-size:.8rem;color:#6b7280">0 palavras</span>
+<button onclick="submeterAssignmentFIDIC()" style="background:#fca311;color:#000;border:none;padding:10px 20px;border-radius:8px;font-weight:800;cursor:pointer">Submeter Assignment</button>
+</div>
+<div id="msgAssignment" style="margin-top:10px;font-size:.85rem"></div>
+</div>`}
+];
+
+function loadLesson(i){
+  const l=lessons[i];if(!l)return;
+  document.querySelectorAll('.chapter-link').forEach(a=>a.classList.remove('active'));
+  const lk=document.getElementById(`link-${i}`);if(lk)lk.classList.add('active');
+  const area=document.getElementById('content-area');
+  area.className='lesson-content';
+  area.innerHTML=`<h2>${l.title}</h2><div class="lesson-meta">${l.meta}</div>${l.body}<div class="lesson-nav"><button onclick="loadLesson(${i-1})" ${i<=0?'disabled':''}>◀ Anterior</button><button class="next-btn" onclick="loadLesson(${i+1})" ${i>=lessons.length-1?'disabled':''}>Próxima ▶</button></div><div class="progress-note">Aula ${i+1} de ${lessons.length}</div>`;
+  window.scrollTo({top:0,behavior:'instant'});
+  if(window.innerWidth<=900){document.getElementById('sidebar').classList.remove('active');document.getElementById('sidebar-overlay').classList.remove('active');}
+
+  // Gravar progresso
+  if(typeof supabaseClient!=='undefined'){
+    supabaseClient.auth.getSession().then(({data:{session}})=>{
+      if(session){
+        supabaseClient.from('progresso_alunos').upsert({email:session.user.email,ultimo_acesso:new Date(),curso:'FIDIC',aula_atual:i+1,percentagem:Math.round(((i+1)/lessons.length)*100)},{onConflict:'email,curso'});
+      }
+    });
+  }
+
+  // Ativar contador se for Aula 22
+  if(i===21){
+    setTimeout(()=>{
+      const ta=document.getElementById('textoAssignment');
+      if(ta){
+        ta.addEventListener('input', function(){
+          const palavras = this.value.trim().split(/\s+/).filter(w=>w.length>0).length;
+          const cont=document.getElementById('contadorPalavras');
+          if(cont){
+            cont.textContent = palavras + ' palavras';
+            cont.style.color = palavras >= 900? '#16a34a' : palavras >= 800? '#f59e0b' : '#6b7280';
+          }
+        });
+      }
+    },300);
+  }
+}
+
+async function submeterAssignmentFIDIC(){
+  const textoEl=document.getElementById('textoAssignment');
+  const msg=document.getElementById('msgAssignment');
+  if(!textoEl||!msg) return;
+  const texto = textoEl.value.trim();
+  const palavras = texto.split(/\s+/).filter(w=>w.length>0).length;
+
+  if(palavras < 800){ msg.innerHTML='<span style="color:red">❌ Mínimo 800 palavras. Tens '+palavras+' - continua a escrever.</span>'; return; }
+
+  msg.innerHTML='<span style="color:#004a80">⏳ A enviar para o formador...</span>';
+
+  try{
+    const {data:{session}} = await supabaseClient.auth.getSession();
+    if(!session){ msg.innerHTML='<span style="color:red">❌ Faz login primeiro em login.html</span>'; return; }
+
+    const {error} = await supabaseClient.from('assignments_fidic').insert({
+      email: session.user.email,
+      nome_aluno: session.user.user_metadata?.full_name || session.user.email,
+      conteudo: texto,
+      palavras: palavras,
+      status: 'pendente'
+    });
+
+    if(error) throw error;
+
+    msg.innerHTML='<span style="color:green;font-weight:700">✅ Assignment submetido com sucesso! '+palavras+' palavras. Será avaliado pelo formador. Podes ver em Supabase > assignments_fidic</span>';
+    textoEl.value='';
+    document.getElementById('contadorPalavras').textContent='0 palavras';
+  }catch(e){
+    msg.innerHTML='<span style="color:red">❌ Erro: '+e.message+'</span>';
+  }
+}
+</script>
+</body>
+</html>
