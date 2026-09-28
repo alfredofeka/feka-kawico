@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Curso: Espanhol Completo 8 Meses — FEKA KAWIÇO</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+<style>
+:root { --primary-color: #004a80; --secondary-color: #fca311; --text-dark: #222; --text-light: #fff; --bg-dark: #1f2937; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background-color: #fff; color: var(--text-dark); font-family: "Segoe UI", sans-serif; line-height: 1.6; overflow-x: hidden; }
+header { background-color: var(--primary-color); color: var(--text-light); padding: 10px 15px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 1000; }
+.brand-area { display: flex; align-items: center; gap: 10px; }
+.brand-area img { height: 30px; border-radius: 5px; }
+#course-container { display: flex; height: calc(100vh - 65px); overflow: hidden; }
+#sidebar { width: 450px; background-color: var(--bg-dark); color: var(--text-light); padding: 20px; overflow-y: auto; }
+.module h3 { cursor: pointer; font-size: 0.95rem; margin-bottom: 8px; font-weight: 600; color: var(--secondary-color); line-height: 1.3; }
+.chapter-list { display: none; margin-left: 8px; margin-bottom: 15px; }
+.chapter-list h4 { color: #9ca3af; font-size: 0.85rem; margin-top: 10px; margin-bottom: 4px; }
+.chapter-link { display: block; color: var(--text-light); padding: 6px 5px; font-size: 0.88rem; text-decoration: none; border-left: 2px solid transparent; transition: all 0.3s ease; cursor: pointer; }
+.chapter-link:hover { color: var(--secondary-color); border-left: 2px solid var(--secondary-color); }
+.chapter-link.active { color: var(--secondary-color); border-left: 2px solid var(--secondary-color); background: rgba(252,163,17,0.1); }
+#main-content { flex-grow: 1; display: flex; justify-content: center; align-items: flex-start; padding: 40px 10px; background-color: #f4f6f8; overflow-y: auto; }
+.lesson-content { background: #fff; max-width: 850px; width: 100%; padding: 40px 50px; box-shadow: 0 0 15px rgba(0,0,0,0.1); border-radius: 8px; line-height: 1.8; color: #222; text-align: justify; }
+.lesson-content h2 { color: #004a80; text-align: center; font-size: 1.6rem; margin-bottom: 20px; border-bottom: 2px solid #004a80; padding-bottom: 8px; }
+.lesson-content h3 { color: #004a80; margin-top: 22px; margin-bottom: 8px; }
+.audio-btn { background: #dc2626; color: white; border: none; padding: 5px 10px; border-radius: 6px; cursor: pointer; font-size: 0.85rem; margin-left: 6px; }
+.audio-btn:hover { background: #b91c1c; }
+.grammar-box { background: #fef3c7; border-left: 4px solid #f59e0b; padding: 15px; margin: 15px 0; border-radius: 0 8px 8px 0; }
+.test-box { background-color: #eef6fc; border-left: 4px solid var(--primary-color); padding: 15px 20px; margin-top: 25px; border-radius: 0 8px 8px 0; }
+.phrase { background: #f3f4f6; padding: 10px 12px; border-radius: 8px; margin: 8px 0; display: flex; justify-content: space-between; align-items: center; }
+#toggle-sidebar { display: none; background: var(--primary-color); color: var(--text-light); border: none; font-size: 1.3rem; padding: 8px 12px; border-radius: 6px; margin-right: 10px; cursor: pointer; }
+@media (max-width: 900px) { #sidebar { position: fixed; top: 50px; left: 0; width: 85%; max-width: 350px; height: calc(100vh - 50px); z-index: 9999; transform: translateX(-100%); transition: transform 0.3s; } #sidebar.active { transform: translateX(0); } #toggle-sidebar { display: inline-block!important; } }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand-area">
+    <button id="toggle-sidebar">☰</button>
+    <a href="index.html"><i class="fas fa-home"></i></a>
+    <img src="FK.png" alt="FEKA KAWIÇO" />
+    <span><strong>FEKA KAWIÇO</strong> – <em>A terra natural do conhecimento!</em></span>
+  </div>
+  <div id="login-status">🔒 Verificando acesso…</div>
+</header>
+
+<div id="course-container">
+<aside id="sidebar">
+
+<div class="module">
+<h3 onclick="toggleModule(0)">🇪🇸 Nível 1: Módulo 1 — Principiante A - Supervivencia Total</h3>
+<div class="chapter-list" id="module-0">
+<h4>📦 Semana 1 (Aulas 1 a 3)</h4>
+<a class="chapter-link" onclick="loadLesson(0)">Aula 1 — Alfabeto & Ser/Estar - ¿Quién soy?</a>
+<a class="chapter-link" onclick="loadLesson(1)">Aula 2 — Números 0-100 & Edad - Tengo 25 años</a>
+<a class="chapter-link" onclick="loadLesson(2)">Aula 3 — Familia - Esta es mi madre. Estos son mis padres.</a>
+<h4>📦 Semana 2 (Aulas 4 a 6)</h4>
+<a class="chapter-link" onclick="loadLesson(3)">Aula 4 — Países, Nacionalidades y Trabajos</a>
+<a class="chapter-link" onclick="loadLesson(4)">Aula 5 — Objetos & Este/Ese/Aquel</a>
+<a class="chapter-link" onclick="loadLesson(5)">Aula 6 — Posesivos Mi/Tu/Su + Conversación</a>
+<h4>📦 Semana 3 (Aulas 7 a 9)</h4>
+<a class="chapter-link" onclick="loadLesson(6)">Aula 7 — Revisión - Presentación 2 min</a>
+<a class="chapter-link" onclick="loadLesson(7)">Aula 8 — Escritura - Mi Familia 50 palabras</a>
+<a class="chapter-link" onclick="loadLesson(8)">Aula 9 — Revisión Oral Intensiva</a>
+<h4>📦 Semana 4 - TESTE</h4>
+<a class="chapter-link" onclick="loadLesson(9)">Aula 10 — TESTE FINAL MÓDULO 1</a>
+</div>
+</div>
+
+<div class="module">
+<h3 onclick="toggleModule(1)">🇪🇸 Nível 1: Módulo 2 — Principiante B - Mi Rutina</h3>
+<div class="chapter-list" id="module-1">
+<h4>📦 Semanas 1 a 3</h4>
+<a class="chapter-link" onclick="loadLesson(10)">Aula 11 — Presente - Trabajo todos los días</a>
+<a class="chapter-link" onclick="loadLesson(11)">Aula 12 — Hay + Preposiciones en/de/con</a>
+<a class="chapter-link" onclick="loadLesson(12)">Aula 13 — Me gusta / No me gusta + ¿Te gusta?</a>
+<h4>📦 Semana 4 - TESTE</h4>
+<a class="chapter-link" onclick="loadLesson(13)">Aula 14 — TESTE MÓDULO 2 - Mi Rutina Diaria</a>
+</div>
+</div>
+
+<div class="module">
+<h3 onclick="toggleModule(2)">⭐ Nível 1: Módulo 3 — Pre-Elemental - META 1: YA CONVERSA Y ESCRIBE</h3>
+<div class="chapter-list" id="module-2">
+<h4>📦 Semana 1-3 - YA CONVERSA</h4>
+<a class="chapter-link" onclick="loadLesson(14)">Aula 15 — Estar + Gerundio - Estoy trabajando ahora</a>
+<a class="chapter-link" onclick="loadLesson(15)">Aula 16 — Pretérito Indefinido - Fui a Benguela ayer</a>
+<a class="chapter-link" onclick="loadLesson(16)">Aula 17 — Ir a + Infinitivo - Voy a viajar mañana</a>
+<h4>📦 Semana 4 - TESTE RIGOROSO</h4>
+<a class="chapter-link" onclick="loadLesson(17)">Aula 18 — TESTE - 3 min sin parar en español</a>
+</div>
+</div>
+
+<div class="module">
+<h3 onclick="toggleModule(3)">🇪🇸 Módulo 4 ao 8 — Intermedio al Avanzado</h3>
+<div class="chapter-list" id="module-3">
+<a class="chapter-link" onclick="loadLesson(18)">Módulo 4: Pretérito Perfecto vs Indefinido</a>
+<a class="chapter-link" onclick="loadLesson(19)">Módulo 5: Subjuntivo - Espero que vengas</a>
+<a class="chapter-link" onclick="loadLesson(20)">Módulo 6: NÍVEL PRO - Español de Negocios</a>
+<a class="chapter-link" onclick="loadLesson(21)">Módulo 7: Expresiones Idiomáticas - 100 obligatorias</a>
+<a class="chapter-link" onclick="loadLesson(22)">Módulo 8: Avanzado - DELE C1 - Ensayo 500 palabras</a>
+</div>
+</div>
+
+</aside>
+
+<main id="main-content">
+<div class="lesson-content" id="lesson-container"></div>
+</main>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('login-status').textContent = '✅ Acesso autorizado — Espanhol FEKA KAWIÇO';
+  toggleModule(0);
+  loadLesson(0);
+});
+function toggleModule(i){ const m=document.getElementById('module-'+i); m.style.display=m.style.display==='block'?'none':'block'; }
+document.getElementById('toggle-sidebar').addEventListener('click', ()=>{ document.getElementById('sidebar').classList.toggle('active'); });
+
+// VOZ ESPANHOLA 100% - SEM MENTIRAS
+function speak(text, lang){
+  speechSynthesis.cancel();
+  let u = new SpeechSynthesisUtterance(text);
+  u.lang = lang || 'es-ES'; // espanhol da Espanha - nativo
+  u.rate = 0.7; // lento para aprender com rigor
+  u.pitch = 1;
+  speechSynthesis.speak(u);
+}
+
+function loadLesson(id){
+  document.querySelectorAll('.chapter-link').forEach(el=>el.classList.remove('active'));
+  if(event) event.target.classList.add('active');
+  const L={
+0:{title:"Aula 1 — Alfabeto & Ser/Estar - ¿Quién soy? - ALFABETO ESPANHOL REAL", html:`
+<h3>🌟 Objetivo</h3><p>Apresentar-se em espanhol com alfabeto espanhol correto - sem mentiras.</p>
+<div class="grammar-box">
+<b>ALFABETO ESPANHOL - PRONÚNCIA REAL ESPANHOLA (27 letras + Ñ):</b><br>
+A = A / B = Be / C = Ce / D = De / E = E / F = Efe / G = Ge / H = Hache / I = I / J = Jota / K = Ka / L = Ele / M = Eme / N = Ene / Ñ = Eñe / O = O / P = Pe / Q = Cu / R = Erre / S = Ese / T = Te / U = U / V = Uve / W = Doble Uve / X = Equis / Y = Ye / Z = Zeta<br><br>
+<button class="audio-btn" onclick="speak('A, Be, Ce, De, E, Efe, Ge, Hache, I, Jota, Ka, Ele, Eme, Ene, Eñe, O, Pe, Cu, Erre, Ese, Te, U, Uve, Doble Uve, Equis, Ye, Zeta','es-ES')">🔊 OUVIR ALFABETO ESPANHOL COMPLETO - LENTO E REAL</button>
+<br><br>
+<button class="audio-btn" style="background:#004a80" onclick="speak('A','es-ES')">A</button>
+<button class="audio-btn" style="background:#004a80" onclick="speak('Be','es-ES')">Be</button>
+<button class="audio-btn" style="background:#004a80" onclick="speak('Ce','es-ES')">Ce</button>
+<button class="audio-btn" style="background:#004a80" onclick="speak('Eñe','es-ES')">Eñe - Ñ</button>
+<button class="audio-btn" style="background:#004a80" onclick="speak('Equis','es-ES')">Equis - X</button>
+<br><br>
+<b>SER (permanente):</b> Yo soy - Tú eres - Él es - Nosotros somos - Vosotros sois - Ellos son<br>
+<b>ESTAR (temporário/local):</b> Yo estoy - Tú estás - Él está - Nosotros estamos - Vosotros estáis - Ellos están<br>
+<b>Diferença rigorosa:</b> Soy de Angola (origem permanente) / Estoy cansado (estado temporário)
+</div>
+<h3>🗣️ Frases - Espanhol Puro - Clique para ouvir</h3>
+<div class="phrase"><span>Hola, me llamo Carlos. Soy de Angola. Soy ingeniero.</span><button class="audio-btn" onclick="speak('Hola, me llamo Carlos. Soy de Angola. Soy ingeniero.','es-ES')">🔊</button></div>
+<div class="phrase"><span>¿Cómo te llamas? ¿Cómo se escribe?</span><button class="audio-btn" onclick="speak('Cómo te llamas? Cómo se escribe?','es-ES')">🔊</button></div>
+<div class="phrase"><span>Mucho gusto. Estoy muy feliz de estar aquí.</span><button class="audio-btn" onclick="speak('Mucho gusto. Estoy muy feliz de estar aquí.','es-ES')">🔊</button></div>
+<h3>⚠️ Erro Comum Angolano - Rigor Total</h3><p>❌ Yo tengo 25 años? Em espanhol ESTÁ CERTO! Igual francês. Tengo 25 años ✅<br>❌ Yo soy con hambre (influência PT) <br>✅ Yo tengo hambre / Estoy con hambre</p>
+<div class="test-box"><h4>🧪 Exercício Prático Aula 1 - Com Rigor</h4><p>1. Soletre seu nome em espanhol letra por letra incluindo Ñ se tiver.<br>2. Áudio 30s: Hola, me llamo... Soy de... Soy... Estoy...<br>3. Complete: ¿De dónde ___ tú? Yo ___ de Luanda.</p></div>
+`},
+1:{title:"Aula 2 — Números 0-100 & Edad - Tengo 25 años", html:`
+<h3>🌟 Objetivo</h3><p>Idade, telefone, preço em espanhol real.</p>
+<div class="grammar-box"><b>0-20:</b> cero, uno, dos, tres, cuatro, cinco, seis, siete, ocho, nueve, diez, once, doce, trece, catorce, quince, dieciséis, diecisiete, dieciocho, diecinueve, veinte<br><b>Dezenas:</b> veinte, treinta, cuarenta, cincuenta, sesenta, setenta, ochenta, noventa, cien <button class="audio-btn" onclick="speak('cero, uno, dos, tres, cuatro, cinco, seis, siete, ocho, nueve, diez, veinte, treinta, cuarenta, cincuenta, sesenta, setenta, ochenta, noventa, cien','es-ES')">🔊 Números</button></div>
+<div class="phrase"><span>Tengo 25 años. Vivo en Luanda.</span><button class="audio-btn" onclick="speak('Tengo 25 años. Vivo en Luanda.','es-ES')">🔊</button></div>
+<div class="phrase"><span>Mi número es nueve dos tres cuatro cinco seis siete ocho nueve.</span><button class="audio-btn" onclick="speak('Mi número es nueve dos tres cuatro cinco seis siete ocho nueve','es-ES')">🔊</button></div>
+<div class="phrase"><span>¿Cuánto cuesta? Cuesta cien kwanzas.</span><button class="audio-btn" onclick="speak('Cuánto cuesta? Cuesta cien kwanzas.','es-ES')">🔊</button></div>
+`},
+2:{title:"Aula 3 — Familia - Esta es mi madre. Estos son mis padres.", html:`
+<h3>🌟 Objetivo</h3><p>Descrever família com Este/Estos.</p>
+<div class="grammar-box"><b>Este/Esta (singular) / Estos/Estas (plural)</b><br>Esta es mi madre. Este es mi padre. Estos son mis padres. Estas son mis hermanas.<br><b>Posesivos:</b> mi/mis, tu/tus, su/sus, nuestro/nuestra</div>
+<div class="phrase"><span>Esta es mi madre. Ella es profesora. Ella es de Benguela.</span><button class="audio-btn" onclick="speak('Esta es mi madre. Ella es profesora. Ella es de Benguela.','es-ES')">🔊</button></div>
+<div class="phrase"><span>Estos son mis padres. Son angoleños. Son muy amables.</span><button class="audio-btn" onclick="speak('Estos son mis padres. Son angoleños. Son muy amables.','es-ES')">🔊</button></div>
+<div class="test-box"><h4>🧪 Exercício</h4><p>Descreva sua família em 6 frases usando Esta es / Estos son + mi/mis.</p></div>
+`},
+10:{title:"Aula 11 — Presente - Trabajo todos los días - Regra de Ouro", html:`
+<h3>🌟 Objetivo</h3>
+<div class="grammar-box"><b>Presente - Verbos -AR (trabajar, hablar):</b><br>Yo trabajo - Tú trabajas - Él trabaja - Nosotros trabajamos - Vosotros trabajáis - Ellos trabajan<br><b>-ER (comer):</b> como, comes, come, comemos, coméis, comen<br><b>-IR (vivir):</b> vivo, vives, vive, vivimos, vivís, viven<br>Negativa: Yo no trabajo / Pregunta: ¿Trabajas? / ¿Tú trabajas?</div>
+<div class="phrase"><span>Me levanto a las 5. Voy al trabajo en taxi. No trabajo el domingo.</span><button class="audio-btn" onclick="speak('Me levanto a las 5. Voy al trabajo en taxi. No trabajo el domingo.','es-ES')">🔊</button></div>
+<div class="phrase"><span>Él trabaja en Sonangol. Ella vive en Luanda.</span><button class="audio-btn" onclick="speak('Él trabaja en Sonangol. Ella vive en Luanda.','es-ES')">🔊</button></div>
+`},
+14:{title:"Aula 15 — Estar + Gerundio & Pretéritos - META YA CONVERSA", html:`
+<h3>🌟 Objetivo - AQUÍ YA CONVERSAS EN ESPAÑOL</h3>
+<div class="grammar-box"><b>Estar + Gerundio:</b> Estoy trabajando ahora (estou trabalhando agora)<br><b>Pretérito Indefinido:</b> Fui a Benguela ayer, Comí funge, Trabajé mucho<br><b>Ir a + Infinitivo:</b> Voy a viajar mañana</div>
+<div class="phrase"><span>Estoy estudiando español ahora. Ayer fui a Benguela. Mañana voy a viajar.</span><button class="audio-btn" onclick="speak('Estoy estudiando español ahora. Ayer fui a Benguela. Mañana voy a viajar.','es-ES')">🔊</button></div>
+<div class="test-box"><h4>🧪 TESTE RIGOROSO META 1</h4><p>Essay 150 palabras: Mi Pasado y Mi Futuro. Oral 3 min sin parar: ayer y mañana en español. Si te trabas, reprobado.</p></div>
+`},
+  };
+  const lesson = L[id] || {title:"Aula em construção", html:"<p>Conteúdo detalhado - Semana 4 é teste. 3 lições/semana com rigor.</p>"};
+  document.getElementById('lesson-container').innerHTML = `<h2>${lesson.title}</h2>${lesson.html}`;
+}
+</script>
+</body>
+</html>
