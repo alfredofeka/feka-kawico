@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Gestão - FEKA KAWIÇO</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-client.js"></script>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#f4f6f8;color:#333}
+header{background:#0055a5;color:#fff;padding:10px 16px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+header a{color:#ffc107;text-decoration:none;font-weight:bold;margin-left:12px}
+.badge{display:inline-block;padding:2px 9px;border-radius:10px;font-size:.75em;font-weight:700;color:#fff}
+nav{display:flex;gap:6px;padding:10px 16px;flex-wrap:wrap;background:#fff;border-bottom:1px solid #ddd}
+nav button{padding:8px 14px;border:0;border-radius:6px;background:#e9eef3;cursor:pointer;font-weight:600}
+nav button.on{background:#0055a5;color:#fff}
+main{padding:16px;max-width:1100px;margin:auto}
+.box{background:#fff;border:1px solid #ddd;border-radius:8px;padding:14px;margin-bottom:14px}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+input,select{padding:8px;border:1px solid #ccc;border-radius:6px}
+.btn{padding:8px 12px;border:0;border-radius:6px;background:#0055a5;color:#fff;cursor:pointer;font-weight:600}
+.btn.s{padding:4px 9px;font-size:.8em}.btn.g{background:#28a745}.btn.o{background:#6c757d}
+.tw{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:.9em}
+th,td{padding:8px;border-bottom:1px solid #eee;text-align:left;white-space:nowrap}th{background:#f0f3f6}
+textarea{width:100%;height:110px;padding:8px;border:1px solid #ccc;border-radius:6px;font-family:monospace}
+#modal{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:center;justify-content:center;padding:14px;z-index:9}
+#modal .in{background:#fff;border-radius:10px;max-width:520px;width:100%;max-height:90vh;overflow:auto;padding:18px}
+.foto{width:110px;height:110px;border-radius:50%;object-fit:cover;background:#dde3ea;display:block;margin:0 auto 10px}
+.f{display:flex;justify-content:space-between;gap:10px;padding:5px 0;border-bottom:1px solid #f0f0f0;font-size:.9em}
+#toast{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:#222;color:#fff;padding:9px 16px;border-radius:8px;display:none;z-index:10;max-width:90%}
+.err{color:#a00000;font-weight:bold}
+</style>
+</head>
+<body>
+<header><div><b>FEKA KAWIÇO</b> · Gestão</div><div><span id="quem"></span><a href="index.html">Início</a></div></header>
+<div id="deny" style="display:none;padding:30px;text-align:center"></div>
+<div id="app" style="display:none">
+<nav id="tabs"></nav>
+<main>
+ <section id="t-insc">
+  <div class="box"><div class="row"><select id="fCurso"></select><input id="fBusca" placeholder="Pesquisar aluno..."><button class="btn" onclick="renderInsc()">Filtrar</button></div>
+  <div class="tw"><table><thead><tr><th>Nome</th><th>Curso</th><th>Estado</th><th>Progresso</th><th>Ações</th></tr></thead><tbody id="bInsc"></tbody></table></div></div>
+ </section>
+ <section id="t-cod" style="display:none">
+  <div class="box"><h3 style="margin-top:0">Gerar códigos de validação</h3>
+  <div class="row"><select id="cCurso"></select><input id="cQtd" type="number" min="1" max="200" value="10" style="width:90px"><button class="btn g" onclick="gerarCodigos()">Gerar e guardar</button></div>
+  <textarea id="cOut" readonly placeholder="Os códigos gerados aparecem aqui"></textarea>
+  <div class="row" style="margin-top:8px"><button class="btn o s" onclick="navigator.clipboard.writeText(cOut.value);toast('Copiado')">Copiar</button><button class="btn o s" onclick="listarCodigos()">Ver códigos deste curso</button></div>
+  <div id="cMsg"></div><div class="tw"><table><tbody id="bCod"></tbody></table></div></div>
+ </section>
+ <section id="t-users" style="display:none">
+  <div class="box"><p style="margin-top:0">O administrador define a função de cada utilizador.</p>
+  <div class="row"><input id="uBusca" placeholder="Pesquisar utilizador..." oninput="renderUsers()"></div>
+  <div class="tw"><table><thead><tr><th>Nome</th><th>Função</th><th></th></tr></thead><tbody id="bUsers"></tbody></table></div></div>
+ </section>
+</main>
+</div>
+<div id="modal" onclick="if(event.target===this)this.style.display='none'"><div class="in" id="ficha"></div></div>
+<div id="toast"></div>
+
+<script>
+// ===== CONFIGURAÇÃO (ajusta se os nomes das colunas forem diferentes) =====
+const CFG={CODES_TABLE:'validation_codes',COL_COURSE:'course_id',COL_CODE:'code'};
+const ROLES={aluno:['Aluno','#17a2b8'],professor:['Professor','#28a745'],professor_inspector:['Professor Inspector','#fd7e14'],secretaria:['Secretaria','#e83e8c'],administrador:['Administrador','#dc3545']};
+const TABS={administrador:['insc','cod','users'],secretaria:['insc','cod'],professor_inspector:['insc'],professor:['insc']};
+const NOMES_TAB={insc:'Inscritos e progresso',cod:'Códigos',users:'Utilizadores e funções'};
+let me,role,courses=[],profiles=[],enrolls=[],PM={},CM={};
+const $=id=>document.getElementById(id);
+const esc=t=>String(t??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function toast(m){const t=$('toast');t.textContent=m;t.style.display='block';setTimeout(()=>t.style.display='none',3200);}
+const isAdmin=()=>role==='administrador', podeGerir=()=>['administrador','secretaria'].includes(role), podeCert=()=>['administrador','secretaria','professor_inspector'].includes(role);
+const rb=r=>{const x=ROLES[r]||ROLES.aluno;return `<span class="badge" style="background:${x[1]}">${x[0]}</span>`};
+
+async function init(){
+ const {data:{session}}=await supabaseClient.auth.getSession();
+ if(!session){return deny('Inicia sessão para aceder à gestão.',true);}
+ me=session.user;
+ const {data:p}=await supabaseClient.from('profiles').select('*').eq('id',me.id).maybeSingle();
+ role=(p?.role||'aluno');
+ if(!TABS[role]) return deny('Não tens permissão para aceder a esta página.');
+ $('quem').innerHTML=esc((p?.nome||me.email||'').split(' ')[0])+' '+rb(role);
+ $('tabs').innerHTML=TABS[role].map(k=>`<button id="b-${k}" onclick="tab('${k}')">${NOMES_TAB[k]}</button>`).join('');
+ $('app').style.display='block';
+ await carregar(); tab('insc');
+}
+function deny(msg,login){const d=$('deny');d.style.display='block';d.innerHTML=`<h3>${msg}</h3><a href="${login?'login.html':'index.html'}">${login?'Entrar':'Voltar ao início'}</a>`;}
+
+async function carregar(){
+ // os cursos vêm da tabela courses: um curso novo aparece aqui sozinho
+ const [c,p,e]=await Promise.all([
+  supabaseClient.from('courses').select('*').order('nome'),
+  supabaseClient.from('profiles').select('*').limit(2000),
+  supabaseClient.from('enrollments').select('*').limit(5000)]);
+ courses=(c.data||[]);profiles=(p.data||[]);enrolls=(e.data||[]);
+ PM={};profiles.forEach(x=>PM[x.id]=x);CM={};courses.forEach(x=>CM[String(x.id)]=x);
+ if(p.error||e.error) toast('Sem permissão de leitura: corre o ficheiro gestao-supabase.sql');
+ const opts=courses.map(x=>`<option value="${esc(x.id)}">${esc(x.nome||x.id)}</option>`).join('');
+ $('fCurso').innerHTML='<option value="">Todos os cursos</option>'+opts;
+ $('cCurso').innerHTML=opts;
+ renderInsc();renderUsers();
+}
+function tab(k){['insc','cod','users'].forEach(t=>{const s=$('t-'+t),b=$('b-'+t);if(s)s.style.display=t===k?'block':'none';if(b)b.classList.toggle('on',t===k);});}
+
+// ===== INSCRITOS =====
+function renderInsc(){
+ const cur=$('fCurso').value,q=$('fBusca').value.toLowerCase();
+ const rows=enrolls.filter(e=>(!cur||String(e.course_id)===cur)&&((PM[e.user_id]?.nome||'').toLowerCase().includes(q)));
+ $('bInsc').innerHTML=rows.map(e=>{
+  const p=PM[e.user_id]||{},v=e.status==='validado';
+  const prog=e.modulo_atual!=null?'Módulo '+e.modulo_atual:'—';
+  return `<tr><td>${esc(p.nome||'(sem nome)')}</td><td>${esc(CM[String(e.course_id)]?.nome||e.course_id)}</td>
+  <td><span class="badge" style="background:${v?'#28a745':'#ffc107'}">${v?'Validado':'Pendente'}</span></td><td>${prog}</td>
+  <td><button class="btn s" onclick="ficha('${e.user_id}')">Ficha</button> ${v&&podeCert()?`<button class="btn s g" onclick="certificado('${e.user_id}','${esc(e.course_id)}')">Certificado</button>`:''}</td></tr>`;
+ }).join('')||'<tr><td colspan="5">Sem inscritos.</td></tr>';
+}
+
+// ===== CÓDIGOS =====
+function gerar(){const a='ABCDEFGHJKLMNPQRSTUVWXYZ23456789',r=crypto.getRandomValues(new Uint8Array(8));let s='';r.forEach(n=>s+=a[n%a.length]);return s.slice(0,4)+'-'+s.slice(4);}
+async function gerarCodigos(){
+ if(!podeGerir()) return toast('Sem permissão');
+ const cid=$('cCurso').value,n=Math.min(200,Math.max(1,+$('cQtd').value||1));
+ if(!cid) return toast('Escolhe um curso');
+ const codes=Array.from({length:n},gerar);
+ const {error}=await supabaseClient.from(CFG.CODES_TABLE).insert(codes.map(c=>({[CFG.COL_COURSE]:cid,[CFG.COL_CODE]:c})));
+ if(error){$('cMsg').innerHTML=`<p class="err">Erro: ${esc(error.message)}<br><small>Confirma CFG.CODES_TABLE / COL_COURSE / COL_CODE no topo do script.</small></p>`;return;}
+ $('cMsg').innerHTML='';$('cOut').value=codes.join('\n');toast(n+' códigos guardados');listarCodigos();
+}
+async function listarCodigos(){
+ const cid=$('cCurso').value;
+ const {data,error}=await supabaseClient.from(CFG.CODES_TABLE).select('*').eq(CFG.COL_COURSE,cid).limit(500);
+ if(error){$('cMsg').innerHTML=`<p class="err">${esc(error.message)}</p>`;return;}
+ $('bCod').innerHTML=(data||[]).map(r=>{const u=r.used||r.usado||r.used_by||r.user_id;return `<tr><td><b>${esc(r[CFG.COL_CODE])}</b></td><td>${u?'<span class="badge" style="background:#6c757d">Usado</span>':'<span class="badge" style="background:#28a745">Livre</span>'}</td></tr>`}).join('')||'<tr><td>Sem códigos.</td></tr>';
+}
+
+// ===== UTILIZADORES E FUNÇÕES =====
+function renderUsers(){
+ const q=($('uBusca')?.value||'').toLowerCase();
+ $('bUsers').innerHTML=profiles.filter(p=>(p.nome||'').toLowerCase().includes(q)).map(p=>{
+  const r=p.role||'aluno';
+  const sel=isAdmin()?`<select onchange="mudarRole('${p.id}',this.value)">${Object.keys(ROLES).map(k=>`<option value="${k}" ${k===r?'selected':''}>${ROLES[k][0]}</option>`).join('')}</select>`:rb(r);
+  return `<tr><td>${esc(p.nome||'(sem nome)')}</td><td>${sel}</td><td><button class="btn s" onclick="ficha('${p.id}')">Ficha</button></td></tr>`;
+ }).join('');
+}
+async function mudarRole(id,r){
+ const {error}=await supabaseClient.from('profiles').update({role:r}).eq('id',id);
+ if(error){toast('Erro: '+error.message);return carregar();}
+ PM[id].role=r;toast('Função atualizada');
+}
+
+// ===== FICHA / FOTO =====
+function ficha(id){
+ const p=PM[id]||{};const ins=enrolls.filter(e=>e.user_id===id);
+ const skip=['id','foto_url','nome','role'];
+ const extra=Object.keys(p).filter(k=>!skip.includes(k)&&p[k]!==null&&typeof p[k]!=='object').map(k=>`<div class="f"><span>${esc(k)}</span><b>${esc(p[k])}</b></div>`).join('');
+ $('ficha').innerHTML=`<img class="foto" id="fImg" src="${esc(p.foto_url||'FK.png')}" onerror="this.onerror=null;this.src='FK.png'">
+ ${podeGerir()?`<div style="text-align:center;margin-bottom:10px"><input type="file" id="fFile" accept="image/*" style="display:none" onchange="subirFoto('${id}',this.files[0])"><button class="btn s o" onclick="fFile.click()">Mudar foto</button></div>`:''}
+ <h3 style="text-align:center;margin:4px 0">${esc(p.nome||'(sem nome)')}</h3><div style="text-align:center">${rb(p.role||'aluno')}</div>
+ <div style="margin:12px 0">${extra}</div><b>Cursos</b>
+ ${ins.map(e=>`<div class="f"><span>${esc(CM[String(e.course_id)]?.nome||e.course_id)}</span><b>${e.status==='validado'?'Validado':'Pendente'}${e.modulo_atual!=null?' · Módulo '+e.modulo_atual:''}</b></div>`).join('')||'<p>Sem inscrições.</p>'}
+ <div class="row" style="margin-top:12px;justify-content:flex-end"><button class="btn o" onclick="modal.style.display='none'">Fechar</button></div>`;
+ $('modal').style.display='flex';
+}
+async function subirFoto(id,f){
+ if(!f) return; if(f.size>2*1024*1024) return toast('Foto até 2 MB');
+ const path=`${id}/${Date.now()}.${(f.name.split('.').pop()||'jpg').toLowerCase()}`;
+ const up=await supabaseClient.storage.from('fotos').upload(path,f,{upsert:true});
+ if(up.error) return toast('Erro: '+up.error.message);
+ const url=supabaseClient.storage.from('fotos').getPublicUrl(path).data.publicUrl;
+ const {error}=await supabaseClient.from('profiles').update({foto_url:url}).eq('id',id);
+ if(error) return toast('Erro: '+error.message);
+ PM[id].foto_url=url;$('fImg').src=url;toast('Foto atualizada');
+}
+
+// ===== CERTIFICADO =====
+async function certificado(uid,cid){
+ const p=PM[uid]||{},c=CM[String(cid)]||{nome:cid};
+ let codigo=null;
+ const ex=await supabaseClient.from('certificados').select('codigo,emitido_em').eq('user_id',uid).eq('course_id',cid).maybeSingle();
+ if(ex.data) codigo=ex.data.codigo;
+ else{
+  const ins=await supabaseClient.from('certificados').insert({user_id:uid,course_id:String(cid)}).select('codigo').single();
+  codigo=ins.data?.codigo||('FK-'+new Date().getFullYear()+'-'+gerar().replace('-',''));
+  if(ins.error) toast('Certificado sem registo na base de dados (corre o SQL)');
+ }
+ const data=new Date().toLocaleDateString('pt-PT',{day:'numeric',month:'long',year:'numeric'});
+ const logo=new URL('FK.png',location.href).href;
+ const w=window.open('','_blank');if(!w) return toast('Permite pop-ups para ver o certificado');
+ w.document.write(`<!DOCTYPE html><html lang="pt-PT"><head><meta charset="utf-8"><title>Certificado - ${esc(p.nome)}</title><style>
+ @page{size:A4 landscape;margin:0}*{box-sizing:border-box}body{margin:0;font-family:Georgia,'Times New Roman',serif;color:#1c2b3a}
+ .pg{width:297mm;height:210mm;padding:10mm;background:#fff}.b1{height:100%;border:3mm solid #0055a5;padding:2mm}
+ .b2{height:100%;border:.6mm solid #c9a227;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:9mm 14mm;text-align:center}
+ img{height:22mm}h1{font-size:15mm;letter-spacing:1.5mm;margin:0;color:#0055a5;text-transform:uppercase}
+ .s{font-size:5mm;color:#555}.n{font-size:13mm;font-style:italic;border-bottom:.5mm solid #c9a227;padding:0 10mm 1mm;margin:2mm 0}
+ .c{font-size:8.5mm;font-weight:bold;color:#0055a5}.ft{display:flex;justify-content:space-around;width:100%;font-size:4mm;align-items:flex-end}
+ .ass{width:60mm;border-top:.4mm solid #444;padding-top:1.5mm}.cod{font-size:3.4mm;color:#666}
+ @media screen{body{background:#ddd}.pg{margin:10px auto}}</style></head><body><div class="pg"><div class="b1"><div class="b2">
+ <div><img src="${logo}" onerror="this.style.display='none'"><h1>Certificado</h1><div class="s">de Conclusão de Curso</div></div>
+ <div><div class="s">Certificamos que</div><div class="n">${esc(p.nome||'')}</div><div class="s">concluiu com aproveitamento o curso de</div><div class="c">${esc(c.nome||'')}</div></div>
+ <div class="ft"><div class="ass">Direção Académica</div><div>Luanda, ${data}</div><div class="ass">Formador</div></div>
+ <div class="cod">Código de verificação: <b>${esc(codigo)}</b> · FEKA KAWIÇO — A Terra Natural do Conhecimento</div>
+ </div></div></div><script>window.onload=()=>setTimeout(()=>print(),400)<\/script></body></html>`);
+ w.document.close();
+}
+init();
+</script>
+</body>
+</html>
