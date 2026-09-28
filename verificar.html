@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Verificar Certificado - FEKA KAWIÇO</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-client.js"></script>
+<style>
+body{font-family:Arial,sans-serif;background:#f4f6f8;margin:0;color:#333}
+header{background:#0055a5;padding:12px 20px}header a{color:#fff;text-decoration:none;font-weight:bold}
+.card{max-width:460px;margin:30px auto;background:#fff;border:1px solid #ddd;border-radius:10px;padding:22px;box-shadow:0 8px 30px rgba(0,0,0,.06)}
+input{width:100%;padding:12px;border:1px solid #ccc;border-radius:6px;font-size:1.1em;text-transform:uppercase;letter-spacing:1px;box-sizing:border-box}
+button{width:100%;margin-top:10px;padding:12px;border:0;border-radius:6px;background:#0055a5;color:#fff;font-weight:bold;cursor:pointer;font-size:1em}
+.ok{margin-top:16px;padding:14px;border-radius:8px;background:#e6f7ea;border:1px solid #28a745}
+.no{margin-top:16px;padding:14px;border-radius:8px;background:#ffe6e6;border:1px solid #dc3545;color:#a00000;font-weight:bold}
+.ok h3{margin:0 0 8px;color:#1e7e34}.ok p{margin:4px 0}
+</style>
+</head>
+<body>
+<header><a href="index.html">FEKA KAWIÇO</a></header>
+<div class="card">
+ <h2 style="margin-top:0">Verificar certificado</h2>
+ <p>Escreve (ou lê com o leitor de código de barras) o código que está no certificado.</p>
+ <input id="cod" placeholder="Código do certificado" autofocus autocomplete="off">
+ <button id="btn" onclick="verificar()">Verificar</button>
+ <div id="res"></div>
+</div>
+<script>
+const esc=t=>String(t??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+async function verificar(){
+ const c=document.getElementById('cod').value.trim().toUpperCase(), r=document.getElementById('res');
+ if(!c){r.innerHTML='<div class="no">Introduz o código.</div>';return;}
+ r.textContent='A verificar...';
+ const {data,error}=await supabaseClient.rpc('verificar_certificado',{p_codigo:c});
+ if(error){r.innerHTML='<div class="no">Erro ao verificar: '+esc(error.message)+'</div>';return;}
+ const x=data&&data[0];
+ if(!x){r.innerHTML='<div class="no">❌ Certificado não encontrado. Este código não é válido.</div>';return;}
+ r.innerHTML=`<div class="ok"><h3>✅ Certificado autêntico</h3><p><b>Nome:</b> ${esc(x.nome)}</p><p><b>Curso:</b> ${esc(x.curso)}</p><p><b>Emitido em:</b> ${new Date(x.emitido_em).toLocaleDateString('pt-PT',{day:'numeric',month:'long',year:'numeric'})}</p></div>`;
+}
+document.getElementById('cod').addEventListener('keydown',e=>{if(e.key==='Enter')verificar();});
+const q=new URLSearchParams(location.search).get('c');if(q){document.getElementById('cod').value=q;verificar();}
+</script>
+</body>
+</html>

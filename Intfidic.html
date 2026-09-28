@@ -3,11 +3,31 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Introdução ao FIDIC - int-fidic.html | FK Academy</title>
+<title>Introdução ao FIDIC | FK Academy</title>
 <link rel="icon" type="image/png" href="fotos/FK.png">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="supabase-client.js"></script>
+<script>
+// PROTEÇÃO DE ACESSO: só entra quem validou o código deste curso (ou é da equipa)
+(function(){
+ const COURSE_ID='Intfidic';
+ document.documentElement.style.visibility='hidden';
+ (async()=>{
+  try{
+   const {data:{session}}=await supabaseClient.auth.getSession();
+   if(!session){location.replace('login.html');return;}
+   const uid=session.user.id;
+   const [pr,en]=await Promise.all([
+    supabaseClient.from('profiles').select('role').eq('id',uid).maybeSingle(),
+    supabaseClient.from('enrollments').select('status').eq('user_id',uid).eq('course_id',COURSE_ID).maybeSingle()]);
+   const staff=['administrador','secretaria','professor_inspector','professor'].includes(pr.data?.role);
+   if(staff||en.data?.status==='validado'){document.documentElement.style.visibility='visible';return;}
+   location.replace('validar-geral.html');
+  }catch(e){location.replace('validar-geral.html');}
+ })();
+})();
+</script>
 <style>
 :root{--primary-color:#004a80;--secondary-color:#fca311;--dark-sidebar:#1f2937;--light-bg:#f8fafc}
 *{margin:0;padding:0;box-sizing:border-box}
@@ -153,7 +173,7 @@ async function updateLoginStatusFIDIC(){
       const{data:profile}=await supabaseClient.from('profiles').select('nome').eq('id',session.user.id).single();
       const first=profile?.nome?profile.nome.split(' ')[0]:'Usuário';
       el.innerHTML=`<i class='fas fa-circle' style='color:#28a745'></i> Olá, ${first} <a href='#' onclick='logoutFIDIC(event)' style='color:#ffc107;margin-left:8px;text-decoration:none;font-weight:700'>(Sair)</a>`;
-      supabaseClient.from('progresso_alunos').upsert({email:session.user.email,ultimo_acesso:new Date(),curso:'FIDIC'},{onConflict:'email,curso'});
+      supabaseClient.from('progresso_alunos').upsert({email:session.user.email,ultimo_acesso:new Date(),curso:'Intfidic'},{onConflict:'email,curso'});
     }else{
       el.innerHTML=`🔒 <a href='login.html' style='color:#fff'>Fazer Login</a>`;
     }
@@ -215,7 +235,7 @@ function loadLesson(i){
   if(typeof supabaseClient!=='undefined'){
     supabaseClient.auth.getSession().then(({data:{session}})=>{
       if(session){
-        supabaseClient.from('progresso_alunos').upsert({email:session.user.email,ultimo_acesso:new Date(),curso:'FIDIC',aula_atual:i+1,percentagem:Math.round(((i+1)/lessons.length)*100)},{onConflict:'email,curso'});
+        supabaseClient.from('progresso_alunos').upsert({email:session.user.email,ultimo_acesso:new Date(),curso:'Intfidic',aula_atual:i+1,percentagem:Math.round(((i+1)/lessons.length)*100)},{onConflict:'email,curso'});
       }
     });
   }

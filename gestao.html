@@ -5,6 +5,7 @@
 <title>Gestão - FEKA KAWIÇO</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="supabase-client.js"></script>
+<script src="certificado.js"></script>
 <style>
 *{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#f4f6f8;color:#333}
 header{background:#0055a5;color:#fff;padding:10px 16px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
@@ -31,7 +32,7 @@ textarea{width:100%;height:110px;padding:8px;border:1px solid #ccc;border-radius
 </style>
 </head>
 <body>
-<header><div><b>FEKA KAWIÇO</b> · Gestão</div><div><span id="quem"></span><a href="index.html">Início</a></div></header>
+<header><div><b>FEKA KAWIÇO</b> · Gestão</div><div><span id="quem"></span><a href="verificar.html">Verificar certificado</a><a href="index.html">Início</a></div></header>
 <div id="deny" style="display:none;padding:30px;text-align:center"></div>
 <div id="app" style="display:none">
 <nav id="tabs"></nav>
@@ -63,7 +64,7 @@ const CFG={CODES_TABLE:'validation_codes',COL_COURSE:'course_id',COL_CODE:'code'
 const ROLES={aluno:['Aluno','#17a2b8'],professor:['Professor','#28a745'],professor_inspector:['Professor Inspector','#fd7e14'],secretaria:['Secretaria','#e83e8c'],administrador:['Administrador','#dc3545']};
 const TABS={administrador:['insc','cod','users'],secretaria:['insc','cod'],professor_inspector:['insc'],professor:['insc']};
 const NOMES_TAB={insc:'Inscritos e progresso',cod:'Códigos',users:'Utilizadores e funções'};
-let me,role,courses=[],profiles=[],enrolls=[],certs=[],PM={},CM={};
+let me,role,courses=[],profiles=[],enrolls=[],certs=[],PROG={},PM={},CM={};
 const $=id=>document.getElementById(id);
 const esc=t=>String(t??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function toast(m){const t=$('toast');t.textContent=m;t.style.display='block';setTimeout(()=>t.style.display='none',3200);}
@@ -86,12 +87,13 @@ function deny(msg,login){const d=$('deny');d.style.display='block';d.innerHTML=`
 
 async function carregar(){
  // os cursos vêm da tabela courses: um curso novo aparece aqui sozinho
- const [c,p,e,ct]=await Promise.all([
+ const [c,p,e,ct,pa]=await Promise.all([
   supabaseClient.from('courses').select('*').order('nome'),
   supabaseClient.from('profiles').select('*').limit(2000),
   supabaseClient.from('enrollments').select('*').limit(5000),
-  supabaseClient.from('certificados').select('*').limit(5000)]);
- certs=ct.data||[];
+  supabaseClient.from('certificados').select('*').limit(5000),
+  supabaseClient.from('progresso_alunos').select('*').limit(5000)]);
+ certs=ct.data||[];PROG={};(pa.data||[]).forEach(x=>PROG[(x.email||'').toLowerCase()+'|'+x.curso]=x);
  courses=(c.data||[]);profiles=(p.data||[]);enrolls=(e.data||[]);
  PM={};profiles.forEach(x=>PM[x.id]=x);CM={};courses.forEach(x=>CM[String(x.id)]=x);
  if(p.error||e.error) toast('Sem permissão de leitura: corre o ficheiro gestao-supabase.sql');
@@ -108,7 +110,8 @@ function renderInsc(){
  const rows=enrolls.filter(e=>(!cur||String(e.course_id)===cur)&&((PM[e.user_id]?.nome||'').toLowerCase().includes(q)));
  $('bInsc').innerHTML=rows.map(e=>{
   const p=PM[e.user_id]||{},v=e.status==='validado';
-  const prog=e.modulo_atual!=null?'Módulo '+e.modulo_atual:'—';
+  const pa=PROG[(p.email||'').toLowerCase()+'|'+e.course_id];
+  const prog=[e.modulo_atual!=null?'Módulo '+e.modulo_atual:'',pa?.ultimo_acesso?'Último acesso '+new Date(pa.ultimo_acesso).toLocaleDateString('pt-PT'):''].filter(Boolean).join(' · ')||'—';
   return `<tr><td>${esc(p.nome||'(sem nome)')}</td><td>${esc(CM[String(e.course_id)]?.nome||e.course_id)}</td>
   <td><span class="badge" style="background:${v?'#28a745':'#ffc107'}">${v?'Validado':'Pendente'}</span></td><td>${prog}</td>
   <td><button class="btn s" onclick="ficha('${e.user_id}')">Ficha</button> ${v&&podeCert()?`<button class="btn s g" onclick="certificado('${e.user_id}','${esc(e.course_id)}')">${certs.some(c=>c.user_id===e.user_id&&String(c.course_id)===String(e.course_id))?'Ver certificado':'Emitir certificado'}</button>`:''}</td></tr>`;
@@ -174,44 +177,17 @@ async function subirFoto(id,f){
  PM[id].foto_url=url;$('fImg').src=url;toast('Foto atualizada');
 }
 
-// ===== CÓDIGO DE BARRAS (Code 128-B, sem bibliotecas) =====
-const C128="212222,222122,222221,121223,121322,131222,122213,122312,132212,221213,221312,231212,112232,122132,122231,113222,123122,123221,223211,221132,221231,213212,223112,312131,311222,321122,321221,312212,322112,322211,212123,212321,232121,111323,131123,131321,112313,132113,132311,211313,231113,231311,112133,112331,132131,113123,113321,133121,313121,211331,231131,213113,213311,213131,311123,311321,331121,312113,312311,332111,314111,221411,431111,111224,111422,121124,121421,141122,141221,112214,112412,122114,122411,142112,142211,241211,221114,413111,241112,134111,111242,121142,121241,114212,124112,124211,411212,421112,421211,212141,214121,412121,111143,111341,131141,114113,114311,411113,411311,113141,114131,311141,411131,211412,211214,211232,2331112".split(',');
-function barcodeSVG(txt){
- const v=[104];for(const ch of txt)v.push(ch.charCodeAt(0)-32);
- let s=104;for(let i=1;i<v.length;i++)s+=v[i]*i;v.push(s%103,106);
- let x=10,r='';
- v.forEach(k=>{const p=C128[k];for(let i=0;i<p.length;i++){const w=+p[i];if(i%2===0)r+=`<rect x="${x}" y="0" width="${w}" height="50"/>`;x+=w;}});
- return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${x+10} 50" preserveAspectRatio="none" shape-rendering="crispEdges" fill="#000">${r}</svg>`;
-}
-
-// ===== CERTIFICADO =====
+// ===== CERTIFICADO (usa certificado.js) =====
 async function certificado(uid,cid){
- const p=PM[uid]||{},c=CM[String(cid)]||{nome:cid};
+ const w=window.open('','_blank'); if(!w) return toast('Permite pop-ups para ver o certificado');
+ w.document.write('<p style="font-family:sans-serif;padding:20px">A preparar certificado...</p>');
  let rec=certs.find(c=>c.user_id===uid&&String(c.course_id)===String(cid));
  if(!rec){
   const ins=await supabaseClient.from('certificados').insert({user_id:uid,course_id:String(cid)}).select('*').single();
-  if(ins.error) return toast('Não foi possível registar o certificado: '+ins.error.message);
+  if(ins.error){w.close();return toast('Não foi possível registar o certificado: '+ins.error.message);}
   rec=ins.data;certs.push(rec);renderInsc();
  }
- const codigo=rec.codigo;
- const data=new Date(rec.emitido_em).toLocaleDateString('pt-PT',{day:'numeric',month:'long',year:'numeric'});
- const logo=new URL('FK.png',location.href).href;
- const w=window.open('','_blank');if(!w) return toast('Permite pop-ups para ver o certificado');
- w.document.write(`<!DOCTYPE html><html lang="pt-PT"><head><meta charset="utf-8"><title>Certificado - ${esc(p.nome)}</title><style>
- @page{size:A4 landscape;margin:0}*{box-sizing:border-box}body{margin:0;font-family:Georgia,'Times New Roman',serif;color:#1c2b3a}
- .pg{width:297mm;height:210mm;padding:10mm;background:#fff}.b1{height:100%;border:3mm solid #0055a5;padding:2mm}
- .b2{height:100%;border:.6mm solid #c9a227;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:9mm 14mm;text-align:center}
- img{height:22mm}h1{font-size:15mm;letter-spacing:1.5mm;margin:0;color:#0055a5;text-transform:uppercase}
- .s{font-size:5mm;color:#555}.n{font-size:13mm;font-style:italic;border-bottom:.5mm solid #c9a227;padding:0 10mm 1mm;margin:2mm 0}
- .c{font-size:8.5mm;font-weight:bold;color:#0055a5}.ft{display:flex;justify-content:space-around;width:100%;font-size:4mm;align-items:flex-end}
- .ass{width:60mm;border-top:.4mm solid #444;padding-top:1.5mm}.cod{font-size:3.4mm;color:#666}.bc svg{width:64mm;height:11mm;display:block;margin:0 auto 1mm}
- @media screen{body{background:#ddd}.pg{margin:10px auto}}</style></head><body><div class="pg"><div class="b1"><div class="b2">
- <div><img src="${logo}" onerror="this.style.display='none'"><h1>Certificado</h1><div class="s">de Conclusão de Curso</div></div>
- <div><div class="s">Certificamos que</div><div class="n">${esc(p.nome||'')}</div><div class="s">concluiu com aproveitamento o curso de</div><div class="c">${esc(c.nome||'')}</div></div>
- <div class="ft"><div class="ass">Direção Académica</div><div>Luanda, ${data}</div><div class="ass">Formador</div></div>
- <div class="cod"><div class="bc">${barcodeSVG(codigo)}</div>Código de verificação: <b>${esc(codigo)}</b> · FEKA KAWIÇO — A Terra Natural do Conhecimento</div>
- </div></div></div><script>window.onload=()=>setTimeout(()=>print(),400)<\/script></body></html>`);
- w.document.close();
+ abrirCertificado(w,rec,PM[uid]?.nome||'',CM[String(cid)]?.nome||cid);
 }
 init();
 </script>

@@ -82,12 +82,24 @@ let cursoAtual = null;
 let sessaoAtual = null;
 let enrollmentMap = {};
 
-function getPageUrl(id){
-  return PAGE_MAP_LEGADO[id] || `curso-${id}.html`;
+let CURSOS_DB = {};
+// Abre a página do curso: usa a coluna "pagina" da tabela courses e, se não existir,
+// tenta os nomes habituais. Só navega para uma página que exista (nunca dá 404).
+async function abrirCurso(id){
+  const c = CURSOS_DB[id] || {};
+  const cand = [...new Set([c.pagina, PAGE_MAP_LEGADO[id], `${id}.html`, `curso-${id}.html`].filter(Boolean))];
+  let falhaRede = false;
+  for (const u of cand) {
+    try {
+      const r = await fetch(u, { method:'HEAD', cache:'no-store' });
+      if (r.ok) { location.href = u; return; }
+    } catch (_) { falhaRede = true; }
+  }
+  if (falhaRede) { location.href = cand[0]; return; }
+  alert('A página deste curso ainda não está publicada. Contacta o suporte.');
 }
 function getImageUrl(id){
-  // TUDO.PNG AUTOMÁTICO
-  return `${id}.png`;
+  return (CURSOS_DB[id] && CURSOS_DB[id].imagem) || `${id}.png`;
 }
 
 async function updateHeader() {
@@ -108,8 +120,9 @@ async function updateHeader() {
 async function logout(e){ e.preventDefault(); if (!confirm('Tens certeza que queres sair?')) return; await supabaseClient.auth.signOut(); location.reload(); }
 
 async function loadCourses() {
-  const { data: courses, error } = await supabaseClient.from('courses').select('id, nome, descricao').eq('ativo', true).order('nome');
+  const { data: courses, error } = await supabaseClient.from('courses').select('id, nome, descricao, pagina, imagem').eq('ativo', true).order('nome');
   if (error ||!courses) { console.error('Erro a carregar cursos:', error); return; }
+  CURSOS_DB = {}; courses.forEach(c => CURSOS_DB[c.id] = c);
   if (sessaoAtual) {
     const { data: enrollments } = await supabaseClient.from('enrollments').select('course_id, status').eq('user_id', sessaoAtual.user.id);
     enrollmentMap = {};
@@ -122,7 +135,7 @@ async function loadCourses() {
     if (!sessaoAtual) {
       statusTexto = 'Status: ❌ Requer Login'; statusCor = '#dc3545'; btnTexto = 'Fazer Login Primeiro'; btnClick = "window.location.href='login.html'";
     } else if (status === 'validado') {
-      statusTexto = 'Status: ✅ Inscrição Validada'; statusCor = '#28a745'; btnTexto = 'Continuar Curso'; btnClick = `window.location.href='${getPageUrl(curso.id)}'`;
+      statusTexto = 'Status: ✅ Inscrição Validada'; statusCor = '#28a745'; btnTexto = 'Continuar Curso'; btnClick = `abrirCurso('${curso.id}')`;
     } else {
       statusTexto = 'Status: 🔓 Falta Validar Código'; statusCor = '#007bff'; btnTexto = 'Validar Código'; btnClick = `abrirModal('${curso.id}')`;
     }
@@ -174,7 +187,7 @@ document.getElementById('validationForm').addEventListener('submit', async (e) =
       return;
     }
     msgEl.style.color = '#28a745'; msgEl.textContent = '✅ Código validado! A aceder ao curso...';
-    setTimeout(() => { window.location.href = getPageUrl(cursoAtual); }, 900);
+    setTimeout(() => { abrirCurso(cursoAtual); }, 900);
   } catch (ex) {
     loading.style.display = 'none'; validateBtn.disabled = false;
     msgEl.style.color = '#dc3545'; msgEl.textContent = 'Erro técnico: ' + ex.message;
