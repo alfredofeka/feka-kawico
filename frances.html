@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Curso: Francês Completo 8 Meses — FEKA KAWIÇO</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+<style>
+:root { --primary-color: #004a80; --secondary-color: #fca311; --text-dark: #222; --text-light: #fff; --bg-dark: #1f2937; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background-color: #fff; color: var(--text-dark); font-family: "Segoe UI", sans-serif; line-height: 1.6; overflow-x: hidden; }
+header { background-color: var(--primary-color); color: var(--text-light); padding: 10px 15px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 1000; }
+.brand-area { display: flex; align-items: center; gap: 10px; }
+.brand-area img { height: 30px; border-radius: 5px; }
+#course-container { display: flex; height: calc(100vh - 65px); overflow: hidden; }
+#sidebar { width: 450px; background-color: var(--bg-dark); color: var(--text-light); padding: 20px; overflow-y: auto; }
+.module h3 { cursor: pointer; font-size: 0.95rem; margin-bottom: 8px; font-weight: 600; color: var(--secondary-color); line-height: 1.3; }
+.chapter-list { display: none; margin-left: 8px; margin-bottom: 15px; }
+.chapter-list h4 { color: #9ca3af; font-size: 0.85rem; margin-top: 10px; margin-bottom: 4px; }
+.chapter-link { display: block; color: var(--text-light); padding: 6px 5px; font-size: 0.88rem; text-decoration: none; border-left: 2px solid transparent; transition: all 0.3s ease; cursor: pointer; }
+.chapter-link:hover { color: var(--secondary-color); border-left: 2px solid var(--secondary-color); }
+.chapter-link.active { color: var(--secondary-color); border-left: 2px solid var(--secondary-color); background: rgba(252,163,17,0.1); }
+#main-content { flex-grow: 1; display: flex; justify-content: center; align-items: flex-start; padding: 40px 10px; background-color: #f4f6f8; overflow-y: auto; }
+.lesson-content { background: #fff; max-width: 850px; width: 100%; padding: 40px 50px; box-shadow: 0 0 15px rgba(0,0,0,0.1); border-radius: 8px; line-height: 1.8; color: #222; text-align: justify; }
+.lesson-content h2 { color: #004a80; text-align: center; font-size: 1.6rem; margin-bottom: 20px; border-bottom: 2px solid #004a80; padding-bottom: 8px; }
+.lesson-content h3 { color: #004a80; margin-top: 22px; margin-bottom: 8px; }
+.audio-btn { background: #7c3aed; color: white; border: none; padding: 5px 10px; border-radius: 6px; cursor: pointer; font-size: 0.85rem; margin-left: 6px; }
+.audio-btn:hover { background: #6d28d9; }
+.grammar-box { background: #fef3c7; border-left: 4px solid #f59e0b; padding: 15px; margin: 15px 0; border-radius: 0 8px 8px 0; }
+.test-box { background-color: #eef6fc; border-left: 4px solid var(--primary-color); padding: 15px 20px; margin-top: 25px; border-radius: 0 8px 8px 0; }
+.phrase { background: #f3f4f6; padding: 10px 12px; border-radius: 8px; margin: 8px 0; display: flex; justify-content: space-between; align-items: center; }
+#toggle-sidebar { display: none; background: var(--primary-color); color: var(--text-light); border: none; font-size: 1.3rem; padding: 8px 12px; border-radius: 6px; margin-right: 10px; cursor: pointer; }
+@media (max-width: 900px) { #sidebar { position: fixed; top: 50px; left: 0; width: 85%; max-width: 350px; height: calc(100vh - 50px); z-index: 9999; transform: translateX(-100%); transition: transform 0.3s; } #sidebar.active { transform: translateX(0); } #toggle-sidebar { display: inline-block!important; } }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand-area">
+    <button id="toggle-sidebar">☰</button>
+    <a href="index.html"><i class="fas fa-home"></i></a>
+    <img src="FK.png" alt="FEKA KAWIÇO" />
+    <span><strong>FEKA KAWIÇO</strong> – <em>A terra natural do conhecimento!</em></span>
+  </div>
+  <div id="login-status">🔒 Verificando acesso…</div>
+</header>
+
+<div id="course-container">
+<aside id="sidebar">
+
+<div class="module">
+<h3 onclick="toggleModule(0)">🇫🇷 Nível 1: Módulo 1 — Beginner A - Sobrevivência Total</h3>
+<div class="chapter-list" id="module-0">
+<h4>📦 Semana 1 (Aulas 1 a 3)</h4>
+<a class="chapter-link" onclick="loadLesson(0)">Aula 1 — Alphabet & Être/Avoir - Quem sou eu?</a>
+<a class="chapter-link" onclick="loadLesson(1)">Aula 2 — Numbers 0-100 & Age - J'ai 25 ans</a>
+<a class="chapter-link" onclick="loadLesson(2)">Aula 3 — Famille - C'est ma mère. Ce sont mes parents.</a>
+<h4>📦 Semana 2 (Aulas 4 a 6)</h4>
+<a class="chapter-link" onclick="loadLesson(3)">Aula 4 — Pays, Nationalités & Métiers</a>
+<a class="chapter-link" onclick="loadLesson(4)">Aula 5 — Objets & C'est/Ce sont</a>
+<a class="chapter-link" onclick="loadLesson(5)">Aula 6 — Possessifs Mon/Ma/Mes + Conversation</a>
+<h4>📦 Semana 3 (Aulas 7 a 9)</h4>
+<a class="chapter-link" onclick="loadLesson(6)">Aula 7 — Révision - Présentation 2 min</a>
+<a class="chapter-link" onclick="loadLesson(7)">Aula 8 — Écriture - Ma Famille 50 mots</a>
+<a class="chapter-link" onclick="loadLesson(8)">Aula 9 — Révision Orale Intensive</a>
+<h4>📦 Semana 4 - TESTE</h4>
+<a class="chapter-link" onclick="loadLesson(9)">Aula 10 — TESTE FINAL MÓDULO 1</a>
+</div>
+</div>
+
+<div class="module">
+<h3 onclick="toggleModule(1)">🇫🇷 Nível 1: Módulo 2 — Beginner B - Ma Routine</h3>
+<div class="chapter-list" id="module-1">
+<h4>📦 Semanas 1 a 3</h4>
+<a class="chapter-link" onclick="loadLesson(10)">Aula 11 — Présent - Verbes en -ER - Je travaille</a>
+<a class="chapter-link" onclick="loadLesson(11)">Aula 12 — Il y a + Prépositions à/dans/sur</a>
+<a class="chapter-link" onclick="loadLesson(12)">Aula 13 — J'aime / Je n'aime pas + Est-ce que</a>
+<h4>📦 Semana 4 - TESTE</h4>
+<a class="chapter-link" onclick="loadLesson(13)">Aula 14 — TESTE MÓDULO 2</a>
+</div>
+</div>
+
+<div class="module">
+<h3 onclick="toggleModule(2)">⭐ Nível 1: Módulo 3 — Pre-Elementary - META 1: JÁ CONVERSA</h3>
+<div class="chapter-list" id="module-2">
+<h4>📦 Semana 1-3 - JÁ CONVERSA</h4>
+<a class="chapter-link" onclick="loadLesson(14)">Aula 15 — Présent Continu - Je suis en train de travailler</a>
+<a class="chapter-link" onclick="loadLesson(15)">Aula 16 — Passé Composé avec Avoir/Être</a>
+<a class="chapter-link" onclick="loadLesson(16)">Aula 17 — Futur Proche - Je vais voyager</a>
+<h4>📦 Semana 4 - TESTE RIGOROSO</h4>
+<a class="chapter-link" onclick="loadLesson(17)">Aula 18 — TESTE - 3 min sem parar</a>
+</div>
+</div>
+
+<div class="module">
+<h3 onclick="toggleModule(3)">🇫🇷 Módulo 4 ao 8 — Do Elementary ao Avançado</h3>
+<div class="chapter-list" id="module-3">
+<a class="chapter-link" onclick="loadLesson(18)">Módulo 4: Imparfait vs Passé Composé</a>
+<a class="chapter-link" onclick="loadLesson(19)">Módulo 5: Subjonctif - Il faut que</a>
+<a class="chapter-link" onclick="loadLesson(20)">Módulo 6: NÍVEL PRO - Français des Affaires</a>
+<a class="chapter-link" onclick="loadLesson(21)">Módulo 7: Expressions Idiomatiques</a>
+<a class="chapter-link" onclick="loadLesson(22)">Módulo 8: Avancé - DELF B2</a>
+</div>
+</div>
+
+</aside>
+
+<main id="main-content">
+<div class="lesson-content" id="lesson-container"></div>
+</main>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('login-status').textContent = '✅ Acesso autorizado — Francês FEKA KAWIÇO';
+  toggleModule(0);
+  loadLesson(0);
+});
+function toggleModule(i){ const m=document.getElementById('module-'+i); m.style.display=m.style.display==='block'?'none':'block'; }
+document.getElementById('toggle-sidebar').addEventListener('click', ()=>{ document.getElementById('sidebar').classList.toggle('active'); });
+
+// VOZ CORRIGIDA - FRANCÊS PURO
+function speak(text, lang){
+  speechSynthesis.cancel();
+  let u = new SpeechSynthesisUtterance(text);
+  u.lang = lang || 'fr-FR';
+  u.rate = 0.7; // mais lento para aprender
+  u.pitch = 1;
+  speechSynthesis.speak(u);
+}
+
+function loadLesson(id){
+  document.querySelectorAll('.chapter-link').forEach(el=>el.classList.remove('active'));
+  if(event) event.target.classList.add('active');
+  const L={
+0:{title:"Aula 1 — Alphabet & Être/Avoir - Quem sou eu? - ALFABETO CORRIGIDO", html:`
+<h3>🌟 Objetivo</h3><p>Apresentar-se em francês com alfabeto francês correto.</p>
+<div class="grammar-box">
+<b>ALFABETO FRANCÊS - PRONÚNCIA REAL FRANCESA:</b><br>
+A = A / B = Bé / C = Cé / D = Dé / E = E / F = Effe / G = Gé / H = Hache / I = I / J = Ji / K = Ka / L = Elle / M = Emme / N = Enne / O = O / P = Pé / Q = Ku / R = Erre / S = Esse / T = Té / U = U / V = Vé / W = Double Vé / X = Iks / Y = Igrec / Z = Zède<br><br>
+<button class="audio-btn" onclick="speak('A, Bé, Cé, Dé, E, Effe, Gé, Hache, I, Ji, Ka, Elle, Emme, Enne, O, Pé, Ku, Erre, Esse, Té, U, Vé, Double Vé, Iks, Igrec, Zède','fr-FR')">🔊 OUVIR ALFABETO FRANCÊS COMPLETO - LENTO</button>
+<br><br>
+<button class="audio-btn" style="background:#004a80" onclick="speak('A','fr-FR')">A</button>
+<button class="audio-btn" style="background:#004a80" onclick="speak('Bé','fr-FR')">Bé</button>
+<button class="audio-btn" style="background:#004a80" onclick="speak('Cé','fr-FR')">Cé</button>
+<button class="audio-btn" style="background:#004a80" onclick="speak('Dé','fr-FR')">Dé</button>
+<button class="audio-btn" style="background:#004a80" onclick="speak('E','fr-FR')">E</button>
+<button class="audio-btn" style="background:#004a80" onclick="speak('Effe','fr-FR')">Effe</button>
+<br><br>
+<b>ÊTRE (ser/estar):</b> Je suis - Tu es - Il est - Nous sommes - Vous êtes - Ils sont<br>
+<b>AVOIR (ter):</b> J'ai - Tu as - Il a - Nous avons - Vous avez - Ils ont
+</div>
+<h3>🗣️ Frases - Francês Puro</h3>
+<div class="phrase"><span>Bonjour, je m'appelle Carlos. Je suis Angolais. Je suis ingénieur.</span><button class="audio-btn" onclick="speak('Bonjour, je m appelle Carlos. Je suis Angolais. Je suis ingénieur.','fr-FR')">🔊</button></div>
+<div class="phrase"><span>Comment tu t'appelles? Comment ça s'écrit?</span><button class="audio-btn" onclick="speak('Comment tu t appelles? Comment ça s écrit?','fr-FR')">🔊</button></div>
+<div class="phrase"><span>Enchanté. Je suis très heureux d'être ici.</span><button class="audio-btn" onclick="speak('Enchanté. Je suis très heureux d être ici.','fr-FR')">🔊</button></div>
+<h3>⚠️ Nota Importante</h3><p>Em francês J'ai 25 ans está CORRETO! ✅ Diferente do inglês.</p>
+<div class="test-box"><h4>🧪 Exercício</h4><p>1. Soletre seu nome em francês letra por letra.<br>2. Áudio 30s: Bonjour, je m'appelle... Je suis...</p></div>
+`},
+1:{title:"Aula 2 — Numbers 0-100 & Age - J'ai 25 ans", html:`
+<h3>🌟 Objetivo</h3><p>Idade, telefone, preço.</p>
+<div class="grammar-box"><b>0-20:</b> zéro, un, deux, trois, quatre, cinq, six, sept, huit, neuf, dix, onze, douze, treize, quatorze, quinze, seize, dix-sept, dix-huit, dix-neuf, vingt<br><b>70-100:</b> soixante-dix (70), quatre-vingts (80), quatre-vingt-dix (90), cent (100) <button class="audio-btn" onclick="speak('zéro, un, deux, trois, quatre, cinq, six, sept, huit, neuf, dix, vingt, trente, quarante, cinquante, soixante, soixante-dix, quatre-vingts, quatre-vingt-dix, cent','fr-FR')">🔊 Números</button></div>
+<div class="phrase"><span>J'ai 25 ans. J'habite à Luanda.</span><button class="audio-btn" onclick="speak('J ai 25 ans. J habite à Luanda.','fr-FR')">🔊</button></div>
+<div class="phrase"><span>Mon numéro est zéro neuf deux trois quatre cinq six sept huit neuf.</span><button class="audio-btn" onclick="speak('Mon numéro est zéro neuf deux trois quatre cinq six sept huit neuf','fr-FR')">🔊</button></div>
+`},
+2:{title:"Aula 3 — Famille - C'est ma mère. Ce sont mes parents.", html:`
+<h3>🌟 Objetivo</h3><p>Descrever família.</p>
+<div class="grammar-box"><b>C'est (singular) / Ce sont (plural)</b><br>C'est ma mère. Ce sont mes parents.<br><b>Possessivos:</b> mon/ma/mes, ton/ta/tes, son/sa/ses</div>
+<div class="phrase"><span>C'est ma mère. Elle est professeure. Elle vient de Benguela.</span><button class="audio-btn" onclick="speak('C est ma mère. Elle est professeure. Elle vient de Benguela.','fr-FR')">🔊</button></div>
+<div class="phrase"><span>Ce sont mes parents. Ils sont Angolais. Ils sont très gentils.</span><button class="audio-btn" onclick="speak('Ce sont mes parents. Ils sont Angolais. Ils sont très gentils.','fr-FR')">🔊</button></div>
+`},
+  };
+  const lesson = L[id] || {title:"Aula em construção", html:"<p>Conteúdo detalhado - Semana 4 é teste.</p>"};
+  document.getElementById('lesson-container').innerHTML = `<h2>${lesson.title}</h2>${lesson.html}`;
+}
+</script>
+</body>
+</html>
