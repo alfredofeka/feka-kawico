@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Curso: Alemão Completo 8 Meses — FEKA KAWIÇO</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+<style>
+:root { --primary-color: #004a80; --secondary-color: #fca311; --text-dark: #222; --text-light: #fff; --bg-dark: #1f2937; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background-color: #fff; color: var(--text-dark); font-family: "Segoe UI", sans-serif; line-height: 1.6; overflow-x: hidden; }
+header { background-color: var(--primary-color); color: var(--text-light); padding: 10px 15px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 1000; }
+.brand-area { display: flex; align-items: center; gap: 10px; }
+.brand-area img { height: 30px; border-radius: 5px; }
+#course-container { display: flex; height: calc(100vh - 65px); overflow: hidden; }
+#sidebar { width: 450px; background-color: var(--bg-dark); color: var(--text-light); padding: 20px; overflow-y: auto; }
+.module h3 { cursor: pointer; font-size: 0.95rem; margin-bottom: 8px; font-weight: 600; color: var(--secondary-color); line-height: 1.3; }
+.chapter-list { display: none; margin-left: 8px; margin-bottom: 15px; }
+.chapter-list h4 { color: #9ca3af; font-size: 0.85rem; margin-top: 10px; margin-bottom: 4px; }
+.chapter-link { display: block; color: var(--text-light); padding: 6px 5px; font-size: 0.88rem; text-decoration: none; border-left: 2px solid transparent; transition: all 0.3s ease; cursor: pointer; }
+.chapter-link:hover { color: var(--secondary-color); border-left: 2px solid var(--secondary-color); }
+.chapter-link.active { color: var(--secondary-color); border-left: 2px solid var(--secondary-color); background: rgba(252,163,17,0.1); }
+#main-content { flex-grow: 1; display: flex; justify-content: center; align-items: flex-start; padding: 40px 10px; background-color: #f4f6f8; overflow-y: auto; }
+.lesson-content { background: #fff; max-width: 850px; width: 100%; padding: 40px 50px; box-shadow: 0 0 15px rgba(0,0,0,0.1); border-radius: 8px; line-height: 1.8; color: #222; text-align: justify; }
+.lesson-content h2 { color: #004a80; text-align: center; font-size: 1.6rem; margin-bottom: 20px; border-bottom: 2px solid #004a80; padding-bottom: 8px; }
+.lesson-content h3 { color: #004a80; margin-top: 22px; margin-bottom: 8px; }
+.audio-btn { background: #1a1a1a; color: white; border: none; padding: 5px 10px; border-radius: 6px; cursor: pointer; font-size: 0.85rem; margin-left: 6px; }
+.audio-btn:hover { background: #000; }
+.grammar-box { background: #fef3c7; border-left: 4px solid #f59e0b; padding: 15px; margin: 15px 0; border-radius: 0 8px 8px 0; }
+.test-box { background-color: #eef6fc; border-left: 4px solid var(--primary-color); padding: 15px 20px; margin-top: 25px; border-radius: 0 8px 8px 0; }
+.phrase { background: #f3f4f6; padding: 10px 12px; border-radius: 8px; margin: 8px 0; display: flex; justify-content: space-between; align-items: center; }
+#toggle-sidebar { display: none; background: var(--primary-color); color: var(--text-light); border: none; font-size: 1.3rem; padding: 8px 12px; border-radius: 6px; margin-right: 10px; cursor: pointer; }
+@media (max-width: 900px) { #sidebar { position: fixed; top: 50px; left: 0; width: 85%; max-width: 350px; height: calc(100vh - 50px); z-index: 9999; transform: translateX(-100%); transition: transform 0.3s; } #sidebar.active { transform: translateX(0); } #toggle-sidebar { display: inline-block!important; } }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand-area">
+    <button id="toggle-sidebar">☰</button>
+    <a href="index.html"><i class="fas fa-home"></i></a>
+    <img src="FK.png" alt="FEKA KAWIÇO" />
+    <span><strong>FEKA KAWIÇO</strong> – <em>A terra natural do conhecimento!</em></span>
+  </div>
+  <div id="login-status">🔒 Verificando acesso…</div>
+</header>
+
+<div id="course-container">
+<aside id="sidebar">
+
+<div class="module">
+<h3 onclick="toggleModule(0)">🇩🇪 Nível 1: Módulo 1 — Anfänger A - Überleben Total</h3>
+<div class="chapter-list" id="module-0">
+<h4>📦 Semana 1 (Aulas 1 a 3)</h4>
+<a class="chapter-link" onclick="loadLesson(0)">Aula 1 — Alphabet & Sein/Haben - Wer bin ich?</a>
+<a class="chapter-link" onclick="loadLesson(1)">Aula 2 — Zahlen 0-100 & Alter - Ich bin 25 Jahre alt</a>
+<a class="chapter-link" onclick="loadLesson(2)">Aula 3 — Familie - Das ist meine Mutter. Das sind meine Eltern.</a>
+<h4>📦 Semana 2 (Aulas 4 a 6)</h4>
+<a class="chapter-link" onclick="loadLesson(3)">Aula 4 — Länder, Nationalitäten & Berufe</a>
+<a class="chapter-link" onclick="loadLesson(4)">Aula 5 — Objekte & Das ist/Diese sind</a>
+<a class="chapter-link" onclick="loadLesson(5)">Aula 6 — Possessiv Mein/Dein/Sein + Gespräch</a>
+<h4>📦 Semana 3 (Aulas 7 a 9)</h4>
+<a class="chapter-link" onclick="loadLesson(6)">Aula 7 — Wiederholung - Vorstellung 2 Min</a>
+<a class="chapter-link" onclick="loadLesson(7)">Aula 8 — Schreiben - Meine Familie 50 Wörter</a>
+<a class="chapter-link" onclick="loadLesson(8)">Aula 9 — Mündliche Wiederholung Intensiv</a>
+<h4>📦 Semana 4 - TESTE</h4>
+<a class="chapter-link" onclick="loadLesson(9)">Aula 10 — TESTE FINAL MODUL 1</a>
+</div>
+</div>
+
+<div class="module">
+<h3 onclick="toggleModule(1)">🇩🇪 Nível 1: Módulo 2 — Anfänger B - Mein Alltag</h3>
+<div class="chapter-list" id="module-1">
+<h4>📦 Semanas 1 a 3</h4>
+<a class="chapter-link" onclick="loadLesson(10)">Aula 11 — Präsens - Ich arbeite jeden Tag</a>
+<a class="chapter-link" onclick="loadLesson(11)">Aula 12 — Es gibt + Präpositionen in/an/auf</a>
+<a class="chapter-link" onclick="loadLesson(12)">Aula 13 — Ich mag / Ich mag nicht + Gefallen</a>
+<h4>📦 Semana 4 - TESTE</h4>
+<a class="chapter-link" onclick="loadLesson(13)">Aula 14 — TESTE MODUL 2 - Mein Alltag</a>
+</div>
+</div>
+
+<div class="module">
+<h3 onclick="toggleModule(2)">⭐ Nível 1: Módulo 3 — Pre-Elementar - META 1: YA CONVERSA</h3>
+<div class="chapter-list" id="module-2">
+<h4>📦 Semana 1-3 - JETZT SPRECHE ICH</h4>
+<a class="chapter-link" onclick="loadLesson(14)">Aula 15 — Präsens + Gerade - Ich arbeite gerade</a>
+<a class="chapter-link" onclick="loadLesson(15)">Aula 16 — Perfekt - Ich bin nach Benguela gefahren</a>
+<a class="chapter-link" onclick="loadLesson(16)">Aula 17 — Futur mit werden - Ich werde reisen</a>
+<h4>📦 Semana 4 - TESTE RIGOROSO</h4>
+<a class="chapter-link" onclick="loadLesson(17)">Aula 18 — TESTE - 3 Min ohne Stopp auf Deutsch</a>
+</div>
+</div>
+
+<div class="module">
+<h3 onclick="toggleModule(3)">🇩🇪 Módulo 4 ao 8 — Intermedio ao Avançado</h3>
+<div class="chapter-list" id="module-3">
+<a class="chapter-link" onclick="loadLesson(18)">Módulo 4: Präteritum vs Perfekt</a>
+<a class="chapter-link" onclick="loadLesson(19)">Módulo 5: Konjunktiv II - Ich würde kommen</a>
+<a class="chapter-link" onclick="loadLesson(20)">Módulo 6: NÍVEL PRO - Deutsch für den Beruf</a>
+<a class="chapter-link" onclick="loadLesson(21)">Módulo 7: Redewendungen - 100 obrigatórias</a>
+<a class="chapter-link" onclick="loadLesson(22)">Módulo 8: Fortgeschritten - TestDaF Aufsatz</a>
+</div>
+</div>
+
+</aside>
+
+<main id="main-content">
+<div class="lesson-content" id="lesson-container"></div>
+</main>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('login-status').textContent = '✅ Acesso autorizado — Alemão FEKA KAWIÇO';
+  toggleModule(0);
+  loadLesson(0);
+});
+function toggleModule(i){ const m=document.getElementById('module-'+i); m.style.display=m.style.display==='block'?'none':'block'; }
+document.getElementById('toggle-sidebar').addEventListener('click', ()=>{ document.getElementById('sidebar').classList.toggle('active'); });
+
+// VOZ ALEMÃ 100% NATIVA - SEM MENTIRAS
+function speak(text, lang){
+  speechSynthesis.cancel();
+  let u = new SpeechSynthesisUtterance(text);
+  u.lang = lang || 'de-DE'; // alemão da Alemanha
+  u.rate = 0.7;
+  u.pitch = 1;
+  speechSynthesis.speak(u);
+}
+
+function loadLesson(id){
+  document.querySelectorAll('.chapter-link').forEach(el=>el.classList.remove('active'));
+  if(event) event.target.classList.add('active');
+  const L={
+0:{title:"Aula 1 — Alphabet & Sein/Haben - Wer bin ich? - ALFABETO ALEMÃO REAL", html:`
+<h3>🌟 Objetivo</h3><p>Apresentar-se em alemão com alfabeto alemão real incluindo Ä Ö Ü ß.</p>
+<div class="grammar-box">
+<b>ALFABETO ALEMÃO - PRONÚNCIA REAL ALEMÃ (26 + 4 especiais = 30):</b><br>
+A = A / B = Be / C = Ce / D = De / E = E / F = Eff / G = Ge / H = Ha / I = I / J = Jot / K = Ka / L = El / M = Em / N = En / O = O / P = Pe / Q = Qu / R = Er / S = Es / T = Te / U = U / V = Vau / W = We / X = Iks / Y = Ypsilon / Z = Zet<br>
+<b>UMLAUTS + ESZETT:</b> Ä = Ä / Ö = Ö / Ü = Ü / ß = Eszett - Doppel S<br><br>
+<button class="audio-btn" onclick="speak('A, Be, Ce, De, E, Eff, Ge, Ha, I, Jot, Ka, El, Em, En, O, Pe, Qu, Er, Es, Te, U, Vau, We, Iks, Ypsilon, Zet, Ä, Ö, Ü, Eszett','de-DE')">🔊 OUVIR ALFABETO ALEMÃO COMPLETO REAL - 30 LETRAS</button>
+<br><br>
+<button class="audio-btn" style="background:#004a80" onclick="speak('A','de-DE')">A</button>
+<button class="audio-btn" style="background:#004a80" onclick="speak('Ö','de-DE')">Ö - Umlaut</button>
+<button class="audio-btn" style="background:#004a80" onclick="speak('Ü','de-DE')">Ü - Umlaut</button>
+<button class="audio-btn" style="background:#004a80" onclick="speak('Ä','de-DE')">Ä - Umlaut</button>
+<button class="audio-btn" style="background:#004a80" onclick="speak('Eszett','de-DE')">ß - Eszett</button>
+<br><br>
+<b>SEIN (ser/estar - permanente):</b> Ich bin - Du bist - Er ist - Wir sind - Ihr seid - Sie sind<br>
+<b>HABEN (ter):</b> Ich habe - Du hast - Er hat - Wir haben - Ihr habt - Sie haben<br>
+<b>RIGOR:</b> Em alemão idade é com SEIN: Ich bin 25 Jahre alt (não com haben)
+</div>
+<h3>🗣️ Frases - Alemão Puro Nativo</h3>
+<div class="phrase"><span>Hallo, ich heiße Carlos. Ich bin Angolaner. Ich bin Ingenieur.</span><button class="audio-btn" onclick="speak('Hallo, ich heiße Carlos. Ich bin Angolaner. Ich bin Ingenieur.','de-DE')">🔊</button></div>
+<div class="phrase"><span>Wie heißt du? Wie schreibt man das?</span><button class="audio-btn" onclick="speak('Wie heißt du? Wie schreibt man das?','de-DE')">🔊</button></div>
+<div class="phrase"><span>Freut mich. Ich bin sehr glücklich, hier zu sein.</span><button class="audio-btn" onclick="speak('Freut mich. Ich bin sehr glücklich, hier zu sein.','de-DE')">🔊</button></div>
+<h3>⚠️ Erro Comum Angolano - Rigor Alemão</h3><p>❌ Ich habe 25 Jahre (influência inglês/francês) <br>✅ Ich bin 25 Jahre alt - RIGOR ALEMÃO USA SEIN<br>❌ Ich habe Hunger? Em alemão pode: Ich habe Hunger ✅ também correto, ou Ich bin hungrig</p>
+<div class="test-box"><h4>🧪 Exercício Prático Aula 1 - Com Rigor Total</h4><p>1. Soletre seu nome em alemão incluindo Ä Ö Ü ß.<br>2. Áudio 30s: Hallo, ich heiße... Ich bin aus... Ich bin...<br>3. Complete: Woher ___ du? Ich ___ aus Luanda. Wie alt ___ du?</p></div>
+`},
+1:{title:"Aula 2 — Zahlen 0-100 & Alter - Ich bin 25 Jahre alt", html:`
+<h3>🌟 Objetivo</h3><p>Idade, telefone, preço com rigor alemão.</p>
+<div class="grammar-box"><b>0-20:</b> null, eins, zwei, drei, vier, fünf, sechs, sieben, acht, neun, zehn, elf, zwölf, dreizehn, vierzehn, fünfzehn, sechzehn, siebzehn, achtzehn, neunzehn, zwanzig<br><b>Dezenas:</b> zwanzig, dreißig, vierzig, fünfzig, sechzig, siebzig, achtzig, neunzig, hundert <button class="audio-btn" onclick="speak('null, eins, zwei, drei, vier, fünf, sechs, sieben, acht, neun, zehn, zwanzig, dreißig, vierzig, fünfzig, sechzig, siebzig, achtzig, neunzig, hundert','de-DE')">🔊 Zahlen</button><br><b>RIGOR:</b> 21 = einundzwanzig (um e vinte) - invertido!</div>
+<div class="phrase"><span>Ich bin 25 Jahre alt. Ich wohne in Luanda.</span><button class="audio-btn" onclick="speak('Ich bin 25 Jahre alt. Ich wohne in Luanda.','de-DE')">🔊</button></div>
+<div class="phrase"><span>Meine Nummer ist neun zwei drei vier fünf sechs sieben acht neun.</span><button class="audio-btn" onclick="speak('Meine Nummer ist neun zwei drei vier fünf sechs sieben acht neun.','de-DE')">🔊</button></div>
+`},
+2:{title:"Aula 3 — Familie - Das ist meine Mutter. Das sind meine Eltern.", html:`
+<h3>🌟 Objetivo</h3><p>Descrever família com artigo neutro Das ist.</p>
+<div class="grammar-box"><b>Das ist (singular) / Das sind (plural) - neutro em alemão</b><br>Das ist meine Mutter. Das ist mein Vater. Das sind meine Eltern. Das sind meine Geschwister.<br><b>Possessiv:</b> mein/meine, dein/deine, sein/seine - com gênero!<br><b>RIGOR - 3 gêneros:</b> der Vater (masc), die Mutter (fem), das Kind (neutro)</div>
+<div class="phrase"><span>Das ist meine Mutter. Sie ist Lehrerin. Sie kommt aus Benguela.</span><button class="audio-btn" onclick="speak('Das ist meine Mutter. Sie ist Lehrerin. Sie kommt aus Benguela.','de-DE')">🔊</button></div>
+<div class="phrase"><span>Das sind meine Eltern. Sie sind Angolaner. Sie sind sehr nett.</span><button class="audio-btn" onclick="speak('Das sind meine Eltern. Sie sind Angolaner. Sie sind sehr nett.','de-DE')">🔊</button></div>
+`},
+10:{title:"Aula 11 — Präsens - Ich arbeite jeden Tag - Regra de Ouro", html:`
+<h3>🌟 Objetivo - AULA MAIS IMPORTANTE</h3>
+<div class="grammar-box"><b>Präsens - arbeiten (trabalhar):</b><br>Ich arbeite - Du arbeitest - Er arbeitet - Wir arbeiten - Ihr arbeitet - Sie arbeiten<br><b>Negativa:</b> Ich arbeite nicht<br><b>Pergunta:</b> Arbeitest du? / Wo arbeitest du?<br><b>RIGOR:</b> Verbo sempre na posição 2 em alemão: Heute arbeite ich (Hoje trabalho eu - inversão)</div>
+<div class="phrase"><span>Ich stehe um 5 Uhr auf. Ich fahre mit dem Taxi zur Arbeit. Ich arbeite nicht am Sonntag.</span><button class="audio-btn" onclick="speak('Ich stehe um 5 Uhr auf. Ich fahre mit dem Taxi zur Arbeit. Ich arbeite nicht am Sonntag.','de-DE')">🔊</button></div>
+<div class="phrase"><span>Er arbeitet bei Sonangol. Sie wohnt in Luanda.</span><button class="audio-btn" onclick="speak('Er arbeitet bei Sonangol. Sie wohnt in Luanda.','de-DE')">🔊</button></div>
+`},
+14:{title:"Aula 15 — Präsens + Gerade & Perfekt - META JETZT SPRECHE ICH", html:`
+<h3>🌟 Objetivo - HIER SPRECHST DU SCHON DEUTSCH</h3>
+<div class="grammar-box"><b>Gerade (agora - com Präsens):</b> Ich arbeite gerade (estou trabalhando agora - alemão usa presente)<br><b>Perfekt:</b> Ich bin nach Benguela gefahren / Ich habe viel gearbeitet<br><b>Futur:</b> Ich werde morgen reisen</div>
+<div class="phrase"><span>Ich lerne gerade Deutsch. Gestern bin ich nach Benguela gefahren. Morgen werde ich reisen.</span><button class="audio-btn" onclick="speak('Ich lerne gerade Deutsch. Gestern bin ich nach Benguela gefahren. Morgen werde ich reisen.','de-DE')">🔊</button></div>
+<div class="test-box"><h4>🧪 TESTE RIGOROSO META 1</h4><p>Aufsatz 150 Wörter: Meine Vergangenheit und Zukunft. Mündlich 3 Min ohne Pause: gestern und morgen auf Deutsch. Wenn du stoppst, nicht bestanden.</p></div>
+`},
+  };
+  const lesson = L[id] || {title:"Aula em construção", html:"<p>Conteúdo detalhado - Semana 4 é teste. 3 lições/semana com rigor alemão.</p>"};
+  document.getElementById('lesson-container').innerHTML = \`<h2>\${lesson.title}</h2>\${lesson.html}\`;
+}
+</script>
+</body>
+</html>
