@@ -277,8 +277,9 @@ async function updateLoginStatus(session){
   }catch(_){}
   const nome=profile?.nome||session.user.user_metadata?.nome||session.user.email?.split('@')[0]||'Usuário';
   const first=nome.split(' ')[0];
-  const r=ROLES[detectRole(profile)];
-  el.innerHTML=`<div class="user-box"><a href="perfil.html" style="text-decoration:none;color:inherit;display:flex;align-items:center"><i class="fas fa-circle online" style="color:#28a745;margin-right:5px"></i><span style="font-size:.85em;font-weight:600">Olá, ${escHtml(first)}</span><span class="role-badge" style="background:${r.cor}"><i class="fas ${r.icon}"></i>${r.label}</span></a><a href="#" onclick="logout(event)" style="margin-left:8px;color:#ffc107;font-weight:bold;text-decoration:none;font-size:.75em">(Sair)</a></div>`;
+  const rk=detectRole(profile);const r=ROLES[rk];
+  const gestao=(rk!=='aluno')?`<a href="gestao.html" style="margin-left:8px;color:#fff;background:#0055a5;padding:2px 8px;border-radius:8px;text-decoration:none;font-size:.75em;font-weight:700"><i class="fas fa-cog"></i> Gestão</a>`:'';
+  el.innerHTML=`<div class="user-box"><a href="perfil.html" style="text-decoration:none;color:inherit;display:flex;align-items:center"><i class="fas fa-circle online" style="color:#28a745;margin-right:5px"></i><span style="font-size:.85em;font-weight:600">Olá, ${escHtml(first)}</span><span class="role-badge" style="background:${r.cor}"><i class="fas ${r.icon}"></i>${r.label}</span></a><a href="#" onclick="logout(event)" style="margin-left:8px;color:#ffc107;font-weight:bold;text-decoration:none;font-size:.75em">(Sair)</a>${gestao}</div>`;
  }else{
   el.innerHTML=`<a href="login.html" style="text-decoration:none;color:inherit;display:flex;align-items:center"><i class="fas fa-circle offline" style="color:#ffc107;margin-right:5px"></i><span style="font-size:.85em;font-weight:600">Entrar</span></a>`;
  }

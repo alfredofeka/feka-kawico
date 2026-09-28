@@ -120,7 +120,7 @@ async function gerarCodigos(){
  const cid=$('cCurso').value,n=Math.min(200,Math.max(1,+$('cQtd').value||1));
  if(!cid) return toast('Escolhe um curso');
  const codes=Array.from({length:n},gerar);
- const {error}=await supabaseClient.from(CFG.CODES_TABLE).insert(codes.map(c=>({[CFG.COL_COURSE]:cid,[CFG.COL_CODE]:c})));
+ const {error}=await supabaseClient.from(CFG.CODES_TABLE).insert(codes.map(c=>({[CFG.COL_COURSE]:cid,[CFG.COL_CODE]:c,used:false})));
  if(error){$('cMsg').innerHTML=`<p class="err">Erro: ${esc(error.message)}<br><small>Confirma CFG.CODES_TABLE / COL_COURSE / COL_CODE no topo do script.</small></p>`;return;}
  $('cMsg').innerHTML='';$('cOut').value=codes.join('\n');toast(n+' códigos guardados');listarCodigos();
 }
