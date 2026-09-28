@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Curso: Corrosão em Estruturas Metálicas — FEKA KAWIÇO</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+<style>
+:root { --primary-color: #004a80; --secondary-color: #fca311; --text-dark: #222; --text-light: #fff; --bg-dark: #1f2937; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background-color: #fff; color: var(--text-dark); font-family: "Segoe UI", sans-serif; line-height: 1.6; overflow-x: hidden; }
+header { background-color: var(--primary-color); color: var(--text-light); padding: 10px 15px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 1000; }
+.brand-area { display: flex; align-items: center; gap: 10px; }
+.brand-area img { height: 30px; border-radius: 5px; }
+#course-container { display: flex; height: calc(100vh - 65px); overflow: hidden; }
+#sidebar { width: 480px; background-color: var(--bg-dark); color: var(--text-light); padding: 20px; overflow-y: auto; }
+.module h3 { cursor: pointer; font-size: 0.95rem; margin-bottom: 8px; font-weight: 600; color: var(--secondary-color); line-height: 1.3; }
+.chapter-list { display: none; margin-left: 8px; margin-bottom: 15px; }
+.chapter-list h4 { color: #9ca3af; font-size: 0.85rem; margin-top: 10px; margin-bottom: 4px; }
+.chapter-link { display: block; color: var(--text-light); padding: 6px 5px; font-size: 0.88rem; text-decoration: none; border-left: 2px solid transparent; transition: all 0.3s ease; cursor: pointer; }
+.chapter-link:hover { color: var(--secondary-color); border-left: 2px solid var(--secondary-color); }
+.chapter-link.active { color: var(--secondary-color); border-left: 2px solid var(--secondary-color); background: rgba(252,163,17,0.1); }
+#main-content { flex-grow: 1; display: flex; justify-content: center; align-items: flex-start; padding: 40px 10px; background-color: #f4f6f8; overflow-y: auto; }
+.lesson-content { background: #fff; max-width: 900px; width: 100%; padding: 40px 50px; box-shadow: 0 0 15px rgba(0,0,0,0.1); border-radius: 8px; line-height: 1.8; color: #222; text-align: justify; }
+.lesson-content h2 { color: #004a80; text-align: center; font-size: 1.5rem; margin-bottom: 20px; border-bottom: 2px solid #004a80; padding-bottom: 8px; }
+.lesson-content h3 { color: #004a80; margin-top: 22px; margin-bottom: 8px; }
+.grammar-box { background: #fef3c7; border-left: 4px solid #f59e0b; padding: 15px; margin: 15px 0; border-radius: 0 8px 8px 0; }
+.test-box { background-color: #eef6fc; border-left: 4px solid var(--primary-color); padding: 15px 20px; margin-top: 25px; border-radius: 0 8px 8px 0; }
+#toggle-sidebar { display: none; background: var(--primary-color); color: var(--text-light); border: none; font-size: 1.3rem; padding: 8px 12px; border-radius: 6px; margin-right: 10px; cursor: pointer; }
+@media (max-width: 900px) { #sidebar { position: fixed; top: 50px; left: 0; width: 88%; max-width: 380px; height: calc(100vh - 50px); z-index: 9999; transform: translateX(-100%); transition: transform 0.3s; } #sidebar.active { transform: translateX(0); } #toggle-sidebar { display: inline-block!important; } }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand-area">
+    <button id="toggle-sidebar">☰</button>
+    <a href="index.html"><i class="fas fa-home"></i></a>
+    <img src="FK.png" alt="FEKA KAWIÇO" />
+    <span><strong>FEKA KAWIÇO</strong> – <em>A terra natural do conhecimento!</em></span>
+  </div>
+  <div id="login-status">🔒 Verificando acesso…</div>
+</header>
+
+<div id="course-container">
+<aside id="sidebar">
+
+<div class="module">
+<h3 onclick="toggleModule(0)">🔩 MÓDULO 10: Corrosão em Estruturas Metálicas - Completo</h3>
+<div class="chapter-list" id="module-0">
+<h4>📦 Parte 1 - Fundamentos</h4>
+<a class="chapter-link" onclick="loadLesson(0)">Aula 1 — Introdução - O Maior Inimigo Estruturas Metálicas</a>
+<a class="chapter-link" onclick="loadLesson(1)">Aula 2 — O Que é Corrosão? Oxigénio Água Sais</a>
+<a class="chapter-link" onclick="loadLesson(2)">Aula 3 — Como Ocorre? Ânodo Cátodo Eletrólito</a>
+<a class="chapter-link" onclick="loadLesson(3)">Aula 4 — Custos Diretos e Indiretos % PIB</a>
+<h4>📦 Parte 2 - Tipos</h4>
+<a class="chapter-link" onclick="loadLesson(4)">Aula 5 — Tipos de Corrosão: Uniforme, Pites, Galvânica, Frestas, Sob Tensão</a>
+<h4>📦 Parte 3 - Ambientes</h4>
+<a class="chapter-link" onclick="loadLesson(5)">Aula 6 — Ambientes Corrosivos ISO 12944 C1 a CX</a>
+<a class="chapter-link" onclick="loadLesson(6)">Aula 7 — Corrosão em Angola - Luanda Lobito Soyo Cabinda</a>
+<a class="chapter-link" onclick="loadLesson(7)">Aula 8 — Fatores Aceleram: Humidade Salinidade Poluição Temperatura</a>
+<h4>📦 Parte 4 - Prevenção e Prática</h4>
+<a class="chapter-link" onclick="loadLesson(8)">Aula 9 — Métodos Prevenção: Materiais Projeto Pintura Galvanização Proteção Catódica</a>
+<a class="chapter-link" onclick="loadLesson(9)">Aula 10 — Corrosão e Procurement + Exercício Resolvido Luanda C4/C5</a>
+<a class="chapter-link" onclick="loadLesson(10)">Aula 11 — Estudo Caso Real - 5 Anos Sem Proteção - 10% Custo Pintura vs Reparação</a>
+<a class="chapter-link" onclick="loadLesson(11)">Aula 12 — Boas Práticas vs Erros Frequentes + Resumo Executivo + Questionário 10 Perguntas</a>
+</div>
+</div>
+
+</aside>
+
+<main id="main-content">
+<div class="lesson-content" id="lesson-container"></div>
+</main>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('login-status').textContent = '✅ Acesso autorizado — Corrosão FEKA KAWIÇO';
+  toggleModule(0);
+  loadLesson(0);
+});
+function toggleModule(i){
+  const el = document.getElementById('module-'+i);
+  if(el) el.style.display = el.style.display === 'block' ? 'none' : 'block';
+}
+document.getElementById('toggle-sidebar').addEventListener('click', () => {
+  document.getElementById('sidebar').classList.toggle('active');
+});
+
+function loadLesson(id){
+  document.querySelectorAll('.chapter-link').forEach(el=>el.classList.remove('active'));
+  if(window.event && window.event.target) window.event.target.classList.add('active');
+
+  const L = {
+    0: {
+      title: "Aula 1 — Introdução - O Maior Inimigo das Estruturas Metálicas",
+      html: `<h3>🎯 Objetivos de Aprendizagem</h3>
+      <div class="grammar-box">
+      Ao concluir este capítulo, o formando deverá ser capaz de:<br>
+      • Compreender os mecanismos da corrosão<br>
+      • Identificar os principais tipos de corrosão industrial<br>
+      • Avaliar ambientes corrosivos<br>
+      • Compreender os custos associados à corrosão<br>
+      • Aplicar princípios de prevenção e controlo<br>
+      • Relacionar corrosão com pintura industrial e proteção anticorrosiva
+      </div>
+      <h3>📖 10.1 Introdução</h3>
+      <p>A corrosão é um dos maiores inimigos das estruturas metálicas.</p>
+      <p>Todos os anos, governos, empresas e indústrias gastam milhares de milhões de dólares em reparações, manutenção e substituição de equipamentos danificados pela corrosão.</p>
+      <p>Muitas vezes a corrosão é vista apenas como ferrugem. Na realidade, trata-se de um fenómeno físico-químico complexo que pode comprometer a segurança estrutural de pontes, edifícios, plataformas petrolíferas, tanques, tubagens e equipamentos industriais.</p>
+      <div class="grammar-box">
+      <b>Fundamental para profissional que trabalhe com:</b><br>
+      • estruturas metálicas<br>
+      • pintura industrial<br>
+      • manutenção<br>
+      • inspeção<br>
+      • procurement<br>
+      Sem este conhecimento é impossível selecionar corretamente materiais e sistemas de proteção.
+      </div>`
+    },
+    1: {
+      title: "Aula 2 — O Que é Corrosão?",
+      html: `<h3>📖 10.2 O Que é Corrosão?</h3>
+      <div class="grammar-box">
+      <b>Definição rigorosa:</b> Corrosão é a degradação de um material devido à sua interação com o meio envolvente.<br><br>
+      No caso do aço, ocorre quando metal reage com:<br>
+      • oxigénio<br>
+      • água<br>
+      • sais<br>
+      • produtos químicos<br><br>
+      Resultado mais conhecido é ferrugem.<br>
+      Contudo, não é apenas problema estético. Ela provoca:<br>
+      • perda de espessura<br>
+      • redução da resistência<br>
+      • aumento custos manutenção<br>
+      • falhas estruturais
+      </div>`
+    },
+    2: {
+      title: "Aula 3 — Como a Corrosão Ocorre? Ânodo Cátodo Eletrólito",
+      html: `<h3>📖 10.3 Como a Corrosão Ocorre?</h3>
+      <div class="grammar-box">
+      A corrosão do aço é um processo eletroquímico.<br><br>
+      Para ocorrer são normalmente necessários três elementos:<br><br>
+      <b>Ânodo:</b> Zona onde ocorre perda de metal.<br>
+      <b>Cátodo:</b> Zona protegida dentro da reação.<br>
+      <b>Eletrólito:</b> Meio que permite circulação de iões. Exemplos: água, humidade, água salgada.<br><br>
+      Quando estes três elementos coexistem, inicia-se o processo corrosivo.
+      </div>
+      <div class="test-box"><h4>🧪 Questionário</h4><p>Quais os três elementos necessários para corrosão ocorrer?</p></div>`
+    },
+    3: {
+      title: "Aula 4 — Custos da Corrosão - Diretos e Indiretos",
+      html: `<h3>📖 10.4 Custos da Corrosão</h3>
+      <div class="grammar-box">
+      Estudos internacionais demonstram que corrosão representa percentagem significativa Produto Interno Bruto de muitos países.<br><br>
+      <b>Custos Diretos:</b> reparações, substituições, manutenção<br>
+      <b>Custos Indiretos:</b> paragens produção, acidentes, perda produtividade, danos ambientais<br><br>
+      Em muitos casos custos indiretos são superiores aos diretos.
+      </div>`
+    },
+    4: {
+      title: "Aula 5 — Principais Tipos de Corrosão Industrial",
+      html: `<h3>📖 10.5 Principais Tipos</h3>
+      <div class="grammar-box">
+      <b>1. Corrosão Uniforme:</b> Forma mais comum. Superfície desgaste relativamente homogéneo. Ex: Ferrugem generalizada numa chapa.<br><br>
+      <b>2. Corrosão por Pites:</b> Pequenas cavidades profundas. Extremamente perigosa porque pode perfurar materiais rapidamente. Muito comum em ambientes marítimos.<br><br>
+      <b>3. Corrosão Galvânica:</b> Ocorre quando dois metais diferentes entram em contacto na presença eletrólito. Ex: Aço carbono ligado a aço inoxidável.<br><br>
+      <b>4. Corrosão em Frestas:</b> Ocorre em espaços reduzidos onde existe retenção humidade. Ex: juntas, parafusos, sobreposições chapas.<br><br>
+      <b>5. Corrosão Sob Tensão:</b> Combinação ambiente corrosivo + tensões mecânicas. Pode provocar fissuras repentinas.
+      </div>
+      <div class="test-box"><p>O que é corrosão galvânica? O que é corrosão por pites?</p></div>`
+    },
+    5: {
+      title: "Aula 6 — Ambientes Corrosivos ISO 12944 C1 a CX",
+      html: `<h3>📖 10.6 Ambientes Corrosivos</h3>
+      <div class="grammar-box">
+      Nem todos ambientes apresentam mesmo nível agressividade. Norma ISO 12944 classifica:<br><br>
+      <b>C1 – Muito Baixa:</b> Interiores secos. Ex: Escritórios.<br>
+      <b>C2 – Baixa:</b> Ambientes rurais.<br>
+      <b>C3 – Média:</b> Áreas urbanas e industriais ligeiras.<br>
+      <b>C4 – Alta:</b> Ambientes industriais severos. Áreas costeiras.<br>
+      <b>C5 – Muito Alta:</b> Indústria pesada. Ambientes marítimos agressivos.<br>
+      <b>CX – Extrema:</b> Ambientes offshore e marítimos extremos.
+      </div>
+      <div class="test-box"><p>Qual diferença entre ambiente C3 e C5?</p></div>`
+    },
+    6: {
+      title: "Aula 7 — Corrosão em Angola - Luanda Lobito Soyo Cabinda",
+      html: `<h3>📖 10.7 Corrosão em Angola - REALIDADE LOCAL</h3>
+      <div class="grammar-box">
+      Angola apresenta condições particularmente agressivas devido combinação:<br>
+      • elevadas temperaturas<br>
+      • humidade<br>
+      • atmosfera marítima<br>
+      • exposição solar intensa<br><br>
+      Zonas costeiras exigem sistemas proteção mais robustos. Exemplos:<br>
+      • Luanda<br>
+      • Lobito<br>
+      • Soyo<br>
+      • Cabinda
+      </div>
+      <div class="test-box"><p>Porque zonas costeiras são mais agressivas?</p></div>`
+    },
+    7: {
+      title: "Aula 8 — Fatores que Aceleram a Corrosão",
+      html: `<h3>📖 10.8 Fatores que Aceleram</h3>
+      <div class="grammar-box">
+      <b>Humidade:</b> Presença água facilita reação.<br>
+      <b>Salinidade:</b> Sais aumentam condutividade elétrica.<br>
+      <b>Poluição Industrial:</b> Certos gases aceleram corrosão.<br>
+      <b>Temperatura:</b> Temperaturas elevadas aceleram reações químicas.<br>
+      <b>Falhas de Pintura:</b> Proteção inadequada expõe aço ao ambiente.
+      </div>`
+    },
+    8: {
+      title: "Aula 9 — Métodos de Prevenção",
+      html: `<h3>📖 10.9 Métodos de Prevenção</h3>
+      <div class="grammar-box">
+      A prevenção é sempre mais económica do que a reparação.<br><br>
+      <b>Seleção de Materiais:</b> Escolher materiais adequados ao ambiente.<br>
+      <b>Projeto Adequado:</b> Evitar zonas retenção água.<br>
+      <b>Pintura Industrial:</b> Criar barreira protetora.<br>
+      <b>Galvanização:</b> Aplicação revestimento zinco.<br>
+      <b>Proteção Catódica:</b> Muito utilizada em tubagens, tanques, estruturas offshore.
+      </div>
+      <div class="test-box"><p>Como pintura ajuda prevenir? O que é proteção catódica?</p></div>`
+    },
+    9: {
+      title: "Aula 10 — Corrosão e Procurement + Exercício Resolvido",
+      html: `<h3>📖 10.10 Corrosão e Procurement</h3>
+      <div class="grammar-box">
+      Procurement desempenha papel fundamental na prevenção.<br>
+      Ao selecionar materiais e sistemas pintura, deve considerar:<br>
+      • ambiente serviço<br>
+      • vida útil desejada<br>
+      • custos manutenção<br>
+      • requisitos normativos<br><br>
+      Comprar apenas pelo menor preço pode gerar custos muito superiores futuro.
+      </div>
+      <h3>📐 10.11 Exercício Resolvido</h3>
+      <div class="grammar-box">
+      <b>Situação:</b> Estrutura metálica será instalada junto ao mar em Luanda.<br>
+      <b>Pergunta:</b> Qual principal risco?<br>
+      <b>Solução:</b> Presença humidade, sal, vento marítimo aumenta significativamente risco corrosão. Estrutura deverá receber sistema proteção adequado para ambiente C4 ou C5.
+      </div>
+      <div class="test-box"><p>Qual papel Procurement na prevenção?</p></div>`
+    },
+    10: {
+      title: "Aula 11 — Estudo de Caso Real - 5 Anos Sem Proteção",
+      html: `<h3>📖 10.12 Estudo de Caso</h3>
+      <div class="grammar-box">
+      Empresa instalou estrutura metálica sem sistema anticorrosivo adequado zona costeira.<br>
+      Após cinco anos verificou-se:<br>
+      • corrosão generalizada<br>
+      • perda espessura<br>
+      • custos elevados reparação<br><br>
+      Análise demonstrou investimento inicial pintura representaria menos de 10% do custo reparação.<br><br>
+      <b>Lição:</b> Prevenção é economicamente mais vantajosa do que correção.
+      </div>`
+    },
+    11: {
+      title: "Aula 12 — Boas Práticas vs Erros + Resumo + Questionário",
+      html: `<h3>📖 10.13 Boas Práticas</h3>
+      <div class="grammar-box">
+      • Avaliar ambiente antes selecionar materiais<br>
+      • Aplicar sistemas proteção adequados<br>
+      • Inspecionar regularmente estruturas<br>
+      • Corrigir danos rapidamente<br>
+      • Utilizar normas reconhecidas ISO 12944
+      </div>
+      <h3>❌ 10.14 Erros Frequentes</h3>
+      <div class="grammar-box">
+      • Ignorar condições ambientais<br>
+      • Utilizar pintura inadequada<br>
+      • Não realizar manutenção<br>
+      • Misturar metais incompatíveis<br>
+      • Subestimar corrosão
+      </div>
+      <h3>📝 10.15 Resumo Executivo</h3>
+      <div class="grammar-box">
+      A corrosão é fenómeno inevitável, mas controlável.<br>
+      Conhecimento mecanismos corrosivos permite selecionar materiais, sistemas proteção e estratégias manutenção adequadas.<br>
+      Profissional moderno deve compreender que corrosão não é apenas problema manutenção, mas fator crítico segurança, qualidade e rentabilidade.
+      </div>
+      <div class="test-box"><h4>🧪 Questionário Final 10 Perguntas - Avaliação</h4>
+      1. O que é corrosão?<br>
+      2. Quais os três elementos necessários para corrosão ocorrer?<br>
+      3. O que é corrosão galvânica?<br>
+      4. O que é corrosão por pites?<br>
+      5. Qual diferença entre ambiente C3 e C5?<br>
+      6. Porque zonas costeiras são mais agressivas?<br>
+      7. O que é proteção catódica?<br>
+      8. Como pintura ajuda prevenir corrosão?<br>
+      9. Porque prevenção é mais económica?<br>
+      10. Qual papel do Procurement na prevenção da corrosão?
+      </div>`
+    }
+  };
+
+  const lesson = L[id];
+  const container = document.getElementById('lesson-container');
+  if(lesson){
+    container.innerHTML = '<h2>' + lesson.title + '</h2>' + lesson.html;
+  } else {
+    container.innerHTML = '<h2>Aula ' + (id+1) + '</h2><p>Conteúdo completo do ficheiro original.</p>';
+  }
+}
+</script>
+</body>
+</html>
