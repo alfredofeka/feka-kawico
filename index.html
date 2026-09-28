@@ -32,15 +32,15 @@ nav ul li a{color:var(--text-light);text-decoration:none;font-weight:600;font-si
 #hamburger-btn{display:none;background:none;border:none;color:#fff;font-size:1.7em;cursor:pointer;padding:4px 8px}
 
 /* HERO */
-.hero{position:relative;height:clamp(150px,22vh,200px);overflow:hidden;display:flex;align-items:center;justify-content:center;color:#fff}
-.hero-slide{position:absolute;inset:0;background-size:cover;background-position:center;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;opacity:0;transition:opacity 1s}
+.hero{position:relative;height:clamp(150px,24vh,210px);overflow:hidden;display:flex;align-items:center;justify-content:center;color:#fff}
+.hero-slide{position:absolute;inset:0;background-size:cover;background-position:center;display:flex;flex-direction:column;justify-content:flex-end;align-items:flex-start;text-align:left;padding:0 18px 12px;opacity:0;transition:opacity 1s}
 .hero-slide.active{opacity:1}
-.hero-slide h1{font-size:1.7em;text-shadow:0 2px 8px rgba(0,0,0,.5);padding:0 12px}
-.hero-slide p{font-size:.95em;padding:0 12px;max-width:800px;margin:4px auto;text-shadow:0 1px 5px rgba(0,0,0,.5)}
-.hero-dots{position:absolute;bottom:8px;left:0;right:0;display:flex;justify-content:center;gap:7px;z-index:3}
+.hero-slide h1{font-size:1.3em;line-height:1.2;max-width:40%;text-shadow:0 2px 8px rgba(0,0,0,.8);margin:0}
+.hero-slide p{font-size:.82em;max-width:40%;margin:3px 0 0;text-shadow:0 1px 6px rgba(0,0,0,.85)}
+.hero-dots{position:absolute;bottom:10px;right:14px;display:flex;justify-content:flex-end;gap:7px;z-index:3}
 .hero-dots button{width:9px;height:9px;border-radius:50%;border:none;background:rgba(255,255,255,.5);cursor:pointer;padding:0}
 .hero-dots button.active{background:#fff;transform:scale(1.25)}
-.hero-slide i.hero-ico{font-size:1.5em;margin-bottom:2px;opacity:.9}
+.hero-slide i.hero-ico,.hero-btn{display:none}
 .hero-btn{padding:7px 16px;background:var(--btn-bg);color:#fff;border-radius:8px;text-decoration:none;font-weight:600;margin-top:8px;font-size:.9em}
 
 /* LAYOUT */
@@ -122,7 +122,7 @@ main.container{flex:1;min-width:0;transition:all.3s;padding:0 12px 35px;backgrou
 .validation{font-size:.62em}
 .share-btn{padding:5px 2px;font-size:.66em;border-radius:5px}
 .share-btn i{font-size:.9em}
-.hero{height:clamp(135px,20vh,165px)}.hero-slide h1{font-size:1.1em}.hero-slide p{font-size:.78em}
+.hero{height:clamp(135px,20vh,165px)}.hero-slide{padding:0 12px 9px}.hero-slide h1{font-size:.95em;max-width:100%}.hero-slide p{display:none}
 }
 footer{background:#2c3e50;color:#f4f4f4;padding:16px 0;text-align:center;font-size:.8em;margin-top:20px}
 </style>
@@ -134,7 +134,7 @@ footer{background:#2c3e50;color:#f4f4f4;padding:16px 0;text-align:center;font-si
 <div class="menu-status-wrapper"><nav id="main-nav"><ul><li><a href="index.html">Início</a></li><li><a href="carreiras.html">Carreira</a></li><li><a href="#cursos">Cursos</a></li><li><a href="sobrenos.html">Sobre Nós</a></li><li><a href="contato.html">Contato</a></li><li><a href="ajuda.html">Ajuda</a></li></ul></nav><div id="status-indicator"></div></div>
 </div></header>
 
-<section class="hero" id="hero"><div class="hero-slide active" style="background-image:linear-gradient(rgba(0,25,55,.55),rgba(0,25,55,.55)),url('banner-1.jpg'),linear-gradient(135deg,#004a80,#0a7bd8)"><i class="fas fa-briefcase hero-ico"></i><h1>O Mercado de Trabalho Procura Especialistas</h1><p>Qualificação técnica abre portas a melhores oportunidades</p><a href="#cursos" class="hero-btn">Ver Cursos</a></div><div class="hero-slide" style="background-image:linear-gradient(rgba(0,25,55,.55),rgba(0,25,55,.55)),url('banner-2.jpg'),linear-gradient(135deg,#0b3d63,#1f8a70)"><i class="fas fa-bullseye hero-ico"></i><h1>Especialize-se e Destaque-se</h1><p>Domine uma área e torne-se referência no seu sector</p><a href="#cursos" class="hero-btn">Ver Cursos</a></div><div class="hero-slide" style="background-image:linear-gradient(rgba(0,25,55,.55),rgba(0,25,55,.55)),url('banner-3.jpg'),linear-gradient(135deg,#1b2f5b,#5a4bd1)"><i class="fas fa-handshake hero-ico"></i><h1>Profissionalismo Constrói Carreiras</h1><p>Conhecimento, disciplina e ética: o que as empresas valorizam</p><a href="#cursos" class="hero-btn">Ver Cursos</a></div><div class="hero-slide" style="background-image:linear-gradient(rgba(0,25,55,.55),rgba(0,25,55,.55)),url('banner-4.jpg'),linear-gradient(135deg,#7a2e0e,#e08a1e)"><i class="fas fa-rocket hero-ico"></i><h1>O Seu Sucesso Começa Hoje</h1><p>Dê o próximo passo na sua carreira com a FEKA KAWIÇO</p><a href="#cursos" class="hero-btn">Ver Cursos</a></div><div class="hero-dots" id="hero-dots"></div></section>
+<section class="hero" id="hero"><div class="hero-slide active" style="background-image:linear-gradient(to top,rgba(0,20,45,.85),rgba(0,20,45,0) 55%),url('banner-1.jpg'),linear-gradient(135deg,#004a80,#0a7bd8)"><i class="fas fa-briefcase hero-ico"></i><h1>O Mercado de Trabalho Procura Especialistas</h1><p>Qualificação técnica abre portas a melhores oportunidades</p><a href="#cursos" class="hero-btn">Ver Cursos</a></div><div class="hero-slide" style="background-image:linear-gradient(to top,rgba(0,20,45,.85),rgba(0,20,45,0) 55%),url('banner-2.jpg'),linear-gradient(135deg,#004a80,#0a7bd8)"><i class="fas fa-bullseye hero-ico"></i><h1>Especialize-se e Destaque-se</h1><p>Domine uma área e torne-se referência no seu sector</p><a href="#cursos" class="hero-btn">Ver Cursos</a></div><div class="hero-slide" style="background-image:linear-gradient(to top,rgba(0,20,45,.85),rgba(0,20,45,0) 55%),url('banner-3.jpg'),linear-gradient(135deg,#004a80,#0a7bd8)"><i class="fas fa-handshake hero-ico"></i><h1>Profissionalismo Constrói Carreiras</h1><p>Conhecimento, disciplina e ética: o que as empresas valorizam</p><a href="#cursos" class="hero-btn">Ver Cursos</a></div><div class="hero-slide" style="background-image:linear-gradient(to top,rgba(0,20,45,.85),rgba(0,20,45,0) 55%),url('banner-4.jpg'),linear-gradient(135deg,#004a80,#0a7bd8)"><i class="fas fa-rocket hero-ico"></i><h1>O Seu Sucesso Começa Hoje</h1><p>Dê o próximo passo na sua carreira com a FEKA KAWIÇO</p><a href="#cursos" class="hero-btn">Ver Cursos</a></div><div class="hero-dots" id="hero-dots"></div></section>
 
 <div id="page-layout">
 <div id="sidebar-wrapper">
