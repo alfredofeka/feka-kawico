@@ -27,6 +27,8 @@ nav ul li a{color:var(--text-light);text-decoration:none;font-weight:600;font-si
 #status-indicator{display:flex;align-items:center}
 .status-icon{font-size:1.2em;margin-right:5px}.online{color:#28a745}.offline{color:#ffc107}
 .status-text{font-size:.82em;font-weight:600}
+.role-badge{display:inline-flex;align-items:center;gap:4px;margin-left:6px;padding:2px 8px;border-radius:10px;font-size:.68em;font-weight:700;color:#fff;white-space:nowrap}
+.user-box{display:flex;align-items:center;flex-wrap:wrap}
 #hamburger-btn{display:none;background:none;border:none;color:#fff;font-size:1.7em;cursor:pointer;padding:4px 8px}
 
 /* HERO */
@@ -192,30 +194,86 @@ async function loadCursosAutomatic(){
       </div>`;
     container.appendChild(div);
   });
-  await updateUI();
+  try{await updateUI();}catch(_){}
  }catch(e){container.innerHTML='<p style="color:red;text-align:center;grid-column:1/-1">Erro ao carregar cursos</p>';}
+}
+
+// ===== SESSÃO SEGURA (visitante pode navegar sem login) =====
+async function getSessionSafe(){
+ try{
+  if(!window.supabaseClient) return null;
+  const {data,error}=await supabaseClient.auth.getSession();
+  if(error) return null;
+  return data.session||null;
+ }catch(e){return null;}
+}
+
+// ===== PAPÉIS (STATUS) =====
+const ROLES={
+ aluno:{label:'Aluno',icon:'fa-user-graduate',cor:'#17a2b8'},
+ professor:{label:'Professor',icon:'fa-chalkboard-teacher',cor:'#28a745'},
+ professor_inspector:{label:'Professor Inspector',icon:'fa-user-check',cor:'#fd7e14'},
+ secretaria:{label:'Secretaria',icon:'fa-user-tie',cor:'#e83e8c'},
+ administrador:{label:'Administrador',icon:'fa-user-shield',cor:'#dc3545'}
+};
+const ROLE_ALIASES={
+ admin:'administrador',administrator:'administrador',
+ inspector:'professor_inspector',avaliador:'professor_inspector',professor_avaliador:'professor_inspector',
+ formador:'professor',professor_normal:'professor',
+ secretario:'secretaria',student:'aluno',estudante:'aluno'
+};
+function detectRole(p){
+ if(!p) return 'aluno';
+ const raw=String(p.role||p.papel||p.tipo||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim().replace(/[\s-]+/g,'_');
+ if(ROLES[raw]) return raw;
+ if(ROLE_ALIASES[raw]) return ROLE_ALIASES[raw];
+ // compatibilidade com colunas antigas
+ if(p.is_admin===true) return 'administrador';
+ if(p.is_avaliador===true||p.avaliador===true) return 'professor_inspector';
+ return 'aluno';
 }
 
 async function iniciarCurso(k,e){
  e.preventDefault();
- const {data:{session}}=await supabaseClient.auth.getSession();
+ const session=await getSessionSafe();
  if(!session){alert('⚠ Faça Login para acessar.');location.href='login.html';return;}
- const {data:enroll}=await supabaseClient.from('enrollments').select('status').eq('user_id',session.user.id).eq('course_id',k).single();
+ const {data:enroll}=await supabaseClient.from('enrollments').select('status').eq('user_id',session.user.id).eq('course_id',k).maybeSingle();
  if(enroll?.status==='validado') location.href=PAGE_MAP[k]||'validar-geral.html';
  else location.href='validar-geral.html';
 }
-async function updateLoginStatus(){
+
+function escHtml(t){return String(t).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+
+async function updateLoginStatus(session){
  const el=document.getElementById('status-indicator');
- const {data:{session}}=await supabaseClient.auth.getSession();
+ if(session===undefined) session=await getSessionSafe();
  if(session){
-  const {data:profile}=await supabaseClient.from('profiles').select('nome').eq('id',session.user.id).single();
-  const first=profile?.nome?profile.nome.split(' ')[0]:'Usuário';
-  el.innerHTML=`<a href="perfil.html" style="text-decoration:none;color:inherit;display:flex;align-items:center"><i class="fas fa-circle online" style="color:#28a745;margin-right:5px"></i><span style="font-size:.85em;font-weight:600">Olá, ${first}</span></a><a href="#" onclick="logout(event)" style="margin-left:6px;color:#ffc107;font-weight:bold;text-decoration:none;font-size:.75em">(Sair)</a>`;
+  let profile=null;
+  try{
+   const {data}=await supabaseClient.from('profiles').select('*').eq('id',session.user.id).maybeSingle();
+   profile=data;
+  }catch(_){}
+  const nome=profile?.nome||session.user.user_metadata?.nome||session.user.email?.split('@')[0]||'Usuário';
+  const first=nome.split(' ')[0];
+  const r=ROLES[detectRole(profile)];
+  el.innerHTML=`<div class="user-box"><a href="perfil.html" style="text-decoration:none;color:inherit;display:flex;align-items:center"><i class="fas fa-circle online" style="color:#28a745;margin-right:5px"></i><span style="font-size:.85em;font-weight:600">Olá, ${escHtml(first)}</span><span class="role-badge" style="background:${r.cor}"><i class="fas ${r.icon}"></i>${r.label}</span></a><a href="#" onclick="logout(event)" style="margin-left:8px;color:#ffc107;font-weight:bold;text-decoration:none;font-size:.75em">(Sair)</a></div>`;
  }else{
-  el.innerHTML=`<a href="login.html" style="text-decoration:none;color:inherit;display:flex;align-items:center"><i class="fas fa-circle offline" style="color:#ffc107;margin-right:5px"></i><span style="font-size:.85em;font-weight:600">Login</span></a>`;
+  el.innerHTML=`<a href="login.html" style="text-decoration:none;color:inherit;display:flex;align-items:center"><i class="fas fa-circle offline" style="color:#ffc107;margin-right:5px"></i><span style="font-size:.85em;font-weight:600">Entrar</span></a>`;
  }
 }
-async function logout(e){e.preventDefault();await supabaseClient.auth.signOut();alert('Sessão encerrada');location.href='index.html';}
+
+async function logout(e){
+ if(e) e.preventDefault();
+ try{await supabaseClient.auth.signOut({scope:'local'});}catch(_){}
+ // limpa qualquer sessão que tenha ficado guardada no navegador
+ try{
+  [localStorage,sessionStorage].forEach(st=>{
+   Object.keys(st).forEach(k=>{if(/^sb-.*-auth-token/.test(k)||k.startsWith('supabase.auth'))st.removeItem(k);});
+  });
+ }catch(_){}
+ // fica na mesma página (sem redirecionar) -> nunca dá 404
+ await updateUI();
+}
 
 // WHATSAPP COM NUMERO FIXO + MENSAGEM PERSONALIZADA
 function shareCourse(platform,btn,courseId){
@@ -238,8 +296,8 @@ function shareCourse(platform,btn,courseId){
 }
 
 async function updateUI(){
- await updateLoginStatus();
- const {data:{session}}=await supabaseClient.auth.getSession();
+ const session=await getSessionSafe();
+ await updateLoginStatus(session);
  const cards=document.querySelectorAll('.curso-card');
  if(!session){
   cards.forEach(c=>{const k=c.dataset.cursoKey;const st=document.getElementById(`${k}ValidationStatus`);const btn=c.querySelector('.course-btn');if(st){st.textContent='Requer Login';st.style.color='#dc3545'}if(btn)btn.textContent='Inscrever';});
@@ -255,7 +313,14 @@ async function updateUI(){
   else{st.innerHTML='🔓 Falta Validar Código';st.style.color='#007bff';btn.textContent='Inscrever';}
  });
 }
-document.addEventListener('DOMContentLoaded',loadCursosAutomatic);
+document.addEventListener('DOMContentLoaded',()=>{
+ loadCursosAutomatic();
+ if(window.supabaseClient){
+  supabaseClient.auth.onAuthStateChange(ev=>{
+   if(ev==='SIGNED_IN'||ev==='SIGNED_OUT'||ev==='USER_UPDATED') setTimeout(updateUI,0);
+  });
+ }
+});
 </script>
 </body>
 </html>
