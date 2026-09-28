@@ -32,12 +32,16 @@ nav ul li a{color:var(--text-light);text-decoration:none;font-weight:600;font-si
 #hamburger-btn{display:none;background:none;border:none;color:#fff;font-size:1.7em;cursor:pointer;padding:4px 8px}
 
 /* HERO */
-.hero{position:relative;height:38vh;overflow:hidden;display:flex;align-items:center;justify-content:center;color:#fff}
+.hero{position:relative;height:clamp(150px,22vh,200px);overflow:hidden;display:flex;align-items:center;justify-content:center;color:#fff}
 .hero-slide{position:absolute;inset:0;background-size:cover;background-position:center;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;opacity:0;transition:opacity 1s}
 .hero-slide.active{opacity:1}
-.hero-slide h1{font-size:2.4em;text-shadow:0 2px 8px rgba(0,0,0,.5)}
-.hero-slide p{font-size:1em;max-width:800px;margin:4px auto;text-shadow:0 1px 5px rgba(0,0,0,.5)}
-.hero-btn{padding:9px 18px;background:var(--btn-bg);color:#fff;border-radius:8px;text-decoration:none;font-weight:600;margin-top:8px;font-size:.9em}
+.hero-slide h1{font-size:1.7em;text-shadow:0 2px 8px rgba(0,0,0,.5);padding:0 12px}
+.hero-slide p{font-size:.95em;padding:0 12px;max-width:800px;margin:4px auto;text-shadow:0 1px 5px rgba(0,0,0,.5)}
+.hero-dots{position:absolute;bottom:8px;left:0;right:0;display:flex;justify-content:center;gap:7px;z-index:3}
+.hero-dots button{width:9px;height:9px;border-radius:50%;border:none;background:rgba(255,255,255,.5);cursor:pointer;padding:0}
+.hero-dots button.active{background:#fff;transform:scale(1.25)}
+.hero-slide i.hero-ico{font-size:1.5em;margin-bottom:2px;opacity:.9}
+.hero-btn{padding:7px 16px;background:var(--btn-bg);color:#fff;border-radius:8px;text-decoration:none;font-weight:600;margin-top:8px;font-size:.9em}
 
 /* LAYOUT */
 #page-layout{display:flex;align-items:flex-start;transition:all.3s}
@@ -45,17 +49,23 @@ nav ul li a{color:var(--text-light);text-decoration:none;font-weight:600;font-si
 #news-feed{width:var(--sidebar-w);min-width:var(--sidebar-w);background:#fff;box-shadow:2px 4px 12px rgba(0,0,0,.12);border-radius:0 12px 12px 0;height:78vh;overflow:hidden;display:flex;flex-direction:column;transition:all.3s}
 #sidebar-wrapper.collapsed #news-feed{width:0;min-width:0;opacity:0;pointer-events:none;margin-left:0;overflow:hidden}
 #news-feed h2{background:var(--primary-blue);color:#fff;text-align:center;padding:10px;font-size:.88em;font-weight:700;border-radius:0 12px 0 0}
-.feed-wrapper{padding:10px;height:calc(100% - 42px);overflow-y:auto}
-.news-item{margin-bottom:10px;padding-bottom:7px;border-bottom:1px solid #eee}
+.feed-wrapper{padding:0 10px;height:calc(100% - 42px);overflow:hidden;position:relative;-webkit-mask-image:linear-gradient(transparent,#000 6%,#000 94%,transparent);mask-image:linear-gradient(transparent,#000 6%,#000 94%,transparent)}
+.feed-track{display:flex;flex-direction:column;animation:feedScroll 28s linear infinite;will-change:transform}
+.feed-wrapper:hover .feed-track{animation-play-state:paused}
+@keyframes feedScroll{from{transform:translateY(0)}to{transform:translateY(-50%)}}
+@media(prefers-reduced-motion:reduce){.feed-track{animation:none}.feed-wrapper{overflow-y:auto}}
+.news-item{margin:0;padding:10px 0;border-bottom:1px solid #eee}
 .news-item h4{font-size:.82em;color:var(--primary-blue)}.news-item p{font-size:.75em;color:#666}
 .news-item a{text-decoration:none;color:inherit}
 .toggle-btn{width:26px;height:80px;background:var(--primary-blue);color:#fff;border:none;border-radius:0 10px 10px 0;cursor:pointer;font-weight:bold;flex-shrink:0;margin-top:20vh;box-shadow:2px 2px 6px rgba(0,0,0,.2)}
 
-main.container{flex:1;transition:all.3s;padding:0 12px 35px;background:#fff;margin-left:8px}
+main.container{flex:1;min-width:0;transition:all.3s;padding:0 12px 35px;background:#fff;margin-left:8px}
 #page-layout.collapsed main.container{margin:0 auto;max-width:1250px}
 
 /* CURSOS - 65% MENOR */
-#cursos{padding:22px 8px;display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:12px;justify-content:center}
+#cursos{padding:22px 8px;display:flex;flex-wrap:wrap;justify-content:center;align-content:flex-start;gap:14px;width:100%}
+#cursos .curso-card{flex:0 0 200px;width:200px}
+.cursos-msg{width:100%;text-align:center;color:#888;padding:20px}
 .curso-card{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 3px 10px rgba(0,0,0,.07);display:flex;flex-direction:column;border:1px solid #eef2f7;transition:transform.2s}
 .curso-card:hover{transform:translateY(-3px)}
 .curso-card img{width:100%;height:110px;object-fit:cover;object-position:top center;background:#f2f5f8}
@@ -82,10 +92,11 @@ main.container{flex:1;transition:all.3s;padding:0 12px 35px;background:#fff;marg
 @media(max-width:1024px){
  #page-layout{flex-direction:column}
  #sidebar-wrapper{position:static;width:100%}
- #news-feed{width:100%;min-width:100%;height:auto;border-radius:0}
+ #news-feed{width:100%;min-width:100%;height:170px;border-radius:0}
  #sidebar-wrapper.collapsed #news-feed{width:100%;min-width:100%;opacity:1}
 .toggle-btn{display:none}
- #cursos{grid-template-columns:repeat(auto-fill,minmax(165px,1fr));gap:10px}
+ #cursos{gap:10px}
+ #cursos .curso-card{flex-basis:170px;width:170px}
 .btn-inscricao{padding:8px;font-size:.8em;border-radius:7px}
 .share-btn{padding:6px 2px;font-size:.7em}
 }
@@ -101,7 +112,8 @@ main.container{flex:1;transition:all.3s;padding:0 12px 35px;background:#fff;marg
 .menu-status-wrapper{margin-left:auto}
  #sidebar-wrapper{display:none!important}
  main.container{margin:0!important;padding:0 8px 20px!important}
- #cursos{grid-template-columns:repeat(2,1fr);gap:8px;padding:12px 6px}
+ #cursos{gap:8px;padding:12px 6px}
+ #cursos .curso-card{flex:0 0 calc(50% - 4px);width:calc(50% - 4px)}
 .curso-card{border-radius:9px;box-shadow:0 2px 6px rgba(0,0,0,.06)}
 .curso-card img{height:85px}
 .curso-card h3{font-size:.82em;min-height:34px;padding:5px 3px}
@@ -110,7 +122,7 @@ main.container{flex:1;transition:all.3s;padding:0 12px 35px;background:#fff;marg
 .validation{font-size:.62em}
 .share-btn{padding:5px 2px;font-size:.66em;border-radius:5px}
 .share-btn i{font-size:.9em}
-.hero{height:24vh}.hero-slide h1{font-size:1.4em}.hero-slide p{font-size:.8em}
+.hero{height:clamp(135px,20vh,165px)}.hero-slide h1{font-size:1.1em}.hero-slide p{font-size:.78em}
 }
 footer{background:#2c3e50;color:#f4f4f4;padding:16px 0;text-align:center;font-size:.8em;margin-top:20px}
 </style>
@@ -122,20 +134,20 @@ footer{background:#2c3e50;color:#f4f4f4;padding:16px 0;text-align:center;font-si
 <div class="menu-status-wrapper"><nav id="main-nav"><ul><li><a href="index.html">Início</a></li><li><a href="carreiras.html">Carreira</a></li><li><a href="#cursos">Cursos</a></li><li><a href="sobrenos.html">Sobre Nós</a></li><li><a href="contato.html">Contato</a></li><li><a href="ajuda.html">Ajuda</a></li></ul></nav><div id="status-indicator"></div></div>
 </div></header>
 
-<section class="hero"><div class="hero-slide active" style="background-image:url('https://picsum.photos/id/1024/1600/600')"><h1>O Futuro é Agora</h1><p>Prepare-se para liderar projetos complexos</p><a href="#cursos" class="hero-btn">Ver Cursos</a></div></section>
+<section class="hero" id="hero"><div class="hero-slide active" style="background-image:linear-gradient(rgba(0,25,55,.55),rgba(0,25,55,.55)),url('banner-1.jpg'),linear-gradient(135deg,#004a80,#0a7bd8)"><i class="fas fa-briefcase hero-ico"></i><h1>O Mercado de Trabalho Procura Especialistas</h1><p>Qualificação técnica abre portas a melhores oportunidades</p><a href="#cursos" class="hero-btn">Ver Cursos</a></div><div class="hero-slide" style="background-image:linear-gradient(rgba(0,25,55,.55),rgba(0,25,55,.55)),url('banner-2.jpg'),linear-gradient(135deg,#0b3d63,#1f8a70)"><i class="fas fa-bullseye hero-ico"></i><h1>Especialize-se e Destaque-se</h1><p>Domine uma área e torne-se referência no seu sector</p><a href="#cursos" class="hero-btn">Ver Cursos</a></div><div class="hero-slide" style="background-image:linear-gradient(rgba(0,25,55,.55),rgba(0,25,55,.55)),url('banner-3.jpg'),linear-gradient(135deg,#1b2f5b,#5a4bd1)"><i class="fas fa-handshake hero-ico"></i><h1>Profissionalismo Constrói Carreiras</h1><p>Conhecimento, disciplina e ética: o que as empresas valorizam</p><a href="#cursos" class="hero-btn">Ver Cursos</a></div><div class="hero-slide" style="background-image:linear-gradient(rgba(0,25,55,.55),rgba(0,25,55,.55)),url('banner-4.jpg'),linear-gradient(135deg,#7a2e0e,#e08a1e)"><i class="fas fa-rocket hero-ico"></i><h1>O Seu Sucesso Começa Hoje</h1><p>Dê o próximo passo na sua carreira com a FEKA KAWIÇO</p><a href="#cursos" class="hero-btn">Ver Cursos</a></div><div class="hero-dots" id="hero-dots"></div></section>
 
 <div id="page-layout">
 <div id="sidebar-wrapper">
-<aside id="news-feed"><h2>Notícias & Artigos</h2><div class="feed-wrapper">
+<aside id="news-feed"><h2>Notícias & Artigos</h2><div class="feed-wrapper"><div class="feed-track" id="feed-track">
 <div class="news-item"><a href="noticias.html"><h4>Nova Norma EN1090</h4><p>Aplicação prática na fabricação.</p></a></div>
 <div class="news-item"><a href="noticias.html"><h4>Projeto Offshore Angola</h4><p>Desafios e soluções complexas.</p></a></div>
 <div class="news-item"><a href="noticias.html"><h4>Academia ALFEKA</h4><p>Workshops de excelência.</p></a></div>
 <div class="news-item"><a href="noticias.html"><h4>QA/QC</h4><p>Melhores práticas.</p></a></div>
-</div></aside>
+</div></div></aside>
 <button id="toggle-feed-btn" class="toggle-btn">&lt;</button>
 </div>
 
-<main class="container"><section id="cursos"><p style="grid-column:1/-1;text-align:center;color:#888">Carregando cursos...</p></section></main>
+<main class="container"><section id="cursos"><p class="cursos-msg">Carregando cursos...</p></section></main>
 </div>
 
 <footer><div class="container"><p>© 2025 FEKA KAWIÇO Cursos Técnicos.</p><p>“A Terra Natural do Conhecimento”</p></div></footer>
@@ -160,48 +172,57 @@ const PAGE_MAP={
  desenhador:"tdpm.html", procurement:"curso-procurement.html", ingles:"ingles.html", frances:"frances.html",
  "QA-QC":"QA-QC.html", Robotica:"curso_robotica.html", refrigeracao:"curso-refrigeracao.html",
  REPARARTV:"curso-ManTV.html", AutoNmicra:"curso-Auto-Nmicra.html", Curso_DJ:"Curso_DJ.html",
- violao:"curso-Violao_html.html", vfd:"curso-VFD.html", TComercial:"TComercial.html", GComercial:"GComercial.html", Intfidic:"Intfidic.html"
+ violao:"curso-Violao_html.html", vfd:"curso-VFD.html", TComercial:"TComercial.html", GComercial:"GComercial.html", Intfidic:"int-fidic.html"
 };
 
+let CURSOS_MAP={};
 async function loadCursosAutomatic(){
  const container=document.getElementById('cursos');
- try{
-  let cursos=[];
-  if(window.supabaseClient){
-    const {data,error}=await supabaseClient.from('courses').select('id,nome,descricao').order('nome');
-    if(!error && data && data.length>0) cursos=data;
-  }
-  if(cursos.length===0){
-    cursos=Object.keys(PAGE_MAP).map(k=>({id:k,nome:k,descricao:'Curso técnico FEKA - A Terra Natural do Conhecimento'}));
-  }
-  container.innerHTML='';
-  cursos.forEach(cur=>{
-    const id=cur.id; const nome=cur.nome||id; const desc=cur.descricao||'Capacitação técnica profissional';
-    const div=document.createElement('div');
-    div.className='curso-card'; div.dataset.curso=nome; div.dataset.cursoKey=id;
-    div.innerHTML=`
-      <a href="#" onclick="iniciarCurso('${id}',event)"><img src="${id}.png" alt="${nome}" onerror="this.src='FK.png'" loading="lazy"></a>
-      <div class="card-body">
-        <h3>${nome}</h3>
-        <p class="desc">${desc}</p>
-        <p class="validation" id="${id}ValidationStatus"></p>
-        <a href="#" class="btn-inscricao course-btn" onclick="iniciarCurso('${id}',event)">Inscrever</a>
-        <div class="social-share">
-          <button class="share-btn share-whatsapp" onclick="shareCourse('whatsapp',this,'${id}')"><i class="fab fa-whatsapp"></i></button>
-          <button class="share-btn share-facebook" onclick="shareCourse('facebook',this,'${id}')"><i class="fab fa-facebook-f"></i></button>
-          <button class="share-btn share-email" onclick="shareCourse('email',this,'${id}')"><i class="fas fa-envelope"></i> Enviar</button>
-        </div>
-      </div>`;
-    container.appendChild(div);
-  });
-  try{await updateUI();}catch(_){}
- }catch(e){container.innerHTML='<p style="color:red;text-align:center;grid-column:1/-1">Erro ao carregar cursos</p>';}
+ let cursos=[],falhou=false;
+ if(typeof supabaseClient!=='undefined'){
+  try{
+   const {data,error}=await supabaseClient.from('courses').select('*').order('nome');
+   if(error){falhou=true;console.warn('courses:',error.message);}
+   else cursos=(data||[]).filter(c=>c.ativo!==false);
+  }catch(e){falhou=true;}
+ }else falhou=true;
+ // lista fixa só se o Supabase estiver inacessível
+ if(falhou) cursos=Object.keys(PAGE_MAP).map(k=>({id:k,nome:k,descricao:'Curso técnico FEKA - A Terra Natural do Conhecimento'}));
+ CURSOS_MAP={};
+ container.innerHTML='';
+ if(!cursos.length){container.innerHTML='<p class="cursos-msg">Ainda não há cursos disponíveis.</p>';await safeUpdateUI();return;}
+ cursos.forEach(cur=>{
+  const id=String(cur.id); CURSOS_MAP[id]=cur;
+  const nome=cur.nome||id; const desc=cur.descricao||'Capacitação técnica profissional';
+  const img=cur.imagem||cur.imagem_url||`${id}.png`;
+  const div=document.createElement('div');
+  div.className='curso-card'; div.dataset.curso=nome; div.dataset.cursoKey=id;
+  div.innerHTML=`
+   <a href="#" class="go-curso"><img alt="${escHtml(nome)}" onerror="this.onerror=null;this.src='FK.png'" loading="lazy"></a>
+   <div class="card-body">
+    <h3>${escHtml(nome)}</h3>
+    <p class="desc">${escHtml(desc)}</p>
+    <p class="validation"></p>
+    <a href="#" class="btn-inscricao course-btn go-curso">Inscrever</a>
+    <div class="social-share">
+     <button class="share-btn share-whatsapp" data-p="whatsapp"><i class="fab fa-whatsapp"></i></button>
+     <button class="share-btn share-facebook" data-p="facebook"><i class="fab fa-facebook-f"></i></button>
+     <button class="share-btn share-email" data-p="email"><i class="fas fa-envelope"></i> Enviar</button>
+    </div>
+   </div>`;
+  div.querySelector('img').src=img;
+  div.querySelectorAll('.go-curso').forEach(a=>a.addEventListener('click',ev=>iniciarCurso(id,ev)));
+  div.querySelectorAll('.share-btn').forEach(b=>b.addEventListener('click',()=>shareCourse(b.dataset.p,b,id)));
+  container.appendChild(div);
+ });
+ await safeUpdateUI();
 }
+async function safeUpdateUI(){try{await updateUI();}catch(_){}}
 
 // ===== SESSÃO SEGURA (visitante pode navegar sem login) =====
 async function getSessionSafe(){
  try{
-  if(!window.supabaseClient) return null;
+  if(typeof supabaseClient==='undefined') return null;
   const {data,error}=await supabaseClient.auth.getSession();
   if(error) return null;
   return data.session||null;
@@ -238,7 +259,8 @@ async function iniciarCurso(k,e){
  const session=await getSessionSafe();
  if(!session){alert('⚠ Faça Login para acessar.');location.href='login.html';return;}
  const {data:enroll}=await supabaseClient.from('enrollments').select('status').eq('user_id',session.user.id).eq('course_id',k).maybeSingle();
- if(enroll?.status==='validado') location.href=PAGE_MAP[k]||'validar-geral.html';
+ const paginaCurso=CURSOS_MAP[k]?.pagina||PAGE_MAP[k];
+ if(enroll?.status==='validado') location.href=paginaCurso||'validar-geral.html';
  else location.href='validar-geral.html';
 }
 
@@ -300,25 +322,54 @@ async function updateUI(){
  await updateLoginStatus(session);
  const cards=document.querySelectorAll('.curso-card');
  if(!session){
-  cards.forEach(c=>{const k=c.dataset.cursoKey;const st=document.getElementById(`${k}ValidationStatus`);const btn=c.querySelector('.course-btn');if(st){st.textContent='Requer Login';st.style.color='#dc3545'}if(btn)btn.textContent='Inscrever';});
+  cards.forEach(c=>{const st=c.querySelector('.validation');const btn=c.querySelector('.course-btn');if(st){st.textContent='Requer Login';st.style.color='#dc3545'}if(btn)btn.textContent='Inscrever';});
   return;
  }
  const ids=[...cards].map(c=>c.dataset.cursoKey);
- const {data:enrolls}=await supabaseClient.from('enrollments').select('course_id,status').eq('user_id',session.user.id).in('course_id',ids);
- const map={};(enrolls||[]).forEach(e=>map[e.course_id]=e.status);
+ let map={};
+ if(ids.length){
+  const {data:enrolls}=await supabaseClient.from('enrollments').select('course_id,status').eq('user_id',session.user.id).in('course_id',ids);
+  (enrolls||[]).forEach(e=>map[String(e.course_id)]=e.status);
+ }
  cards.forEach(c=>{
-  const k=c.dataset.cursoKey;const st=document.getElementById(`${k}ValidationStatus`);const btn=c.querySelector('.course-btn');
+  const k=c.dataset.cursoKey;const st=c.querySelector('.validation');const btn=c.querySelector('.course-btn');
   if(!st||!btn)return;
   if(map[k]==='validado'){st.innerHTML='✅ Inscrição Validada';st.style.color='#28a745';btn.textContent='Continuar Curso';}
   else{st.innerHTML='🔓 Falta Validar Código';st.style.color='#007bff';btn.textContent='Inscrever';}
  });
 }
+// ===== BANNER DINÂMICO (4 slides) =====
+(function(){
+ const slides=[...document.querySelectorAll('.hero-slide')];
+ const dotsBox=document.getElementById('hero-dots');
+ let cur=0,timer;
+ const dots=slides.map((_,i)=>{const b=document.createElement('button');b.setAttribute('aria-label','Slide '+(i+1));b.addEventListener('click',()=>{show(i);restart();});dotsBox.appendChild(b);return b;});
+ function show(i){cur=(i+slides.length)%slides.length;slides.forEach((s,n)=>s.classList.toggle('active',n===cur));dots.forEach((d,n)=>d.classList.toggle('active',n===cur));}
+ function restart(){clearInterval(timer);timer=setInterval(()=>show(cur+1),5000);}
+ show(0);restart();
+})();
+
+// ===== NOTÍCIAS A SUBIR DEVAGAR (duplica o conteúdo para o ciclo ser contínuo) =====
+(function(){
+ const track=document.getElementById('feed-track');
+ if(!track) return;
+ [...track.children].forEach(n=>track.appendChild(n.cloneNode(true)));
+})();
+
 document.addEventListener('DOMContentLoaded',()=>{
  loadCursosAutomatic();
- if(window.supabaseClient){
+ if(typeof supabaseClient!=='undefined'){
   supabaseClient.auth.onAuthStateChange(ev=>{
    if(ev==='SIGNED_IN'||ev==='SIGNED_OUT'||ev==='USER_UPDATED') setTimeout(updateUI,0);
   });
+  // atualiza sozinho quando se adiciona/edita/remove um curso no Supabase
+  try{
+   supabaseClient.channel('courses-live')
+    .on('postgres_changes',{event:'*',schema:'public',table:'courses'},()=>loadCursosAutomatic())
+    .subscribe();
+  }catch(_){}
+  // e também ao voltar ao separador
+  document.addEventListener('visibilitychange',()=>{if(!document.hidden)loadCursosAutomatic();});
  }
 });
 </script>
