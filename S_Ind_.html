@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Curso: Serralharia Industrial Intensiva — FEKA KAWIÇO</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+<style>
+:root { --primary-color: #004a80; --secondary-color: #fca311; --text-dark: #222; --text-light: #fff; --bg-dark: #1f2937; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background-color: #fff; color: var(--text-dark); font-family: "Segoe UI", sans-serif; line-height: 1.6; overflow-x: hidden; }
+header { background-color: var(--primary-color); color: var(--text-light); padding: 10px 15px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 1000; }
+.brand-area { display: flex; align-items: center; gap: 10px; }
+.brand-area img { height: 30px; border-radius: 5px; }
+#course-container { display: flex; height: calc(100vh - 65px); overflow: hidden; }
+#sidebar { width: 480px; background-color: var(--bg-dark); color: var(--text-light); padding: 20px; overflow-y: auto; }
+.module h3 { cursor: pointer; font-size: 0.95rem; margin-bottom: 8px; font-weight: 600; color: var(--secondary-color); line-height: 1.3; }
+.chapter-list { display: none; margin-left: 8px; margin-bottom: 15px; }
+.chapter-list h4 { color: #9ca3af; font-size: 0.85rem; margin-top: 10px; margin-bottom: 4px; }
+.chapter-link { display: block; color: var(--text-light); padding: 6px 5px; font-size: 0.88rem; text-decoration: none; border-left: 2px solid transparent; transition: all 0.3s ease; cursor: pointer; }
+.chapter-link:hover { color: var(--secondary-color); border-left: 2px solid var(--secondary-color); }
+.chapter-link.active { color: var(--secondary-color); border-left: 2px solid var(--secondary-color); background: rgba(252,163,17,0.1); }
+#main-content { flex-grow: 1; display: flex; justify-content: center; align-items: flex-start; padding: 40px 10px; background-color: #f4f6f8; overflow-y: auto; }
+.lesson-content { background: #fff; max-width: 900px; width: 100%; padding: 40px 50px; box-shadow: 0 0 15px rgba(0,0,0,0.1); border-radius: 8px; line-height: 1.8; color: #222; text-align: justify; }
+.lesson-content h2 { color: #004a80; text-align: center; font-size: 1.5rem; margin-bottom: 20px; border-bottom: 2px solid #004a80; padding-bottom: 8px; }
+.lesson-content h3 { color: #004a80; margin-top: 22px; margin-bottom: 8px; }
+.grammar-box { background: #fef3c7; border-left: 4px solid #f59e0b; padding: 15px; margin: 15px 0; border-radius: 0 8px 8px 0; }
+.test-box { background-color: #eef6fc; border-left: 4px solid var(--primary-color); padding: 15px 20px; margin-top: 25px; border-radius: 0 8px 8px 0; }
+.phrase { background: #f3f4f6; padding: 10px 12px; border-radius: 8px; margin: 8px 0; display: flex; justify-content: space-between; align-items: center; }
+#toggle-sidebar { display: none; background: var(--primary-color); color: var(--text-light); border: none; font-size: 1.3rem; padding: 8px 12px; border-radius: 6px; margin-right: 10px; cursor: pointer; }
+@media (max-width: 900px) { #sidebar { position: fixed; top: 50px; left: 0; width: 88%; max-width: 380px; height: calc(100vh - 50px); z-index: 9999; transform: translateX(-100%); transition: transform 0.3s; } #sidebar.active { transform: translateX(0); } #toggle-sidebar { display: inline-block!important; } }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand-area">
+    <button id="toggle-sidebar">☰</button>
+    <a href="index.html"><i class="fas fa-home"></i></a>
+    <img src="FK.png" alt="FEKA KAWIÇO" />
+    <span><strong>FEKA KAWIÇO</strong> – <em>A terra natural do conhecimento!</em></span>
+  </div>
+  <div id="login-status">🔒 Verificando acesso…</div>
+</header>
+
+<div id="course-container">
+<aside id="sidebar">
+
+<div class="module">
+<h3 onclick="toggleModule(0)">🏭 MÓDULO 0: Fundamentos da Serralharia Industrial</h3>
+<div class="chapter-list" id="module-0">
+<a class="chapter-link" onclick="loadLesson(0)">Aula 0.1 — O Que é Serralharia Industrial?</a>
+<a class="chapter-link" onclick="loadLesson(1)">Aula 0.2 — Áreas de Aplicação e Materiais S235/S275/S355</a>
+<a class="chapter-link" onclick="loadLesson(2)">Aula 0.3 — Elementos Estruturais IPE/HEA/UPN</a>
+<a class="chapter-link" onclick="loadLesson(3)">Aula 0.4 — Engenharia vs Serralharia + Normas EN 1090 / Eurocódigo 3</a>
+<a class="chapter-link" onclick="loadLesson(4)">Aula 0.5 — Segurança EPI + Exercício Plataforma 6x2m + Estudo Caso Corrosão</a>
+</div>
+</div>
+
+<div class="module">
+<h3 onclick="toggleModule(1)">📏 MÓDULO 1: MEDIÇÃO E TRAÇAGEM - Oficina Real</h3>
+<div class="chapter-list" id="module-1">
+<h4>📦 10% Teoria 90% Prática</h4>
+<a class="chapter-link" onclick="loadLesson(5)">Aula 1 — Ferramentas de Medição ±1mm ±0.5mm</a>
+<a class="chapter-link" onclick="loadLesson(6)">Aula 2 — Esquadrias Método Diagonal 500x500 = 707mm</a>
+<a class="chapter-link" onclick="loadLesson(7)">Aula 3 — Traçagem Industrial - Riscador e Punção</a>
+</div>
+</div>
+
+<div class="module">
+<h3 onclick="toggleModule(2)">✂️ MÓDULO 2: CORTES E ENCAIXES - Fish Mouth</h3>
+<div class="chapter-list" id="module-2">
+<a class="chapter-link" onclick="loadLesson(8)">Aula 4 — Corte 90° Tubo Quadrado x Quadrado 500x500</a>
+<a class="chapter-link" onclick="loadLesson(9)">Aula 5 — Esquadria 45° Tubo 40x40x3 - 10 peças</a>
+<a class="chapter-link" onclick="loadLesson(10)">Aula 6 — Retangular x Retangular 80x40mm - Molduras</a>
+<a class="chapter-link" onclick="loadLesson(11)">Aula 7 — Tubo Redondo x Redondo Ø50 - Fish Mouth</a>
+<a class="chapter-link" onclick="loadLesson(12)">Aula 8 — Tubo Redondo Ø60 x Quadrado 60x60 - Gabarito</a>
+<a class="chapter-link" onclick="loadLesson(13)">Aula 9 — Tubo Redondo Ø50 x Retangular 100x50</a>
+<a class="chapter-link" onclick="loadLesson(14)">Aula 10 — Retangular 100x50 x Quadrado 60x60 - Transferência Medidas</a>
+</div>
+</div>
+
+<div class="module">
+<h3 onclick="toggleModule(3)">🔥 MÓDULO 3: SOLDADURA BÁSICA SMAW 6013</h3>
+<div class="chapter-list" id="module-3">
+<a class="chapter-link" onclick="loadLesson(15)">Aula 11 — Abrir Arco SMAW Eletrodo 6013</a>
+<a class="chapter-link" onclick="loadLesson(16)">Aula 12 — Deposição de Cordões 50 cordões - Uniformidade</a>
+<a class="chapter-link" onclick="loadLesson(17)">Aula 13 — Pingar Solda Posições Plana/Horizontal</a>
+<a class="chapter-link" onclick="loadLesson(18)">Aula 14 — Junta de Topo Chapa 6mm Raiz e Abertura</a>
+<a class="chapter-link" onclick="loadLesson(19)">Aula 15 — Junta em T Fillet Weld 3/4/5mm Verificação Visual</a>
+</div>
+</div>
+
+<div class="module">
+<h3 onclick="toggleModule(4)">🏗️ MÓDULO 4: SOLDADURA E FABRICAÇÃO - Projeto Real</h3>
+<div class="chapter-list" id="module-4">
+<a class="chapter-link" onclick="loadLesson(20)">Aula 16 — Fabricação Banco Metálico - Corte Preparação Ponteamento</a>
+<a class="chapter-link" onclick="loadLesson(21)">Aula 17 — Grade 1000x1000 Prática Completa</a>
+<a class="chapter-link" onclick="loadLesson(22)">Aula 18 — Portão 1500x2000 Prática Completa</a>
+<a class="chapter-link" onclick="loadLesson(23)">Aula 19 — Plataforma Industrial Perfis Cantoneira UPN Tubo</a>
+<a class="chapter-link" onclick="loadLesson(24)">Aula 20 — PROJETO FINAL Mesa Industrial + 100 Cordões Obrigatórios</a>
+</div>
+</div>
+
+</aside>
+
+<main id="main-content">
+<div class="lesson-content" id="lesson-container"></div>
+</main>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('login-status').textContent = '✅ Acesso autorizado — Serralharia Industrial FEKA KAWIÇO';
+  toggleModule(0);
+  loadLesson(0);
+});
+function toggleModule(i){
+  const el = document.getElementById('module-'+i);
+  if(el) el.style.display = el.style.display === 'block'? 'none' : 'block';
+}
+document.getElementById('toggle-sidebar').addEventListener('click', () => {
+  document.getElementById('sidebar').classList.toggle('active');
+});
+
+function loadLesson(id){
+  document.querySelectorAll('.chapter-link').forEach(el=>el.classList.remove('active'));
+  if(window.event && window.event.target) window.event.target.classList.add('active');
+
+  const L = {
+    0: {
+      title: "Aula 0.1 — O Que é Serralharia Industrial?",
+      html: `<h3>🎯 Objetivo Geral</h3><p>Capacitar o formando a fabricar estruturas metálicas completas a partir de desenhos técnicos.</p>
+      <div class="grammar-box">
+      <b>Definição Rigorosa:</b> Conjunto de processos técnicos destinados à fabricação, modificação, reparação e montagem de componentes metálicos utilizados na indústria.<br><br>
+      <b>Processos:</b> Corte, Furação, Quinagem, Soldadura, Montagem, Ajustagem, Proteção anticorrosiva, Inspeção e controlo qualidade.<br><br>
+      <b>Diferença CRÍTICA:</b> Serralharia Ligeira = grades, portas pequenas. Serralharia INDUSTRIAL = componentes pesados, estruturas complexas, requisitos rigorosos segurança. Um erro pode causar falha estrutural grave humana e económica.
+      </div>
+      <h3>📚 Objetivos Aprendizagem</h3>
+      <ul><li>Compreender conceito moderno serralharia industrial</li><li>Identificar áreas aplicação estruturas metálicas</li><li>Reconhecer elementos básicos fabricação</li><li>Relação engenharia, fabricação, procurement, qualidade</li><li>Identificar normas aplicáveis</li><li>Visão integrada cadeia valor</li></ul>
+      <div class="test-box"><h4>🧪 Questionário</h4><p>O que é serralharia industrial? Diferença entre industrial e ligeira?</p></div>`
+    },
+    1: {
+      title: "Aula 0.2 — Principais Áreas de Aplicação e Materiais",
+      html: `<h3>🏭 Áreas</h3>
+      <div class="grammar-box"><b>Construção Metálica:</b> Armazéns, Pavilhões, Centros logísticos, Edifícios comerciais, Coberturas - Vantagens: rapidez, resistência, ampliação futura.<br>
+      <b>Petrolífera e Offshore:</b> Plataformas offshore, Pipe racks, Skids, Suporte equipamentos, Módulos industriais - Corrosão crítica.<br>
+      <b>Mineração:</b> Correias transportadoras, Estruturas britagem, Silos, Torres transferência.<br>
+      <b>Energia:</b> Centrais térmicas, solares, Subestações, Torres transporte energia.<br>
+      <b>Infraestruturas:</b> Pontes metálicas, Passadiços, Viadutos, Ferroviárias.</div>
+      <h3>🔩 Materiais</h3>
+      <div class="grammar-box"><b>Aço Carbono S235 S275 S355:</b> Mais usado - resistência mecânica + facilidade soldadura + custo competitivo.<br>
+      <b>Aço Inoxidável:</b> Alta resistência corrosão - Alimentar, Farmacêutica, Marítimos.<br>
+      <b>Alumínio:</b> Baixo peso + boa corrosão - Fachadas, Coberturas, Leves.</div>
+      <div class="test-box"><p>Quais são principais áreas aplicação? Quais materiais S235 S275 S355?</p></div>`
+    },
+    2: {
+      title: "Aula 0.3 — Elementos Estruturais Fundamentais IPE HEA UPN",
+      html: `<div class="grammar-box">
+      <b>Perfis IPE:</b> Muito utilizados como vigas.<br>
+      <b>Perfis HEA e HEB:</b> Pilares e elementos elevada resistência.<br>
+      <b>Perfis UPN:</b> Estruturas secundárias.<br>
+      <b>Tubos Estruturais:</b> Guarda-corpos, passadiços, arquitetónicas.<br>
+      <b>Chapas:</b> Plataformas, Equipamentos, Tanques, Escadas industriais - Chapa xadrez antiderrapante.</div>
+      <div class="test-box"><p>Que elementos compõem plataforma metálica industrial 6x2m?</p></div>`
+    },
+    3: {
+      title: "Aula 0.4 — Engenharia vs Serralharia + Normas EN 1090 Eurocódigo 3",
+      html: `<div class="grammar-box">
+      <b>Regra Ouro:</b> Nenhuma estrutura deve ser fabricada sem projeto devidamente desenvolvido e aprovado.<br><br>
+      <b>Engenharia responsável:</b> Definir carregamentos, Dimensionar componentes, Selecionar materiais, Garantir segurança estrutural.<br>
+      <b>Serralharia transforma cálculos em realidade física.</b><br><br>
+      <b>Cadeia integração obrigatória:</b> Engenharia ↔ Procurement ↔ Produção ↔ Qualidade ↔ Montagem.<br><br>
+      <b>Normas Fundamentais:</b><br>
+      EN 1090 - Norma europeia execução estruturas metálicas - OBRIGATÓRIA<br>
+      Eurocódigo 3 EN 1993 - Referência projeto estruturas metálicas<br>
+      EN 10025 - Requisitos aços estruturais<br>
+      ISO 3834 - Gestão qualidade soldadura<br>
+      ISO 9001 - Sistema gestão qualidade<br>
+      Estas normas garantem uniformidade, segurança e rastreabilidade.</div>
+      <div class="test-box"><p>O que estabelece EN 1090? Função Eurocódigo 3? Porque rastreabilidade importante?</p></div>`
+    },
+    4: {
+      title: "Aula 0.5 — Segurança + Exercício Plataforma + Estudo Caso Corrosão",
+      html: `<div class="grammar-box"><b>Segurança Presente em TODAS atividades:</b><br>
+      Riscos: Queda objetos, Projeção partículas, Queimaduras, Choque elétrico, Trabalho altura, Movimentação cargas.<br>
+      <b>EPI Obrigatório:</b> Capacete, Óculos segurança, Luvas, Botas segurança, Máscara soldadura, Arnês.<br>
+      Uma produção eficiente nunca deve comprometer segurança trabalhadores.</div>
+      <h3>📐 Exercício Resolvido - Plataforma 6m x 2m Manutenção</h3>
+      <div class="grammar-box">Estrutura principal: Perfis IPE ou HEA<br>
+      Estrutura secundária: Travessas metálicas<br>
+      Piso: Chapa xadrez antiderrapante<br>
+      Proteção: Guarda-corpo tubular<br>
+      Fixação: Parafusos estruturais<br>
+      Proteção anticorrosiva: Sistema pintura industrial<br>
+      Conclusão: Plataforma simples envolve estruturas, materiais, segurança, proteção anticorrosiva.</div>
+      <h3>🔍 Estudo Caso Real Fábrica Cimento Ambiente Agressivo</h3>
+      <div class="test-box">Problemas: Pintura degradada, Humidade, Perda espessura chapas, Corrosão ligações aparafusadas.<br>
+      Solução: 1. Levantamento dimensional 2. Projeto substituição 3. Procurement materiais 4. Fabricação 5. Pintura industrial 6. Inspeção 7. Montagem.<br>
+      Projeto concluído sem interrupção significativa produção fábrica.</div>`
+    },
+    5: {
+      title: "Aula 1 — Ferramentas de Medição - 10% Teoria 90% Prática",
+      html: `<h3>🎯 Objetivo</h3><p>Medir com precisão industrial.</p>
+      <div class="grammar-box"><b>Programa Real:</b> 10% Teoria 90% Prática Oficina todos os dias Peças reais Tolerâncias reais Leitura desenhos Fabricação completa<br><br>
+      <b>Ferramentas:</b> Trena, Esquadro, Transferidor, Falsa esquadria, Nível, Paquímetro, Máquina corte, Esmeriladora, Furadeira, Máquina SMAW MIG/MAG TIG</div>
+      <h3>🛠️ Prática Aula 1</h3>
+      <div class="phrase"><span>Medir: chapa, perfil L, tubo quadrado, tubo redondo, tubo retangular<br>Utilizar: trena, paquímetro, régua metálica<br><b>Exercícios:</b> Precisão ±1mm e ±0.5mm</span></div>
+      <div class="test-box"><h4>🧪 Exercício Obrigatório</h4><p>50 medições - chapas, perfis L, tubos quadrados, redondos, retangulares com tolerância ±0.5mm</p></div>`
+    },
+    6: {
+      title: "Aula 2 — Esquadrias - Método Diagonal 500x500 = 707mm",
+      html: `<h3>📐 Cálculo Rigoroso</h3>
+      <div class="grammar-box"><b>Quadro 500x500:</b> Diagonal = √(500²+500²) = 707 mm<br><b>Quadro 800x1200:</b> Diagonal = √(800²+1200²) = 1442 mm<br><br>
+      Se diagonais iguais = esquadria perfeita 90°. Se diferentes = fora de esquadro.</div>
+      <div class="phrase"><span>Prática: Verificar esquadrias quadro 500x500, quadro 800x1200, grade simples. Construir quadro e verificar diagonais.</span></div>
+      <div class="test-box"><p>20 esquadrias 45° obrigatórias</p></div>`
+    },
+    7: {
+      title: "Aula 3 — Traçagem Industrial",
+      html: `<div class="grammar-box">Marcar: linhas paralelas, linhas perpendiculares, circulares, centros, eixos<br>Ferramentas: riscador, punção, esquadro</div>
+      <div class="phrase"><span>Prática: Traçagem completa em chapa com riscador e punção, marcação centros furos.</span></div>`
+    },
+    8: { title: "Aula 4 — Corte 90° Tubo Quadrado x Quadrado □ 500x500", html: `<div class="grammar-box">Fabricar □ 500x500 Controlando esquadria e alinhamento</div><div class="test-box"><p>10 peças obrigatórias Tubo Quadrado x Quadrado</p></div>` },
+    9: { title: "Aula 5 — Esquadria 45° Tubo Quadrado x Quadrado 40x40x3", html: `<div class="grammar-box">Cortar 45° Montar tipo porta ┌─────┐<br>Prática 10 esquadrias completas</div><div class="test-box"><p>20 peças esquadrias 45°</p></div>` },
+    10: { title: "Aula 6 — Retangular x Retangular 80x40mm", html: `<div class="grammar-box">80x40mm Esquadria 45° Construção molduras e estruturas</div>` },
+    11: { title: "Aula 7 — Tubo Redondo x Redondo Ø50 Fish Mouth - Técnica Industrial", html: `<div class="grammar-box"><b>Fish Mouth = Boca de Peixe</b> Encaixe perfeito industrial<br>Prática Tubo Ø50 contra Tubo Ø50 Preparar encaixe perfeito - técnica mais difícil serralharia</div><div class="test-box"><p>10 peças obrigatórias Redondo x Redondo</p></div>` },
+    12: { title: "Aula 8 — Tubo Redondo Ø60 x Quadrado 60x60 - Gabarito", html: `<div class="grammar-box">Tubo Ø60 contra 60x60 Desenvolver gabarito Executar corte Montagem</div><div class="test-box"><p>10 peças obrigatórias Redondo x Quadrado</p></div>` },
+    13: { title: "Aula 9 — Tubo Redondo Ø50 x Retangular 100x50", html: `<div class="grammar-box">Ø50 em 100x50 Preparação encaixe - marcação curva sobre plano</div>` },
+    14: { title: "Aula 10 — Retangular 100x50 x Quadrado 60x60", html: `<div class="grammar-box">100x50 em 60x60 Transferência medidas Marcação Corte Montagem</div>` },
+    15: { title: "Aula 11 — Abrir Arco SMAW Eletrodo 6013", html: `<div class="grammar-box"><b>SMAW:</b> Abrir arco Manter arco Fechar arco Sem colar eletrodo<br>Eletrodo 6013 - ideal iniciantes</div>` },
+    16: { title: "Aula 12 — Deposição Cordões 50 cordões Uniformidade", html: `<div class="grammar-box">Depositar 50 cordões em chapa Objetivo uniformidade - base soldador</div><div class="test-box"><p>100 cordões mínimos obrigatórios curso completo</p></div>` },
+    17: { title: "Aula 13 — Pingar Solda Posições Plana Horizontal", html: `<div class="grammar-box">Posições plana horizontal Executar pontos montagem - ponteamento estruturas</div>` },
+    18: { title: "Aula 14 — Junta de Topo Chapa 6mm", html: `<div class="grammar-box">Chapa 6mm Preparar raiz abertura Executar solda completa</div><div class="test-box"><p>20 soldas Junta Topo obrigatórias</p></div>` },
+    19: { title: "Aula 15 — Junta em T Fillet Weld 3mm 4mm 5mm", html: `<div class="grammar-box">Fillet Weld 3mm 4mm 5mm Verificação visual - perna solda</div><div class="test-box"><p>20 soldas Junta T obrigatórias</p></div>` },
+    20: { title: "Aula 16 — Fabricação Banco Metálico", html: `<div class="grammar-box">Corte Preparação Montagem Ponteamento Soldadura - Primeiro projeto completo</div>` },
+    21: { title: "Aula 17 — Grade Pequena 1000x1000", html: `<div class="grammar-box">Dimensões 1000x1000 Prática completa - medição traçagem corte montagem esquadriamento soldadura</div>` },
+    22: { title: "Aula 18 — Portão 1500x2000", html: `<div class="grammar-box">1500x2000 Prática completa portão - projeto intermediário</div>` },
+    23: { title: "Aula 19 — Estrutura Plataforma Perfis Cantoneira UPN Tubo", html: `<div class="grammar-box">Perfis Cantoneira UPN Tubo Montagem completa plataforma industrial</div>` },
+    24: {
+      title: "Aula 20 — PROJETO FINAL Mesa Industrial + Exercícios Intensivos Obrigatórios",
+      html: `<div class="grammar-box"><b>Fabricar Mesa Industrial com corte esquadrias soldadura acabamento</b><br><br>
+      <b>Exercícios Intensivos Obrigatórios Formando:</b><br>
+      Medição 50 medições<br>
+      Esquadrias 45° 20 peças<br>
+      Tubo Quadrado x Quadrado 10 peças<br>
+      Tubo Redondo x Redondo 10 peças<br>
+      Tubo Redondo x Quadrado 10 peças<br>
+      Junta Topo 20 soldas<br>
+      Junta T 20 soldas<br>
+      Cordões mínimo 100 cordões<br><br>
+      <b>Ferramentas Reais Profissão:</b><br>
+      Medição: Trena 5m 8m Paquímetro Micrómetro Esquadro 90° Falsa esquadria Transferidor<br>
+      Corte: Esmerilhadora 4½ 7 Serra policorte Serra fita Plasma<br>
+      Preparação: Rebarbadora Lima Escova aço Martelo escória<br>
+      Soldadura: SMAW Eletrodo MIG/MAG TIG<br>
+      Montagem: Grampos tipo C Esquadro magnético Sargentos Nível Linha alinhamento<br>
+      Controlo Dimensional: Trena Esquadro Régua Nível Paquímetro</div>
+      <div class="test-box"><h4>🏆 Boas Práticas vs Erros Frequentes</h4>
+      <b>Boas Práticas:</b> Materiais certificados, Seguir desenhos aprovados, Rastreabilidade materiais, Controlar qualidade soldaduras, Inspecionar pintura, Cumprir segurança, Documentação atualizada.<br><br>
+      <b>Erros Frequentes:</b> Ignorar especificações técnicas, Executar soldaduras sem procedimento aprovado, Não controlar corrosão, Falhar inspeções intermédias, Negligenciar segurança operacional.</div>
+      <div class="test-box"><h4>🧪 Questionário Final</h4><p>O que é serralharia industrial? Principais áreas aplicação? Diferença industrial vs ligeira? Materiais? EN 1090? Eurocódigo 3? Rastreabilidade? Riscos? Elementos plataforma metálica? Relação engenharia e serralharia?</p></div>`
+    }
+  };
+
+  const lesson = L[id];
+  const container = document.getElementById('lesson-container');
+  if(lesson){
+    container.innerHTML = `<h2>${lesson.title}</h2>${lesson.html}`;
+  } else {
+    container.innerHTML = `<h2>Aula ${id} — Conteúdo</h2><p>Conteúdo completo do ficheiro original.</p>`;
+  }
+}
+</script>
+</body>
+</html>
