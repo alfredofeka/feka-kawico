@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Curso: Assistente de Engenharia de Planeamento — FEKA KAWIÇO</title>
+<link rel="icon" type="image/png" href="FK.png">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-client.js"></script>
+<script>document.documentElement.style.visibility='hidden';</script>
+<style>
+:root { --primary-color:#004a80; --secondary-color:#fca311; --text-dark:#222; --text-light:#fff; --bg-dark:#1f2937; }
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:#fff; color:var(--text-dark); font-family:"Segoe UI",sans-serif; line-height:1.6; overflow-x:hidden; }
+header { background:var(--primary-color); color:var(--text-light); padding:10px 15px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:1000; }
+.brand-area { display:flex; align-items:center; gap:10px; }
+.brand-area img { height:30px; border-radius:5px; }
+#fk-home-btn{color:#fff;text-decoration:none;font-weight:700;background:rgba(255,255,255,.18);padding:6px 10px;border-radius:8px;font-size:.85rem;white-space:nowrap;margin-right:8px}
+#fk-home-btn:hover{background:rgba(255,255,255,.3)}
+
+#course-container { display:flex; height:calc(100vh - 65px); overflow:hidden; }
+#sidebar { width:400px; background:var(--bg-dark); color:var(--text-light); padding:20px; overflow-y:auto; }
+.nivel { margin-bottom:6px; }
+.nivel > .nivel-h { cursor:pointer; font-weight:700; color:var(--secondary-color); padding:8px 4px; border-bottom:1px solid #374151; font-size:.95rem; }
+.nivel-body { display:none; margin-left:6px; }
+.nivel.open .nivel-body { display:block; }
+.module h4 { cursor:pointer; font-size:0.85rem; margin:10px 0 4px; font-weight:600; color:#cbd5e1; }
+.chapter-list { display:none; margin-left:8px; margin-bottom:8px; }
+.chapter-link { display:block; color:var(--text-light); padding:5px 5px; font-size:0.85rem; text-decoration:none; border-left:2px solid transparent; cursor:pointer; }
+.chapter-link:hover, .chapter-link.active { color:var(--secondary-color); border-left:2px solid var(--secondary-color); background:rgba(252,163,17,.1); }
+.chapter-link.pendente { color:#6b7280; font-style:italic; cursor:default; }
+#main-content { flex-grow:1; display:flex; justify-content:center; align-items:flex-start; padding:40px 10px; background:#f4f6f8; overflow-y:auto; }
+.lesson-content { background:#fff; max-width:850px; width:100%; padding:40px 50px; box-shadow:0 0 15px rgba(0,0,0,.1); border-radius:8px; line-height:1.8; color:#222; text-align:justify; }
+.lesson-content h2 { color:#004a80; text-align:center; font-size:1.5rem; margin-bottom:20px; border-bottom:2px solid #004a80; padding-bottom:8px; }
+.lesson-content h3 { color:#004a80; margin-top:22px; margin-bottom:8px; }
+.box,.box-red { background:#fef3c7; border-left:4px solid #f59e0b; padding:15px; margin:15px 0; border-radius:0 8px 8px 0; }
+.box-red { background:#fee2e2; border-left-color:#dc2626; }
+table { width:100%; border-collapse:collapse; margin:10px 0; }
+th,td { border:1px solid #d1d5db; padding:6px 8px; font-size:.85rem; text-align:left; }
+th { background:#004a80; color:#fff; }
+.test-box { background:#eef6fc; border-left:4px solid var(--primary-color); padding:15px 20px; margin-top:25px; border-radius:0 8px 8px 0; }
+.pendente-box { background:#f3f4f6; border:1px dashed #9ca3af; padding:18px; border-radius:8px; color:#555; }
+#toggle-sidebar { display:none; background:var(--primary-color); color:var(--text-light); border:none; font-size:1.3rem; padding:8px 12px; border-radius:6px; margin-right:10px; cursor:pointer; }
+@media (max-width:900px) { #sidebar { position:fixed; top:50px; left:0; width:85%; max-width:350px; height:calc(100vh - 50px); z-index:9999; transform:translateX(-100%); transition:transform .3s; } #sidebar.active { transform:translateX(0); } #toggle-sidebar { display:inline-block!important; } }
+</style>
+</head>
+<body>
+<header>
+  <div class="brand-area">
+    <button id="toggle-sidebar">☰</button>
+    <a href="index.html" id="fk-home-btn"><i class="fas fa-home"></i> Início</a>
+    <img src="FK.png" alt="FEKA KAWIÇO" onerror="this.style.display='none'" />
+    <span><strong>FEKA KAWIÇO</strong> – <em>A terra natural do conhecimento!</em></span>
+  </div>
+  <div id="login-status">🔒 Verificando acesso…</div>
+</header>
+<div id="course-container">
+<aside id="sidebar">
+<div class="nivel" id="nivel-0"><div class="nivel-h" onclick="toggleNivel(0)">📘 NÍVEL 1 — INTRODUTÓRIO</div><div class="nivel-body"><div class="module"><h4>🔟 PLANNING ENGINEER ASSISTANT - Assistente Eng Planeamento - S-Curve Earned Value</h4><div class="chapter-list" style="display:block"><a class="chapter-link" data-id="0" onclick="loadLesson(0)">Aula 33 - Primavera P6 - Software mais usado Oil & Gas Angola - Criar projeto, WBS, atividades, durações, predecessoras, recursos, baseline</a><a class="chapter-link pendente" data-id="1" onclick="loadLesson(1)">Aula 34 - Seguimento - Atualizar % completo - Data real início fim - Reprogramar - Comparar baseline vs real - Atraso - Causa</a><a class="chapter-link" data-id="2" onclick="loadLesson(2)">Aula 35 - Earned Value - PV Planned Value, EV Earned Value, AC Actual Cost - SPI=EV/PV <1 atraso, CPI=EV/AC <1 acima custo - Angola obra 10M USD SPI 0.8 = atraso 20%</a><a class="chapter-link pendente" data-id="3" onclick="loadLesson(3)">Aula 36 - S-Curve e Relatório - Curva S planeado vs real - Relatório semanal - 1 página com S-Curve, caminho crítico, atraso, causa, ação, fotos</a></div></div></div></div><div class="nivel" id="nivel-1"><div class="nivel-h" onclick="toggleNivel(1)">📙 NÍVEL 2 — INICIANTE <span style="font-weight:400;color:#9ca3af">(em preparação)</span></div><div class="nivel-body"><p style="color:#9ca3af;font-size:.82rem;padding:6px">Módulos deste nível serão publicados numa próxima atualização do curso.</p></div></div><div class="nivel" id="nivel-2"><div class="nivel-h" onclick="toggleNivel(2)">📙 NÍVEL 3 — MÉDIO <span style="font-weight:400;color:#9ca3af">(em preparação)</span></div><div class="nivel-body"><p style="color:#9ca3af;font-size:.82rem;padding:6px">Módulos deste nível serão publicados numa próxima atualização do curso.</p></div></div><div class="nivel" id="nivel-3"><div class="nivel-h" onclick="toggleNivel(3)">📙 NÍVEL 4 — AVANÇADO <span style="font-weight:400;color:#9ca3af">(em preparação)</span></div><div class="nivel-body"><p style="color:#9ca3af;font-size:.82rem;padding:6px">Módulos deste nível serão publicados numa próxima atualização do curso.</p></div></div><div class="nivel" id="nivel-4"><div class="nivel-h" onclick="toggleNivel(4)">📙 NÍVEL 5 — ESPECIALISTA <span style="font-weight:400;color:#9ca3af">(em preparação)</span></div><div class="nivel-body"><p style="color:#9ca3af;font-size:.82rem;padding:6px">Módulos deste nível serão publicados numa próxima atualização do curso.</p></div></div>
+</aside>
+<main id="main-content"><div class="lesson-content" id="lesson-container"></div></main>
+</div>
+<script>
+// PROTEÇÃO DE ACESSO REAL (Supabase)
+(async function(){
+ try{
+  const {data:{session}}=await supabaseClient.auth.getSession();
+  if(!session){location.replace('login.html');return;}
+  const uid=session.user.id;
+  const [pr,en]=await Promise.all([
+   supabaseClient.from('profiles').select('nome,role').eq('id',uid).maybeSingle(),
+   supabaseClient.from('enrollments').select('status').eq('user_id',uid).eq('course_id','planning_engineer').maybeSingle()]);
+  const staff=['administrador','secretaria','professor_inspector','professor'].includes(pr.data?.role);
+  if(staff||en.data?.status==='validado'){
+   document.getElementById('login-status').textContent='✅ Olá, '+((pr.data?.nome||'Aluno').split(' ')[0])+' — Assistente de Engenharia de Planeamento';
+   document.documentElement.style.visibility='visible';
+  }else{
+   location.replace('validar-geral.html?curso=planning_engineer');
+  }
+ }catch(e){location.replace('validar-geral.html?curso=planning_engineer');}
+})();
+document.addEventListener('DOMContentLoaded', () => {
+  toggleNivel(0);
+  loadLesson(0);
+});
+function toggleNivel(i){ document.getElementById('nivel-'+i).classList.toggle('open'); }
+function toggleModule(i){ const m=document.getElementById('module-'+i); m.style.display = m.style.display==='block' ? 'none' : 'block'; }
+document.getElementById('toggle-sidebar').addEventListener('click', ()=>{ document.getElementById('sidebar').classList.toggle('active'); });
+function loadLesson(id){
+  document.querySelectorAll('.chapter-link').forEach(el=>el.classList.remove('active'));
+  const el=document.querySelector('.chapter-link[data-id="'+id+'"]'); if(el) el.classList.add('active');
+  const L={
+0:{title:"🔟 Planning Engineer Assistant - Primavera P6",html:`<div class="box-red"><b>Primavera P6 é software planeamento mais usado Oil & Gas Angola - Salário Planning Engineer 1.5M-4M Kz Angola - Sem P6 não há planeamento profissional - TotalEnergies exige P6.</b></div>
+<div class="box"><b>Primavera P6 - Passo a passo:</b><br>
+1 Criar projeto - EPS Enterprise Project Structure - Ex: Angola Projects -> Soyo LNG -> Pavilhão 20x40m<br>
+2 Criar WBS - Fundação, Estrutura, Cobertura, etc<br>
+3 Criar atividades - Cada Level 4 WBS vira atividade - Duração - Ex: Corte pilares 5 dias<br>
+4 Ligar predecessoras - FS Finish to Start mais usado - Ex: Montagem pilares só após corte pilares FS - SS Start to Start, FF Finish to Finish, SF Start to Finish raro<br>
+5 Recursos - Criar recursos - Serralheiro, Soldador, Guindaste 50T, Material - Atribuir para atividade - Ex: Montagem pilares precisa 4 serralheiros x 3 dias =12 homem-dia<br>
+6 Orçamento - Custo recurso x quantidade - Ex: Serralheiro 50 USD/dia x12=600 USD<br>
+7 Baseline - Salva planeado - BL1 - Para comparar depois real vs planeado<br>
+8 Atualizar - Data real início, fim, % completo, remaining duration<br>
+<b>Caminho Crítico:</b> Atividades com folga 0 - Se atrasa 1 dia, projeto atrasa 1 dia - Vermelho no P6 - Foco<br>
+<b>Folga:</b> Total Float - Quanto pode atrasar sem atrasar projeto - Se folga 5 dias, pode atrasar 5 dias sem problema</div>`},
+2:{title:"Aula 35 - Earned Value",html:`<div class="box"><b>Earned Value Management - Método para medir desempenho prazo e custo juntos:</b><br>
+<b>PV Planned Value:</b> Valor planeado até data - Ex: Até hoje planeado fazer 50% projeto 10M USD = PV=5M<br>
+<b>EV Earned Value:</b> Valor realizado - Real fez 40% = EV=4M<br>
+<b>AC Actual Cost:</b> Custo real gasto - Gastou 4.5M = AC=4.5M<br>
+<b>SPI Schedule Performance Index = EV/PV =4/5=0.8 <1 atraso - 20% atraso</b><br>
+<b>CPI Cost Performance Index = EV/AC =4/4.5=0.89 <1 acima custo - 11% acima custo</b><br>
+<b>SV Schedule Variance = EV-PV =4-5=-1M atraso<br>
+CV Cost Variance = EV-AC=4-4.5=-0.5M acima custo</b><br>
+<b>Interpretação:</b> SPI<1 atraso, SPI>1 adiantado, CPI<1 acima custo, CPI>1 abaixo custo<br>
+<b>EAC Estimate At Completion = BAC/CPI =10M/0.89=11.23M - Previsão custo final 11.23M - Estoura 1.23M<br>
+<b>Angola:</b> TotalEnergies exige relatório Earned Value semanal para projetos >1M USD</div>`}
+  };
+  const lesson = L[id] || {title:"Aula "+(id+1)+" — Conteúdo a desenvolver", html:`<div class="pendente-box"><b>📝 Esta aula ainda não foi escrita.</b><br>O curso de Assistente de Engenharia de Planeamento está a ser desenvolvido em fases. Esta aula entra numa próxima atualização, com conteúdo revisto a partir de bibliografia técnica e normas internacionais da área.</div>`};
+  document.getElementById('lesson-container').innerHTML = `<h2>${lesson.title}</h2>${lesson.html}`;
+}
+</script>
+</body>
+</html>

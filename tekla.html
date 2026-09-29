@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Curso: Detalhista Tekla Structures — FEKA KAWIÇO</title>
+<link rel="icon" type="image/png" href="FK.png">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-client.js"></script>
+<script>document.documentElement.style.visibility='hidden';</script>
+<style>
+:root { --primary-color:#004a80; --secondary-color:#fca311; --text-dark:#222; --text-light:#fff; --bg-dark:#1f2937; }
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:#fff; color:var(--text-dark); font-family:"Segoe UI",sans-serif; line-height:1.6; overflow-x:hidden; }
+header { background:var(--primary-color); color:var(--text-light); padding:10px 15px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:1000; }
+.brand-area { display:flex; align-items:center; gap:10px; }
+.brand-area img { height:30px; border-radius:5px; }
+#fk-home-btn{color:#fff;text-decoration:none;font-weight:700;background:rgba(255,255,255,.18);padding:6px 10px;border-radius:8px;font-size:.85rem;white-space:nowrap;margin-right:8px}
+#fk-home-btn:hover{background:rgba(255,255,255,.3)}
+
+#course-container { display:flex; height:calc(100vh - 65px); overflow:hidden; }
+#sidebar { width:400px; background:var(--bg-dark); color:var(--text-light); padding:20px; overflow-y:auto; }
+.nivel { margin-bottom:6px; }
+.nivel > .nivel-h { cursor:pointer; font-weight:700; color:var(--secondary-color); padding:8px 4px; border-bottom:1px solid #374151; font-size:.95rem; }
+.nivel-body { display:none; margin-left:6px; }
+.nivel.open .nivel-body { display:block; }
+.module h4 { cursor:pointer; font-size:0.85rem; margin:10px 0 4px; font-weight:600; color:#cbd5e1; }
+.chapter-list { display:none; margin-left:8px; margin-bottom:8px; }
+.chapter-link { display:block; color:var(--text-light); padding:5px 5px; font-size:0.85rem; text-decoration:none; border-left:2px solid transparent; cursor:pointer; }
+.chapter-link:hover, .chapter-link.active { color:var(--secondary-color); border-left:2px solid var(--secondary-color); background:rgba(252,163,17,.1); }
+.chapter-link.pendente { color:#6b7280; font-style:italic; cursor:default; }
+#main-content { flex-grow:1; display:flex; justify-content:center; align-items:flex-start; padding:40px 10px; background:#f4f6f8; overflow-y:auto; }
+.lesson-content { background:#fff; max-width:850px; width:100%; padding:40px 50px; box-shadow:0 0 15px rgba(0,0,0,.1); border-radius:8px; line-height:1.8; color:#222; text-align:justify; }
+.lesson-content h2 { color:#004a80; text-align:center; font-size:1.5rem; margin-bottom:20px; border-bottom:2px solid #004a80; padding-bottom:8px; }
+.lesson-content h3 { color:#004a80; margin-top:22px; margin-bottom:8px; }
+.box,.box-red { background:#fef3c7; border-left:4px solid #f59e0b; padding:15px; margin:15px 0; border-radius:0 8px 8px 0; }
+.box-red { background:#fee2e2; border-left-color:#dc2626; }
+table { width:100%; border-collapse:collapse; margin:10px 0; }
+th,td { border:1px solid #d1d5db; padding:6px 8px; font-size:.85rem; text-align:left; }
+th { background:#004a80; color:#fff; }
+.test-box { background:#eef6fc; border-left:4px solid var(--primary-color); padding:15px 20px; margin-top:25px; border-radius:0 8px 8px 0; }
+.pendente-box { background:#f3f4f6; border:1px dashed #9ca3af; padding:18px; border-radius:8px; color:#555; }
+#toggle-sidebar { display:none; background:var(--primary-color); color:var(--text-light); border:none; font-size:1.3rem; padding:8px 12px; border-radius:6px; margin-right:10px; cursor:pointer; }
+@media (max-width:900px) { #sidebar { position:fixed; top:50px; left:0; width:85%; max-width:350px; height:calc(100vh - 50px); z-index:9999; transform:translateX(-100%); transition:transform .3s; } #sidebar.active { transform:translateX(0); } #toggle-sidebar { display:inline-block!important; } }
+</style>
+</head>
+<body>
+<header>
+  <div class="brand-area">
+    <button id="toggle-sidebar">☰</button>
+    <a href="index.html" id="fk-home-btn"><i class="fas fa-home"></i> Início</a>
+    <img src="FK.png" alt="FEKA KAWIÇO" onerror="this.style.display='none'" />
+    <span><strong>FEKA KAWIÇO</strong> – <em>A terra natural do conhecimento!</em></span>
+  </div>
+  <div id="login-status">🔒 Verificando acesso…</div>
+</header>
+<div id="course-container">
+<aside id="sidebar">
+<div class="nivel" id="nivel-0"><div class="nivel-h" onclick="toggleNivel(0)">📘 NÍVEL 1 — INTRODUTÓRIO</div><div class="nivel-body"><div class="module"><h4>1️⃣1️⃣ TEKLA STRUCTURAL DETAILER - Detalhista Tekla Structures - Rei Estrutura Metálica</h4><div class="chapter-list" style="display:block"><a class="chapter-link" data-id="0" onclick="loadLesson(0)">Aula 37 - Tekla Structures - Software BIM estrutura metálica mais poderoso - Modela 3D paramétrico - Ligações automáticas - Detalhamento automático</a><a class="chapter-link pendente" data-id="1" onclick="loadLesson(1)">Aula 38 - Modelagem - Grid, Pilar HEA, Viga IPE, Chapa, Parafuso, Solda, Componente - Ligação base, topo, emenda, contraventamento - Clone</a><a class="chapter-link" data-id="2" onclick="loadLesson(2)">Aula 39 - Numeração e Desenhos - Numbering - GA, Assembly, Single Part, Lista - BOM - DSTV NC para plasma - IFC export</a><a class="chapter-link pendente" data-id="3" onclick="loadLesson(3)">Aula 40 - Prática - Pavilhão 12x24m com Tekla - 8 pilares HEA240, 6 vigas IPE300, contraventamento L60x6, terças UPN120 - GA A1 + 20 shop drawings + BOM</a></div></div></div></div><div class="nivel" id="nivel-1"><div class="nivel-h" onclick="toggleNivel(1)">📙 NÍVEL 2 — INICIANTE <span style="font-weight:400;color:#9ca3af">(em preparação)</span></div><div class="nivel-body"><p style="color:#9ca3af;font-size:.82rem;padding:6px">Módulos deste nível serão publicados numa próxima atualização do curso.</p></div></div><div class="nivel" id="nivel-2"><div class="nivel-h" onclick="toggleNivel(2)">📙 NÍVEL 3 — MÉDIO <span style="font-weight:400;color:#9ca3af">(em preparação)</span></div><div class="nivel-body"><p style="color:#9ca3af;font-size:.82rem;padding:6px">Módulos deste nível serão publicados numa próxima atualização do curso.</p></div></div><div class="nivel" id="nivel-3"><div class="nivel-h" onclick="toggleNivel(3)">📙 NÍVEL 4 — AVANÇADO <span style="font-weight:400;color:#9ca3af">(em preparação)</span></div><div class="nivel-body"><p style="color:#9ca3af;font-size:.82rem;padding:6px">Módulos deste nível serão publicados numa próxima atualização do curso.</p></div></div><div class="nivel" id="nivel-4"><div class="nivel-h" onclick="toggleNivel(4)">📙 NÍVEL 5 — ESPECIALISTA <span style="font-weight:400;color:#9ca3af">(em preparação)</span></div><div class="nivel-body"><p style="color:#9ca3af;font-size:.82rem;padding:6px">Módulos deste nível serão publicados numa próxima atualização do curso.</p></div></div>
+</aside>
+<main id="main-content"><div class="lesson-content" id="lesson-container"></div></main>
+</div>
+<script>
+// PROTEÇÃO DE ACESSO REAL (Supabase)
+(async function(){
+ try{
+  const {data:{session}}=await supabaseClient.auth.getSession();
+  if(!session){location.replace('login.html');return;}
+  const uid=session.user.id;
+  const [pr,en]=await Promise.all([
+   supabaseClient.from('profiles').select('nome,role').eq('id',uid).maybeSingle(),
+   supabaseClient.from('enrollments').select('status').eq('user_id',uid).eq('course_id','tekla').maybeSingle()]);
+  const staff=['administrador','secretaria','professor_inspector','professor'].includes(pr.data?.role);
+  if(staff||en.data?.status==='validado'){
+   document.getElementById('login-status').textContent='✅ Olá, '+((pr.data?.nome||'Aluno').split(' ')[0])+' — Detalhista Tekla Structures';
+   document.documentElement.style.visibility='visible';
+  }else{
+   location.replace('validar-geral.html?curso=tekla');
+  }
+ }catch(e){location.replace('validar-geral.html?curso=tekla');}
+})();
+document.addEventListener('DOMContentLoaded', () => {
+  toggleNivel(0);
+  loadLesson(0);
+});
+function toggleNivel(i){ document.getElementById('nivel-'+i).classList.toggle('open'); }
+function toggleModule(i){ const m=document.getElementById('module-'+i); m.style.display = m.style.display==='block' ? 'none' : 'block'; }
+document.getElementById('toggle-sidebar').addEventListener('click', ()=>{ document.getElementById('sidebar').classList.toggle('active'); });
+function loadLesson(id){
+  document.querySelectorAll('.chapter-link').forEach(el=>el.classList.remove('active'));
+  const el=document.querySelector('.chapter-link[data-id="'+id+'"]'); if(el) el.classList.add('active');
+  const L={
+0:{title:"1️⃣1️⃣ Tekla Structures - Rei Estrutura",html:`<div class="box-red"><b>Tekla Structures é software BIM estrutura metálica mais poderoso mundo - Salário Tekla Detailer 1M-3M Kz Angola - 1 Tekla detailer faz trabalho de 5 AutoCAD drafters - Exporta DSTV NC para plasma corta automaticamente - Sem Tekla, oficina corta manual mais lento e com erro.</b></div>
+<div class="box"><b>Tekla Structures - Trimble:</b><br>
+<b>Modelo 3D paramétrico:</b> Cria grid 3D, insere pilar HEA, viga IPE, chapa, parafuso, solda - Tudo objeto inteligente com propriedade material, perfil, acabamento, marca, peso, fase<br>
+<b>Componente:</b> Ligação automática - Escolhe componente base plate, end plate, clip angle, splice - Tekla cria chapas, parafusos, soldas automaticamente conforme norma - Ex: Componente 144 Base Plate - Seleciona pilar e fundação, Tekla cria chapa base, chumbadores, porcas, solda, tudo com medidas<br>
+<b>Clone:</b> Copia ligação igual para outro lugar - Rápido<br>
+<b>Numbering:</b> Tekla numera cada peça com marca única - P1, V1, CH1, B1 parafuso - Evita duplicata<br>
+<b>Desenhos:</b> GA General Arrangement automático com cotas, marca, lista - Assembly drawing cada conjunto com dimensões fabricação - Single part cada chapa - BOM lista material - Tudo automático - Se modelo muda, desenho atualiza automático<br>
+<b>DSTV NC:</b> Arquivo para máquina CNC plasma e furação - Tekla exporta perfil e chapa com furo, corte - Máquina lê e corta automático - Sem erro humano - Economia 30% tempo<br>
+<b>IFC:</b> Export IFC para Navisworks e Revit - Coordenação BIM<br>
+<b>Angola:</b> Petromar, Fabrima, Sonamet usam Tekla - Exigem Tekla detailer</div>`},
+2:{title:"Aula 39 - Numeração e Desenhos Tekla",html:`<div class="box"><b>Numeração e Desenhos Tekla:</b><br>
+<b>Numbering:</b> Processo que dá marca para cada peça - Settings: Max tamanho assembly 12m transporte - Max peso 5T guindaste - Tekla agrupa peças que soldam juntas em oficina em assembly com mesma marca - Ex: Pilar HEA240 6m + chapa base 300x300x20 + 4 enrijecedores = Assembly P1<br>
+<b>GA:</b> General Arrangement - Planta geral - Escala 1:50 - Mostra todos assemblies, eixos, cotas gerais, marca, lista - Para montagem obra<br>
+<b>Assembly Drawing:</b> Desenho conjunto - Cada assembly P1, V1 - Escala 1:10 - Mostra cada peça, dimensão, solda, parafuso, lista material, peso, marca - Para fabricação oficina<br>
+<b>Single Part Drawing:</b> Desenho peça única - Cada chapa CH1, CH2 - Escala 1:10 - Para corte plasma<br>
+<b>BOM:</b> Bill Of Materials - Lista completa - Perfil, chapa, parafuso, peso total - Export Excel<br>
+<b>Relatório:</b> Peso total, número peças, número assemblies, área pintura<br>
+<b>Revisão:</b> Se modelo muda, Tekla mostra mudança com cor e atualiza desenho com revisão - Cloud - Histórico</div>`}
+  };
+  const lesson = L[id] || {title:"Aula "+(id+1)+" — Conteúdo a desenvolver", html:`<div class="pendente-box"><b>📝 Esta aula ainda não foi escrita.</b><br>O curso de Detalhista Tekla Structures está a ser desenvolvido em fases. Esta aula entra numa próxima atualização, com conteúdo revisto a partir de bibliografia técnica e normas internacionais da área.</div>`};
+  document.getElementById('lesson-container').innerHTML = `<h2>${lesson.title}</h2>${lesson.html}`;
+}
+</script>
+</body>
+</html>

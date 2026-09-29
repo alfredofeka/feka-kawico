@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Curso: Coordenador BIM — FEKA KAWIÇO</title>
+<link rel="icon" type="image/png" href="FK.png">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-client.js"></script>
+<script>document.documentElement.style.visibility='hidden';</script>
+<style>
+:root { --primary-color:#004a80; --secondary-color:#fca311; --text-dark:#222; --text-light:#fff; --bg-dark:#1f2937; }
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:#fff; color:var(--text-dark); font-family:"Segoe UI",sans-serif; line-height:1.6; overflow-x:hidden; }
+header { background:var(--primary-color); color:var(--text-light); padding:10px 15px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:1000; }
+.brand-area { display:flex; align-items:center; gap:10px; }
+.brand-area img { height:30px; border-radius:5px; }
+#fk-home-btn{color:#fff;text-decoration:none;font-weight:700;background:rgba(255,255,255,.18);padding:6px 10px;border-radius:8px;font-size:.85rem;white-space:nowrap;margin-right:8px}
+#fk-home-btn:hover{background:rgba(255,255,255,.3)}
+
+#course-container { display:flex; height:calc(100vh - 65px); overflow:hidden; }
+#sidebar { width:400px; background:var(--bg-dark); color:var(--text-light); padding:20px; overflow-y:auto; }
+.nivel { margin-bottom:6px; }
+.nivel > .nivel-h { cursor:pointer; font-weight:700; color:var(--secondary-color); padding:8px 4px; border-bottom:1px solid #374151; font-size:.95rem; }
+.nivel-body { display:none; margin-left:6px; }
+.nivel.open .nivel-body { display:block; }
+.module h4 { cursor:pointer; font-size:0.85rem; margin:10px 0 4px; font-weight:600; color:#cbd5e1; }
+.chapter-list { display:none; margin-left:8px; margin-bottom:8px; }
+.chapter-link { display:block; color:var(--text-light); padding:5px 5px; font-size:0.85rem; text-decoration:none; border-left:2px solid transparent; cursor:pointer; }
+.chapter-link:hover, .chapter-link.active { color:var(--secondary-color); border-left:2px solid var(--secondary-color); background:rgba(252,163,17,.1); }
+.chapter-link.pendente { color:#6b7280; font-style:italic; cursor:default; }
+#main-content { flex-grow:1; display:flex; justify-content:center; align-items:flex-start; padding:40px 10px; background:#f4f6f8; overflow-y:auto; }
+.lesson-content { background:#fff; max-width:850px; width:100%; padding:40px 50px; box-shadow:0 0 15px rgba(0,0,0,.1); border-radius:8px; line-height:1.8; color:#222; text-align:justify; }
+.lesson-content h2 { color:#004a80; text-align:center; font-size:1.5rem; margin-bottom:20px; border-bottom:2px solid #004a80; padding-bottom:8px; }
+.lesson-content h3 { color:#004a80; margin-top:22px; margin-bottom:8px; }
+.box,.box-red { background:#fef3c7; border-left:4px solid #f59e0b; padding:15px; margin:15px 0; border-radius:0 8px 8px 0; }
+.box-red { background:#fee2e2; border-left-color:#dc2626; }
+table { width:100%; border-collapse:collapse; margin:10px 0; }
+th,td { border:1px solid #d1d5db; padding:6px 8px; font-size:.85rem; text-align:left; }
+th { background:#004a80; color:#fff; }
+.test-box { background:#eef6fc; border-left:4px solid var(--primary-color); padding:15px 20px; margin-top:25px; border-radius:0 8px 8px 0; }
+.pendente-box { background:#f3f4f6; border:1px dashed #9ca3af; padding:18px; border-radius:8px; color:#555; }
+#toggle-sidebar { display:none; background:var(--primary-color); color:var(--text-light); border:none; font-size:1.3rem; padding:8px 12px; border-radius:6px; margin-right:10px; cursor:pointer; }
+@media (max-width:900px) { #sidebar { position:fixed; top:50px; left:0; width:85%; max-width:350px; height:calc(100vh - 50px); z-index:9999; transform:translateX(-100%); transition:transform .3s; } #sidebar.active { transform:translateX(0); } #toggle-sidebar { display:inline-block!important; } }
+</style>
+</head>
+<body>
+<header>
+  <div class="brand-area">
+    <button id="toggle-sidebar">☰</button>
+    <a href="index.html" id="fk-home-btn"><i class="fas fa-home"></i> Início</a>
+    <img src="FK.png" alt="FEKA KAWIÇO" onerror="this.style.display='none'" />
+    <span><strong>FEKA KAWIÇO</strong> – <em>A terra natural do conhecimento!</em></span>
+  </div>
+  <div id="login-status">🔒 Verificando acesso…</div>
+</header>
+<div id="course-container">
+<aside id="sidebar">
+<div class="nivel" id="nivel-0"><div class="nivel-h" onclick="toggleNivel(0)">📘 NÍVEL 1 — INTRODUTÓRIO</div><div class="nivel-body"><div class="module"><h4>1️⃣3️⃣ BIM - Building Information Modeling - Coordenador BIM</h4><div class="chapter-list" style="display:block"><a class="chapter-link" data-id="0" onclick="loadLesson(0)">Aula 45 - BIM - O que é? Modelo 3D com informação - 3D geometria, 4D tempo, 5D custo, 6D sustentabilidade, 7D facility management - ISO 19650</a><a class="chapter-link pendente" data-id="1" onclick="loadLesson(1)">Aula 46 - LOD - Level Of Development - LOD 100 conceito, LOD 200 genérico, LOD 300 detalhado, LOD 350 com ligação, LOD 400 fabricação, LOD 500 as-built</a><a class="chapter-link" data-id="2" onclick="loadLesson(2)">Aula 47 - Coordenação BIM - Federated Model - Navisworks - Clash Detection - Estrutura vs MEP vs Arquitetura - Report clash - BEP BIM Execution Plan</a><a class="chapter-link" data-id="3" onclick="loadLesson(3)">Aula 48 - CDE - Common Data Environment - Aconex, BIM 360, Trimble Connect - WIP, Shared, Published, Archive - Workflow ISO 19650 - Angola TotalEnergies exige BIM LOD 350 para projeto novo</a><a class="chapter-link pendente" data-id="4" onclick="loadLesson(4)">Aula 49 - PROJETO FINAL INTEGRADO - Pavilhão industrial 20x40m - AutoCAD planta 2D + Tekla modelo 3D estrutura + Revit fundações + Navisworks clash + Primavera P6 cronograma + Aconex document control + BIM LOD 350 - Dossiê completo</a></div></div></div></div><div class="nivel" id="nivel-1"><div class="nivel-h" onclick="toggleNivel(1)">📙 NÍVEL 2 — INICIANTE <span style="font-weight:400;color:#9ca3af">(em preparação)</span></div><div class="nivel-body"><p style="color:#9ca3af;font-size:.82rem;padding:6px">Módulos deste nível serão publicados numa próxima atualização do curso.</p></div></div><div class="nivel" id="nivel-2"><div class="nivel-h" onclick="toggleNivel(2)">📙 NÍVEL 3 — MÉDIO <span style="font-weight:400;color:#9ca3af">(em preparação)</span></div><div class="nivel-body"><p style="color:#9ca3af;font-size:.82rem;padding:6px">Módulos deste nível serão publicados numa próxima atualização do curso.</p></div></div><div class="nivel" id="nivel-3"><div class="nivel-h" onclick="toggleNivel(3)">📙 NÍVEL 4 — AVANÇADO <span style="font-weight:400;color:#9ca3af">(em preparação)</span></div><div class="nivel-body"><p style="color:#9ca3af;font-size:.82rem;padding:6px">Módulos deste nível serão publicados numa próxima atualização do curso.</p></div></div><div class="nivel" id="nivel-4"><div class="nivel-h" onclick="toggleNivel(4)">📙 NÍVEL 5 — ESPECIALISTA <span style="font-weight:400;color:#9ca3af">(em preparação)</span></div><div class="nivel-body"><p style="color:#9ca3af;font-size:.82rem;padding:6px">Módulos deste nível serão publicados numa próxima atualização do curso.</p></div></div>
+</aside>
+<main id="main-content"><div class="lesson-content" id="lesson-container"></div></main>
+</div>
+<script>
+// PROTEÇÃO DE ACESSO REAL (Supabase)
+(async function(){
+ try{
+  const {data:{session}}=await supabaseClient.auth.getSession();
+  if(!session){location.replace('login.html');return;}
+  const uid=session.user.id;
+  const [pr,en]=await Promise.all([
+   supabaseClient.from('profiles').select('nome,role').eq('id',uid).maybeSingle(),
+   supabaseClient.from('enrollments').select('status').eq('user_id',uid).eq('course_id','bim').maybeSingle()]);
+  const staff=['administrador','secretaria','professor_inspector','professor'].includes(pr.data?.role);
+  if(staff||en.data?.status==='validado'){
+   document.getElementById('login-status').textContent='✅ Olá, '+((pr.data?.nome||'Aluno').split(' ')[0])+' — Coordenador BIM';
+   document.documentElement.style.visibility='visible';
+  }else{
+   location.replace('validar-geral.html?curso=bim');
+  }
+ }catch(e){location.replace('validar-geral.html?curso=bim');}
+})();
+document.addEventListener('DOMContentLoaded', () => {
+  toggleNivel(0);
+  loadLesson(0);
+});
+function toggleNivel(i){ document.getElementById('nivel-'+i).classList.toggle('open'); }
+function toggleModule(i){ const m=document.getElementById('module-'+i); m.style.display = m.style.display==='block' ? 'none' : 'block'; }
+document.getElementById('toggle-sidebar').addEventListener('click', ()=>{ document.getElementById('sidebar').classList.toggle('active'); });
+function loadLesson(id){
+  document.querySelectorAll('.chapter-link').forEach(el=>el.classList.remove('active'));
+  const el=document.querySelector('.chapter-link[data-id="'+id+'"]'); if(el) el.classList.add('active');
+  const L={
+0:{title:"1️⃣3️⃣ BIM - ISO 19650",html:`<div class="box-red"><b>BIM = Building Information Modeling - Modelo 3D com informação - Futuro projeto - Angola TotalEnergies já exige BIM LOD 350 para projetos novos >5M USD - Salário BIM Coordinator 2M-5M Kz Angola - BIM Manager 5M-8M Kz.</b></div>
+<div class="box"><b>BIM Dimensões:</b><br>
+<b>3D:</b> Geometria - Modelo 3D - Largura altura profundidade<br>
+<b>4D:</b> Tempo - Liga modelo com cronograma Primavera P6 - Simula construção - Vê obra crescendo tempo - Navisworks TimeLiner<br>
+<b>5D:</b> Custo - Liga modelo com custo - Quantitativo x preço unitário = custo total - Se muda modelo, custo atualiza - Orçamento automático<br>
+<b>6D:</b> Sustentabilidade - Energia, iluminação, ventilação, carbono - Análise energética<br>
+<b>7D:</b> Facility Management - Manutenção - Modelo entregue cliente com informação manutenção - Quando trocar filtro ar, lâmpada, pintura - QR code na parede linka modelo<br>
+<b>ISO 19650:</b> Norma internacional BIM - Como organizar informação - CDE Common Data Environment - BEP BIM Execution Plan<br>
+<b>LOD Level Of Development:</b><br>
+LOD 100 Conceito - Bloco genérico - Ex: Caixa 20x40x10m - Sem detalhe<br>
+LOD 200 Genérico - Pilar viga genérico - Sem perfil exato<br>
+LOD 300 Detalhado - Pilar HEA240 exato, viga IPE300 exata, com dimensão, material<br>
+LOD 350 Detalhado com ligação - Com chapa, parafuso, solda - Para coordenação clash<br>
+LOD 400 Fabricação - Com furo, solda, detalhe fabricação - Shop drawing<br>
+LOD 500 As-Built - Como construído - Com alterações obra</div>`},
+2:{title:"Aula 47 - Coordenação BIM Navisworks Clash",html:`<div class="box"><b>Coordenação BIM - Federated Model:</b><br>
+Cada disciplina modela seu modelo - Estrutura Tekla ou Revit Structure, Arquitetura Revit Architecture, Piping Plant 3D, Elétrica Revit MEP, HVAC Revit MEP<br>
+Junta tudo no Navisworks - Federated Model - Modelo federado com todos<br>
+<b>Clash Detection:</b> Navisworks detecta choque - Ex: Viga HEA300 passa dentro tubo Ø300 piping - Clash - Ou tubo passa dentro parede arquitetura - Clash<br>
+<b>Report:</b> Lista clash com foto, distância, local N E Z, disciplina, status - Ativo, resolvido<br>
+<b>Reunião coordenação semanal:</b> Todas disciplinas juntas - Navisworks na tela grande - Percorre clash - Decide: Muda viga ou muda tubo? - Resolve - Marca resolvido<br>
+<b>Economia:</b> Clash detectado no modelo custa 0 USD para corrigir - Clash detectado na obra custa 10k USD para corrigir - BIM economiza 10% custo obra evitando retrabalho<br>
+<b>Angola:</b> Soyo LNG 2010 sem BIM teve 1000 clash na obra, retrabalho 5M USD - Projeto novo com BIM 10 clash na obra, retrabalho 50k USD - Por isso TotalEnergies exige BIM agora</div>`},
+3:{title:"Aula 48 - CDE e BEP",html:`<div class="box"><b>CDE Common Data Environment - Ambiente comum dados - Onde guarda todos modelos e documentos BIM - ISO 19650:</b><br>
+<b>4 estados:</b><br>
+<b>WIP Work In Progress:</b> Trabalho em progresso - Só autor vê - Ex: Designer modelando pilar - Ainda não pronto<br>
+<b>Shared:</b> Compartilhado - Todas disciplinas vêem mas não pode usar para construir - Para coordenação clash - Ex: Estrutura shared, Piping vê e verifica clash<br>
+<b>Published:</b> Publicado - Aprovado - Pode usar para construir - AFC - Só com aprovação<br>
+<b>Archive:</b> Arquivado - Projeto terminado - Guarda histórico<br>
+<b>Software CDE:</b> Autodesk BIM 360, Trimble Connect, Aconex, Bentley ProjectWise, SharePoint - Mais usado Angola BIM 360 e Aconex<br>
+<b>BEP BIM Execution Plan:</b> Plano execução BIM - Documento que define como fazer BIM no projeto - Quem modela o quê, qual software, qual LOD, qual CDE, qual coordenada, qual padrão, quando entrega, quem aprova, como clash detection, como quantitativo, como 4D 5D - BEP é como WPS para soldadura - Define como fazer<br>
+<b>Angola:</b> TotalEnergies tem BEP padrão que fornecedor deve seguir - Ex: BEP TotalEnergies Block 17 - 50 páginas - Define tudo</div>`}
+  };
+  const lesson = L[id] || {title:"Aula "+(id+1)+" — Conteúdo a desenvolver", html:`<div class="pendente-box"><b>📝 Esta aula ainda não foi escrita.</b><br>O curso de Coordenador BIM está a ser desenvolvido em fases. Esta aula entra numa próxima atualização, com conteúdo revisto a partir de bibliografia técnica e normas internacionais da área.</div>`};
+  document.getElementById('lesson-container').innerHTML = `<h2>${lesson.title}</h2>${lesson.html}`;
+}
+</script>
+</body>
+</html>

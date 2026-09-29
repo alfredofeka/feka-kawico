@@ -1,0 +1,2913 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Curso: Curso Avançado de User Interface Engineering para Engenharia Informática e Desenvolvimento de Aplicativos — FEKA KAWIÇO</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+<style>
+:root {
+  --primary-color: #004a80;
+  --secondary-color: #fca311;
+  --text-dark: #222;
+  --text-light: #fff;
+  --bg-light: #ffffff;
+  --bg-dark: #1f2937;
+  --border-color: #e0e0e0;
+}
+
+/* RESET */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* GLOBAL */
+body {
+  background-color: var(--bg-light);
+  color: var(--text-dark);
+  font-family: "Segoe UI", "Roboto", sans-serif;
+  line-height: 1.6;
+  transition: all 0.3s ease-in-out;
+  overflow-x: hidden;
+}
+
+/* HEADER */
+header {
+  background-color: var(--primary-color);
+  color: var(--text-light);
+  padding: 10px 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: 500;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.brand-area {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: nowrap;
+}
+
+.brand-area img {
+  height: 30px;
+  border-radius: 5px;
+}
+
+.brand-area a {
+  text-decoration: none;
+  color: var(--text-light);
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+#login-status {
+  font-size: 0.85rem;
+  opacity: 0.9;
+}
+
+/* SIDEBAR */
+#course-container {
+  display: flex;
+  height: calc(100vh - 65px);
+  overflow: hidden;
+}
+
+#sidebar {
+  width: 450px;
+  background-color: var(--bg-dark);
+  color: var(--text-light);
+  padding: 20px;
+  overflow-y: auto;
+  transition: transform 0.3s ease-in-out;
+}
+
+#sidebar.hidden {
+  transform: translateX(-100%);
+}
+
+#toggle-sidebar {
+  display: none;
+  background: var(--primary-color);
+  color: var(--text-light);
+  border: none;
+  font-size: 1.3rem;
+  padding: 8px 12px;
+  border-radius: 6px;
+  margin-right: 10px;
+}
+
+.module h3 {
+  cursor: pointer;
+  font-size: 1rem;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.chapter-list {
+  display: none;
+  margin-left: 8px;
+}
+
+.chapter-link {
+  display: block;
+  color: var(--text-light);
+  padding: 5px;
+  font-size: 0.95rem;
+  text-decoration: none;
+  border-left: 2px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.chapter-link:hover {
+  color: var(--secondary-color);
+  border-left: 2px solid var(--secondary-color);
+}
+
+/* MAIN */
+#main-content {
+  flex-grow: 1;
+  padding: 30px;
+  overflow-y: auto;
+  text-align: justify;
+}
+
+#lesson-title {
+  font-size: 1.8rem;
+  color: var(--primary-color);
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+/* ===============================
+   APRESENTAÇÃO — LADO A LADO
+/* ===============================
+   /* ===============================
+   FOLHA A4 COMPLETA E COMPACTA
+   =============================== */
+.intro-section {
+  background: #fff;
+  max-width: 850px; /* formato folha A4 */
+  margin: 30px auto;
+  padding: 35px 45px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  color: #222;
+  line-height: 1.6;
+  text-align: justify;
+  overflow: hidden; /* garante que nada saia da folha */
+}
+
+/* título dentro da folha */
+.intro-section h2 {
+  color: #004a80;
+  text-align: center;
+  font-size: 1.8rem;
+  margin-bottom: 25px;
+}
+
+/* organização da imagem e texto */
+.intro-content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+/* imagem à esquerda */
+.intro-image {
+  flex: 0 0 30%;
+  width: 30%;
+  border-radius: 8px;
+  object-fit: cover;
+  aspect-ratio: 4 / 3;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+}
+
+/* texto à direita */
+.intro-text {
+  flex: 1 1 65%;
+  text-align: justify;
+}
+
+/* subtítulos e listas */
+.intro-text h3 {
+  color: #004a80;
+  margin-top: 10px;
+  margin-bottom: 6px;
+  font-size: 1.05rem;
+}
+
+.intro-text ul {
+  margin-left: 20px;
+  margin-bottom: 10px;
+}
+
+.intro-text li {
+  margin-bottom: 4px;
+}
+
+/* === Responsividade === */
+@media (max-width: 900px) {
+  .intro-section {
+    padding: 25px 20px;
+    max-width: 95%;
+  }
+
+  .intro-content {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .intro-image {
+    width: 90%;
+    max-width: 350px;
+    margin-bottom: 15px;
+  }
+
+  .intro-text {
+    width: 100%;
+  }
+}
+
+
+/* === ESTILO DE VISUALIZAÇÃO "FOLHA A4" === */
+#main-content {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 40px 10px;
+  background-color: #f4f6f8;
+  overflow-y: auto;
+}
+
+/* a “folha” inclui o título e o conteúdo */
+.lesson-content,
+.lesson-wrapper {
+  background: #fff;
+  max-width: 850px;        /* largura tipo A4 */
+  margin: 0 auto;
+  padding: 40px 50px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  line-height: 1.7;
+  color: #222;
+  text-align: justify;
+}
+
+.lesson-wrapper h2,
+.lesson-content h2,
+.lesson-content h3,
+.lesson-content h4 {
+  color: #004a80;
+  margin-top: 20px;
+  text-align: center;
+}
+
+.lesson-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 0.95rem;
+}
+
+.lesson-content th,
+.lesson-content td {
+  border: 1px solid #ccc;
+  padding: 8px 10px;
+  text-align: left;
+}
+
+.lesson-content th {
+  background-color: #004a80;
+  color: #fff;
+}
+
+/* === Responsividade da folha === */
+@media (max-width: 900px) {
+  .lesson-content,
+  .lesson-wrapper {
+    padding: 20px;
+    margin: 10px;
+    max-width: 95%;
+  }
+
+  .lesson-content table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+}
+
+
+/* ===============================
+   CORREÇÃO FINAL — SIDEBAR MÓVEL
+   =============================== */
+@media (max-width: 900px) {
+  /* 🔹 Sidebar retraído por defeito no telemóvel */
+  #sidebar {
+    position: fixed;
+    left: 0;
+    top: 60px;
+    height: calc(100vh - 60px);
+    width: 450px;
+    background-color: var(--bg-dark);
+    color: var(--text-light);
+    transform: translateX(-100%); /* começa retraído */
+    transition: transform 0.3s ease-in-out;
+    z-index: 999;
+  }
+
+  /* 🔹 Quando o botão ☰ é clicado, a classe .hidden é removida → abre */
+  #sidebar.active {
+    transform: translateX(0); /* expande */
+  }
+
+  /* 🔹 Botão visível apenas no telemóvel */
+  #toggle-sidebar {
+    display: inline-block;
+  }
+}
+
+/* --- ESTILO DE LEITURA A4 --- */
+#main-content {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 30px;
+  background-color: #f8f9fa;
+}
+
+.lesson-wrapper {
+  background-color: #fff;
+  width: 100%;
+  max-width: 850px; /* largura tipo folha A4 */
+  padding: 40px 50px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  border-radius: 10px;
+  line-height: 1.7;
+  color: #222;
+}
+
+.lesson-wrapper h2,
+.lesson-wrapper h3,
+.lesson-wrapper h4 {
+  color: #004a80;
+  margin-top: 20px;
+}
+
+.lesson-wrapper table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 0.95rem;
+}
+
+.lesson-wrapper th,
+.lesson-wrapper td {
+  border: 1px solid #ccc;
+  padding: 8px 10px;
+  text-align: left;
+}
+
+.lesson-wrapper th {
+  background-color: #004a80;
+  color: white;
+}
+
+/* Responsividade para telemóveis */
+@media (max-width: 900px) {
+  .lesson-wrapper {
+    padding: 20px;
+    max-width: 95%;
+    font-size: 0.9rem;
+  }
+
+  .lesson-wrapper table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+}
+
+/* === ESTILO DE VISUALIZAÇÃO "FOLHA A4" === */
+.lesson-content {
+  background: #fff;
+  max-width: 850px;        /* largura tipo A4 */
+  margin: 30px auto;       /* centraliza no ecrã */
+  padding: 40px 50px;      /* espaço interno */
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  line-height: 1.7;
+  color: #222;
+  text-align: justify;
+}
+
+.lesson-content h2,
+.lesson-content h3,
+.lesson-content h4 {
+  color: #004a80;
+  margin-top: 20px;
+}
+
+.lesson-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 0.95rem;
+}
+
+.lesson-content th,
+.lesson-content td {
+  border: 1px solid #ccc;
+  padding: 8px 10px;
+  text-align: left;
+}
+
+.lesson-content th {
+  background-color: #004a80;
+  color: #fff;
+}
+
+/* Responsividade */
+@media (max-width: 900px) {
+  .lesson-content {
+    padding: 20px;
+    margin: 10px;
+    max-width: 95%;
+  }
+
+  .lesson-content table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+}
+
+/* ===============================
+   AJUSTE MOBILE — LOGO MAGRO + SIDEBAR VISÍVEL
+   =============================== */
+@media (max-width: 900px) {
+  /* 🔹 Reduz o tamanho do cabeçalho e logo */
+  header {
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    padding: 6px 10px;
+  }
+
+  .brand-area {
+    gap: 6px;
+  }
+
+  .brand-area img {
+    height: 22px;      /* diminui o logo */
+    width: auto;
+  }
+
+  .brand-area span {
+    font-size: 0.75rem; /* texto menor */
+    white-space: nowrap;
+  }
+
+  /* 🔹 Sidebar ocupa a tela toda, por cima do conteúdo */
+  #sidebar {
+    position: fixed;
+    top: 50px; /* abaixo do cabeçalho */
+    left: 0;
+    width: 85%; /* não precisa ser 100%, para dar um ar de menu lateral */
+    max-width: 350px;
+    height: calc(100vh - 50px);
+    overflow-y: auto;
+    background-color: #1f2937;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+    z-index: 9999; /* garante que fique por cima de tudo */
+    padding: 20px;
+  }
+
+  /* 🔹 Sidebar aberto */
+  #sidebar.active {
+    transform: translateX(0);
+  }
+
+  /* 🔹 Botão ☰ visível e clicável */
+  #toggle-sidebar {
+    display: inline-block;
+    font-size: 1.4rem;
+    padding: 6px 10px;
+    border-radius: 6px;
+  }
+
+  /* 🔹 O conteúdo principal se ajusta quando o sidebar abre */
+  #main-content {
+    margin-left: 0;
+    padding: 20px;
+  }
+}
+
+/* ===============================
+   TÍTULO DENTRO DA FOLHA A4
+   =============================== */
+.lesson-inner-title {
+  font-size: 1.6rem;
+  text-align: center;
+  color: #004a80;
+  font-weight: 700;
+  margin-bottom: 25px;
+  border-bottom: 2px solid #004a80;
+  padding-bottom: 8px;
+}
+
+
+/* ===============================
+   FOLHA A4 RESPONSIVA E PROPORCIONAL
+   =============================== */
+.lesson-content {
+  background: #fff;
+  max-width: 850px;          /* largura tipo A4 */
+  margin: 30px auto;         /* centraliza */
+  padding: 40px 50px;        /* margens internas */
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  line-height: 1.6;
+  color: #222;
+  text-align: justify;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.lesson-content h2,
+.lesson-content h3,
+.lesson-content h4 {
+  color: #004a80;
+  margin-top: 20px;
+  text-align: center;
+}
+
+.lesson-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 0.95rem;
+  table-layout: fixed;
+  word-wrap: break-word;
+}
+
+.lesson-content th,
+.lesson-content td {
+  border: 1px solid #ccc;
+  padding: 8px 10px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.lesson-content th {
+  background-color: #004a80;
+  color: #fff;
+}
+
+
+/* ===============================
+   📏 TABELAS DISCIPLINADAS 😎
+   =============================== */
+.lesson-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 0.95rem;
+  table-layout: auto;
+  word-wrap: break-word;
+  overflow: hidden;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.lesson-content th,
+.lesson-content td {
+  border: 1px solid #ccc;
+  padding: 8px 10px;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.lesson-content th {
+  background-color: #004a80;
+  color: #fff;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* ⚖️ Modo disciplinar: reduz proporção suavemente */
+@media (max-width: 900px) {
+  .lesson-content table {
+    font-size: 0.85rem;
+    transform: scale(0.95);
+    transform-origin: top center;
+  }
+}
+
+@media (max-width: 700px) {
+  .lesson-content table {
+    font-size: 0.8rem;
+    transform: scale(0.9);
+    transform-origin: top center;
+  }
+
+  .lesson-content th,
+  .lesson-content td {
+    padding: 5px 6px;
+  }
+}
+
+@media (max-width: 500px) {
+  .lesson-content table {
+    font-size: 0.75rem;
+    transform: scale(0.85);
+    transform-origin: top center;
+  }
+
+  .lesson-content th,
+  .lesson-content td {
+    padding: 4px 5px;
+  }
+}
+
+
+/* ------------------------------
+   AJUSTE DE ESCALA PARA TABLET
+   ------------------------------ */
+@media (max-width: 1100px) {
+  .lesson-content {
+    padding: 30px 35px;
+    max-width: 700px;
+    font-size: 0.95rem;
+  }
+}
+
+/* ------------------------------
+   AJUSTE PARA TELEMÓVEL
+   ------------------------------ */
+@media (max-width: 768px) {
+  .lesson-content {
+    max-width: 95%;
+    padding: 20px;
+    font-size: 0.88rem;       /* reduz fonte */
+    line-height: 1.5;
+    border-radius: 6px;
+  }
+
+  .lesson-inner-title {
+    font-size: 1.2rem;
+  }
+
+  .lesson-content h3 {
+    font-size: 1rem;
+  }
+
+  .lesson-content table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+    font-size: 0.85rem;
+    border-radius: 6px;
+  }
+
+  .lesson-content th,
+  .lesson-content td {
+    padding: 6px 8px;
+  }
+}
+
+/* ------------------------------
+   AJUSTE EXTREMO (ECRÃS PEQUENOS)
+   ------------------------------ */
+@media (max-width: 480px) {
+  .lesson-content {
+    padding: 15px;
+    font-size: 0.8rem;
+  }
+
+  .lesson-inner-title {
+    font-size: 1rem;
+  }
+
+  .lesson-content table {
+    font-size: 0.8rem;
+  }
+}
+
+
+#fk-home-btn{color:#fff;text-decoration:none;font-weight:700;background:rgba(255,255,255,.18);padding:6px 10px;border-radius:8px;font-size:.85rem;white-space:nowrap;margin-right:8px}
+#fk-home-btn:hover{background:rgba(255,255,255,.3)}
+</style>
+
+<link rel="icon" type="image/png" href="FK.png">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-client.js"></script>
+<script>document.documentElement.style.visibility='hidden';</script>
+</head>
+
+<body>
+
+<header>
+  <div class="brand-area">
+    <button id="toggle-sidebar">☰</button>
+    <a href="index.html" id="fk-home-btn"><i class="fas fa-home"></i> Início</a>
+    <img src="FK.png" alt="FEKA KAWIÇO" />
+    <span><strong>FEKA KAWIÇO</strong> – <em>A terra natural do conhecimento!</em></span>
+  </div>
+  <div id="login-status">🔒 Verificando acesso…</div>
+</header>
+
+<div id="course-container">
+  <aside id="sidebar">
+    <div class="module">
+      <h3 onclick="toggleModule(0)">📘 Módulo 0: Fundamentos do Nissan Micra e Eletroeletrónica Básica</h3>
+       
+       <div class="module">
+      <h3 onclick="toggleModule(1)">📘 Módulo 1: Fundamentos da Interface Digital</h3>
+      <div class="chapter-list" id="module-0">
+
+        <h4>📦 CAPÍTULO 0: Introdução a Interface digital</h4>
+        <a href="#" class="chapter-link" onclick="loadLesson(0)">Aula 1.1 — Origens da HCI e Evolução das Interfaces</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(1)">Aula 1.2 — Paradigmas de Interface: CLI, GUI, NUI, VUI</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(2)">Aula 1.3 — Modelos Mentais, Percepção Visual e Cognição</a>
+
+        
+      </div>
+      <a href="#" class="chapter-link" style="font-weight:600;">Avaliação Teórica e Prática M1 (100%)</a>
+    </div>
+
+    
+
+      <div class="module">
+      <h3 onclick="toggleModule(1)">📘 Módulo 1: Fundamentos da Interface Digital</h3>
+      <div class="chapter-list" id="module-1">
+
+        <h4>📦 CAPÍTULO 1: História e Princípios da Interação Humano–Computador</h4>
+        <a href="#" class="chapter-link" onclick="loadLesson(0)">Aula 1.1 — Origens da HCI e Evolução das Interfaces</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(1)">Aula 1.2 — Paradigmas de Interface: CLI, GUI, NUI, VUI</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(2)">Aula 1.3 — Modelos Mentais, Percepção Visual e Cognição</a>
+
+        <h4>📦 CAPÍTULO 2: Psicologia Cognitiva e Design Centrado no Utilizador</h4>
+        <a href="#" class="chapter-link" onclick="loadLesson(3)">Aula 2.1 — Teorias da Carga Cognitiva e Memória Visual</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(4)">Aula 2.2 — Princípios Gestálticos e Tomada de Decisão</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(5)">Aula 2.3 — Feedback, Erros e Experiência de Aprendizado</a>
+
+        <h4>📦 CAPÍTULO 3: Normas e Boas Práticas de Usabilidade</h4>
+        <a href="#" class="chapter-link" onclick="loadLesson(6)">Aula 3.1 — ISO 9241-210 e Ergonomia Digital</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(7)">Aula 3.2 — Padrões de Interface e Heurísticas Universais</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(8)">Aula 3.3 — Casos Clássicos: Bons e Maus Designs</a>
+
+      </div>
+      <a href="#" class="chapter-link" style="font-weight:600;">Avaliação Teórica e Prática M1 (100%)</a>
+    </div>
+
+    <!-- MÓDULO 2 -->
+    <div class="module">
+      <h3 onclick="toggleModule(2)">📘 Módulo 2: Linguagens e Tecnologias de Interface</h3>
+      <div class="chapter-list" id="module-2">
+
+        <h4>📦 CAPÍTULO 4: Fundamentos Técnicos da Web</h4>
+        <a href="#" class="chapter-link" onclick="loadLesson(9)">Aula 4.1 — Estrutura e Semântica com HTML5</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(10)">Aula 4.2 — Estilos e Layouts Avançados com CSS3</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(11)">Aula 4.3 — Interatividade com JavaScript e TypeScript</a>
+
+        <h4>📦 CAPÍTULO 5: Frameworks Modernos e Componentização</h4>
+        <a href="#" class="chapter-link" onclick="loadLesson(12)">Aula 5.1 — React e Design de Componentes Reutilizáveis</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(13)">Aula 5.2 — Vue, Angular e Boas Práticas de MVVM</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(14)">Aula 5.3 — Flutter e Interfaces Multiplataforma</a>
+
+        <h4>📦 CAPÍTULO 6: Arquiteturas e Padrões de UI</h4>
+        <a href="#" class="chapter-link" onclick="loadLesson(15)">Aula 6.1 — MVC e Separação de Responsabilidades</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(16)">Aula 6.2 — Component-Based Design e Atomic Design</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(17)">Aula 6.3 — Clean Architecture e Fluxos de Dados</a>
+
+      </div>
+      <a href="#" class="chapter-link" style="font-weight:600;">Avaliação Teórica e Prática M2 (100%)</a>
+    </div>
+
+    <!-- MÓDULO 3 -->
+    <div class="module">
+      <h3 onclick="toggleModule(3)">📘 Módulo 3: Design de Interação e Usabilidade</h3>
+      <div class="chapter-list" id="module-3">
+
+        <h4>📦 CAPÍTULO 7: Princípios de Design Visual</h4>
+        <a href="#" class="chapter-link" onclick="loadLesson(18)">Aula 7.1 — Hierarquia, Contraste e Equilíbrio</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(19)">Aula 7.2 — Tipografia, Cor e Simbolismo Visual</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(20)">Aula 7.3 — Microinterações e Feedback Visual</a>
+
+        <h4>📦 CAPÍTULO 8: Heurísticas e Testes de Usabilidade</h4>
+        <a href="#" class="chapter-link" onclick="loadLesson(21)">Aula 8.1 — As 10 Heurísticas de Nielsen</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(22)">Aula 8.2 — Planeamento de Testes de Usabilidade</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(23)">Aula 8.3 — Métricas de Eficiência e Satisfação</a>
+
+        <h4>📦 CAPÍTULO 9: Acessibilidade e Design Inclusivo</h4>
+        <a href="#" class="chapter-link" onclick="loadLesson(24)">Aula 9.1 — WCAG 2.2 e Boas Práticas Inclusivas</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(25)">Aula 9.2 — Ferramentas de Avaliação de Acessibilidade</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(26)">Aula 9.3 — Casos Reais e Implementações Inclusivas</a>
+
+      </div>
+      <a href="#" class="chapter-link" style="font-weight:600;">Avaliação Teórica e Prática M3 (100%)</a>
+    </div>
+
+    <!-- MÓDULO 4 -->
+    <div class="module">
+      <h3 onclick="toggleModule(4)">📘 Módulo 4: Prototipagem e Experiência do Usuário (UX)</h3>
+      <div class="chapter-list" id="module-4">
+
+        <h4>📦 CAPÍTULO 10: Design Thinking e UX Research</h4>
+        <a href="#" class="chapter-link" onclick="loadLesson(27)">Aula 10.1 — Processo de Empatia e Descoberta</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(28)">Aula 10.2 — Mapeamento de Jornada do Usuário</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(29)">Aula 10.3 — Personas e Cenários de Uso</a>
+
+        <h4>📦 CAPÍTULO 11: Ferramentas e Fluxos de Prototipagem</h4>
+        <a href="#" class="chapter-link" onclick="loadLesson(30)">Aula 11.1 — Figma e Adobe XD: Wireframes à Alta Fidelidade</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(31)">Aula 11.2 — Framer e Prototipagem Interativa</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(32)">Aula 11.3 — Testes A/B e Métricas de Engajamento</a>
+
+        <h4>📦 CAPÍTULO 12: Validação e Otimização de Experiência</h4>
+        <a href="#" class="chapter-link" onclick="loadLesson(33)">Aula 12.1 — Coleta e Interpretação de Dados de UX</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(34)">Aula 12.2 — Ciclo de Iteração e Refinamento</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(35)">Aula 12.3 — Comunicação de Resultados e Insights</a>
+
+      </div>
+      <a href="#" class="chapter-link" style="font-weight:600;">Avaliação Teórica e Prática M4 (100%)</a>
+    </div>
+
+    <!-- MÓDULO 5 -->
+    <div class="module">
+      <h3 onclick="toggleModule(5)">📘 Módulo 5: Integração com Back-End e Sistemas Inteligentes</h3>
+      <div class="chapter-list" id="module-5">
+
+        <h4>📦 CAPÍTULO 13: APIs e Comunicação de Dados</h4>
+        <a href="#" class="chapter-link" onclick="loadLesson(36)">Aula 13.1 — Consumo de APIs RESTful e GraphQL</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(37)">Aula 13.2 — Autenticação com OAuth2 e Firebase</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(38)">Aula 13.3 — Integração de Dados e Segurança</a>
+
+        <h4>📦 CAPÍTULO 14: Interfaces Inteligentes</h4>
+        <a href="#" class="chapter-link" onclick="loadLesson(39)">Aula 14.1 — Chatbots e Processamento de Linguagem Natural</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(40)">Aula 14.2 — Reconhecimento de Voz e UX Conversacional</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(41)">Aula 14.3 — Sistemas de Recomendação e IA Aplicada</a>
+
+        <h4>📦 CAPÍTULO 15: Integração Total e Deploy</h4>
+        <a href="#" class="chapter-link" onclick="loadLesson(42)">Aula 15.1 — Ligação com Back-End e Banco de Dados</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(43)">Aula 15.2 — Testes de Desempenho e Otimização</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(44)">Aula 15.3 — Deploy e Publicação de Aplicativos</a>
+
+      </div>
+      <a href="#" class="chapter-link" style="font-weight:600;">Avaliação Teórica e Prática M5 (100%)</a>
+    </div>
+
+    <!-- MÓDULO 6 -->
+    <div class="module">
+      <h3 onclick="toggleModule(6)">📘 Módulo 6: Projeto Final Integrado</h3>
+      <div class="chapter-list" id="module-6">
+
+        <h4>📦 CAPÍTULO 16: Planeamento e Concepção</h4>
+        <a href="#" class="chapter-link" onclick="loadLesson(45)">Aula 16.1 — Planeamento do Fluxo e Wireframes</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(46)">Aula 16.2 — Design e Implementação do Protótipo</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(47)">Aula 16.3 — Integração com Back-End Real</a>
+
+        <h4>📦 CAPÍTULO 17: Testes e Otimização</h4>
+        <a href="#" class="chapter-link" onclick="loadLesson(48)">Aula 17.1 — Testes de Usabilidade e Desempenho</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(49)">Aula 17.2 — Acessibilidade e Compatibilidade Multi-Plataforma</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(50)">Aula 17.3 — Documentação e Preparação da Defesa</a>
+
+        <h4>📦 CAPÍTULO 18: Apresentação e Defesa Técnica</h4>
+        <a href="#" class="chapter-link" onclick="loadLesson(51)">Aula 18.1 — Apresentação Pública do Projeto</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(52)">Aula 18.2 — Feedback e Iteração Final</a>
+        <a href="#" class="chapter-link" onclick="loadLesson(53)">Aula 18.3 — Encerramento e Certificação</a>
+
+      </div>
+      <a href="teste-modulo3.html" class="chapter-link" style="font-weight:600;">Avaliação Final Integrada (100%)</a>
+    </div>
+
+
+    </div>
+  
+    <div class="module">
+      <h3>🧪 Teste Final</h3>
+      <div class="chapter-list" style="display:block;">
+        <a href="teste-Auto-Nmicra.html" class="chapter-link" style="font-weight:600;">Avaliação Teórica e Prática (100%)</a>
+        <p style="font-size:0.85rem; color:#ccc; margin-left:10px;">
+          • 50% teste de múltipla escolha<br>
+          • 50% diagnóstico e reparação de uma TV
+        </p>
+      </div>
+    </div>
+
+
+
+
+  </aside>
+
+ <main id="main-content">
+ 
+
+  <div class="intro-section">
+  <h2 id="lesson-title">🚗 Curso Avançado de User Interface Engineering para Engenharia Informática e Desenvolvimento de Aplicativos</h2>
+    <img src="Nissan-Micra-Diagnostico.png" alt="UI- curso" class="intro-image">
+
+    <div class="intro-text">
+  <h3>🎯 Objetivo do geral</h3>
+  <p>Capacitar o aluno a conceber, projetar e implementar interfaces digitais inteligentes e responsivas para aplicações móveis, web e sistemas embarcados, unindo engenharia de software, psicologia cognitiva e design digital. O curso promove um domínio profundo das tecnologias, frameworks e metodologias usados no desenvolvimento moderno de interfaces — do conceito à implementação profissional.</p>
+
+  <h3>💡 Competências Desenvolvidas</h3>
+  <ul>
+    <li>Conceção e implementação de UIs responsivas com HTML5, CSS3, JavaScript e TypeScript.</li>
+    <li>Uso profissional de frameworks modernos (React, Vue, Angular, Flutter) e arquitetura componentizada.</li>
+    <li>Aplicação de princípios de design de interação, heurísticas de usabilidade e testes com utilizadores.</li>
+    <li>Protótipos interativos (Figma, Framer, Adobe XD) e validação de UX com métricas (A/B, engagement).</li>
+    <li>Acessibilidade e design inclusivo segundo WCAG; práticas para tornar produtos utilizáveis por todos.</li>
+    <li>Integração front-end com APIs (REST/GraphQL), autenticação e persistência (Firebase, OAuth2).</li>
+    <li>Introdução a UX com IA: chatbots, reconhecimento de voz e recomendações personalizadas.</li>
+    <li>Testes de desempenho, otimização de render, e práticas de deploy e publicação profissional.</li>
+  </ul>
+
+  <h3>👥 A quem se destina</h3>
+  <ul>
+    <li>Estudantes de Engenharia Informática, Ciência da Computação e áreas relacionadas.</li>
+    <li>Desenvolvedores front-end que queiram aprofundar competências em UI/UX e engenharia de interfaces.</li>
+    <li>Designers de produto e UX que desejam entender a implementação técnica e integração com back-end.</li>
+    <li>Empreendedores e profissionais de startups que desenvolvem aplicações móveis, web ou IoT.</li>
+  </ul>
+
+  <h3>📐 Estrutura Geral do Curso</h3>
+  <ul>
+    <li>Duração sugerida: 6 módulos (3 capítulos cada).</li>
+    <li>Carga horária: 180 horas (aulas teóricas, laboratórios práticos e estudos de caso).</li>
+    <li>Metodologia: aprendizagem hands-on com projetos, code labs e validação por utilizadores reais.</li>
+  </ul>
+
+  <h3>🧭 Módulos (Resumo)</h3>
+  <ul>
+    <li><strong>Módulo 1 – Fundamentos da Interface Digital</strong>
+      <ul>
+        <li>História e princípios da HCI; paradigmas de interface (CLI, GUI, NUI, VUI).</li>
+        <li>Modelos mentais, percepção visual e resposta cognitiva.</li>
+        <li>Normas e boas práticas (ISO 9241-210).</li>
+      </ul>
+    </li>
+
+    <li><strong>Módulo 2 – Linguagens e Tecnologias de Interface</strong>
+      <ul>
+        <li>HTML5, CSS3 (incl. layouts modernos) e JavaScript/TypeScript.</li>
+        <li>Frameworks: React, Vue, Angular e Flutter; component design e state management.</li>
+        <li>Arquiteturas de UI: MVC, MVVM, Component-Based Design.</li>
+      </ul>
+    </li>
+
+    <li><strong>Módulo 3 – Design de Interação e Usabilidade</strong>
+      <ul>
+        <li>Princípios visuais, composição e micro-interações.</li>
+        <li>Heurísticas de Nielsen, testes de usabilidade e métricas qualitativas/quantitativas.</li>
+        <li>Acessibilidade (WCAG 2.2) e design inclusivo.</li>
+      </ul>
+    </li>
+
+    <li><strong>Módulo 4 – Prototipagem e Experiência do Usuário (UX)</strong>
+      <ul>
+        <li>Design Thinking, UX Research e user journeys.</li>
+        <li>Ferramentas de prototipagem: Figma, Adobe XD, Framer; protótipos testáveis.</li>
+        <li>Testes A/B, métricas de engajamento e otimização de funnels.</li>
+      </ul>
+    </li>
+
+    <li><strong>Módulo 5 – Integração com Back-End e Sistemas Inteligentes</strong>
+      <ul>
+        <li>Consumo de APIs RESTful e GraphQL; autenticação e segurança (OAuth2).</li>
+        <li>Persistência, sincronização offline e integração com serviços (Firebase, DBs).</li>
+        <li>UX assistida por IA: chatbots, voice UX e sistemas de recomendação.</li>
+      </ul>
+    </li>
+
+    <li><strong>Módulo 6 – Projeto Final Integrado</strong>
+      <ul>
+        <li>Planeamento e desenho do fluxo de interação.</li>
+        <li>Desenvolvimento front-end com integração back-end e testes de usabilidade.</li>
+        <li>Apresentação, defesa técnica e entrega de um aplicativo funcional.</li>
+      </ul>
+    </li>
+  </ul>
+
+  <h3>🏁 Resultados Esperados</h3>
+  <ul>
+    <li>Projetar e programar interfaces digitais modernas, acessíveis e responsivas.</li>
+    <li>Aplicar princípios de usabilidade, psicologia cognitiva e design inclusivo.</li>
+    <li>Dominar frameworks e práticas de integração com APIs e serviços inteligentes.</li>
+    <li>Conduzir testes de validação, medir desempenho e otimizar a experiência do utilizador.</li>
+    <li>Produzir um projeto final publicável, com documentação e defesa técnica.</li>
+  </ul>
+
+  <h3>🎓 Perfil do Egresso</h3>
+  <p>O egresso será um UI Engineer capaz de atuar em desenvolvimento de aplicações móveis e web, prototipagem avançada, integração de interfaces com sistemas inteligentes e liderança técnica em equipas de produto, startups e laboratórios de inovação.</p>
+
+  <h3>📝 Sugestões de Avaliação</h3>
+  <ul>
+    <li>Avaliações teóricas: provas escritas e quizzes técnicos por módulo.</li>
+    <li>Avaliações práticas: entregas de labs, protótipos funcionais e code reviews.</li>
+    <li>Avaliação final: defesa do projeto integrado, demonstração funcional e relatório técnico.</li>
+  </ul>
+
+  <h3>🔧 Recursos e Referências</h3>
+  <ul>
+    <li>Normas e guias: ISO 9241-210, ISO/IEC 25010, WCAG.</li>
+    <li>Livros e guias: Norman (The Design of Everyday Things), Nielsen (Usability Engineering), Garrett (The Elements of User Experience).</li>
+    <li>Documentação técnica: React, Flutter, TensorFlow UI Labs, W3C/WAI.</li>
+  </ul>
+
+  
+</div>
+
+  </div>
+</main>
+
+</div>
+
+<script>
+// PROTEÇÃO DE ACESSO REAL (Supabase)
+(async function(){
+ try{
+  const {data:{session}}=await supabaseClient.auth.getSession();
+  if(!session){location.replace('login.html');return;}
+  const uid=session.user.id;
+  const [pr,en]=await Promise.all([
+   supabaseClient.from('profiles').select('nome,role').eq('id',uid).maybeSingle(),
+   supabaseClient.from('enrollments').select('status').eq('user_id',uid).eq('course_id','ui_engineering').maybeSingle()]);
+  const staff=['administrador','secretaria','professor_inspector','professor'].includes(pr.data?.role);
+  const loginStatus=document.getElementById('login-status');
+  if(staff||en.data?.status==='validado'){
+   loginStatus.textContent='✅ Olá, '+((pr.data?.nome||'Aluno').split(' ')[0])+' — User Interface Engineering';
+   document.documentElement.style.visibility='visible';
+  }else{
+   location.replace('validar-geral.html?curso=ui_engineering');
+  }
+ }catch(e){location.replace('validar-geral.html?curso=ui_engineering');}
+})();
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  // (verificação de acesso feita antes, via Supabase — ver IIFE acima)
+});
+
+function toggleModule(index) {
+  const module = document.getElementById(`module-${index}`);
+  module.style.display = module.style.display === 'block' ? 'none' : 'block';
+}
+
+document.getElementById('toggle-sidebar').addEventListener('click', () => {
+  document.getElementById('sidebar').classList.toggle('active');
+});
+
+function loadLesson(id) {
+  // Lista de aulas exatamente conforme o sidebar
+  const lessons = [
+
+      // Aula 0 — Introducão
+  {
+    title: "Aula 1 — Origens da HCI e Evolução das Interfaces",
+    content: `
+    <h3>🌟 Objetivo da Aula</h3>
+    <p>Compreender a evolução histórica da interação humano-computador, reconhecer os principais marcos da HCI (Human-Computer Interaction) e entender como paradigmas de interface moldaram aplicações digitais modernas.</p>
+
+    <h3>📖 Conteúdo Central</h3>
+    <p>HCI começou na década de 1960 com sistemas batch e terminais, evoluindo para GUIs nos anos 80, interfaces gestuais e hoje interfaces de voz e realidade aumentada. A evolução inclui:</p>
+    <ul>
+      <li>CLI (Command Line Interface): interação baseada em texto;</li>
+      <li>GUI (Graphical User Interface): janelas, ícones, menus e ponteiros;</li>
+      <li>NUI (Natural User Interface): gestos e toques;</li>
+      <li>VUI (Voice User Interface): comando de voz.</li>
+    </ul>
+
+    <h4>📊 Tabela 1 — Linha do Tempo da HCI</h4>
+    <table border="1" cellspacing="0" cellpadding="4">
+      <tr><th>Década</th><th>Paradigma</th><th>Exemplo</th></tr>
+      <tr><td>1960</td><td>CLI</td><td>UNIX Terminals</td></tr>
+      <tr><td>1980</td><td>GUI</td><td>Macintosh, Windows</td></tr>
+      <tr><td>2000</td><td>NUI</td><td>Touchscreens, Kinect</td></tr>
+      <tr><td>2010</td><td>VUI</td><td>Alexa, Siri</td></tr>
+    </table>
+
+    <h3>📘 Resumo</h3>
+    <ul>
+      <li>A HCI evoluiu do texto para interfaces visuais e naturais;</li>
+      <li>Cada paradigma impacta a forma como usuários percebem e interagem;</li>
+      <li>Compreender a evolução ajuda a projetar interfaces modernas e intuitivas.</li>
+    </ul>
+    `
+  },
+
+
+    // ================= MÓDULO 1 =================
+  // Aula 1.1 — Origens da HCI e Evolução das Interfaces
+  {
+    title: "Aula 1.1 — Origens da HCI e Evolução das Interfaces",
+    content: `
+    <h3>🌟 Objetivo da Aula</h3>
+    <p>Compreender a evolução histórica da interação humano-computador, reconhecer os principais marcos da HCI (Human-Computer Interaction) e entender como paradigmas de interface moldaram aplicações digitais modernas.</p>
+
+    <h3>📖 Conteúdo Central</h3>
+    <p>HCI começou na década de 1960 com sistemas batch e terminais, evoluindo para GUIs nos anos 80, interfaces gestuais e hoje interfaces de voz e realidade aumentada. A evolução inclui:</p>
+    <ul>
+      <li>CLI (Command Line Interface): interação baseada em texto;</li>
+      <li>GUI (Graphical User Interface): janelas, ícones, menus e ponteiros;</li>
+      <li>NUI (Natural User Interface): gestos e toques;</li>
+      <li>VUI (Voice User Interface): comando de voz.</li>
+    </ul>
+
+    <h4>📊 Tabela 1 — Linha do Tempo da HCI</h4>
+    <table border="1" cellspacing="0" cellpadding="4">
+      <tr><th>Década</th><th>Paradigma</th><th>Exemplo</th></tr>
+      <tr><td>1960</td><td>CLI</td><td>UNIX Terminals</td></tr>
+      <tr><td>1980</td><td>GUI</td><td>Macintosh, Windows</td></tr>
+      <tr><td>2000</td><td>NUI</td><td>Touchscreens, Kinect</td></tr>
+      <tr><td>2010</td><td>VUI</td><td>Alexa, Siri</td></tr>
+    </table>
+
+    <h3>📘 Resumo</h3>
+    <ul>
+      <li>A HCI evoluiu do texto para interfaces visuais e naturais;</li>
+      <li>Cada paradigma impacta a forma como usuários percebem e interagem;</li>
+      <li>Compreender a evolução ajuda a projetar interfaces modernas e intuitivas.</li>
+    </ul>
+    `
+  },
+
+  // Aula 1.2 — Paradigmas de Interface: CLI, GUI, NUI, VUI
+  {
+    title: "Aula 1.2 — Paradigmas de Interface: CLI, GUI, NUI, VUI",
+    content: `
+    <h3>🌟 Objetivo da Aula</h3>
+    <p>Aprender os paradigmas de interface, identificar suas vantagens e limitações e aplicar conceitos para diferentes contextos de aplicação (desktop, web, mobile, IoT).</p>
+
+    <h3>📖 Conteúdo Central</h3>
+    <p>Cada paradigma de interface apresenta características distintas:</p>
+    <ul>
+      <li><strong>CLI:</strong> eficiente, leve, curva de aprendizado alta;</li>
+      <li><strong>GUI:</strong> intuitiva, suporta multitarefas, mas consome recursos;</li>
+      <li><strong>NUI:</strong> natural, exige sensores e gestos precisos;</li>
+      <li><strong>VUI:</strong> hands-free, depende de reconhecimento de voz e contexto.</li>
+    </ul>
+
+    <h4>📊 Tabela 2 — Comparativo de Paradigmas</h4>
+    <table border="1" cellspacing="0" cellpadding="4">
+      <tr><th>Paradigma</th><th>Prós</th><th>Contras</th></tr>
+      <tr><td>CLI</td><td>Rápido, baixo custo</td><td>Difícil para iniciantes</td></tr>
+      <tr><td>GUI</td><td>Visual, intuitivo</td><td>Consome mais memória</td></tr>
+      <tr><td>NUI</td><td>Natural, interativo</td><td>Exige hardware especializado</td></tr>
+      <tr><td>VUI</td><td>Hands-free, acessível</td><td>Sensível a ruído e linguagem</td></tr>
+    </table>
+
+    <h3>📘 Resumo</h3>
+    <ul>
+      <li>Escolha do paradigma depende do contexto e usuário;</li>
+      <li>Interfaces modernas podem combinar paradigmas;</li>
+      <li>Entender limitações ajuda no design de experiências eficazes.</li>
+    </ul>
+    `
+  },
+
+  // ================= MÓDULO 1 (continuação) =================
+
+// Aula 1.3 — Modelos Mentais, Percepção Visual e Cognição
+{
+  title: "Aula 1.3 — Modelos Mentais, Percepção Visual e Cognição",
+  content: `
+  <h3>🌟 Objetivo da Aula</h3>
+  <p>Compreender como os usuários formam modelos mentais, como percebem elementos visuais e como a cognição influencia a interação com interfaces digitais.</p>
+
+  <h3>📖 Conteúdo Central</h3>
+  <p>Modelos mentais permitem que o usuário preveja resultados de suas ações. Componentes-chave:</p>
+  <ul>
+    <li>Percepção visual: cores, contraste, hierarquia visual;</li>
+    <li>Carga cognitiva: quantidade de informação que pode ser processada;</li>
+    <li>Memória de trabalho: manipulação de informações durante a interação;</li>
+    <li>Feedback imediato: confirma ou corrige ações.</li>
+  </ul>
+
+  <h4>📊 Tabela 3 — Componentes Cognitivos na UI</h4>
+  <table border="1" cellspacing="0" cellpadding="4">
+    <tr><th>Elemento</th><th>Função Cognitiva</th><th>Impacto no Design</th></tr>
+    <tr><td>Cores</td><td>Percepção, diferenciação</td><td>Destacar ações importantes</td></tr>
+    <tr><td>Tipografia</td><td>Leitura, hierarquia</td><td>Organizar conteúdo</td></tr>
+    <tr><td>Feedback</td><td>Confirmação, correção</td><td>Reduz erros e frustração</td></tr>
+    <tr><td>Layout</td><td>Memória espacial</td><td>Facilita navegação e aprendizado</td></tr>
+  </table>
+
+  <h3>📘 Resumo</h3>
+  <ul>
+    <li>Modelos mentais guiam expectativas;</li>
+    <li>Design deve minimizar carga cognitiva e fornecer feedback;</li>
+    <li>Percepção visual é essencial para eficiência e usabilidade.</li>
+  </ul>
+  `
+},
+
+// Aula 2.1 — Teorias da Carga Cognitiva e Memória Visual
+{
+  title: "Aula 2.1 — Teorias da Carga Cognitiva e Memória Visual",
+  content: `
+  <h3>🌟 Objetivo da Aula</h3>
+  <p>Entender os limites da memória de trabalho e carga cognitiva para criar interfaces mais eficientes e amigáveis.</p>
+
+  <h3>📖 Conteúdo Central</h3>
+  <p>A Teoria da Carga Cognitiva propõe que o ser humano tem capacidade limitada para processar informações simultaneamente. Três tipos de carga:</p>
+  <ul>
+    <li>Carga intrínseca: complexidade da informação;</li>
+    <li>Carga extrínseca: distrações desnecessárias;</li>
+    <li>Carga germane: esforço de aprender e processar a informação útil.</li>
+  </ul>
+  <p>Memória visual: capacidade de lembrar padrões, cores, posições. O design deve reduzir a carga desnecessária, utilizando sinais visuais claros.</p>
+
+  <h4>📊 Tabela 4 — Estratégias de Redução de Carga Cognitiva</h4>
+  <table border="1" cellspacing="0" cellpadding="4">
+    <tr><th>Estratégia</th><th>Aplicação</th></tr>
+    <tr><td>Chunking</td><td>Agrupar informações em blocos menores</td></tr>
+    <tr><td>Consistência</td><td>Elementos iguais com função igual</td></tr>
+    <tr><td>Feedback imediato</td><td>Confirma ação e corrige erros</td></tr>
+    <tr><td>Hierarquia visual</td><td>Guiar atenção para informações importantes</td></tr>
+  </table>
+
+  <h3>📘 Resumo</h3>
+  <ul>
+    <li>Reduzir carga cognitiva aumenta eficiência;</li>
+    <li>Memória visual deve ser aproveitada no layout;</li>
+    <li>Feedback e hierarquia visual melhoram aprendizado e usabilidade.</li>
+  </ul>
+  `
+},
+
+// Aula 2.2 — Princípios Gestálticos e Tomada de Decisão
+{
+  title: "Aula 2.2 — Princípios Gestálticos e Tomada de Decisão",
+  content: `
+  <h3>🌟 Objetivo da Aula</h3>
+  <p>Aplicar princípios da psicologia da Gestalt na criação de interfaces que facilitem a percepção e a tomada de decisão do usuário.</p>
+
+  <h3>📖 Conteúdo Central</h3>
+  <p>Princípios gestálticos: proximidade, similaridade, continuidade, fechamento e figura-fundo. Estes guiam a percepção visual e organizam informações para decisões rápidas e precisas.</p>
+
+  <h4>📊 Tabela 5 — Princípios Gestálticos</h4>
+  <table border="1" cellspacing="0" cellpadding="4">
+    <tr><th>Princípio</th><th>Descrição</th><th>Exemplo UI</th></tr>
+    <tr><td>Proximidade</td><td>Elementos próximos formam grupo</td><td>Botões de ação agrupados</td></tr>
+    <tr><td>Similaridade</td><td>Elementos semelhantes percebidos juntos</td><td>Ícones com cores iguais</td></tr>
+    <tr><td>Continuidade</td><td>O olho segue linhas contínuas</td><td>Navegação sequencial</td></tr>
+    <tr><td>Fechamento</td><td>Completar formas mentalmente</td><td>Menus minimalistas</td></tr>
+    <tr><td>Figura-fundo</td><td>Diferencia plano e objeto</td><td>Botões destacados no fundo</td></tr>
+  </table>
+
+  <h3>📘 Resumo</h3>
+  <ul>
+    <li>Gestalt facilita percepção rápida;</li>
+    <li>Decisões do usuário são mais precisas com princípios aplicados;</li>
+    <li>Design organizado aumenta eficiência e satisfação.</li>
+  </ul>
+  `
+},
+
+// Aula 2.3 — Feedback, Erros e Experiência de Aprendizado
+{
+  title: "Aula 2.3 — Feedback, Erros e Experiência de Aprendizado",
+  content: `
+  <h3>🌟 Objetivo da Aula</h3>
+  <p>Entender como feedback adequado e tratamento de erros melhoram experiência e aprendizado do usuário.</p>
+
+  <h3>📖 Conteúdo Central</h3>
+  <p>Feedback é essencial para confirmar ações, prevenir frustração e guiar o usuário. Tipos:</p>
+  <ul>
+    <li>Visual: mudança de cor, ícone;</li>
+    <li>Auditivo: som de confirmação;</li>
+    <li>Táctil: vibração ou força em dispositivos móveis.</li>
+  </ul>
+  <p>Erros devem ser prevenidos e, quando ocorrem, oferecer solução clara. Interface deve apoiar aprendizado contínuo e reforçar comportamento correto.</p>
+
+  <h4>📊 Tabela 6 — Estratégias de Feedback e Erros</h4>
+  <table border="1" cellspacing="0" cellpadding="4">
+    <tr><th>Estratégia</th><th>Aplicação</th></tr>
+    <tr><td>Feedback positivo</td><td>Confirmação de ação correta</td></tr>
+    <tr><td>Mensagens de erro claras</td><td>Explicar problema e solução</td></tr>
+    <tr><td>Undo / Redo</td><td>Permitir correção de ações</td></tr>
+    <tr><td>Dicas contextuais</td><td>Ajudar na execução de tarefas complexas</td></tr>
+  </table>
+
+  <h3>📘 Resumo</h3>
+  <ul>
+    <li>Feedback e tratamento de erros aumentam eficiência;</li>
+    <li>Interface deve guiar aprendizado do usuário;</li>
+    <li>Experiência positiva reduz frustração e aumenta produtividade.</li>
+  </ul>
+  `
+},
+
+/// ================= MÓDULO 1 =================
+
+// Aula 3.1 — ISO 9241-210 e Ergonomia Digital
+{
+  title: "Aula 3.1 — ISO 9241-210 e Ergonomia Digital",
+  content: `
+  <h3>🌟 Objetivo da Aula</h3>
+  <p>Compreender os princípios da ergonomia digital e como a norma ISO 9241-210 orienta o design centrado no utilizador (UCD) para interfaces eficientes e seguras.</p>
+
+  <h3>📖 Conteúdo Central</h3>
+  <p>A ISO 9241-210 estabelece diretrizes para projetar sistemas interativos com foco no utilizador, garantindo eficácia, eficiência e satisfação. Componentes principais:</p>
+  <ul>
+    <li>Entendimento do contexto de uso;</li>
+    <li>Definição de requisitos do usuário;</li>
+    <li>Geração de soluções de design;</li>
+    <li>Avaliação iterativa com usuários;</li>
+    <li>Documentação e melhoria contínua.</li>
+  </ul>
+  <p>Ergonomia digital envolve a organização de informação, cores, tipografia, espaçamento e fluxo de tarefas, reduzindo erros e fadiga cognitiva.</p>
+
+  <h4>📊 Tabela — Princípios de Ergonomia Digital</h4>
+  <table border="1" cellspacing="0" cellpadding="4">
+    <tr><th>Princípio</th><th>Descrição</th><th>Exemplo</th></tr>
+    <tr><td>Consistência</td><td>Manter padrões de design</td><td>Menus iguais em todas telas</td></tr>
+    <tr><td>Feedback</td><td>Informar ações do usuário</td><td>Mensagem de confirmação após salvar</td></tr>
+    <tr><td>Visibilidade</td><td>Elementos claros e perceptíveis</td><td>Botões destacados</td></tr>
+    <tr><td>Controle do usuário</td><td>Permitir desfazer ações</td><td>Cancelar envio de formulário</td></tr>
+  </table>
+
+  <h3>📘 Resumo</h3>
+  <ul>
+    <li>A ISO 9241-210 guia design centrado no usuário;</li>
+    <li>Ergonomia digital aumenta eficiência e reduz erros;</li>
+    <li>Aplicação prática melhora satisfação e usabilidade.</li>
+  </ul>
+  `
+},
+
+// Aula 3.2 — Padrões de Interface e Heurísticas Universais
+{
+  title: "Aula 3.2 — Padrões de Interface e Heurísticas Universais",
+  content: `
+  <h3>🌟 Objetivo da Aula</h3>
+  <p>Aprender os principais padrões de interface e heurísticas universais de Nielsen para criar interfaces intuitivas e consistentes.</p>
+
+  <h3>📖 Conteúdo Central</h3>
+  <p>Padrões de interface e heurísticas ajudam a prever problemas de usabilidade e facilitam aprendizagem rápida:</p>
+  <ul>
+    <li>Heurísticas de Nielsen: visibilidade do estado, correspondência entre sistema e mundo real, controle do usuário, consistência, prevenção de erros, reconhecimento em vez de lembrança, flexibilidade e eficiência, estética e design minimalista, ajuda e documentação;</li>
+    <li>Padrões de interface: formulários padronizados, menus consistentes, navegação breadcrumb, barras de progresso, notificações e alertas.</li>
+  </ul>
+
+  <h4>📊 Tabela — Heurísticas de Usabilidade</h4>
+  <table border="1" cellspacing="0" cellpadding="4">
+    <tr><th>Heurística</th><th>Objetivo</th><th>Exemplo Prático</th></tr>
+    <tr><td>Visibilidade do estado do sistema</td><td>Usuário sempre informado</td><td>Loading spinner</td></tr>
+    <tr><td>Prevenção de erros</td><td>Evitar ações incorretas</td><td>Confirmação antes de excluir</td></tr>
+    <tr><td>Flexibilidade e eficiência</td><td>Atalhos para usuários experientes</td><td>Teclas de atalho em softwares</td></tr>
+    <tr><td>Design minimalista</td><td>Evitar sobrecarga de informação</td><td>Painel limpo sem excesso de elementos</td></tr>
+  </table>
+
+  <h3>📘 Resumo</h3>
+  <ul>
+    <li>Heurísticas guiam avaliação rápida de usabilidade;</li>
+    <li>Padrões reduzem curva de aprendizado;</li>
+    <li>Aplicação prática melhora eficiência e satisfação do usuário.</li>
+  </ul>
+  `
+},
+
+// Aula 3.3 — Casos Clássicos: Bons e Maus Designs
+{
+  title: "Aula 3.3 — Casos Clássicos: Bons e Maus Designs",
+  content: `
+  <h3>🌟 Objetivo da Aula</h3>
+  <p>Analisar exemplos reais de interfaces bem e mal projetadas, entendendo boas práticas e erros comuns em usabilidade.</p>
+
+  <h3>📖 Conteúdo Central</h3>
+  <p>Estudo de casos permite aprendizado aplicado:</p>
+  <ul>
+    <li>Bons designs: Google Search (simplicidade, clareza, feedback imediato), iPhone iOS (consistência, gestos intuitivos), Trello (drag & drop, visibilidade do status);</li>
+    <li>Maus designs: interfaces sobrecarregadas, menus confusos, pop-ups invasivos, formulários complexos e erros não explicados;</li>
+    <li>Análise foca em heurísticas violadas ou respeitadas, fluxo de interação, clareza e eficiência.</li>
+  </ul>
+
+  <h4>📊 Tabela — Comparação Bons x Maus Designs</h4>
+  <table border="1" cellspacing="0" cellpadding="4">
+    <tr><th>Exemplo</th><th>Bons Designs</th><th>Maus Designs</th></tr>
+    <tr><td>Pesquisa Online</td><td>Clara, rápida, feedback instantâneo</td><td>Resultados confusos, excesso de anúncios</td></tr>
+    <tr><td>Aplicativo Mobile</td><td>Gestos intuitivos, consistência</td><td>Menus escondidos, navegação complexa</td></tr>
+    <tr><td>Formulários</td><td>Validação clara, etapas simples</td><td>Campos obrigatórios não claros, erros sem orientação</td></tr>
+  </table>
+
+  <h3>📘 Resumo</h3>
+  <ul>
+    <li>Casos reais reforçam aprendizado prático;</li>
+    <li>Analisar erros previne repetição em novos designs;</li>
+    <li>Bons designs focam clareza, eficiência e satisfação do usuário.</li>
+  </ul>
+  `
+},
+
+// ================= MÓDULO 2 =================
+
+// Aula 4.1 — Estrutura e Semântica com HTML5
+{
+  title: "Aula 4.1 — Estrutura e Semântica com HTML5",
+  content: `
+  <h3>🌟 Objetivo da Aula</h3>
+  <p>Compreender a estrutura básica de um documento HTML5 e a importância da semântica na organização do conteúdo para acessibilidade e SEO.</p>
+
+  <h3>📖 Conteúdo Central</h3>
+  <p>HTML5 introduz elementos semânticos que descrevem claramente a função do conteúdo, como &lt;header&gt;, &lt;nav&gt;, &lt;main&gt;, &lt;article&gt;, &lt;section&gt;, &lt;aside&gt; e &lt;footer&gt;.
+  O uso correto melhora interpretação por navegadores, motores de busca e tecnologias assistivas.</p>
+
+  <h4>📊 Tabela — Principais Elementos Semânticos HTML5</h4>
+  <table border="1" cellspacing="0" cellpadding="4">
+    <tr><th>Elemento</th><th>Função</th><th>Exemplo de Uso</th></tr>
+    <tr><td>&lt;header&gt;</td><td>Introdução do site ou seção</td><td>Logo + Menu principal</td></tr>
+    <tr><td>&lt;nav&gt;</td><td>Área de navegação</td><td>Links do menu principal</td></tr>
+    <tr><td>&lt;main&gt;</td><td>Conteúdo principal da página</td><td>Artigos, produtos ou posts</td></tr>
+    <tr><td>&lt;article&gt;</td><td>Conteúdo independente</td><td>Blog post ou notícia</td></tr>
+    <tr><td>&lt;footer&gt;</td><td>Rodapé da página</td><td>Informações de contato, copyright</td></tr>
+  </table>
+
+  <h3>📘 Resumo</h3>
+  <ul>
+    <li>HTML5 semântico facilita acessibilidade e SEO;</li>
+    <li>Organiza conteúdo de forma clara e consistente;</li>
+    <li>Fundamental para interfaces modernas e responsivas.</li>
+  </ul>
+  `
+},
+
+// Aula 4.2 — Estilos e Layouts Avançados com CSS3
+{
+  title: "Aula 4.2 — Estilos e Layouts Avançados com CSS3",
+  content: `
+  <h3>🌟 Objetivo da Aula</h3>
+  <p>Aprender a aplicar estilos modernos e layouts responsivos usando CSS3, incluindo Flexbox, Grid, variáveis e animações.</p>
+
+  <h3>📖 Conteúdo Central</h3>
+  <p>CSS3 permite separar apresentação de conteúdo, controlar tipografia, cores, espaçamento e criar layouts complexos. Principais técnicas:</p>
+  <ul>
+    <li>Flexbox: alinhamento e distribuição flexível de itens;</li>
+    <li>CSS Grid: construção de layouts bidimensionais;</li>
+    <li>Variáveis CSS: reutilização de valores e temas;</li>
+    <li>Animações e transições: melhorar feedback visual;</li>
+    <li>Media queries: responsividade para diferentes dispositivos.</li>
+  </ul>
+
+  <h4>📊 Tabela — Técnicas CSS3 e Aplicações</h4>
+  <table border="1" cellspacing="0" cellpadding="4">
+    <tr><th>Técnica</th><th>Função</th><th>Exemplo</th></tr>
+    <tr><td>Flexbox</td><td>Distribuição de itens em linha ou coluna</td><td>Menu horizontal centrado</td></tr>
+    <tr><td>Grid</td><td>Layouts complexos e responsivos</td><td>Página com sidebar + conteúdo principal</td></tr>
+    <tr><td>Variáveis</td><td>Reuso de cores, fontes</td><td>--primary-color: #3498db;</td></tr>
+    <tr><td>Animações</td><td>Transições suaves de propriedades</td><td>hover em botão com fade-in</td></tr>
+  </table>
+
+  <h3>📘 Resumo</h3>
+  <ul>
+    <li>CSS3 moderno permite interfaces flexíveis e atraentes;</li>
+    <li>Flexbox e Grid são essenciais para layouts responsivos;</li>
+    <li>Boas práticas incluem uso de variáveis, animações suaves e media queries.</li>
+  </ul>
+  `
+},
+
+// Aula 4.3 — Interatividade com JavaScript e TypeScript
+{
+  title: "Aula 4.3 — Interatividade com JavaScript e TypeScript",
+  content: `
+  <h3>🌟 Objetivo da Aula</h3>
+  <p>Desenvolver interatividade em interfaces web usando JavaScript e TypeScript, incluindo manipulação DOM, eventos e validações.</p>
+
+  <h3>📖 Conteúdo Central</h3>
+  <p>JavaScript permite tornar páginas dinâmicas e responsivas. TypeScript adiciona tipagem estática para maior segurança e manutenção do código. Principais tópicos:</p>
+  <ul>
+    <li>Manipulação do DOM para atualizar conteúdo;</li>
+    <li>Eventos de clique, input, hover;</li>
+    <li>Validações de formulários e feedback ao usuário;</li>
+    <li>ES6+: arrow functions, módulos, promessas;</li>
+    <li>TypeScript: tipos, interfaces, classes e integração com frameworks.</li>
+  </ul>
+
+  <h4>📊 Tabela — Exemplos de Manipulação DOM</h4>
+  <table border="1" cellspacing="0" cellpadding="4">
+    <tr><th>Função</th><th>Descrição</th><th>Exemplo</th></tr>
+    <tr><td>getElementById</td><td>Seleciona elemento pelo ID</td><td>document.getElementById("header")</td></tr>
+    <tr><td>addEventListener</td><td>Captura eventos do usuário</td><td>button.addEventListener("click", ()=>{})</td></tr>
+    <tr><td>querySelector</td><td>Seleciona elementos com CSS selector</td><td>document.querySelector(".menu")</td></tr>
+  </table>
+
+  <h3>📘 Resumo</h3>
+  <ul>
+    <li>JS e TS tornam interfaces interativas e seguras;</li>
+    <li>Manipulação DOM e eventos essenciais para UX;</li>
+    <li>TypeScript melhora manutenção em projetos complexos.</li>
+  </ul>
+  `
+},
+
+// Aula 5.1 — React e Design de Componentes Reutilizáveis
+{
+  title: "Aula 5.1 — React e Design de Componentes Reutilizáveis",
+  content: `
+  <h3>🌟 Objetivo da Aula</h3>
+  <p>Aprender a criar componentes reutilizáveis com React, compreendendo a filosofia de componentização e gerenciamento de estado.</p>
+
+  <h3>📖 Conteúdo Central</h3>
+  <p>React permite construir interfaces modulares dividindo a UI em componentes independentes. Conceitos essenciais:</p>
+  <ul>
+    <li>Componentes funcionais e de classe;</li>
+    <li>Props e comunicação entre componentes;</li>
+    <li>State e gerenciamento de estado local;</li>
+    <li>Hooks: useState, useEffect para lógica e efeitos colaterais;</li>
+    <li>Composição e reuso para consistência e manutenção de código.</li>
+  </ul>
+
+  <h4>📊 Tabela — Exemplos de Componentes React</h4>
+  <table border="1" cellspacing="0" cellpadding="4">
+    <tr><th>Tipo</th><th>Função</th><th>Exemplo</th></tr>
+    <tr><td>Funcional</td><td>Renderiza UI com props</td><td>function Button({label}) { return &lt;button&gt;{label}&lt;/button&gt; }</td></tr>
+    <tr><td>Classe</td><td>Gerencia estado interno</td><td>class Counter extends React.Component { state = {count:0} }</td></tr>
+    <tr><td>Hook</td><td>Adiciona lógica a componentes funcionais</td><td>const [value, setValue] = useState(0)</td></tr>
+  </table>
+
+  <h3>📘 Resumo</h3>
+  <ul>
+    <li>Componentes React permitem modularidade e reuso;</li>
+    <li>Props e state controlam dados e comportamento;</li>
+    <li>Hooks são essenciais para lógica moderna e efeitos dinâmicos.</li>
+  </ul>
+  `
+},
+
+// Aula 5.2 — Vue, Angular e Boas Práticas de MVVM
+{
+  title: "Aula 5.2 — Vue, Angular e Boas Práticas de MVVM",
+  content: `
+  <h3>🌟 Objetivo da Aula</h3>
+  <p>Compreender frameworks modernos (Vue e Angular) e a arquitetura MVVM para separar lógica, dados e apresentação em aplicações web.</p>
+
+  <h3>📖 Conteúdo Central</h3>
+  <p>MVVM (Model-View-ViewModel) promove desacoplamento e manutenção eficiente. Vue e Angular facilitam binding de dados, diretivas e componentes:</p>
+  <ul>
+    <li>Vue: templates declarativos, reatividade, componentes simples;</li>
+    <li>Angular: TypeScript, DI (Injeção de Dependência), módulos e serviços;</li>
+    <li>Binding bidirecional e unidirecional;</li>
+    <li>Gestão de estado com Vuex ou NgRx;</li>
+    <li>Boas práticas: nomenclatura consistente, modularidade e documentação.</li>
+  </ul>
+
+  <h4>📊 Tabela — Comparação Vue x Angular</h4>
+  <table border="1" cellspacing="0" cellpadding="4">
+    <tr><th>Framework</th><th>Princípio</th><th>Exemplo de Uso</th></tr>
+    <tr><td>Vue</td><td>Reatividade simples</td><td>&lt;input v-model="nome"&gt;</td></tr>
+    <tr><td>Angular</td><td>DI e módulos</td><td>&lt;input [(ngModel)]="nome"&gt;</td></tr>
+  </table>
+
+  <h3>📘 Resumo</h3>
+  <ul>
+    <li>MVVM facilita organização e manutenção;</li>
+    <li>Vue e Angular oferecem bindings e componentes reativos;</li>
+    <li>Seguir boas práticas garante escalabilidade de projetos.</li>
+  </ul>
+  `
+},
+
+// Aula 5.3 — Flutter e Interfaces Multiplataforma
+{
+  title: "Aula 5.3 — Flutter e Interfaces Multiplataforma",
+  content: `
+  <h3>🌟 Objetivo da Aula</h3>
+  <p>Aprender a criar interfaces multiplataforma usando Flutter, aproveitando widgets e renderização unificada para mobile e web.</p>
+
+  <h3>📖 Conteúdo Central</h3>
+  <p>Flutter utiliza Dart e widgets customizáveis para criar UIs consistentes em Android, iOS e Web. Conceitos principais:</p>
+  <ul>
+    <li>Widgets: Stateless e Stateful;</li>
+    <li>Layouts: Column, Row, Stack, GridView;</li>
+    <li>Gestão de estado: Provider, Riverpod, Bloc;</li>
+    <li>Animações e transições nativas;</li>
+    <li>Hot reload para desenvolvimento ágil.</li>
+  </ul>
+
+  <h4>📊 Tabela — Widgets Flutter Comuns</h4>
+  <table border="1" cellspacing="0" cellpadding="4">
+    <tr><th>Widget</th><th>Função</th><th>Exemplo</th></tr>
+    <tr><td>Text</td><td>Exibe texto</td><td>Text("Olá Mundo")</td></tr>
+    <tr><td>Container</td><td>Caixa para layout e estilos</td><td>Container(width:100, height:50)</td></tr>
+    <tr><td>Row / Column</td><td>Alinhamento horizontal/vertical</td><td>Row(children:[...])</td></tr>
+  </table>
+
+  <h3>📘 Resumo</h3>
+  <ul>
+    <li>Flutter permite interfaces multiplataforma consistentes;</li>
+    <li>Widgets são a base de construção da UI;</li>
+    <li>Hot reload e gestão de estado agilizam desenvolvimento.</li>
+  </ul>
+  `
+},
+
+// Aula 6.1 — MVC e Separação de Responsabilidades
+{
+  title: "Aula 6.1 — MVC e Separação de Responsabilidades",
+  content: `
+  <h3>🌟 Objetivo da Aula</h3>
+  <p>Compreender o padrão MVC para organizar aplicações, separando Model, View e Controller.</p>
+
+  <h3>📖 Conteúdo Central</h3>
+  <p>MVC é um padrão clássico que promove organização e manutenção de sistemas:</p>
+  <ul>
+    <li>Model: gerencia dados e regras de negócio;</li>
+    <li>View: exibe dados e interface ao usuário;</li>
+    <li>Controller: recebe eventos do usuário e atualiza Model/View;</li>
+    <li>Separação clara evita acoplamento e facilita testes;</li>
+    <li>Aplicável em web, mobile e desktop.</li>
+  </ul>
+
+  <h4>📊 Tabela — Função de Cada Camada MVC</h4>
+  <table border="1" cellspacing="0" cellpadding="4">
+    <tr><th>Camada</th><th>Função</th><th>Exemplo</th></tr>
+    <tr><td>Model</td><td>Armazena e processa dados</td><td>Classe User com métodos get/set</td></tr>
+    <tr><td>View</td><td>Interface do usuário</td><td>HTML/CSS ou Widget Flutter</td></tr>
+    <tr><td>Controller</td><td>Intermediação entre Model e View</td><td>JavaScript function handleClick()</td></tr>
+  </table>
+
+  <h3>📘 Resumo</h3>
+  <ul>
+    <li>MVC melhora manutenção e escalabilidade;</li>
+    <li>Separação de responsabilidades é essencial;</li>
+    <li>Fundamental para aplicações complexas e interfaces modernas.</li>
+  </ul>
+  `
+},
+
+// Aula 6.2 — Component-Based Design e Atomic Design
+{
+  title: "Aula 6.2 — Component-Based Design e Atomic Design",
+  content: `
+  <h3>🌟 Objetivo da Aula</h3>
+  <p>Aprender Component-Based Design e Atomic Design para criar UIs modulares, consistentes e reutilizáveis.</p>
+
+  <h3>📖 Conteúdo Central</h3>
+  <p>Atomic Design divide interfaces em cinco níveis:</p>
+  <ul>
+    <li>Átomos: botões, inputs, labels;</li>
+    <li>Moléculas: combinação de átomos, ex: formulário simples;</li>
+    <li>Organismos: conjunto de moléculas, ex: header com menu;</li>
+    <li>Templates: layout de página com placeholders;</li>
+    <li>Páginas: aplicação real do template com conteúdo real.</li>
+  </ul>
+
+  <h4>📊 Tabela — Níveis do Atomic Design</h4>
+  <table border="1" cellspacing="0" cellpadding="4">
+    <tr><th>Nível</th><th>Exemplo</th><th>Função</th></tr>
+    <tr><td>Átomo</td><td>Botão Primário</td><td>Elemento UI básico</td></tr>
+    <tr><td>Molécula</td><td>Formulário de Login</td><td>Combinação de inputs e botão</td></tr>
+    <tr><td>Organismo</td><td>Header Completo</td><td>Logo + Menu + Busca</td></tr>
+  </table>
+
+  <h3>📘 Resumo</h3>
+  <ul>
+    <li>Atomic Design cria hierarquia lógica de componentes;</li>
+    <li>Component-Based Design aumenta reuso e consistência;</li>
+    <li>Essencial para sistemas escaláveis e manutenção facilitada.</li>
+  </ul>
+  `
+},
+
+// Aula 6.3 — Clean Architecture e Fluxos de Dados
+{
+  title: "Aula 6.3 — Clean Architecture e Fluxos de Dados",
+  content: `
+  <h3>🌟 Objetivo da Aula</h3>
+  <p>Aplicar Clean Architecture e gerenciar fluxos de dados em aplicações modernas para manter código limpo e desacoplado.</p>
+
+  <h3>📖 Conteúdo Central</h3>
+  <p>Clean Architecture separa camadas de responsabilidade:</p>
+  <ul>
+    <li>Entities: lógica de negócio;</li>
+    <li>Use Cases / Interactors: regras de aplicação;</li>
+    <li>Interface Adapters: apresentação e gateways;</li>
+    <li>Frameworks & Drivers: UI, banco de dados, rede;</li>
+    <li>Fluxos de dados claros permitem testes e manutenção independentes.</li>
+  </ul>
+
+  <h4>📊 Tabela — Camadas da Clean Architecture</h4>
+  <table border="1" cellspacing="0" cellpadding="4">
+    <tr><th>Camada</th><th>Responsabilidade</th><th>Exemplo</th></tr>
+    <tr><td>Entities</td><td>Modelos de negócio</td><td>Classe User, Product</td></tr>
+    <tr><td>Use Cases</td><td>Regras de aplicação</td><td>Login, Checkout</td></tr>
+    <tr><td>Interface Adapters</td><td>Controllers, Presenters</td><td>API Controllers, React Components</td></tr>
+    <tr><td>Frameworks & Drivers</td><td>UI, DB, Rede</td><td>Flutter Widgets, SQL, REST API</td></tr>
+  </table>
+
+  <h3>📘 Resumo</h3>
+  <ul>
+    <li>Clean Architecture organiza código em camadas claras;</li>
+    <li>Fluxos de dados desacoplados aumentam confiabilidade;</li>
+    <li>Fundamental para sistemas complexos e manutenção contínua.</li>
+  </ul>
+  `
+},
+
+// Aula 7.1 — Hierarquia, Contraste e Equilíbrio
+{
+  title: "Aula 7.1 — Hierarquia, Contraste e Equilíbrio",
+  content: `
+  <h3>🌟 Objetivo da Aula</h3>
+  <p>Compreender os princípios fundamentais de design visual, incluindo hierarquia, contraste e equilíbrio, aplicando-os para criar interfaces claras e eficazes.</p>
+
+  <h3>📖 Conteúdo Central</h3>
+  <p>Hierarquia visual orienta o usuário através de informações, destacando elementos mais importantes. Ferramentas incluem tamanho, cor, posição e espaçamento.</p>
+  <p>O contraste ajuda a diferenciar elementos, garantindo legibilidade e foco. Tipos de contraste incluem:</p>
+  <ul>
+    <li>Cor: tons claros vs escuros;</li>
+    <li>Tamanho: títulos vs corpo de texto;</li>
+    <li>Forma: elementos circulares vs quadrados;</li>
+    <li>Textura e espaçamento: diferenciando grupos de informação.</li>
+  </ul>
+  <p>Equilíbrio distribui visualmente os elementos de forma harmônica. Pode ser simétrico (formal) ou assimétrico (dinâmico), garantindo estabilidade visual.</p>
+
+  <h4>📊 Tabela — Exemplos de Contraste e Hierarquia</h4>
+  <table border="1" cellspacing="0" cellpadding="4">
+    <tr><th>Princípio</th><th>Aplicação</th><th>Exemplo Prático</th></tr>
+    <tr><td>Hierarquia</td><td>Destaque de títulos e seções</td><td>H1 maior que H2 e H3</td></tr>
+    <tr><td>Contraste</td><td>Diferenciação de conteúdo</td><td>Botão azul em fundo branco</td></tr>
+    <tr><td>Equilíbrio</td><td>Distribuição visual</td><td>Layout com colunas simétricas</td></tr>
+  </table>
+
+  <h3>📘 Resumo</h3>
+  <ul>
+    <li>Hierarquia guia a atenção do usuário;</li>
+    <li>Contraste garante distinção e legibilidade;</li>
+    <li>Equilíbrio oferece harmonia e estabilidade visual;</li>
+    <li>Combinados, esses princípios melhoram experiência e clareza da interface.</li>
+  </ul>
+  `
+},
+
+// Aula 7.2 — Tipografia, Cor e Simbolismo Visual
+{
+  title: "Aula 7.2 — Tipografia, Cor e Simbolismo Visual",
+  content: `
+  <h3>🌟 Objetivo da Aula</h3>
+  <p>Explorar a aplicação estratégica da tipografia, cor e simbolismo visual para transmitir informações e emoções de forma eficaz.</p>
+
+  <h3>📖 Conteúdo Central</h3>
+  <p>Tipografia influencia legibilidade e hierarquia. Fontes serifadas são tradicionais e formais; sans-serif são modernas e claras em telas digitais. Espaçamento, alinhamento e tamanho impactam a leitura e a percepção.</p>
+  <p>Cores comunicam emoções e organizam informações. Psicologia das cores:</p>
+  <ul>
+    <li>Vermelho: alerta, energia;</li>
+    <li>Azul: confiança, estabilidade;</li>
+    <li>Verde: sucesso, segurança;</li>
+    <li>Amarelo: atenção, destaque.</li>
+  </ul>
+  <p>Simbolismo visual usa ícones e sinais para representar conceitos sem texto. Exemplo: lixeira para deletar, lupa para pesquisa.</p>
+
+  <h4>📊 Tabela — Relação de Cor e Emoção</h4>
+  <table border="1" cellspacing="0" cellpadding="4">
+    <tr><th>Cor</th><th>Emoção/Significado</th><th>Uso Comum em UI</th></tr>
+    <tr><td>Vermelho</td><td>Alerta</td><td>Erros e avisos</td></tr>
+    <tr><td>Verde</td><td>Sucesso</td><td>Confirmações, botões de ação</td></tr>
+    <tr><td>Azul</td><td>Confiança</td><td>Barras de navegação, links</td></tr>
+    <tr><td>Amarelo</td><td>Atenção</td><td>Alertas e notificações</td></tr>
+  </table>
+
+  <h3>📘 Resumo</h3>
+  <ul>
+    <li>Tipografia determina legibilidade e hierarquia;</li>
+    <li>Cores influenciam emoções e guiam ações;</li>
+    <li>Ícones e símbolos comunicam rapidamente conceitos;</li>
+    <li>Combinação adequada aumenta eficiência e satisfação do usuário.</li>
+  </ul>
+  `
+},
+
+// Aula 7.3 — Microinterações e Feedback Visual
+{
+  title: "Aula 7.3 — Microinterações e Feedback Visual",
+  content: `
+  <h3>🌟 Objetivo da Aula</h3>
+  <p>Compreender a importância das microinterações e do feedback visual para melhorar a experiência do usuário em interfaces digitais.</p>
+
+  <h3>📖 Conteúdo Central</h3>
+  <p>Microinterações são pequenas respostas visuais ou sonoras que indicam o resultado de uma ação. Exemplo: botão muda de cor ao ser clicado, animação ao enviar formulário, ou notificação de sucesso.</p>
+  <p>O feedback visual mantém o usuário informado sobre o status do sistema, reduz incertezas e melhora confiança. Princípios essenciais:</p>
+  <ul>
+    <li>Consistência: padrão de resposta previsível;</li>
+    <li>Clareza: indica claramente a ação ou resultado;</li>
+    <li>Tempo adequado: respostas rápidas reforçam a ação;</li>
+    <li>Estética e animação: tornam a experiência agradável sem distração.</li>
+  </ul>
+
+  <h4>📊 Tabela — Exemplos de Microinterações</h4>
+  <table border="1" cellspacing="0" cellpadding="4">
+    <tr><th>Microinteração</th><th>Função</th><th>Exemplo</th></tr>
+    <tr><td>Hover</td><td>Indica que elemento é interativo</td><td>Botão muda de cor</td></tr>
+    <tr><td>Click Feedback</td><td>Confirma ação</td><td>Animação de botão</td></tr>
+    <tr><td>Notificação</td><td>Informa resultado</td><td>Toast "Salvo com sucesso"</td></tr>
+  </table>
+
+  <h3>📘 Resumo</h3>
+  <ul>
+    <li>Microinterações guiam e informam o usuário;</li>
+    <li>Feedback visual aumenta confiança e satisfação;</li>
+    <li>Design cuidadoso evita confusão e reforça experiência positiva;</li>
+    <li>Pequenos detalhes impactam significativamente a percepção da interface.</li>
+  </ul>
+  `
+},
+
+// Aula 8.1 — As 10 Heurísticas de Nielsen
+{
+  title: "Aula 8.1 — As 10 Heurísticas de Nielsen",
+  content: `
+  <h3>🌟 Objetivo da Aula</h3>
+  <p>Apresentar as 10 heurísticas de Nielsen para avaliação de usabilidade, permitindo identificar problemas e melhorar a experiência do usuário.</p>
+
+  <h3>📖 Conteúdo Central</h3>
+  <p>As heurísticas são regras práticas para projetar interfaces eficazes e intuitivas:</p>
+  <ol>
+    <li>Visibilidade do status do sistema</li>
+    <li>Correspondência entre sistema e mundo real</li>
+    <li>Controle e liberdade do usuário</li>
+    <li>Consistência e padrões</li>
+    <li>Prevenção de erros</li>
+    <li>Reconhecimento em vez de memorização</li>
+    <li>Flexibilidade e eficiência de uso</li>
+    <li>Estética e design minimalista</li>
+    <li>Ajuda a identificar, diagnosticar e recuperar de erros</li>
+    <li>Ajuda e documentação</li>
+  </ol>
+
+  <h4>📊 Tabela — Exemplos de Aplicação</h4>
+  <table border="1" cellspacing="0" cellpadding="4">
+    <tr><th>Heurística</th><th>Problema Comum</th><th>Solução em UI</th></tr>
+    <tr><td>Visibilidade do status</td><td>Formulário sem confirmação</td><td>Mostrar barra de progresso</td></tr>
+    <tr><td>Consistência</td><td>Botões diferentes para mesma função</td><td>Padrões de cores e ícones uniformes</td></tr>
+    <tr><td>Prevenção de erros</td><td>Campo obrigatório sem validação</td><td>Validação em tempo real</td></tr>
+  </table>
+
+  <h3>📘 Resumo</h3>
+  <ul>
+    <li>Heurísticas de Nielsen são guias para interfaces intuitivas;</li>
+    <li>Identificar falhas antes do lançamento economiza tempo e custos;</li>
+    <li>Aplicação consistente melhora satisfação e eficiência do usuário.</li>
+  </ul>
+  `
+},
+
+// Aula 8.2 — Planeamento de Testes de Usabilidade
+{
+  title: "Aula 8.2 — Planeamento de Testes de Usabilidade",
+  content: `
+  <h3>🌟 Objetivo da Aula</h3>
+  <p>Ensinar a estruturar testes de usabilidade, definindo objetivos, público-alvo, métricas e métodos para avaliação de interfaces.</p>
+
+  <h3>📖 Conteúdo Central</h3>
+  <p>Planeamento eficiente de testes envolve:</p>
+  <ul>
+    <li>Definição de objetivos claros (eficiência, satisfação, erros);</li>
+    <li>Escolha do público-alvo representativo;</li>
+    <li>Seleção de métodos (testes presenciais, remoto, A/B testing);</li>
+    <li>Elaboração de tarefas realistas para o usuário;</li>
+    <li>Estabelecimento de métricas quantitativas e qualitativas.</li>
+  </ul>
+  <p>Exemplo: medir tempo médio para completar cadastro, número de erros e percepção subjetiva de facilidade.</p>
+
+  <h4>📊 Tabela — Estrutura de Teste</h4>
+  <table border="1" cellspacing="0" cellpadding="4">
+    <tr><th>Elemento</th><th>Descrição</th><th>Exemplo Prático</th></tr>
+    <tr><td>Objetivo</td><td>O que será medido</td><td>Tempo de cadastro</td></tr>
+    <tr><td>Público</td><td>Quem participará</td><td>Novos usuários do app</td></tr>
+    <tr><td>Método</td><td>Como será avaliado</td><td>Teste remoto com gravação de tela</td></tr>
+  </table>
+
+  <h3>📘 Resumo</h3>
+  <ul>
+    <li>Planeamento garante testes eficientes e confiáveis;</li>
+    <li>Métodos e métricas definem sucesso da interface;</li>
+    <li>Testes contínuos melhoram iterativamente a experiência do usuário.</li>
+  </ul>
+  `
+},
+
+// Aula 8.3 — Métricas de Eficiência e Satisfação
+{
+  title: "Aula 8.3 — Métricas de Eficiência e Satisfação",
+  content: `
+  <h3>🌟 Objetivo da Aula</h3>
+  <p>Apresentar métricas quantitativas e qualitativas para avaliar eficiência e satisfação do usuário em interfaces digitais.</p>
+
+  <h3>📖 Conteúdo Central</h3>
+  <p>Métricas de eficiência:</p>
+  <ul>
+    <li>Tempo médio para completar tarefas;</li>
+    <li>Número de erros cometidos;</li>
+    <li>Número de cliques para concluir ação;</li>
+    <li>Taxa de conclusão de tarefas.</li>
+  </ul>
+  <p>Métricas de satisfação:</p>
+  <ul>
+    <li>Questionários pós-teste (SUS, NPS);</li>
+    <li>Feedback verbal e observação direta;</li>
+    <li>Preferência e percepção de facilidade.</li>
+  </ul>
+
+  <h4>📊 Tabela — Métricas de Avaliação</h4>
+  <table border="1" cellspacing="0" cellpadding="4">
+    <tr><th>Métrica</th><th>Tipo</th><th>Uso</th></tr>
+    <tr><td>Tempo de Tarefa</td><td>Eficiência</td><td>Comparar versões de UI</td></tr>
+    <tr><td>Taxa de Erros</td><td>Eficiência</td><td>Identificar problemas de fluxo</td></tr>
+    <tr><td>SUS</td><td>Satisfação</td><td>Escala de usabilidade</td></tr>
+    <tr><td>NPS</td><td>Satisfação</td><td>Recomendação do produto</td></tr>
+  </table>
+
+  <h3>📘 Resumo</h3>
+  <ul>
+    <li>Métricas combinam eficiência e satisfação;</li>
+    <li>Análise objetiva e subjetiva garante decisões informadas;</li>
+    <li>Iterações baseadas em métricas elevam qualidade da interface.</li>
+  </ul>
+  `
+},
+
+// Aula 9.1 — WCAG 2.2 e Boas Práticas Inclusivas
+{
+  title: "Aula 9.1 — WCAG 2.2 e Boas Práticas Inclusivas",
+  content: `
+  <h3>🌟 Objetivo da Aula</h3>
+  <p>Compreender diretrizes WCAG 2.2 e implementar boas práticas para tornar interfaces digitais acessíveis a todos.</p>
+
+  <h3>📖 Conteúdo Central</h3>
+  <p>WCAG 2.2 (Web Content Accessibility Guidelines) define princípios para acessibilidade:</p>
+  <ul>
+    <li>Perceptível: conteúdo deve ser apresentado de forma visível e compreensível;</li>
+    <li>Operável: usuários devem interagir facilmente;</li>
+    <li>Compreensível: informações e operação da interface claras;</li>
+    <li>Robusto: compatível com diferentes dispositivos e tecnologias assistivas.</li>
+  </ul>
+  <p>Boas práticas incluem contraste adequado, navegação via teclado, alternativas textuais para imagens, e uso correto de ARIA roles.</p>
+
+  <h4>📊 Tabela — Principais Requisitos WCAG 2.2</h4>
+  <table border="1" cellspacing="0" cellpadding="4">
+    <tr><th>Princípio</th><th>Requisito</th><th>Exemplo Prático</th></tr>
+    <tr><td>Perceptível</td><td>Texto alternativo</td><td>Descrição de imagens para leitores de tela</td></tr>
+    <tr><td>Operável</td><td>Navegação por teclado</td><td>Menus e botões acessíveis</td></tr>
+    <tr><td>Compreensível</td><td>Idioma do conteúdo</td><td>Definir atributo lang="pt-BR"</td></tr>
+  </table>
+
+  <h3>📘 Resumo</h3>
+  <ul>
+    <li>Acessibilidade amplia público e compliance legal;</li>
+    <li>Princípios WCAG orientam design inclusivo;</li>
+    <li>Implementações práticas melhoram experiência de todos os usuários.</li>
+  </ul>
+  `
+},
+
+// Aula 9.2 — Ferramentas de Avaliação de Acessibilidade
+{
+  title: "Aula 9.2 — Ferramentas de Avaliação de Acessibilidade",
+  content: `
+  <h3>🌟 Objetivo da Aula</h3>
+  <p>Apresentar ferramentas que permitem auditar e melhorar a acessibilidade de interfaces digitais.</p>
+
+  <h3>📖 Conteúdo Central</h3>
+  <p>Ferramentas automatizadas e manuais incluem:</p>
+  <ul>
+    <li>Lighthouse (Google) — relatórios de acessibilidade e performance;</li>
+    <li>axe DevTools — extensões para navegadores;</li>
+    <li>NVDA, JAWS — leitores de tela para teste;</li>
+    <li>Color Contrast Analyzer — verifica contraste de cores.</li>
+  </ul>
+  <p>Usar múltiplas ferramentas garante cobertura completa, detectando falhas visuais, semânticas e de interação.</p>
+
+  <h4>📊 Tabela — Ferramentas e Função</h4>
+  <table border="1" cellspacing="0" cellpadding="4">
+    <tr><th>Ferramenta</th><th>Tipo</th><th>Função</th></tr>
+    <tr><td>Lighthouse</td><td>Automatizada</td><td>Auditoria completa de acessibilidade</td></tr>
+    <tr><td>axe DevTools</td><td>Automatizada</td><td>Verificação de elementos e código</td></tr>
+    <tr><td>NVDA / JAWS</td><td>Manual</td><td>Teste com leitores de tela</td></tr>
+  </table>
+
+  <h3>📘 Resumo</h3>
+  <ul>
+    <li>Ferramentas automatizadas agilizam auditorias;</li>
+    <li>Testes manuais complementam análise prática;</li>
+    <li>Combinação aumenta confiabilidade e conformidade WCAG.</li>
+  </ul>
+  `
+},
+
+// Aula 9.3 — Casos Reais e Implementações Inclusivas
+{
+  title: "Aula 9.3 — Casos Reais e Implementações Inclusivas",
+  content: `
+  <h3>🌟 Objetivo da Aula</h3>
+  <p>Analisar exemplos reais de interfaces inclusivas, aprendendo boas práticas e lições aplicáveis.</p>
+
+  <h3>📖 Conteúdo Central</h3>
+  <p>Estudos de caso mostram soluções eficientes:</p>
+  <ul>
+    <li>Sites governamentais com navegação completa via teclado;</li>
+    <li>Aplicativos financeiros com leitores de tela compatíveis;</li>
+    <li>Plataformas de e-learning com legendas e contraste adequado.</li>
+  </ul>
+  <p>Liçőes aprendidas:</p>
+  <ul>
+    <li>Planeamento inclusivo desde o início evita retrabalho;</li>
+    <li>Testes contínuos garantem manutenção de acessibilidade;</li>
+    <li>Feedback de usuários reais é crucial para melhorias.</li>
+  </ul>
+
+  <h4>📊 Tabela — Boas Práticas Observadas</h4>
+  <table border="1" cellspacing="0" cellpadding="4">
+    <tr><th>Prática</th><th>Aplicação</th><th>Benefício</th></tr>
+    <tr><td>Navegação por teclado</td><td>Menus e formulários</td><td>Inclusão de usuários com mobilidade reduzida</td></tr>
+    <tr><td>Legendas</td><td>Vídeos educativos</td><td>Usuários surdos ou com dificuldades auditivas</td></tr>
+    <tr><td>Contraste adequado</td><td>Textos e botões</td><td>Melhora legibilidade para todos</td></tr>
+  </table>
+
+  <h3>📘 Resumo</h3>
+  <ul>
+    <li>Exemplos práticos reforçam conceitos teóricos;</li>
+    <li>Implementações inclusivas aumentam alcance e satisfação;</li>
+    <li>Planejamento e testes contínuos são essenciais.</li>
+  </ul>
+  `
+},
+
+
+// Aula 10.1 — Processo de Empatia e Descoberta
+{
+  title: "Aula 10.1 — Processo de Empatia e Descoberta",
+  content: `
+  <h3>🌟 Objetivo da Aula</h3>
+  <p>Compreender técnicas de empatia para conhecer profundamente o usuário, suas necessidades, dores e contextos, como etapa inicial do Design Thinking.</p>
+
+  <h3>📖 Conteúdo Central</h3>
+  <p>O Design Thinking começa pela empatia, que envolve:</p>
+  <ul>
+    <li>Observação direta do usuário em seu ambiente;</li>
+    <li>Entrevistas qualitativas e questionários;</li>
+    <li>Shadowing: acompanhar tarefas reais;</li>
+    <li>Diários e relatórios de experiência do usuário.</li>
+  </ul>
+  <p>O objetivo é coletar dados reais que embasem decisões de design, evitando suposições e focando em problemas reais.</p>
+
+  <h4>📊 Tabela — Técnicas de Empatia</h4>
+  <table border="1" cellspacing="0" cellpadding="4">
+    <tr><th>Técnica</th><th>Aplicação</th><th>Benefício</th></tr>
+    <tr><td>Entrevista</td><td>Usuários-alvo</td><td>Identificar necessidades explícitas</td></tr>
+    <tr><td>Shadowing</td><td>Observação de tarefas</td><td>Compreensão de comportamento real</td></tr>
+    <tr><td>Jornada do usuário</td><td>Mapeamento de atividades</td><td>Visualização de pontos críticos</td></tr>
+  </table>
+
+  <h3>📘 Resumo</h3>
+  <ul>
+    <li>Empatia é a base do Design Thinking;</li>
+    <li>Coleta de dados qualitativos evita decisões incorretas;</li>
+    <li>Ferramentas e técnicas auxiliam a descoberta de necessidades reais.</li>
+  </ul>
+  `
+},
+
+// Aula 10.2 — Mapeamento de Jornada do Usuário
+{
+  title: "Aula 10.2 — Mapeamento de Jornada do Usuário",
+  content: `
+  <h3>🌟 Objetivo da Aula</h3>
+  <p>Aprender a criar mapas de jornada do usuário para identificar pontos de contato, frustrações e oportunidades de melhoria na experiência.</p>
+
+  <h3>📖 Conteúdo Central</h3>
+  <p>O mapa de jornada representa visualmente todas as interações do usuário com um produto ou serviço, incluindo:</p>
+  <ul>
+    <li>Fases: descoberta, interação, conclusão;</li>
+    <li>Emoções e percepções em cada ponto;</li>
+    <li>Pontos de dor (pain points) e oportunidades;</li>
+    <li>Stakeholders e canais envolvidos.</li>
+  </ul>
+
+  <h4>📊 Tabela — Estrutura de Jornada do Usuário</h4>
+  <table border="1" cellspacing="0" cellpadding="4">
+    <tr><th>Fase</th><th>Ação do Usuário</th><th>Emoção</th><th>Oportunidade</th></tr>
+    <tr><td>Descoberta</td><td>Pesquisa sobre produto</td><td>Curiosidade</td><td>Conteúdo educativo</td></tr>
+    <tr><td>Interação</td><td>Uso da interface</td><td>Frustração</td><td>Melhoria de navegação</td></tr>
+    <tr><td>Conclusão</td><td>Finalização de tarefa</td><td>Satisfação</td><td>Feedback de confirmação</td></tr>
+  </table>
+
+  <h3>📘 Resumo</h3>
+  <ul>
+    <li>Mapear jornada permite visualizar experiência completa;</li>
+    <li>Identifica pontos críticos para intervenção;</li>
+    <li>Baseia decisões de design em dados concretos.</li>
+  </ul>
+  `
+},
+
+// Aula 10.3 — Personas e Cenários de Uso
+{
+  title: "Aula 10.3 — Personas e Cenários de Uso",
+  content: `
+  <h3>🌟 Objetivo da Aula</h3>
+  <p>Construir personas representativas e cenários de uso realistas para orientar decisões de design centradas no usuário.</p>
+
+  <h3>📖 Conteúdo Central</h3>
+  <p>Personas são perfis fictícios baseados em dados reais do usuário. Elas incluem:</p>
+  <ul>
+    <li>Idade, profissão, hábitos e objetivos;</li>
+    <li>Motivações, necessidades e frustrações;</li>
+    <li>Cenários de uso que simulam situações reais de interação.</li>
+  </ul>
+  <p>O uso de personas e cenários ajuda a priorizar funcionalidades, testar hipóteses de design e comunicar necessidades da audiência para toda a equipe.</p>
+
+  <h4>📊 Tabela — Exemplo de Persona</h4>
+  <table border="1" cellspacing="0" cellpadding="4">
+    <tr><th>Nome</th><th>Idade</th><th>Objetivo</th><th>Frustração</th></tr>
+    <tr><td>Ana</td><td>28</td><td>Comprar online rapidamente</td><td>Formulário confuso</td></tr>
+    <tr><td>João</td><td>42</td><td>Gerenciar finanças pessoais</td><td>Relatórios pouco claros</td></tr>
+  </table>
+
+  <h3>📘 Resumo</h3>
+  <ul>
+    <li>Personas guiam decisões de design centradas no usuário;</li>
+    <li>Cenários de uso simulam situações reais de interação;</li>
+    <li>Facilitam comunicação e priorização de funcionalidades.</li>
+  </ul>
+  `
+},
+
+// Aula 11.1 — Figma e Adobe XD: Wireframes à Alta Fidelidade
+{
+  title: "Aula 11.1 — Figma e Adobe XD: Wireframes à Alta Fidelidade",
+  content: `
+  <h3>🌟 Objetivo da Aula</h3>
+  <p>Aprender a construir wireframes e protótipos de alta fidelidade usando Figma e Adobe XD para testes e validação de interfaces.</p>
+
+  <h3>📖 Conteúdo Central</h3>
+  <p>Wireframes são esboços digitais que evoluem para protótipos interativos. Ferramentas como Figma e Adobe XD permitem:</p>
+  <ul>
+    <li>Criação de layouts precisos;</li>
+    <li>Aplicação de tipografia, cores e componentes;</li>
+    <li>Simulação de interações e transições;</li>
+    <li>Colaboração em tempo real e feedback imediato.</li>
+  </ul>
+
+  <h4>📊 Tabela — Comparativo Figma vs Adobe XD</h4>
+  <table border="1" cellspacing="0" cellpadding="4">
+    <tr><th>Ferramenta</th><th>Ponto Forte</th><th>Limitação</th></tr>
+    <tr><td>Figma</td><td>Colaboração em nuvem</td><td>Performance depende de internet</td></tr>
+    <tr><td>Adobe XD</td><td>Integração com Creative Cloud</td><td>Menos flexível em colaboração remota</td></tr>
+  </table>
+
+  <h3>📘 Resumo</h3>
+  <ul>
+    <li>Wireframes à alta fidelidade facilitam testes realistas;</li>
+    <li>Ferramentas modernas permitem iteração rápida;</li>
+    <li>Escolha de ferramenta depende de fluxo de trabalho da equipe.</li>
+  </ul>
+  `
+},
+
+
+// Aula 11.2 — Framer e Prototipagem Interativa
+{
+  title: "Aula 11.2 — Framer e Prototipagem Interativa",
+  content: `
+  <h3>🌟 Objetivo da Aula</h3>
+  <p>Aprender a criar protótipos interativos avançados usando Framer, permitindo testar fluxos, animações e microinterações antes do desenvolvimento final.</p>
+
+  <h3>📖 Conteúdo Central</h3>
+  <p>Framer é uma ferramenta poderosa para prototipagem que combina design visual com código leve. Permite:</p>
+  <ul>
+    <li>Criação de animações e transições fluidas;</li>
+    <li>Testes de fluxo de usuário realistas;</li>
+    <li>Integração de dados dinâmicos;</li>
+    <li>Exportação para testes de usuário e demonstrações.</li>
+  </ul>
+
+  <h4>📊 Tabela — Comparativo de Protótipos</h4>
+  <table border="1" cellspacing="0" cellpadding="4">
+    <tr><th>Ferramenta</th><th>Interatividade</th><th>Aplicação</th></tr>
+    <tr><td>Figma</td><td>Simples, limitado</td><td>Testes rápidos e colaboração</td></tr>
+    <tr><td>Framer</td><td>Avançada, dinâmica</td><td>Testes realistas de fluxo</td></tr>
+    <tr><td>Adobe XD</td><td>Média, protótipos estáticos</td><td>Apresentações e wireframes</td></tr>
+  </table>
+
+  <h3>📘 Resumo</h3>
+  <ul>
+    <li>Protótipos interativos aumentam a fidelidade dos testes;</li>
+    <li>Framer permite microinterações e animações detalhadas;</li>
+    <li>Testes realistas reduzem falhas no desenvolvimento.</li>
+  </ul>
+  `
+},
+
+// Aula 11.3 — Testes A/B e Métricas de Engajamento
+{
+  title: "Aula 11.3 — Testes A/B e Métricas de Engajamento",
+  content: `
+  <h3>🌟 Objetivo da Aula</h3>
+  <p>Aprender a planejar e conduzir testes A/B, interpretar métricas de engajamento e tomar decisões baseadas em dados de usuários.</p>
+
+  <h3>📖 Conteúdo Central</h3>
+  <p>Testes A/B consistem em comparar duas versões de uma interface para medir impacto em métricas chave:</p>
+  <ul>
+    <li>Taxa de conversão;</li>
+    <li>Tempo de permanência;</li>
+    <li>Cliques em elementos estratégicos;</li>
+    <li>Satisfação e retenção do usuário.</li>
+  </ul>
+  <p>É essencial definir hipóteses claras, segmentar corretamente os usuários e usar ferramentas de análise confiáveis.</p>
+
+  <h4>📊 Tabela — Métricas de UX</h4>
+  <table border="1" cellspacing="0" cellpadding="4">
+    <tr><th>Métrica</th><th>Descrição</th><th>Objetivo</th></tr>
+    <tr><td>Conversão</td><td>Percentual de usuários que completam ação</td><td>Validar eficácia da interface</td></tr>
+    <tr><td>Cliques</td><td>Interações em elementos-chave</td><td>Otimizar navegação</td></tr>
+    <tr><td>Tempo de permanência</td><td>Duração média na página</td><td>Avaliar engajamento</td></tr>
+    <tr><td>Retenção</td><td>Usuários que retornam</td><td>Medir fidelização</td></tr>
+  </table>
+
+  <h3>📘 Resumo</h3>
+  <ul>
+    <li>Testes A/B permitem decisões baseadas em dados;</li>
+    <li>Métricas de engajamento indicam sucesso da interface;</li>
+    <li>Iteração constante garante melhoria contínua da UX.</li>
+  </ul>
+  `
+},
+
+// Aula 12.1 — Coleta e Interpretação de Dados de UX
+{
+  title: "Aula 12.1 — Coleta e Interpretação de Dados de UX",
+  content: `
+  <h3>🌟 Objetivo da Aula</h3>
+  <p>Aprender técnicas de coleta e análise de dados de UX, transformando observações em insights acionáveis para otimização de produtos.</p>
+
+  <h3>📖 Conteúdo Central</h3>
+  <p>Coleta de dados de UX envolve:</p>
+  <ul>
+    <li>Analytics de uso (Google Analytics, Hotjar);</li>
+    <li>Gravação de sessões e mapas de calor;</li>
+    <li>Pesquisas qualitativas com usuários;</li>
+    <li>Análise de métricas quantitativas e qualitativas combinadas.</li>
+  </ul>
+  <p>Interpretar dados corretamente permite priorizar melhorias e identificar problemas reais que impactam a experiência do usuário.</p>
+
+  <h4>📊 Tabela — Ferramentas de Análise de UX</h4>
+  <table border="1" cellspacing="0" cellpadding="4">
+    <tr><th>Ferramenta</th><th>Tipo de Dados</th><th>Benefício</th></tr>
+    <tr><td>Google Analytics</td><td>Quantitativos</td><td>Volume de uso e conversões</td></tr>
+    <tr><td>Hotjar</td><td>Qualitativos e quantitativos</td><td>Mapas de calor e gravações</td></tr>
+    <tr><td>SurveyMonkey</td><td>Qualitativos</td><td>Feedback direto do usuário</td></tr>
+  </table>
+
+  <h3>📘 Resumo</h3>
+  <ul>
+    <li>Coleta de dados embasa decisões de design;</li>
+    <li>Combinação de métricas qualitativas e quantitativas é essencial;</li>
+    <li>Análise correta evita falhas e melhora experiência do usuário.</li>
+  </ul>
+  `
+},
+
+// Aula 12.2 — Ciclo de Iteração e Refinamento
+{
+  title: "Aula 12.2 — Ciclo de Iteração e Refinamento",
+  content: `
+  <h3>🌟 Objetivo da Aula</h3>
+  <p>Compreender o ciclo de iteração e refinamento em UX, aplicando feedback real do usuário para melhorar continuamente a interface.</p>
+
+  <h3>📖 Conteúdo Central</h3>
+  <p>O ciclo de iteração envolve:</p>
+  <ul>
+    <li>Coleta de dados e feedback;</li>
+    <li>Análise e identificação de melhorias;</li>
+    <li>Redesign ou ajustes da interface;</li>
+    <li>Novos testes para validar alterações.</li>
+  </ul>
+  <p>Iterar de forma sistemática permite refinar a interface, aumentando eficiência, satisfação e retenção do usuário.</p>
+
+  <h4>📊 Tabela — Ciclo de Iteração</h4>
+  <table border="1" cellspacing="0" cellpadding="4">
+    <tr><th>Etapa</th><th>Ação</th><th>Objetivo</th></tr>
+    <tr><td>Coleta</td><td>Observação e métricas</td><td>Entender uso real</td></tr>
+    <tr><td>Análise</td><td>Identificação de problemas</td><td>Definir melhorias</td></tr>
+    <tr><td>Refinamento</td><td>Implementação de ajustes</td><td>Otimizar experiência</td></tr>
+    <tr><td>Validação</td><td>Testes A/B ou usuários</td><td>Confirmar melhorias</td></tr>
+  </table>
+
+  <h3>📘 Resumo</h3>
+  <ul>
+    <li>Iteração contínua aumenta qualidade da UX;</li>
+    <li>Decisões baseadas em dados reduzem erros;</li>
+    <li>Ciclo estruturado garante evolução constante da interface.</li>
+  </ul>
+  `
+},
+
+// Aula 12.3 — Comunicação de Resultados e Insights
+{
+  title: "Aula 12.3 — Comunicação de Resultados e Insights",
+  content: `
+  <h3>🌟 Objetivo da Aula</h3>
+  <p>Aprender a apresentar resultados de UX e insights de forma clara para equipes, stakeholders e clientes, garantindo entendimento e ação efetiva.</p>
+
+  <h3>📖 Conteúdo Central</h3>
+  <p>Comunicação de insights envolve:</p>
+  <ul>
+    <li>Visualização de métricas e dados qualitativos;</li>
+    <li>Mapas de jornada, personas e fluxos;</li>
+    <li>Relatórios claros e objetivos;</li>
+    <li>Recomendações práticas e acionáveis.</li>
+  </ul>
+  <p>Apresentar dados corretamente facilita decisões, alinha equipes e prioriza melhorias que impactam a experiência real do usuário.</p>
+
+  <h4>📊 Tabela — Formatos de Comunicação</h4>
+  <table border="1" cellspacing="0" cellpadding="4">
+    <tr><th>Formato</th><th>Aplicação</th><th>Benefício</th></tr>
+    <tr><td>Relatórios PDF</td><td>Resumo detalhado</td><td>Documentação oficial</td></tr>
+    <tr><td>Dashboards</td><td>Visualização interativa</td><td>Atualização em tempo real</td></tr>
+    <tr><td>Apresentações</td><td>Workshops ou reuniões</td><td>Engajamento da equipe</td></tr>
+  </table>
+
+  <h3>📘 Resumo</h3>
+  <ul>
+    <li>Comunicar dados claramente garante ação efetiva;</li>
+    <li>Visualizações e relatórios facilitam entendimento;</li>
+    <li>Insights traduzem análise em decisões estratégicas.</li>
+  </ul>
+  `
+},
+
+// Aula 13.1 — Consumo de APIs RESTful e GraphQL
+{
+  title: "Aula 13.1 — Consumo de APIs RESTful e GraphQL",
+  content: `
+  <h3>🌟 Objetivo da Aula</h3>
+  <p>Aprender a consumir APIs RESTful e GraphQL para integrar dados externos em interfaces digitais de forma eficiente e segura.</p>
+
+  <h3>📖 Conteúdo Central</h3>
+  <p>APIs permitem comunicação entre aplicações front-end e back-end:</p>
+  <ul>
+    <li>RESTful: padrão de endpoints HTTP, fácil de implementar e consumir;</li>
+    <li>GraphQL: consulta flexível, permite selecionar apenas os dados necessários;</li>
+    <li>Métodos HTTP: GET, POST, PUT, DELETE;</li>
+    <li>Tratamento de respostas JSON e erros;</li>
+    <li>Integração com frameworks como React, Vue e Angular.</li>
+  </ul>
+
+  <h4>📊 Tabela — Comparativo REST vs GraphQL</h4>
+  <table border="1" cellspacing="0" cellpadding="4">
+    <tr><th>Aspecto</th><th>REST</th><th>GraphQL</th></tr>
+    <tr><td>Flexibilidade</td><td>Baixa, retorna todos os dados do endpoint</td><td>Alta, consulta apenas campos desejados</td></tr>
+    <tr><td>Complexidade</td><td>Simples de implementar</td><td>Mais complexa, exige schema definido</td></tr>
+    <tr><td>Eficiência</td><td>Várias requisições necessárias</td><td>Uma requisição para dados múltiplos</td></tr>
+  </table>
+
+  <h3>📘 Resumo</h3>
+  <ul>
+    <li>APIs são essenciais para interfaces modernas;</li>
+    <li>REST é rápido e simples, GraphQL oferece consultas precisas;</li>
+    <li>Domínio de ambos aumenta capacidade de integração de dados.</li>
+  </ul>
+  `
+},
+
+// Aula 13.2 — Autenticação com OAuth2 e Firebase
+{
+  title: "Aula 13.2 — Autenticação com OAuth2 e Firebase",
+  content: `
+  <h3>🌟 Objetivo da Aula</h3>
+  <p>Aprender métodos de autenticação segura em aplicações web e móveis usando OAuth2 e Firebase Authentication.</p>
+
+  <h3>📖 Conteúdo Central</h3>
+  <p>A autenticação protege dados e controla acesso:</p>
+  <ul>
+    <li>OAuth2: protocolo de autorização para apps de terceiros;</li>
+    <li>Fluxo de tokens: acesso seguro sem compartilhar senha;</li>
+    <li>Firebase: autenticação pronta com e-mail, redes sociais ou número de telefone;</li>
+    <li>Gestão de sessões e tokens JWT;</li>
+    <li>Boas práticas de segurança: HTTPS, expiração de token, revogação.</li>
+  </ul>
+
+  <h4>📊 Tabela — Métodos de Autenticação</h4>
+  <table border="1" cellspacing="0" cellpadding="4">
+    <tr><th>Método</th><th>Uso</th><th>Segurança</th></tr>
+    <tr><td>OAuth2</td><td>Login via Google, Facebook, etc.</td><td>Alta, tokens temporários</td></tr>
+    <tr><td>Firebase</td><td>Autenticação rápida e integrada</td><td>Média/alta, suporte a MFA</td></tr>
+    <tr><td>JWT</td><td>Autenticação stateless</td><td>Alta, desde que o token seja seguro</td></tr>
+  </table>
+
+  <h3>📘 Resumo</h3>
+  <ul>
+    <li>Autenticação protege usuários e dados sensíveis;</li>
+    <li>OAuth2 e Firebase simplificam implementação segura;</li>
+    <li>Segurança deve ser implementada em cada camada da aplicação.</li>
+  </ul>
+  `
+},
+
+// Aula 13.3 — Integração de Dados e Segurança
+{
+  title: "Aula 13.3 — Integração de Dados e Segurança",
+  content: `
+  <h3>🌟 Objetivo da Aula</h3>
+  <p>Compreender como integrar dados de múltiplas fontes mantendo segurança, integridade e performance da interface.</p>
+
+  <h3>📖 Conteúdo Central</h3>
+  <p>Integração segura envolve:</p>
+  <ul>
+    <li>Validação e sanitização de dados;</li>
+    <li>Controle de permissões por perfil de usuário;</li>
+    <li>Uso de HTTPS, CORS e tokens de acesso;</li>
+    <li>Monitoramento e logs de requisições;</li>
+    <li>Evitar vazamento de dados sensíveis durante integração.</li>
+  </ul>
+
+  <h4>📊 Tabela — Boas Práticas de Segurança</h4>
+  <table border="1" cellspacing="0" cellpadding="4">
+    <tr><th>Prática</th><th>Descrição</th><th>Benefício</th></tr>
+    <tr><td>Validação de Entrada</td><td>Confirma dados antes de gravar ou usar</td><td>Evita injeções e erros</td></tr>
+    <tr><td>Criptografia</td><td>HTTPS e dados sensíveis criptografados</td><td>Protege informações críticas</td></tr>
+    <tr><td>Controle de Acesso</td><td>Permissões baseadas em função</td><td>Restringe operações não autorizadas</td></tr>
+  </table>
+
+  <h3>📘 Resumo</h3>
+  <ul>
+    <li>Segurança deve acompanhar integração de dados;</li>
+    <li>Validação, criptografia e permissões são essenciais;</li>
+    <li>Monitoramento contínuo garante proteção e performance.</li>
+  </ul>
+  `
+},
+
+// Aula 14.1 — Chatbots e Processamento de Linguagem Natural
+{
+  title: "Aula 14.1 — Chatbots e Processamento de Linguagem Natural",
+  content: `
+  <h3>🌟 Objetivo da Aula</h3>
+  <p>Aprender a criar interfaces inteligentes usando chatbots e técnicas de NLP para comunicação natural com o usuário.</p>
+
+  <h3>📖 Conteúdo Central</h3>
+  <p>Chatbots utilizam:</p>
+  <ul>
+    <li>Processamento de linguagem natural (NLP) para interpretar intenções;</li>
+    <li>Frameworks como Dialogflow, Rasa e Microsoft Bot Framework;</li>
+    <li>Fluxos de conversação estruturados;</li>
+    <li>Integração com APIs e bancos de dados;</li>
+    <li>Feedback contínuo para melhorar precisão e UX.</li>
+  </ul>
+
+  <h4>📊 Tabela — Tipos de Chatbots</h4>
+  <table border="1" cellspacing="0" cellpadding="4">
+    <tr><th>Tipo</th><th>Função</th><th>Exemplo</th></tr>
+    <tr><td>Baseado em regras</td><td>Respostas predefinidas</td><td>FAQ automático</td></tr>
+    <tr><td>Inteligente (NLP)</td><td>Compreensão de intenção</td><td>Atendimento ao cliente avançado</td></tr>
+  </table>
+
+  <h3>📘 Resumo</h3>
+  <ul>
+    <li>Chatbots aumentam interatividade da interface;</li>
+    <li>NLP permite comunicação natural e eficiente;</li>
+    <li>Integração com dados e APIs maximiza utilidade.</li>
+  </ul>
+  `
+},
+
+// Aula 14.2 — Reconhecimento de Voz e UX Conversacional
+{
+  title: "Aula 14.2 — Reconhecimento de Voz e UX Conversacional",
+  content: `
+  <h3>🌟 Objetivo da Aula</h3>
+  <p>Aprender a implementar interfaces baseadas em voz, criando experiências conversacionais naturais e acessíveis aos usuários.</p>
+
+  <h3>📖 Conteúdo Central</h3>
+  <p>O reconhecimento de voz permite que o usuário interaja sem teclado ou mouse:</p>
+  <ul>
+    <li>APIs de Speech-to-Text e Text-to-Speech;</li>
+    <li>Integração com assistentes virtuais (Google Assistant, Alexa, Siri);</li>
+    <li>Design de fluxos conversacionais claros e intuitivos;</li>
+    <li>Feedback auditivo para confirmação de ações;</li>
+    <li>Tratamento de erros e interpretações incorretas de voz.</li>
+  </ul>
+
+  <h4>📊 Tabela — Tecnologias de Reconhecimento de Voz</h4>
+  <table border="1" cellspacing="0" cellpadding="4">
+    <tr><th>Tecnologia</th><th>Descrição</th><th>Uso Comum</th></tr>
+    <tr><td>Google Speech API</td><td>Conversão de voz em texto em tempo real</td><td>Assistentes e aplicativos móveis</td></tr>
+    <tr><td>Amazon Lex</td><td>Criação de chatbots conversacionais</td><td>Atendimento automático</td></tr>
+    <tr><td>Microsoft Azure Speech</td><td>Transcrição, síntese e análise de intenção</td><td>Apps corporativos e UX interativo</td></tr>
+  </table>
+
+  <h3>📘 Resumo</h3>
+  <ul>
+    <li>UX conversacional aumenta acessibilidade e eficiência;</li>
+    <li>Reconhecimento de voz exige tratamento de erros e feedback;</li>
+    <li>Integração com assistentes e APIs é chave para interfaces modernas.</li>
+  </ul>
+  `
+},
+
+// Aula 14.3 — Sistemas de Recomendação e IA Aplicada
+{
+  title: "Aula 14.3 — Sistemas de Recomendação e IA Aplicada",
+  content: `
+  <h3>🌟 Objetivo da Aula</h3>
+  <p>Entender como aplicar inteligência artificial e algoritmos de recomendação para personalizar a experiência do usuário em interfaces digitais.</p>
+
+  <h3>📖 Conteúdo Central</h3>
+  <p>Sistemas de recomendação analisam dados para sugerir conteúdos relevantes:</p>
+  <ul>
+    <li>Filtragem colaborativa: recomenda com base no comportamento de usuários similares;</li>
+    <li>Filtragem baseada em conteúdo: sugere itens semelhantes ao histórico do usuário;</li>
+    <li>Algoritmos híbridos combinando ambas as abordagens;</li>
+    <li>Integração com dashboards e interfaces responsivas;</li>
+    <li>Métricas de performance: precisão, recall, F1-score.</li>
+  </ul>
+
+  <h4>📊 Tabela — Comparativo de Algoritmos de Recomendação</h4>
+  <table border="1" cellspacing="0" cellpadding="4">
+    <tr><th>Algoritmo</th><th>Princípio</th><th>Exemplo</th></tr>
+    <tr><td>Colaborativo</td><td>Baseado no comportamento de outros usuários</td><td>Netflix, Spotify</td></tr>
+    <tr><td>Conteúdo</td><td>Baseado nas características do item</td><td>Amazon, YouTube</td></tr>
+    <tr><td>Híbrido</td><td>Combina colaborativo e conteúdo</td><td>Recomendação personalizada avançada</td></tr>
+  </table>
+
+  <h3>📘 Resumo</h3>
+  <ul>
+    <li>Recomendações personalizam a experiência do usuário;</li>
+    <li>Escolher o algoritmo correto depende do tipo de dados;</li>
+    <li>Integração com interfaces responsivas aumenta engajamento.</li>
+  </ul>
+  `
+},
+
+// Aula 15.1 — Ligação com Back-End e Banco de Dados
+{
+  title: "Aula 15.1 — Ligação com Back-End e Banco de Dados",
+  content: `
+  <h3>🌟 Objetivo da Aula</h3>
+  <p>Aprender a conectar interfaces digitais a back-end e bancos de dados, garantindo fluxo seguro de informações e consistência de dados.</p>
+
+  <h3>📖 Conteúdo Central</h3>
+  <p>Integração front-end/back-end envolve:</p>
+  <ul>
+    <li>Uso de APIs para comunicação de dados;</li>
+    <li>Conexão com bancos SQL (MySQL, PostgreSQL) e NoSQL (MongoDB);</li>
+    <li>Validação de dados antes de persistir no banco;</li>
+    <li>Gerenciamento de erros e status de respostas HTTP;</li>
+    <li>Segurança: criptografia, autenticação e autorização.</li>
+  </ul>
+
+  <h4>📊 Tabela — Comparativo SQL vs NoSQL</h4>
+  <table border="1" cellspacing="0" cellpadding="4">
+    <tr><th>Tipo</th><th>Exemplo</th><th>Uso Ideal</th></tr>
+    <tr><td>SQL</td><td>PostgreSQL, MySQL</td><td>Transações estruturadas, dados relacionais</td></tr>
+    <tr><td>NoSQL</td><td>MongoDB, Firebase</td><td>Documentos, dados flexíveis e escaláveis</td></tr>
+  </table>
+
+  <h3>📘 Resumo</h3>
+  <ul>
+    <li>Integração com back-end garante dados consistentes e seguros;</li>
+    <li>Escolher banco correto depende do tipo e volume de dados;</li>
+    <li>Validação e criptografia são essenciais em cada requisição.</li>
+  </ul>
+  `
+},
+
+// Aula 15.2 — Testes de Desempenho e Otimização
+{
+  title: "Aula 15.2 — Testes de Desempenho e Otimização",
+  content: `
+  <h3>🌟 Objetivo da Aula</h3>
+  <p>Aprender técnicas de teste de desempenho e otimização de interfaces digitais, garantindo rapidez, confiabilidade e escalabilidade.</p>
+
+  <h3>📖 Conteúdo Central</h3>
+  <p>Testes e otimizações envolvem:</p>
+  <ul>
+    <li>Benchmarking de performance e tempo de resposta;</li>
+    <li>Otimização de carregamento: lazy loading, compressão de assets;</li>
+    <li>Monitoramento de consumo de memória e processamento;</li>
+    <li>Uso de ferramentas como Lighthouse, WebPageTest e Chrome DevTools;</li>
+    <li>Melhoria contínua baseada em métricas reais de usuários.</li>
+  </ul>
+
+  <h4>📊 Tabela — Técnicas de Otimização Front-End</h4>
+  <table border="1" cellspacing="0" cellpadding="4">
+    <tr><th>Técnica</th><th>Descrição</th><th>Benefício</th></tr>
+    <tr><td>Lazy Loading</td><td>Carregar imagens e componentes sob demanda</td><td>Reduz tempo inicial de carregamento</td></tr>
+    <tr><td>Minificação de Código</td><td>Reduz tamanho de arquivos CSS/JS</td><td>Acelera carregamento</td></tr>
+    <tr><td>Cache</td><td>Armazena dados localmente</td><td>Diminui requisições e latência</td></tr>
+  </table>
+
+  <h3>📘 Resumo</h3>
+  <ul>
+    <li>Testes de desempenho garantem experiência fluida;</li>
+    <li>Otimizações front-end aumentam velocidade e satisfação;</li>
+    <li>Monitoramento contínuo mantém interface eficiente e escalável.</li>
+  </ul>
+  `
+},
+
+// Aula 15.3 — Deploy e Integração Final
+{
+  title: "Aula 15.3 — Deploy e Integração Final",
+  content: `
+  <h3>🌟 Objetivo da Aula</h3>
+  <p>Aprender a publicar interfaces digitais em ambientes de produção, integrando front-end, back-end e bases de dados com segurança, escalabilidade e monitoramento contínuo.</p>
+
+  <h3>📖 Conteúdo Central</h3>
+  <p>O deploy envolve várias etapas essenciais:</p>
+  <ul>
+    <li>Preparação do ambiente de produção: servidores, containers (Docker) ou cloud (AWS, GCP, Azure);</li>
+    <li>Integração contínua e entrega contínua (CI/CD) para automação de testes e deploys;</li>
+    <li>Configuração de pipelines: build, testes unitários, testes de integração;</li>
+    <li>Monitoramento de performance pós-deploy: tempo de resposta, erros, logs;</li>
+    <li>Gerenciamento de versões e rollback seguro em caso de falha.</li>
+  </ul>
+
+  <h4>📊 Tabela — Comparativo de Estratégias de Deploy</h4>
+  <table border="1" cellspacing="0" cellpadding="4">
+    <tr><th>Estratégia</th><th>Descrição</th><th>Vantagens</th></tr>
+    <tr><td>Manual</td><td>Upload direto para servidor</td><td>Simples, bom para projetos pequenos</td></tr>
+    <tr><td>CI/CD</td><td>Automação com pipelines e testes</td><td>Reduz erros, integra testes, rápido e seguro</td></tr>
+    <tr><td>Container/Cloud</td><td>Deploy via Docker, Kubernetes ou serviços cloud</td><td>Escalabilidade, isolamento, portabilidade</td></tr>
+  </table>
+
+  <h3>⚙️ Boas Práticas de Deploy</h3>
+  <ul>
+    <li>Versionar código e manter repositórios organizados;</li>
+    <li>Documentar scripts de deploy e configuração;</li>
+    <li>Monitorar logs e métricas para identificar problemas rapidamente;</li>
+    <li>Testar rollback e recovery antes de ambientes críticos;</li>
+    <li>Garantir segurança de dados e comunicação encriptada.</li>
+  </ul>
+
+  <h3>📘 Resumo</h3>
+  <ul>
+    <li>Deploy eficiente integra front-end, back-end e banco de dados;</li>
+    <li>Automação via CI/CD aumenta confiabilidade e reduz erros;</li>
+    <li>Monitoramento contínuo e versionamento garantem manutenção segura e escalável;</li>
+    <li>Segurança, rollback e documentação são essenciais em produção.</li>
+  </ul>
+  `
+},
+
+// Aula 16.1 — Planeamento do Fluxo e Wireframes
+{
+  title: "Aula 16.1 — Planeamento do Fluxo e Wireframes",
+  content: `
+  <h3>🌟 Objetivo da Aula</h3>
+  <p>Planejar o fluxo da aplicação e criar wireframes de alta fidelidade que representem a navegação, interação e hierarquia visual antes do desenvolvimento.</p>
+  <h3>📖 Conteúdo Central</h3>
+  <p>Inclui técnicas de mapeamento de jornada, sketching, wireframes e protótipos de baixa fidelidade. Uso de ferramentas: Figma, Adobe XD, Whimsical.</p>
+  <h4>📊 Tabela – Comparativo de Ferramentas de Wireframe</h4>
+  <table border="1" cellspacing="0" cellpadding="4">
+    <tr><th>Ferramenta</th><th>Vantagens</th><th>Limitações</th></tr>
+    <tr><td>Figma</td><td>Colaboração online, plugins extensivos</td><td>Dependente de conexão internet</td></tr>
+    <tr><td>Adobe XD</td><td>Protótipos interativos e animações</td><td>Menos compatível multiplataforma</td></tr>
+    <tr><td>Whimsical</td><td>Rápido, intuitivo, foco em fluxos</td><td>Funcionalidade limitada para design final</td></tr>
+  </table>
+  <h3>📘 Resumo</h3>
+  <ul>
+    <li>Wireframes orientam decisões de design e desenvolvimento;</li>
+    <li>Mapear fluxos evita retrabalho e garante UX coerente;</li>
+    <li>Ferramentas devem ser escolhidas conforme colaboração e complexidade.</li>
+  </ul>
+  `
+},
+
+// Aula 16.2 — Design e Implementação do Protótipo
+{
+  title: "Aula 16.2 — Design e Implementação do Protótipo",
+  content: `
+  <h3>🌟 Objetivo da Aula</h3>
+  <p>Transformar wireframes em protótipos funcionais, aplicando princípios de UI, consistência visual e interações realistas.</p>
+  <h3>📖 Conteúdo Central</h3>
+  <p>Uso de componentes reutilizáveis, grids, tipografia, cores, microinterações e animações para simular experiência real do usuário.</p>
+  <h4>📊 Tabela – Componentes e Tipos de Interação</h4>
+  <table border="1" cellspacing="0" cellpadding="4">
+    <tr><th>Componente</th><th>Exemplo</th><th>Função UX</th></tr>
+    <tr><td>Botão</td><td>Enviar Formulário</td><td>Ação principal do usuário</td></tr>
+    <tr><td>Modal</td><td>Confirmação de Saída</td><td>Foco em decisão crítica</td></tr>
+    <tr><td>Tooltip</td><td>Informação adicional</td><td>Auxilia compreensão sem poluir UI</td></tr>
+  </table>
+  <h3>📘 Resumo</h3>
+  <ul>
+    <li>Protótipos validam UX antes do desenvolvimento real;</li>
+    <li>Interações e feedback visuais simulam comportamento final;</li>
+    <li>Reuso de componentes acelera produção e garante consistência.</li>
+  </ul>
+  `
+},
+
+// Aula 16.3 — Integração com Back-End Real
+{
+  title: "Aula 16.3 — Integração com Back-End Real",
+  content: `
+  <h3>🌟 Objetivo da Aula</h3>
+  <p>Conectar protótipos funcionais com APIs e bases de dados reais para testar fluxos completos de dados.</p>
+  <h3>📖 Conteúdo Central</h3>
+  <p>Implementação de chamadas HTTP (REST/GraphQL), autenticação, sincronização de estados e validação de dados no front-end.</p>
+  <h4>📊 Tabela – Estratégias de Integração</h4>
+  <table border="1" cellspacing="0" cellpadding="4">
+    <tr><th>Estratégia</th><th>Vantagem</th><th>Risco</th></tr>
+    <tr><td>Mock API</td><td>Testes rápidos sem back-end</td><td>Não valida dados reais</td></tr>
+    <tr><td>API Real</td><td>Fluxo completo e confiável</td><td>Exige autenticação e segurança rigorosa</td></tr>
+  </table>
+  <h3>📘 Resumo</h3>
+  <ul>
+    <li>Integração real permite validação completa de UX e dados;</li>
+    <li>Chaves, tokens e endpoints devem ser seguros;</li>
+    <li>Testes com API real detectam inconsistências e bugs antes do deploy.</li>
+  </ul>
+  `
+},
+
+// Aula 17.1 — Testes de Usabilidade e Desempenho
+{
+  title: "Aula 17.1 — Testes de Usabilidade e Desempenho",
+  content: `
+  <h3>🌟 Objetivo da Aula</h3>
+  <p>Executar testes de usabilidade e desempenho, garantindo que a interface é eficiente, intuitiva e responsiva em diferentes cenários e dispositivos.</p>
+
+  <h3>📖 Conteúdo Central</h3>
+  <p>Testes de usabilidade incluem observação direta, análise de tarefas, métricas de tempo e erros. Desempenho aborda carregamento de páginas, responsividade, latência de API e fluidez de animações. Ferramentas: Lighthouse, WebPageTest, Hotjar.</p>
+
+  <h4>📊 Tabela – Principais Métricas de Teste</h4>
+  <table border="1" cellspacing="0" cellpadding="4">
+    <tr><th>Métrica</th><th>Objetivo</th><th>Ferramenta</th></tr>
+    <tr><td>Tempo de Tarefa</td><td>Medir eficiência do usuário</td><td>Observação direta</td></tr>
+    <tr><td>Taxa de Erro</td><td>Identificar pontos críticos</td><td>Testes de usuário</td></tr>
+    <tr><td>Performance</td><td>Verificar tempo de carregamento</td><td>Lighthouse/WebPageTest</td></tr>
+  </table>
+
+  <h3>📘 Resumo</h3>
+  <ul>
+    <li>Usabilidade garante experiência intuitiva;</li>
+    <li>Desempenho impacta satisfação e retenção do usuário;</li>
+    <li>Métricas devem ser monitoradas continuamente.</li>
+  </ul>
+  `
+},
+
+// Aula 17.2 — Acessibilidade e Compatibilidade Multi-Plataforma
+{
+  title: "Aula 17.2 — Acessibilidade e Compatibilidade Multi-Plataforma",
+  content: `
+  <h3>🌟 Objetivo da Aula</h3>
+  <p>Garantir que a interface é acessível a todos os usuários e compatível com diferentes dispositivos, navegadores e sistemas operacionais.</p>
+
+  <h3>📖 Conteúdo Central</h3>
+  <p>Aplicação das diretrizes WCAG 2.2, contrastes de cores, navegação por teclado, leitores de tela e testes em desktop, mobile e tablets. Ferramentas: axe DevTools, WAVE, BrowserStack.</p>
+
+  <h4>📊 Tabela – Principais Testes de Acessibilidade</h4>
+  <table border="1" cellspacing="0" cellpadding="4">
+    <tr><th>Teste</th><th>Objetivo</th><th>Ferramenta</th></tr>
+    <tr><td>Contraste de Cores</td><td>Legibilidade</td><td>axe/WAVE</td></tr>
+    <tr><td>Navegação por Teclado</td><td>Acessibilidade total</td><td>Manual</td></tr>
+    <tr><td>Compatibilidade Browser</td><td>UX consistente</td><td>BrowserStack</td></tr>
+  </table>
+
+  <h3>📘 Resumo</h3>
+  <ul>
+    <li>Inclusão e compatibilidade são essenciais;</li>
+    <li>Ferramentas ajudam a automatizar testes;</li>
+    <li>Feedback contínuo corrige inconsistências.</li>
+  </ul>
+  `
+},
+
+// Aula 17.3 — Documentação e Preparação da Defesa
+{
+  title: "Aula 17.3 — Documentação e Preparação da Defesa",
+  content: `
+  <h3>🌟 Objetivo da Aula</h3>
+  <p>Organizar documentação completa e preparar apresentação técnica clara, destacando decisões de design, fluxos, protótipos e métricas de sucesso.</p>
+
+  <h3>📖 Conteúdo Central</h3>
+  <p>Documentação inclui wireframes, protótipos, testes, relatórios de performance e acessibilidade, diagramas de arquitetura e roadmap de UX. Preparação da defesa envolve storytelling, slides concisos e demonstração ao vivo.</p>
+
+  <h4>📊 Tabela – Estrutura da Documentação Técnica</h4>
+  <table border="1" cellspacing="0" cellpadding="4">
+    <tr><th>Seção</th><th>Conteúdo</th></tr>
+    <tr><td>Introdução</td><td>Objetivos e escopo do projeto</td></tr>
+    <tr><td>Wireframes e Protótipos</td><td>Design detalhado com fluxo de usuário</td></tr>
+    <tr><td>Testes e Métricas</td><td>Usabilidade, performance e acessibilidade</td></tr>
+    <tr><td>Arquitetura</td><td>Integração front-end/back-end</td></tr>
+    <tr><td>Conclusão</td><td>Resumo e insights obtidos</td></tr>
+  </table>
+
+  <h3>📘 Resumo</h3>
+  <ul>
+    <li>Documentação garante rastreabilidade e compreensão;</li>
+    <li>Preparação clara da defesa aumenta confiança e impacto;</li>
+    <li>Combinar storytelling e demonstração prática é essencial.</li>
+  </ul>
+  `
+},
+
+// Aula 18.1 — Apresentação Pública do Projeto
+{
+  title: "Aula 18.1 — Apresentação Pública do Projeto",
+  content: `
+  <h3>🌟 Objetivo da Aula</h3>
+  <p>Apresentar o projeto final para audiência real, explicando escolhas de design, fluxo de interação, protótipos e resultados de testes.</p>
+
+  <h3>📖 Conteúdo Central</h3>
+  <p>Preparação de slides, demonstração interativa, destaques das funcionalidades e justificativas técnicas. Estratégias de comunicação: storytelling, visualização de métricas, walkthrough interativo.</p>
+
+  <h3>📘 Resumo</h3>
+  <ul>
+    <li>Apresentação deve ser clara e objetiva;</li>
+    <li>Foco em decisões de design e resultados;</li>
+    <li>Interatividade aumenta compreensão da audiência.</li>
+  </ul>
+  `
+},
+
+// Aula 18.2 — Feedback e Iteração Final
+{
+  title: "Aula 18.2 — Feedback e Iteração Final",
+  content: `
+  <h3>🌟 Objetivo da Aula</h3>
+  <p>Receber feedback da audiência, equipe e avaliadores para refinar o projeto e aplicar iterações finais.</p>
+
+  <h3>📖 Conteúdo Central</h3>
+  <p>Coleta de feedback qualitativo e quantitativo, priorização de melhorias, ajustes finais em protótipos e documentação. Uso de checklist de UX e métricas de sucesso.</p>
+
+  <h3>📘 Resumo</h3>
+  <ul>
+    <li>Feedback é essencial para melhoria contínua;</li>
+    <li>Iterações finais garantem produto mais maduro e confiável;</li>
+    <li>Documentar alterações facilita aprendizado futuro.</li>
+  </ul>
+  `
+},
+
+// Aula 18.3 — Encerramento e Certificação
+{
+  title: "Aula 18.3 — Encerramento e Certificação",
+  content: `
+  <h3>🌟 Objetivo da Aula</h3>
+  <p>Concluir oficialmente o curso, validar certificações e reforçar aprendizados e boas práticas adquiridas.</p>
+
+  <h3>📖 Conteúdo Central</h3>
+  <p>Resumo das principais etapas, entrega de certificados, dicas de carreira, melhores práticas de UI/UX, manutenção de portfólio e próximos passos profissionais.</p>
+
+  <h3>📘 Resumo</h3>
+  <ul>
+    <li>Encerramento formaliza conquista e aprendizado;</li>
+    <li>Certificação reconhece habilidades técnicas e práticas;</li>
+    <li>Preparação para desafios reais do mercado de UI/UX.</li>
+  </ul>
+  `
+},
+
+
+
+
+
+
+
+
+
+
+
+
+  // Aqui você pode continuar com as aulas 4.3 até 6.3 seguindo o mesmo padrão...
+];
+
+
+
+  const main = document.getElementById("main-content");
+  const lesson = lessons[id];
+
+  if (!lesson) {
+    main.innerHTML = `
+      <h2 id="lesson-title">🚧 Conteúdo não disponível</h2>
+      <p>Esta aula ainda não foi carregada. Por favor, selecione outra.</p>
+    `;
+    return;
+  }
+
+  main.innerHTML = `
+  <div class="lesson-content">
+    <h2 class="lesson-inner-title">${lesson.title}</h2>
+    ${lesson.content}
+  </div>
+`;
+
+
+  // Fecha o sidebar automaticamente no telemóvel
+  const sidebar = document.getElementById("sidebar");
+  if (window.innerWidth <= 900 && sidebar.classList.contains("active")) {
+    sidebar.classList.remove("active");
+  }
+}
+</script>
+</body>
+</html>
