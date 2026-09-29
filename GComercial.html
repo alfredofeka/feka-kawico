@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Curso: Gestor Comercial — Avançado ao Especialista — FEKA KAWIÇO</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+<style>
+:root {
+  --primary-color: #004a80;
+  --secondary-color: #fca311;
+  --text-dark: #222;
+  --text-light: #fff;
+  --bg-light: #ffffff;
+  --bg-dark: #1f2937;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: var(--bg-light); color: var(--text-dark); font-family: "Segoe UI", sans-serif; line-height: 1.6; overflow-x: hidden; }
+header {
+  background: var(--primary-color); color: var(--text-light); padding: 10px 15px;
+  display: flex; align-items: center; justify-content: space-between;
+  position: sticky; top: 0; z-index: 1000;
+}
+.brand-area { display: flex; align-items: center; gap: 10px; }
+.brand-area img { height: 30px; border-radius: 5px; background: white; padding: 2px; }
+.brand-area a { text-decoration: none; color: var(--text-light); font-size: 1rem; font-weight: 600; }
+#course-container { display: flex; height: calc(100vh - 60px); overflow: hidden; }
+#sidebar {
+  width: 420px; background: var(--bg-dark); color: var(--text-light);
+  padding: 20px; overflow-y: auto; transition: transform 0.3s ease;
+}
+#sidebar.hidden { transform: translateX(-100%); }
+#toggle-sidebar {
+  display: none; background: var(--primary-color); color: var(--text-light);
+  border: none; font-size: 1.3rem; padding: 8px 12px; border-radius: 6px; cursor: pointer;
+}
+.level-title{color:#fff;background:var(--primary-color);padding:6px 10px;border-radius:6px;font-size:.85rem;font-weight:700;margin:18px 0 10px}
+.module h3 { cursor: pointer; font-size: 1rem; margin-bottom: 8px; font-weight: 600; color: var(--secondary-color); }
+.chapter-list { display: none; margin-left: 8px; margin-bottom: 15px; }
+.chapter-list.open{display:block}
+.chapter-list h4 { color: #9ca3af; font-size: 0.88rem; margin-top: 12px; margin-bottom: 4px; }
+.chapter-link {
+  display: block; color: var(--text-light); padding: 5px 8px; font-size: 0.9rem;
+  text-decoration: none; border-left: 2px solid transparent; transition: .3s; border-radius:0 4px 4px 0;
+}
+.chapter-link:hover { color: var(--secondary-color); border-left: 2px solid var(--secondary-color); background:#2d3748}
+.chapter-link.active{color:var(--secondary-color);border-left:2px solid var(--secondary-color);background:#2d3748}
+#main-content { flex-grow: 1; display: flex; justify-content: center; align-items: flex-start; padding: 40px 10px; background: #f4f6f8; overflow-y: auto; }
+.intro-section, .lesson-content {
+  background: #fff; max-width: 850px; width: 100%; margin: 0 auto; padding: 40px 50px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.1); border-radius: 8px; line-height: 1.7; color: #222; text-align: justify;
+}
+.intro-section h2, .lesson-content h2 {
+  color: #004a80; text-align: center; font-size: 1.7rem; margin-bottom: 20px; border-bottom: 2px solid #004a80; padding-bottom: 8px;
+}
+.lesson-content h3 { color: #004a80; margin-top: 22px; margin-bottom: 8px; }
+.lesson-content ul{margin:8px 0 12px 22px}
+.lesson-content p{margin-bottom:10px}
+.lesson-content table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: .92rem; border-radius: 6px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+.lesson-content th, .lesson-content td { border: 1px solid #ccc; padding: 8px 10px; text-align: left; }
+.lesson-content th { background: #004a80; color: #fff; text-align: center; }
+.test-box { background: #eef6fc; border-left: 4px solid var(--primary-color); padding: 15px 20px; margin-top: 25px; border-radius: 0 8px 8px 0; }
+.safety-box{background:#fff4e5;border-left:4px solid var(--secondary-color);padding:15px 20px;margin-top:20px;border-radius:0 8px 8px 0}
+.lesson-nav{display:flex;justify-content:space-between;gap:10px;margin-top:28px}
+.lesson-nav button{background:var(--primary-color);color:#fff;border:none;padding:10px 16px;border-radius:6px;cursor:pointer;font-size:.9rem}
+.lesson-nav button:hover{background:#00355e}
+.lesson-nav button:disabled{background:#9ca3af;cursor:not-allowed}
+@media (max-width: 900px) {
+  #sidebar { position: fixed; top: 60px; left: 0; width: 85%; max-width: 360px; height: calc(100vh - 60px); z-index: 9999; transform: translateX(-100%); }
+  #sidebar.active { transform: translateX(0); }
+  #toggle-sidebar { display: inline-block; }
+  .intro-section, .lesson-content { padding: 20px; max-width: 95%; }
+}
+.fk-home-btn{color:#fff!important;text-decoration:none;font-weight:700;background:rgba(255,255,255,.18);padding:6px 10px;border-radius:8px;font-size:.85rem;white-space:nowrap}.fk-home-btn:hover{background:rgba(255,255,255,.3)}
+</style>
+<link rel="icon" type="image/png" href="FK.png">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-client.js"></script>
+<script>
+// PROTEÇÃO DE ACESSO: só entra quem validou o código deste curso (ou é da equipa)
+(function(){
+ const COURSE_ID='GComercial';
+ document.documentElement.style.visibility='hidden';
+ document.addEventListener('DOMContentLoaded',async()=>{
+  try{
+   const {data:{session}}=await supabaseClient.auth.getSession();
+   if(!session){location.replace('login.html');return;}
+   const uid=session.user.id;
+   const [pr,en]=await Promise.all([
+    supabaseClient.from('profiles').select('nome,role').eq('id',uid).maybeSingle(),
+    supabaseClient.from('enrollments').select('status').eq('user_id',uid).eq('course_id',COURSE_ID).maybeSingle()]);
+   const staff=['administrador','secretaria','professor_inspector','professor'].includes(pr.data?.role);
+   if(staff||en.data?.status==='validado'){
+    const el=document.getElementById('login-status');
+    if(el) el.textContent='✅ Olá, '+((pr.data?.nome||'Aluno').split(' ')[0]);
+    document.documentElement.style.visibility='visible';return;
+   }
+   location.replace('validar-geral.html?curso='+COURSE_ID);
+  }catch(e){location.replace('validar-geral.html?curso='+COURSE_ID);}
+ });
+})();
+</script>
+</head>
+<body>
+
+<header>
+  <div class="brand-area">
+    <button id="toggle-sidebar">☰</button>
+    <a href="index.html" class="fk-home-btn"><i class="fas fa-home"></i> Início</a>
+    <img src="FK.png" alt="FEKA KAWIÇO" />
+    <span><strong>FEKA KAWIÇO</strong> – <em>A terra natural do conhecimento!</em></span>
+  </div>
+  <div id="login-status" style="font-size:.85rem">📚 32 Aulas</div>
+</header>
+
+<div id="course-container">
+  <aside id="sidebar"></aside>
+  <main id="main-content"></main>
+</div>
+
+<script>
+const LESSONS = [];
+function L(n, ico, title, objetivo, conteudos, tabela, teste){
+  LESSONS[n-1] = {n, ico, title, objetivo, conteudos, tabela, teste};
+}
+
+const FIRST=65, LAST=96;
+L(65,"👔","O Papel do Gestor Comercial","Gestor comercial não é super vendedor, é formador de vendedores. Se você ainda vende mais que sua equipa, você não é gestor, é vendedor com cargo de gestor.","<p>Papel: 1) Recrutar, 2) Treinar, 3) Motivar, 4) Cobrar com carinho, 5) Dar exemplo. Gestor que só cobra meta mas não treina é chefe, não líder.</p><p>Transição: pare de resolver problema do vendedor. Pergunte: 'O que você já tentou? O que faria se fosse dono?'. Forme pensadores, não dependentes.</p><p>Rotina gestor: segunda reunião pipeline, terça treinamento, quarta acompanhamento campo, quinta 1:1 com cada vendedor, sexta fechamento e limpeza pipeline.</p>",null,"Se você tem equipa, faça 1:1 de 30 min com cada esta semana. Se não tem, descreva rotina ideal de gestor.");
+L(66,"📅","Planeamento Comercial","Planeamento é decidir hoje o que vai fazer para bater meta daqui 90 dias. Sem plano, você vive apagando incêndio.","<p>Plano comercial tem: meta (quanto), estratégia (como), táticas (o que fazer dia a dia), KPIs (como medir), recursos (quem e quanto custa).</p><p>Exemplo: meta 10M Kz em 90 dias. Estratégia: focar em segmento X. Táticas: 20 ligações/dia, 5 reuniões/semana, 2 propostas/semana. KPIs: conversão, ticket, ciclo. Recursos: 2 vendedores, CRM, 500k marketing.</p><p>Revise plano toda segunda. Plano engavetado não serve.</p>",{tt:"Plano 90 Dias",tb:[["Item","Exemplo"],["Meta","10M Kz"],["Estratégia","Foco segmento X"],["Táticas","20 ligações/dia"],["KPI","Conversão 30%"]]},"Crie seu plano comercial de 90 dias em 1 página.");
+L(67,"♟️","Estratégia Comercial","Estratégia é escolher onde NÃO vai atuar. Empresa sem estratégia tenta vender tudo para todos e não vende nada direito.","<p>3 estratégias clássicas: 1) Diferenciação (ser diferente e cobrar mais), 2) Custo (ser mais barato e vender volume), 3) Foco (dominar nicho). Em Angola, foco + diferenciação funciona melhor que briga por preço.</p><p>Perguntas estratégicas: Quem é cliente ideal que paga mais e dá menos trabalho? Qual dor só você resolve melhor? Como posso ser 10x melhor num ponto específico?</p><p>Ex: em vez de 'vendemos software', 'somos especialistas em software para restaurantes que reduz desperdício em 20% em 60 dias'. Específico vende, genérico não.</p>",null,"Defina sua estratégia em 1 frase: 'Somos [posicionamento] para [segmento] que [resultado único]'.");
+L(68,"🎯","Definição de Metas Comerciais","Meta boa é SMART: Específica, Mensurável, Atingível, Relevante, Temporal. Meta 'vender mais' não é meta, é desejo.","<p>Meta comercial tem 3 níveis: meta mínima (paga contas), meta alvo (lucro bom), meta super (prêmio). Equipa precisa saber as 3.</p><p>Desdobre: meta anual → trimestral → mensal → semanal → diária. Se meta mensal é 10 vendas, semanal é 2.5, diária é 0.5. Fica menos assustador e mais controlável.</p><p>Meta de atividade: não controle só resultado, controle atividade que gera resultado. Ex: meta 20 ligações/dia, 5 reuniões/semana. Atividade você controla, resultado é consequência.</p>",{tt:"Desdobramento",tb:[["Período","Meta"],["Ano","120 vendas"],["Trimestre","30"],["Mês","10"],["Semana","2.5"],["Dia","0.5 vendas / 20 ligações"]]},"Desdobre sua meta anual em meta diária de atividade e resultado.");
+L(69,"💵","Orçamentação Comercial","Orçamento comercial não é gasto, é investimento que deve voltar 3x a 10x. Se investe 1M e volta 3M, é barato. Se investe 0, volta 0.","<p>Orçamento inclui: salários + comissões, marketing (leads), ferramentas (CRM), treinamento, deslocamento. Calcule CAC (custo aquisição cliente): total investido / nº clientes novos. Se CAC é 50k e ticket é 500k, está ótimo (10x).</p><p>Regra: 10-20% do faturamento deve voltar para comercial e marketing para crescer. Empresa que quer crescer 30% mas investe 0% em comercial está sonhando.</p><p>Em Angola, muitos empresários têm medo de investir em comercial. Mas sem investimento, não há crescimento. Comece pequeno, meça retorno, escale o que funciona.</p>",{tt:"Orçamento Exemplo",tb:[["Item","Valor Mês"],["Salários","800k"],["Comissões","300k"],["Marketing","500k"],["Ferramentas","100k"],["Total","1.7M"]]},"Calcule seu CAC hoje: total investido em comercial e marketing / nº clientes novos últimos 30 dias.");
+L(70,"📊","KPIs do Gestor Comercial","Gestor que não mede, não gere. KPIs do gestor são diferentes dos KPIs do vendedor. Vendedor mede vendas, gestor mede equipa e processo.","<p>KPIs de gestor: 1) % meta batida da equipa, 2) Atividade média por vendedor, 3) Taxa conversão por vendedor (quem precisa treino?), 4) Ticket médio equipa, 5) Tempo médio de ramp-up (quanto tempo novo vendedor leva para bater meta), 6) Turnover (quantos saem).</p><p>Dashboard semanal: mostre ranking, mas também evolução. Vendedor que estava em último e subiu 2 posições merece reconhecimento.</p><p>Se 1 vendedor está muito abaixo, é problema de treino ou perfil. Se toda equipa está abaixo, é problema de meta, mercado ou estratégia. Diagnóstico correto evita demitir quem precisa treinar.</p>",{tt:"Dashboard Gestor",tb:[["KPI","Meta"],["% Meta equipa","100%"],["Atividade/vendedor","50/dia"],["Conversão média","30%"],["Turnover","<10%"]]},"Monte dashboard simples com 5 KPIs da sua equipa (ou simulada). Quem precisa de treino urgente?");
+L(71,"📈","Dashboards Comerciais","Dashboard não é planilha bonita, é farol que mostra se vai bater meta 15 dias antes do fim do mês. Sem dashboard, você descobre que não bateu meta no dia 31, tarde demais.","<p>Dashboard deve responder em 30 segundos: estamos acima ou abaixo da meta? Quem está bem e quem precisa ajuda? Onde está gargalo? Use semáforo: verde acima 90%, amarelo 70-90%, vermelho abaixo 70%.</p><p>Ferramentas: Google Data Studio (grátis), Pipedrive, HubSpot, ou planilha simples com gráficos. Atualize diário, não mensal.</p><p>3 dashboards: 1) Diário (atividade), 2) Semanal (pipeline e forecast), 3) Mensal (resultado, ticket, churn). Gestor olha os 3, vendedor olha diário e semanal.</p>",null,"Crie dashboard diário com 4 números: ligações, reuniões, propostas, vendas. Atualize todo dia por 7 dias.");
+L(72,"🦁","Liderança Comercial","Liderança comercial é fazer vendedor fazer o que precisa ser feito mesmo quando não quer. Não é ser amigo, é ser líder que desenvolve.","<p>Estilos: autocrático (manda), democrático (ouve), liberal (deixa fazer). Comercial precisa de democrático com pitada de autocrático em meta e processo. Sem processo, cada um faz de um jeito e resultado é loteria.</p><p>Líder comercial dá exemplo: se cobra prospecção, ele prospecta. Se cobra CRM, ele usa CRM. Equipa faz o que líder faz, não o que líder fala.</p><p>Reunião 1:1 semanal 30 min: o que foi bem, onde travou, o que vai fazer diferente, como posso ajudar. Não é reunião de cobrança, é de desenvolvimento.</p>",null,"Faça 1:1 com cada membro da equipa esta semana usando roteiro: vitórias, desafios, plano, apoio.");
+L(73,"🏋️","Coaching Comercial","Coaching não é dar resposta, é fazer pergunta que faz vendedor achar resposta sozinho. Vendedor que acha resposta, executa. Vendedor que recebe ordem, questiona.","<p>Técnica GROW: Goal (meta), Reality (realidade), Options (opções), Will (vontade - o que vai fazer). Ex: 'Qual sua meta? (G) Onde está hoje? (R) O que pode fazer para chegar lá? (O) O que vai fazer até amanhã? (W)'.</p><p>Coaching em campo: acompanhe vendedor em visita, não intervenha, anote. Depois pergunte: 'O que você faria diferente?'. Deixe ele falar 70% do tempo.</p><p>Coaching corrige comportamento, não pessoa. Diga: 'Quando você interrompe cliente, ele se fecha. Que tal testar ouvir até final?' Não: 'Você é ansioso'.</p>",null,"Faça 1 sessão de coaching GROW com um vendedor ou colega esta semana.");
+L(74,"🔍","Recrutamento de Comerciais","Contratar vendedor errado custa 5x salário dele em tempo, cliente perdido e retrabalho. Recrutamento é a tarefa mais importante do gestor.","<p>Perfil ideal: não é quem fala bem, é quem tem disciplina, resiliência e fome. Vendedor bonzinho que não cobra não vende. Vendedor agressivo que não ouve também não.</p><p>Processo: 1) Anúncio com teste (ex: 'Envie áudio de 1 min se vendendo'), 2) Entrevista comportamental (conte uma vez que perdeu venda e o que aprendeu), 3) Role-play de venda, 4) Teste de 1 semana com meta de prospecção.</p><p>Em Angola, recrute por atitude e treine técnica. Técnica ensina em 30 dias, atitude leva anos.</p>",{tt:"Entrevista",tb:[["Pergunta","O que avalia"],["Conte maior não que levou","Resiliência"],["Como organiza seu dia","Disciplina"],["Venda esta caneta","Criatividade"]]},"Crie anúncio de vaga de comercial com 1 teste prático para filtrar curiosos.");
+L(75,"🎓","Formação e Desenvolvimento","Equipa que não treina, não vende mais. Mercado muda, cliente muda, concorrente muda. Se você vende igual há 2 anos, está ficando para trás.","<p>Treinamento semanal 1h: segunda técnica de prospecção, terça SPIN, quarta objeções, quinta produto, sexta role-play. Não precisa ser longo, precisa ser constante.</p><p>70-20-10: 70% aprende fazendo, 20% com colegas, 10% em sala. Então crie ambiente onde vendedor aprende fazendo e com colega, não só curso.</p><p>Plano de desenvolvimento individual: cada vendedor tem 1 competência para melhorar por mês. Ex: João - escuta ativa, Maria - fecho. Treino focado.</p>",null,"Crie plano de treinamento de 4 semanas: 1 tema por semana com exercício prático.");
+L(76,"🔥","Motivação de Equipas","Motivação não é palestra, é ambiente + reconhecimento + dinheiro + crescimento. Vendedor desmotivado não é preguiçoso, está sem ver sentido ou sem ser reconhecido.","<p>Dinheiro motiva até certo ponto. Depois, reconhecimento, autonomia e crescimento motivam mais. Vendedor que só trabalha por dinheiro, sai por 10% a mais.</p><p>Ações que motivam: ranking visível, prêmio criativo (não só dinheiro: folga, jantar, curso), reconhecimento público, autonomia para decidir, plano de carreira claro.</p><p>Reunião de segunda motivadora: celebre vitórias da semana passada, não só cobre meta. Comece com 'Quem tem vitória para compartilhar?'</p>",null,"Crie ranking semanal visível e defina 3 prêmios: 1 dinheiro, 1 reconhecimento, 1 experiência.");
+L(77,"⭐","Avaliação de Desempenho","Avaliação não é para punir, é para mostrar onde melhorar e onde está indo bem. Sem avaliação, vendedor não sabe se está bem ou mal até ser demitido.","<p>Avalie mensal: resultado (bateu meta?), atividade (fez o que precisava?), comportamento (vive valores?), desenvolvimento (melhorou competência?). Nota 0-5 cada.</p><p>Conversa de avaliação: comece com autoavaliação, depois sua visão, depois plano. Pergunte: 'O que você precisa de mim para bater meta mês que vem?'</p><p>Documente. Se precisar demitir, tem histórico. Se for promover, tem histórico.</p>",{tt:"Avaliação",tb:[["Critério","Peso"],["Resultado","40%"],["Atividade","30%"],["Comportamento","15%"],["Desenvolvimento","15%"]]},"Avalie sua equipa (ou a si mesmo) nos 4 critérios. Quem precisa de plano de melhoria?");
+L(78,"⚡","Gestão de Conflitos","Conflito em equipa comercial é normal: disputa por cliente, comissão, território. Gestor que foge de conflito, perde equipa. Gestor que resolve, fortalece.","<p>Tipos: conflito por cliente (2 vendedores pegaram mesmo lead), por comissão (quem fecha ganha?), por meta (meta injusta), pessoal (ciúme).</p><p>Como resolver: ouça os dois separados, depois juntos. Foque no problema, não na pessoa. Defina regra clara para futuro. Ex: lead é de quem cadastrou primeiro no CRM. Sem CRM, é briga infinita.</p><p>Regra de ouro: nunca tome lado sem ouvir os dois. E nunca resolva conflito por WhatsApp, resolva cara a cara.</p>",null,"Crie 3 regras claras para evitar conflitos mais comuns: divisão de leads, comissões e territórios.");
+L(79,"🚀","Produtividade Comercial","Produtividade não é fazer mais, é fazer o que gera dinheiro e parar de fazer o que não gera. Vendedor ocupado não é vendedor produtivo.","<p>80/20: 20% das atividades geram 80% das vendas. Quais são? Prospecção e fecho. O resto (relatório, reunião interna) deve ser mínimo.</p><p>Técnica: bloqueie 9h-11h só para prospecção (golden hours). Sem reunião, sem WhatsApp, sem e-mail. Só prospecção. Depois 14h-16h para follow-up e fecho. Manhã cria futuro, tarde fecha presente.</p><p>Ferramentas: CRM, modelo de proposta, modelo de e-mail, lista de leads pronta. Vendedor não pode perder 1h procurando contacto. Deixe tudo pronto.</p>",null,"Amanhã, bloqueie 2h só para prospecção sem interrupções. Quantas ligações conseguiu fazer vs dia normal?");
+L(80,"🏆","Avaliação Final do Módulo 5","Avaliação prática: apresentar plano de gestão comercial de 90 dias com metas, equipa, KPIs, treinamento e orçamento. Simular reunião de pipeline e 1:1.","<p>Critérios: plano 90 dias (30%), dashboard KPIs (25%), simulação reunião pipeline (25%), plano de treinamento (20%). Nota mínima 70% para avançar.</p>",{tt:"Critérios",tb:[["Item","Peso"],["Plano 90 dias","30%"],["Dashboard","25%"],["Reunião pipeline","25%"],["Treinamento","20%"]]},"Prepare apresentação de 15 min do seu plano de gestão comercial.");
+
+L(81,"👑","O Papel do Diretor Comercial","Diretor comercial não vende, faz empresa vender. Sai do operacional e pensa estratégico: onde vamos estar em 12 meses, que mercados vamos abrir, quanto vamos faturar, com que margem.","<p>Diferença gestor vs diretor: gestor bate meta do mês, diretor garante que empresa bata meta do ano e cresça 30% ao ano. Gestor olha equipa, diretor olha mercado, concorrência, produto, preço, expansão.</p><p>Responsabilidades: definir estratégia comercial anual, orçamento, expansão geográfica, parcerias estratégicas, pricing, P&L comercial. Diretor responde por receita e margem, não só receita.</p><p>Em Angola, diretor comercial precisa entender de finanças, marketing e operações, não só vendas. É ponte entre mercado e empresa.</p>",null,"Descreva diferença entre gestor e diretor comercial na sua empresa. O que muda no dia a dia?");
+L(82,"🗺️","Planeamento Estratégico Comercial","Planeamento estratégico é decidir onde jogar e como vencer. Sem isso, empresa atira para todo lado e não domina nada.","<p>5 forças de Porter: concorrentes, novos entrantes, fornecedores, clientes, substitutos. Analise cada força no seu mercado. Onde está mais fraco? Aí está oportunidade.</p><p>SWOT comercial: forças (equipa boa), fraquezas (sem CRM), oportunidades (mercado crescendo), ameaças (concorrente grande entrando). Estratégia = usar força para aproveitar oportunidade e defender de ameaça.</p><p>Plano estratégico 12 meses: onde estamos, onde queremos estar, como vamos chegar, o que precisamos, como medir.</p>",{tt:"SWOT",tb:[["","Positivo","Negativo"],["Interno","Forças","Fraquezas"],["Externo","Oportunidades","Ameaças"]]},"Faça SWOT comercial da sua empresa hoje.");
+L(83,"🌱","Business Development","Business Development é criar oportunidades onde não existem: novos mercados, novos produtos, novos canais, novas parcerias. É o caçador de crescimento.","<p>BD faz 3 coisas: 1) Abre mercados (ex: empresa de Luanda abre no Lubango), 2) Cria produtos (ex: transforma serviço em pacote), 3) Cria canais (ex: vende via parceiros, não só direto).</p><p>Em Angola, BD é crucial porque mercado de Luanda está ficando concorrido. Quem abre província primeiro, domina.</p><p>Exemplo: empresa de formação que só vendia presencial, cria EAD e vende para todo país. Ou empresa de software que vende só direto, cria programa de parceiros contadores.</p>",null,"Liste 3 oportunidades de BD: 1 novo mercado, 1 novo produto, 1 novo canal para sua empresa.");
+L(84,"🌍","Expansão de Mercado","Expandir não é abrir escritório em todo lado, é replicar modelo que funciona em Luanda em outra cidade com parceiro local.","<p>Formas de expandir: 1) Filial própria (caro), 2) Parceiro/revenda (barato, rápido), 3) Digital (vende para todo país sem escritório), 4) Franquia (replica modelo).</p><p>Para Angola: comece com parceiro local que já tem cliente e confiança. Dê treinamento, material, comissão boa. Ele vende, você entrega. Teste 90 dias.</p><p>Cuidado: expandir sem processo é suicídio. Primeiro documente como vende em Luanda (playbook), depois replique.</p>",{tt:"Expansão",tb:[["Forma","Custo","Controle"],["Filial","Alto","Alto"],["Parceiro","Baixo","Médio"],["Digital","Baixo","Alto"]]},"Escolha 1 cidade para expandir e defina modelo: filial ou parceiro? Por que?");
+L(85,"🏢","Gestão de Grandes Contas","Grandes contas (enterprise) têm ciclo longo, múltiplos decisores, concorrência grande, mas ticket 10x maior. Precisa de abordagem diferente.","<p>Grande conta tem: decisor (quem assina), influenciador (quem indica), usuário (quem usa), comprador (quem negocia), bloqueador (quem pode travar). Precisa mapear todos.</p><p>Venda enterprise: não venda produto, venda impacto no negócio. Ex: não venda software, venda 'redução de 15% de custo operacional'. Fale a língua do CEO, não do técnico.</p><p>Processo: 6-12 meses, várias reuniões, prova de conceito, proposta, negociação jurídica. Precisa paciência e forecast separado.</p>",{tt:"Mapa Decisores",tb:[["Papel","Quem é","O que quer"],["Decisor","Diretor Geral","Lucro"],["Influenciador","Gerente TI","Segurança"],["Usuário","Operador","Facilidade"]]},"Mapeie decisores da sua maior conta-alvo.");
+L(86,"💹","Rentabilidade Comercial","Faturamento é vaidade, lucro é sanidade. Vender muito com prejuízo quebra empresa. Diretor olha margem, não só venda.","<p>Margem bruta = (faturamento - custo direto) / faturamento. Se vende 1M e custa 600k, margem 40%. Se dá 20% desconto sem mudar custo, margem cai para 25%. Desconto mata lucro.</p><p>Clientes diferentes, margens diferentes. Cliente que pede muito suporte, paga atrasado e pede desconto deve ter preço maior ou ser demitido. Cliente que paga em dia, compra sempre e indica, pode ter preço melhor.</p><p>Análise ABC: 20% clientes geram 80% lucro. Foque neles. 30% clientes geram prejuízo. Reajuste preço ou demita.</p>",{tt:"Impacto Desconto",tb:[["Desconto","Margem 40% vira"],["0%","40%"],["10%","33%"],["20%","25%"],["30%","14%"]]},"Calcule margem bruta dos seus 5 maiores clientes. Quem dá prejuízo?");
+L(87,"💰","Gestão Financeira Comercial","Diretor comercial precisa falar a língua do financeiro: DRE, fluxo de caixa, ROI, payback. Comercial que não entende finanças, vende errado.","<p>DRE comercial: faturamento - custo - despesas comerciais = lucro comercial. Se lucro comercial é negativo, empresa paga para vender.</p><p>Fluxo de caixa: venda parcelada em 12x parece ótima, mas se custo é à vista, quebra caixa. Negocie entrada maior ou avalie juros.</p><p>ROI de campanha: investiu 1M em marketing e gerou 5M em vendas com 40% margem = 2M lucro. ROI 100%. Se não mede, não sabe onde investir.</p>",null,"Calcule DRE comercial do último mês: faturamento - custos - despesas comerciais = lucro comercial?");
+L(88,"🧠","Inteligência Comercial","Inteligência comercial é saber antes da concorrência: quem vai comprar, quem vai sair, onde está oportunidade, qual preço concorrente pratica.","<p>Fontes: CRM (histórico), Google (notícias do setor), LinkedIn (movimentação de decisores), clientes (o que ouvem), concorrentes (preço, proposta).</p><p>Reunião mensal de inteligência: o que aprendemos sobre mercado, clientes e concorrentes? Que oportunidade surgiu? Que ameaça?</p><p>Em Angola, informação vale ouro porque mercado é pouco transparente. Quem tem informação, tem vantagem.</p>",null,"Crie relatório mensal de inteligência: 3 oportunidades e 3 ameaças que viu este mês.");
+L(89,"🔄","Transformação Digital Comercial","Transformação digital não é ter Instagram, é usar tecnologia para vender mais, mais rápido e com mais margem. É CRM, automação, dados, venda remota.","<p> Pilares: 1) Dados (CRM organizado), 2) Processos (playbook digital), 3) Ferramentas (automação, videoconferência), 4) Pessoas (equipa treinada no digital).</p><p>Exemplo: antes vendedor visitava 3 clientes/dia em Luanda trânsito. Hoje faz 6 reuniões por vídeo + 1 visita só para fechar grande. Produtividade dobra.</p><p>Comece: 1) CRM 100% atualizado, 2) Proposta digital com assinatura eletrônica, 3) Reunião por vídeo, 4) Follow-up automatizado. Não precisa ser complexo.</p>",null,"Liste 3 processos comerciais que ainda faz manual e que pode digitalizar esta semana.");
+L(90,"📋","Licitações e Concursos","Licitação é venda B2G (para governo ou grandes empresas) com edital, prazo, habilitação técnica. Ticket alto, mas burocracia alta e ciclo longo.","<p>Como funciona: edital sai → você analisa se tem chance → pega documentos (certidões, balanço, atestados) → monta proposta técnica + preço → entrega → aguarda → recurso → ganha/perde.</p><p>Segredo: 80% das licitações são ganhas na fase de habilitação. Se sua documentação não está ok, nem adianta fazer proposta. Tenha pasta com certidões sempre atualizadas.</p><p>Em Angola, licitações exigem compliance total. Não tente jeitinho. Tenha contabilista bom.</p>",{tt:"Checklist Licitação",tb:[["Item","Tem?"],["Certidões negativas",""],["Balanço auditado",""],["Atestados capacidade",""],["Proposta técnica",""]]},"Baixe 1 edital da sua área e analise: você consegue participar? O que falta?");
+L(91,"🤝","Parcerias Estratégicas","Parceria estratégica é quando 1+1=3. Você vende para cliente do parceiro, parceiro vende para seu cliente. Crescem juntos sem custo de aquisição.","<p>Tipos: 1) Indicação (parceiro indica e ganha comissão), 2) Revenda (parceiro vende seu produto), 3) Co-marketing (fazem live juntos), 4) Bundle (vendem pacote junto).</p><p>Parceiro ideal: vende para mesmo cliente, mas não concorre. Ex: empresa de software + contabilista, empresa de formação + empresa de recrutamento.</p><p>Como fechar: mostre que parceiro ganha dinheiro ou entrega mais valor para cliente dele. Não peça favor, mostre ganho.</p>",null,"Liste 10 parceiros ideais e marque reunião com 3 esta semana para propor parceria.");
+L(92,"📈","Gestão do Crescimento","Crescer não é vender mais, é vender mais com lucro, com equipa engajada e cliente satisfeito. Crescimento desordenado quebra empresa.","<p>Fases: 1) Validação (vende para 10 clientes e tem lucro), 2) Tração (vende para 100 com processo), 3) Escala (vende para 1000 com equipa e sistema). Não pule fase.</p><p>Gargalos do crescimento: falta de processo, falta de gente, falta de caixa, falta de liderança. Resolva 1 por vez.</p><p>Meta de crescimento saudável em Angola: 30-50% ao ano com margem mantida. Crescer 200% sem margem e sem processo é suicídio.</p>",{tt:"Fases",tb:[["Fase","Foco"],["Validação","10 clientes com lucro"],["Tração","100 clientes com processo"],["Escala","1000 com equipa"]]},"Em que fase está sua empresa? Qual gargalo impede ir para próxima?");
+L(93,"🦅","Liderança Executiva","Liderança executiva é inspirar equipa a fazer o que precisa ser feito mesmo quando difícil. Não é cargo, é comportamento.","<p>Líder executivo tem 3 coisas: visão (onde vamos), comunicação (explica por que), exemplo (faz o que fala). Sem visão, equipa fica perdida. Sem comunicação, visão não chega. Sem exemplo, ninguém acredita.</p><p>Em Angola, líder executivo precisa ser resiliente: crise cambial, falta de energia, burocracia. Equipa olha para líder na crise. Se líder desespera, equipa desmorona.</p><p>Ritual: toda segunda, 15 min de alinhamento: onde estamos, onde vamos, o que importa esta semana. Repita até cansar. Repetição cria cultura.</p>",null,"Escreva sua visão de 12 meses em 1 parágrafo e apresente para equipa esta segunda.");
+L(94,"🚨","Gestão de Crises Comerciais","Crise comercial: maior cliente cancela, vendedor estrela sai, concorrente grande entra com preço baixo. Como reagir sem pânico?","<p>Passos: 1) Respire, não decida no susto, 2) Entenda fato (o que aconteceu de verdade?), 3) Impacto (quanto custa?), 4) Opções (o que posso fazer?), 5) Ação (escolha 1 e execute rápido), 6) Aprendizado (como evitar repetir).</p><p>Ex: maior cliente cancela. Fato: cancelou por preço. Impacto: 20% faturamento. Opções: negociar, substituir por 2 menores, melhorar valor. Ação: ligar para entender, oferecer plano de retenção, ao mesmo tempo prospectar 20 novos para substituir.</p><p>Tenha plano B: pipeline 3x meta, 2 fornecedores, 2 canais de aquisição. Quem tem plano B, dorme tranquilo.</p>",{tt:"Plano Crise",tb:[["Crise","Plano B"],["Maior cliente sai","Pipeline 3x"],["Vendedor sai","Playbook + 2 em treinamento"],["Concorrente baixa preço","Diferenciação + valor"]]},"Liste 3 crises que podem acontecer e seu plano B para cada.");
+L(95,"📁","Projeto Final de Direção Comercial","Projeto final: plano estratégico comercial de 12 meses para empresa real com meta de crescimento 50%.","<p>Entregáveis: 1) Análise SWOT e mercado, 2) Definição de segmento alvo e posicionamento, 3) Metas e orçamento, 4) Estratégia de aquisição (leads), 5) Estrutura de equipa e comissões, 6) KPIs e dashboards, 7) Plano de expansão e parcerias, 8) Gestão de riscos.</p><p>Apresentação de 30 min para banca. Nota mínima 80%.</p>",null,"Comece seu projeto final: escolha empresa e faça SWOT + definição de meta 12 meses.");
+L(96,"👑","Exame Final e Certificação","Exame final teórico e prático + defesa do projeto final. Certificação como Comercial Profissional, Gestor Comercial e Diretor Comercial conforme nota.","<p>Teórico: 50 perguntas sobre todo conteúdo. Prático: simulação de venda + gestão de pipeline + apresentação de plano estratégico. Projeto final: defesa de 30 min.</p><p>Certificação: 70-79% Comercial Profissional, 80-89% Gestor Comercial, 90%+ Diretor Comercial.</p>",{tt:"Certificação",tb:[["Nota","Título"],["70-79%","Comercial Profissional"],["80-89%","Gestor Comercial"],["90%+","Diretor Comercial"]]},"Prepare-se: revise todas aulas e finalize projeto final.");
+
+
+function renderSidebar(){
+  const sidebar=document.getElementById('sidebar');
+  let html=`<a class="chapter-link" onclick="showIntro()" style="font-weight:700;color:var(--secondary);cursor:pointer">🏠 Início</a>`;
+  const niveis=[{t:"📙 NÍVEL 3 - MÉDIO",mods:[{n:"Módulo 5 - Gestão e Liderança",s:65,e:80}]},{t:"👑 NÍVEL 4 - AVANÇADO",mods:[{n:"Módulo 6 - Direção Estratégica",s:81,e:96}]}];
+  niveis.forEach(niv=>{
+    html+=`<div class="level-title">${niv.t}</div>`;
+    niv.mods.forEach(m=>{
+      html+=`<div class="module"><h3 onclick="toggleModule('${m.s}')">${m.n}</h3><div class="chapter-list open" id="list-${m.s}">`;
+      for(let i=m.s;i<=m.e;i++){ const l=LESSONS[i-1]; if(l) html+=`<a class="chapter-link" id="link-${i}" onclick="loadLesson(${i})">${l.ico} Aula ${i} - ${l.title}</a>`; }
+      html+=`</div></div>`;
+    });
+  });
+  sidebar.innerHTML=html;
+  showIntroContent();
+}
+function showIntroContent(){
+  document.getElementById('main-content').innerHTML=`
+    <div class="intro-section">
+      <h2>👑 Gestor Comercial — Avançado ao Especialista (32 aulas)</h2>
+      <p><strong>🎯 Objetivo:</strong> Formar gestores e diretores comerciais capazes de liderar equipas, definir metas e dirigir a estratégia comercial da empresa.</p>
+      <h3 style="color:#004a80;margin-top:20px">📐 Estrutura</h3>
+      <ul><li>Nível 3 (aulas 65–80): Gestão Comercial e Liderança</li><li>Nível 4 (aulas 81–96): Direção Comercial Estratégica</li></ul>
+      <div class="safety-box"><h4>🚀 Como usar</h4><p>Clique no menu lateral. Cada aula tem objetivo, conteúdo, tabela e teste prático. Use os botões Anterior / Próximo para avançar.</p></div>
+    </div>`;
+}
+let current=0;
+function showIntro(){ document.querySelectorAll('.chapter-link').forEach(a=>a.classList.remove('active')); current=0; showIntroContent(); if(window.innerWidth<=900) document.getElementById('sidebar').classList.remove('active'); }
+function loadLesson(n){
+  current=n; const l=LESSONS[n-1]; if(!l) return;
+  document.querySelectorAll('.chapter-link').forEach(a=>a.classList.remove('active'));
+  const a=document.getElementById('link-'+n); if(a) a.classList.add('active');
+  let table=""; if(l.tabela){ table=`<h3>${l.tabela.tt}</h3><table><tr>${l.tabela.tb[0].map(h=>`<th>${h}</th>`).join('')}</tr>${l.tabela.tb.slice(1).map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('')}</table>`; }
+  document.getElementById('main-content').innerHTML=`
+    <div class="lesson-content">
+      <h2>${l.ico} Aula ${l.n} - ${l.title}</h2>
+      <div class="safety-box"><h4>🎯 Objetivo</h4><p>${l.objetivo}</p></div>
+      ${l.conteudos}
+      ${table}
+      <div class="test-box"><h4>📝 Teste Prático</h4><p>${l.teste}</p></div>
+      <div class="lesson-nav">
+        <button ${n<=FIRST?'disabled':''} onclick="loadLesson(${n-1})"><i class="fas fa-arrow-left"></i> Anterior</button>
+        <span style="align-self:center;font-weight:700;color:#004a80">Aula ${n-FIRST+1} de ${LAST-FIRST+1}</span>
+        <button ${n>=LAST?'disabled':''} onclick="loadLesson(${n+1})">Próximo <i class="fas fa-arrow-right"></i></button>
+      </div>
+    </div>`;
+  document.getElementById('main-content').scrollTop=0;
+  if(window.innerWidth<=900) document.getElementById('sidebar').classList.remove('active');
+}
+function toggleModule(id){ const el=document.getElementById('list-'+id); if(el) el.classList.toggle('open'); }
+document.getElementById('toggle-sidebar').addEventListener('click',()=>{ document.getElementById('sidebar').classList.toggle('active'); });
+renderSidebar();
+</script>
+</body>
+</html>

@@ -299,6 +299,8 @@ header {
 .lesson-nav .spacer{flex:1}
 
 </style>
+<link rel="icon" type="image/png" href="FK.png">
+<script>document.documentElement.style.visibility='hidden';</script>
 </head>
 
 <body>
@@ -306,7 +308,7 @@ header {
 <header>
   <div class="brand-area">
     <button id="toggle-sidebar">☰</button>
-    <a href="index.html"><i class="fas fa-home"></i></a>
+    <a href="index.html" class="fk-home-btn" style="color:#fff;text-decoration:none;font-weight:700;background:rgba(255,255,255,.18);padding:6px 10px;border-radius:8px;font-size:.85rem;white-space:nowrap"><i class="fas fa-home"></i> Início</a>
     <img src="FK.png" alt="FEKA KAWIÇO" />
     <span><strong>FEKA KAWIÇO</strong> – <em>A terra natural do conhecimento!</em></span>
   </div>
@@ -1394,8 +1396,9 @@ async function verificarAcesso() {
   }
 
   const { data: profile } = await supabaseClient
-    .from('profiles').select('nome').eq('id', session.user.id).single();
+    .from('profiles').select('nome, role').eq('id', session.user.id).single();
   const nome = profile?.nome ? profile.nome.split(' ')[0] : 'Aluno';
+  const staff = ['administrador','secretaria','professor_inspector','professor'].includes(profile?.role);
 
   const { data: enrollment } = await supabaseClient
     .from('enrollments')
@@ -1404,7 +1407,7 @@ async function verificarAcesso() {
     .eq('course_id', COURSE_ID)
     .single();
 
-  if (enrollment?.status !== 'validado') {
+  if (enrollment?.status !== 'validado' && !staff) {
     loginStatus.innerHTML = `⚠️ Olá, ${nome} — falta validar o código. <a href="validar-geral.html" style="color:#fca311;">Validar Código</a>`;
     return false;
   }
@@ -1416,7 +1419,10 @@ async function verificarAcesso() {
 document.addEventListener('DOMContentLoaded', () => {
   introHTML = document.getElementById('main-content').innerHTML;
   buildSidebar();
-  verificarAcesso();
+  verificarAcesso().then(ok => {
+    if (ok) document.documentElement.style.visibility = 'visible';
+    else location.replace('validar-geral.html?curso=vfd');
+  }).catch(() => location.replace('validar-geral.html?curso=vfd'));
 });
 
 function toggleModule(index) {
