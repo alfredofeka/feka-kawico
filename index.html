@@ -259,10 +259,7 @@ async function iniciarCurso(k,e){
  e.preventDefault();
  const session=await getSessionSafe();
  if(!session){alert('⚠ Faça Login para acessar.');location.href='login.html';return;}
- const {data:enroll}=await supabaseClient.from('enrollments').select('status').eq('user_id',session.user.id).eq('course_id',k).maybeSingle();
- const paginaCurso=CURSOS_MAP[k]?.pagina||PAGE_MAP[k];
- if(enroll?.status==='validado') location.href=paginaCurso||'validar-geral.html';
- else location.href='validar-geral.html';
+ location.href='validar-geral.html?curso='+encodeURIComponent(k)+'&auto=1';
 }
 
 function escHtml(t){return String(t).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}

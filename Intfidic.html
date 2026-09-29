@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Introdução ao FIDIC | FK Academy</title>
-<link rel="icon" type="image/png" href="fotos/FK.png">
+<title>Curso: Gestão de Contratos FIDIC — FEKA KAWIÇO</title>
+<link rel="icon" type="image/png" href="FK.png">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="supabase-client.js"></script>
@@ -23,8 +23,8 @@
     supabaseClient.from('enrollments').select('status').eq('user_id',uid).eq('course_id',COURSE_ID).maybeSingle()]);
    const staff=['administrador','secretaria','professor_inspector','professor'].includes(pr.data?.role);
    if(staff||en.data?.status==='validado'){document.documentElement.style.visibility='visible';return;}
-   location.replace('validar-geral.html');
-  }catch(e){location.replace('validar-geral.html');}
+   location.replace('validar-geral.html?curso=Intfidic');
+  }catch(e){location.replace('validar-geral.html?curso=Intfidic');}
  })();
 })();
 </script>
@@ -75,7 +75,7 @@ table td{padding:8px 10px;border:1px solid #e5e7eb}
 </head>
 <body>
 <header class="top-header">
-<div class="logo-area"><img src="fotos/FK.png" alt="FK"><div><div class="logo-text">FK ACADEMY</div><div class="logo-sub">A terra natural do conhecimento!</div></div><span style="background:var(--secondary-color);color:#000;padding:2px 8px;border-radius:12px;font-size:.7rem;font-weight:800;margin-left:8px">FK</span></div>
+<div class="logo-area"><a href="index.html" class="fk-home-btn" style="color:#fff;text-decoration:none;font-weight:700;background:rgba(255,255,255,.18);padding:6px 10px;border-radius:8px;font-size:.85rem;white-space:nowrap"><i class="fas fa-home"></i> Início</a><img src="FK.png" alt="FEKA KAWIÇO"><div><div class="logo-text">FEKA KAWIÇO</div><div class="logo-sub">A terra natural do conhecimento!</div></div></div>
 <div style="display:flex;align-items:center;gap:12px"><div id="login-status">✅ Acesso autorizado — FIDIC</div><button class="menu-toggle" onclick="toggleSidebar()">Menu</button></div>
 </header>
 <div id="sidebar-overlay" onclick="toggleSidebar()"></div>

@@ -31,7 +31,7 @@ h1 { color:#004a80; }
 <body>
 <header class="fk-header">
   <div class="brand"><a href="index.html" style="color:white;text-decoration:none;">FEKA KAWIÇO</a></div>
-  <nav id="headerStatus"><a href="login.html" class="btn login">Entrar / Inscrever-me</a></nav>
+  <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><a href="index.html" class="btn fk-home-btn">🏠 Início</a><nav id="headerStatus"><a href="login.html" class="btn login">Entrar / Inscrever-me</a></nav></div>
 </header>
 <div class="main-content">
   <h1>Catálogo de Cursos</h1>
@@ -96,7 +96,7 @@ async function abrirCurso(id){
     } catch (_) { falhaRede = true; }
   }
   if (falhaRede) { location.href = cand[0]; return; }
-  alert('A página deste curso ainda não está publicada. Contacta o suporte.');
+  alert('A página deste curso ainda não está publicada.\nFicheiros procurados: ' + cand.join(', ') + '\nContacta o suporte.');
 }
 function getImageUrl(id){
   return (CURSOS_DB[id] && CURSOS_DB[id].imagem) || `${id}.png`;
@@ -123,13 +123,21 @@ async function loadCourses() {
   const { data: courses, error } = await supabaseClient.from('courses').select('id, nome, descricao, pagina, imagem').eq('ativo', true).order('nome');
   if (error ||!courses) { console.error('Erro a carregar cursos:', error); return; }
   CURSOS_DB = {}; courses.forEach(c => CURSOS_DB[c.id] = c);
+  const params = new URLSearchParams(location.search);
+  const soCurso = params.get('curso');
   if (sessaoAtual) {
     const { data: enrollments } = await supabaseClient.from('enrollments').select('course_id, status').eq('user_id', sessaoAtual.user.id);
     enrollmentMap = {};
     (enrollments || []).forEach(en => { enrollmentMap[en.course_id] = en.status; });
   }
   const list = document.getElementById('courseList');
-  courses.forEach(curso => {
+  const lista = soCurso ? courses.filter(c => c.id === soCurso) : courses;
+  if (soCurso) {
+    const info = document.createElement('p');
+    info.innerHTML = lista.length ? '<a href="validar-geral.html">← Ver todos os cursos</a>' : 'Curso não encontrado. <a href="validar-geral.html">Ver todos os cursos</a>';
+    list.appendChild(info);
+  }
+  lista.forEach(curso => {
     const status = enrollmentMap[curso.id];
     let statusTexto, statusCor, btnTexto, btnClick;
     if (!sessaoAtual) {
@@ -152,10 +160,13 @@ async function loadCourses() {
     `;
     list.appendChild(div);
   });
+  if (soCurso && params.get('auto') === '1' && sessaoAtual && enrollmentMap[soCurso] === 'validado') abrirCurso(soCurso);
 }
 function solicitarCodigo() {
   const numero = '244924433318';
-  const texto = encodeURIComponent('Olá! Gostaria de solicitar um código de inscrição para um curso da FEKA KAWIÇO.');
+  const sc = new URLSearchParams(location.search).get('curso');
+  const nomeCurso = sc && CURSOS_DB[sc] ? ' do curso "' + CURSOS_DB[sc].nome + '"' : ' para um curso';
+  const texto = encodeURIComponent('Olá! Gostaria de solicitar um código de inscrição' + nomeCurso + ' da FEKA KAWIÇO.');
   window.open(`https://wa.me/${numero}?text=${texto}`, '_blank');
   const msg = document.getElementById('solicitarMsg');
   msg.textContent = '✅ Pedido preparado no WhatsApp — envia a mensagem por lá.';
